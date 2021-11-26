@@ -9,10 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
+import shagejack.minecraftology.api.LazyOptional;
 import shagejack.minecraftology.api.storage.IMinecraftologyCapabilityProvide;
 import shagejack.minecraftology.api.storage.IMinecraftologyStorageCapability;
-import net.minecraft.command.util.LazyOptional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 
@@ -25,6 +26,12 @@ public class MinecraftologyCapabilityProvider implements IMinecraftologyCapabili
         CAPABILITIES.put(name, lazyOptional);
         return this;
     }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return false;
+    }
+
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable EnumFacing side) {
@@ -46,5 +53,4 @@ public class MinecraftologyCapabilityProvider implements IMinecraftologyCapabili
         });
     }
 }
-
 */

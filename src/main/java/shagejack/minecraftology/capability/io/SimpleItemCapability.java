@@ -1,5 +1,4 @@
 /*
-
 package shagejack.minecraftology.capability.io;
 
 import net.minecraft.item.Item;
@@ -31,6 +30,11 @@ public class SimpleItemCapability implements IMinecraftologyStorageCapability<It
             }
         });
         return new ItemStackReplyContext(true);
+    }
+
+    @Override
+    public IReplyContext<ItemStack> tryGet(ItemStackOutputContext context) {
+        return null;
     }
 
     @Override
@@ -75,5 +79,4 @@ public class SimpleItemCapability implements IMinecraftologyStorageCapability<It
         });
     }
 }
-
- */
+*/
