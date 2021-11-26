@@ -24,6 +24,7 @@ public class BlockClayFurnaceBottom extends MCLBlockContainer<TileEntityClayFurn
         setResistance(4.0F);
     }
 
+    /* DEBUG
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
@@ -32,6 +33,7 @@ public class BlockClayFurnaceBottom extends MCLBlockContainer<TileEntityClayFurn
         }
         return true;
     }
+     */
 
     @Override
     public Class<TileEntityClayFurnaceBottom> getTileEntityClass() {

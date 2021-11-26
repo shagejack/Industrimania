@@ -47,7 +47,6 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
     private double mol_Impurities;
     private boolean completed;
     private boolean burning;
-    private boolean onBurning;
 
     private int complete;
 
@@ -114,7 +113,6 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
             nbt.setBoolean("completed", completed);
             nbt.setBoolean("burning", burning);
-            nbt.setBoolean("onBurning", onBurning);
             nbt.setDouble("durability", durability);
             nbt.setDouble("mol_Iron", mol_Iron);
             nbt.setDouble("mol_IronOxide", mol_IronOxide);
@@ -133,7 +131,6 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         if (categories.contains(MachineNBTCategory.DATA)) {
             completed = nbt.getBoolean("completed");
             burning = nbt.getBoolean("burning");
-            onBurning = nbt.getBoolean("onBurning");
             mol_Iron = nbt.getDouble("mol_Iron");
             mol_IronOxide = nbt.getDouble("mol_IronOxide");
             mol_Charcoal = nbt.getDouble("mol_Charcoal");
@@ -226,6 +223,12 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         manageInput(world);
                         if (burning) {
                             manageBurn(world);
+                        } else {
+                            if (temperature > 298.15) {
+                                temperature -= 1;
+                            } else {
+                                temperature += 1;
+                            }
                         }
                     } else {
                         burnOut();
@@ -433,32 +436,32 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
         switch(reaction){
             case 0:
-                amount = 0.001 * temperature / 800 - mol_CarbonOxide * 0.0002 * temperature / 800;
+                amount = 0.00005 * temperature / 800 - mol_CarbonOxide * 0.00001 * temperature / 800;
                 if (amount > mol_Charcoal) amount = mol_Charcoal;
                 if (amount < 0) amount = 0;
                 break;
             case 1:
-                amount = 0.001 * temperature / 800 - mol_CarbonOxide * 0.0002 * temperature / 800;
+                amount = 0.00005 * temperature / 800 - mol_CarbonOxide * 0.00001 * temperature / 800;
                 if (amount > mol_CalciumOxide || amount * 3 > mol_Charcoal) amount = Math.min(mol_CalciumOxide, mol_Charcoal / 3 );
                 if (amount < 0) amount = 0;
                 break;
             case 2:
-                amount = mol_CarbonOxide * 0.005 * temperature / 800;
+                amount = mol_CarbonOxide * 0.00025 * temperature / 800;
                 if (amount > mol_IronOxide || amount * 3 > mol_CarbonOxide) amount = Math.min(mol_IronOxide, mol_CarbonOxide/ 3 );
                 if (amount < 0) amount = 0;
                 break;
             case 3:
-                amount = 0.001 * temperature / 500;
+                amount = 0.00005 * temperature / 500;
                 if (amount > mol_CalciumOxide || amount > mol_Impurities) amount = Math.min(mol_CalciumOxide, mol_Impurities);
                 if (amount < 0) amount = 0;
                 break;
             case 4:
-                amount = mol_CarbonOxide * mol_OxygenFlow * 0.001 * temperature / 800;
+                amount = mol_CarbonOxide * mol_OxygenFlow * 0.00005 * temperature / 800;
                 if (amount * 2 > mol_CarbonOxide) amount = mol_CarbonOxide / 2;
                 if (amount < 0) amount = 0;
                 break;
             case 5:
-                amount = mol_OxygenFlow * 0.001 * temperature / 800;
+                amount = mol_OxygenFlow * 0.00005 * temperature / 800;
                 if (amount * 4 > mol_Iron) amount = mol_Iron / 4;
                 if (amount < 0) amount = 0;
                 break;
@@ -476,7 +479,6 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         durability
          */
         if (mol_Charcoal > 0){
-            onBurning = true;
 
             double consume = getRealCharcoalConsumption();
 
@@ -484,14 +486,15 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
             temperature += getRealTemperatureIncrease(consume);
 
         } else {
-            temperature -= 0.01;
+            temperature -= 0.1;
+            if (temperature < 600) burning = false;
         }
     }
 
     public double getRealCharcoalConsumption(){
         double consume = 0;
 
-        consume = 0.0001 + 0.001 * mol_OxygenFlow + 0.001 * temperature / 1000;
+        consume = 0.000005 + 0.00005 * mol_OxygenFlow + 0.00005 * temperature / 1000;
 
         if (consume >= mol_Charcoal){
             consume = mol_Charcoal;
@@ -504,19 +507,19 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         double increase = 0;
 
         if (temperature < 298.15){
-            increase += 0.05;
+            increase += 0.005;
             increase += consume * 300;
         } else if (temperature < 1173.15) {
-            increase -= 0.01;
+            increase -= 0.001;
             increase += consume * 300;
         } else if (temperature < 1273.15) {
-            increase -= 0.02;
+            increase -= 0.002;
             increase += consume * 280;
         } else if (temperature < 1373.15) {
-            increase -= 0.03;
+            increase -= 0.003;
             increase += consume * 250;
         } else if (temperature < 1473.15) {
-            increase -= 0.05;
+            increase -= 0.005;
             increase += consume * 200;
         }
 
