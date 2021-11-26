@@ -313,7 +313,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         /*
         !INSTANT!: CaCO3 ~ CaO + CO2
 
-        *900 ~ 1000*
+        *750 ~ 1000*
         CaO + 3C ~ CO + CaC2
         Fe2O3 + 3CO ~ 2Fe
         CaO + Impurities(SiO2, P2O5) ~ Slag
@@ -344,7 +344,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         mol_Slag
          */
 
-        if (temperature > 1173.15){
+        if (temperature > 1023.15){
             //*Only When Too Much Oxygen*
             if (mol_OxygenFlow > 3.5){
 
@@ -436,7 +436,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
         switch(reaction){
             case 0:
-                amount = 0.00005 * temperature / 800 - mol_CarbonOxide * 0.00001 * temperature / 800;
+                amount = 0.0005 * temperature / 800 - mol_CarbonOxide * 0.0001 * temperature / 800;
                 if (amount > mol_Charcoal) amount = mol_Charcoal;
                 if (amount < 0) amount = 0;
                 break;
@@ -456,12 +456,12 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                 if (amount < 0) amount = 0;
                 break;
             case 4:
-                amount = mol_CarbonOxide * mol_OxygenFlow * 0.00005 * temperature / 800;
+                amount = mol_CarbonOxide * mol_OxygenFlow * 0.000005 * temperature / 800;
                 if (amount * 2 > mol_CarbonOxide) amount = mol_CarbonOxide / 2;
                 if (amount < 0) amount = 0;
                 break;
             case 5:
-                amount = mol_OxygenFlow * 0.00005 * temperature / 800;
+                amount = mol_OxygenFlow * 0.000005 * temperature / 800;
                 if (amount * 4 > mol_Iron) amount = mol_Iron / 4;
                 if (amount < 0) amount = 0;
                 break;
@@ -487,7 +487,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
         } else {
             temperature -= 0.1;
-            if (temperature < 600) burning = false;
+            if (temperature < 873.5) burning = false;
         }
     }
 
@@ -507,20 +507,20 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         double increase = 0;
 
         if (temperature < 298.15){
-            increase += 0.005;
-            increase += consume * 300;
+            increase += 0.001;
+            increase += consume * 320 * Math.pow(mol_OxygenFlow, 0.25);
         } else if (temperature < 1173.15) {
             increase -= 0.001;
-            increase += consume * 300;
+            increase += consume * 320 * Math.pow(mol_OxygenFlow, 0.25);
         } else if (temperature < 1273.15) {
             increase -= 0.002;
-            increase += consume * 280;
+            increase += consume * 300 * Math.pow(mol_OxygenFlow, 0.25);
         } else if (temperature < 1373.15) {
-            increase -= 0.003;
-            increase += consume * 250;
-        } else if (temperature < 1473.15) {
             increase -= 0.005;
-            increase += consume * 200;
+            increase += consume * 280 * Math.pow(mol_OxygenFlow, 0.25);
+        } else if (temperature < 1473.15) {
+            increase -= 0.01;
+            increase += consume * 250 * Math.pow(mol_OxygenFlow, 0.25);
         }
 
         return increase;
