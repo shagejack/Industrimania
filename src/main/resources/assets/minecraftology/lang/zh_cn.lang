@@ -1,0 +1,16 @@
+item.minecraftology.omni_multimeter.name=万用表
+
+tile.building.fine_clay.name=堆砌精致黏土块
+
+tile.gravity.charcoal.name=木炭碎块
+tile.gravity.iron_oxide.name=铁矿碎块
+tile.gravity.calcite.name=石灰石碎块
+
+tile.mechanic.clay_furnace_bottom.name=黏土炼铁炉底
+tile.mechanic.bronze_tube.name=炼铁炉通气管
+
+##########################################################################################################
+# Creative Tabs
+
+itemGroup.tabMCL=傻氏矿艺学
+##########################################################################################################

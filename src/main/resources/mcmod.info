@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "minecraftology",
+    "name": "Minecraftology",
+    "description": "A Minecraft Mod focused on making minecraft more REALISTIC.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

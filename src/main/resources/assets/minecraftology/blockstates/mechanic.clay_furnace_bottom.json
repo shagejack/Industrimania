@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube",
+    "textures": {
+      "down": "minecraftology:blocks/building.fine_clay_top",
+      "up": "minecraftology:blocks/mechanic.clay_furnace_bottom_top",
+      "north": "minecraftology:blocks/building.fine_clay_side",
+      "south": "minecraftology:blocks/building.fine_clay_side",
+      "west": "minecraftology:blocks/building.fine_clay_side",
+      "east": "minecraftology:blocks/building.fine_clay_side"
+    }
+  },
+  "variants": {
+    "normal": {"model": "cube"},
+    "inventory": {
+      "model": "cube",
+      "transform": "forge:default-block"
+    }
+  }
+}
