@@ -224,7 +224,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         if (burning) {
                             manageBurn(world);
                         } else {
-                            temperature -= 0.01;
+                            temperature -= 0.1;
                         }
                     } else {
                         burnOut();
@@ -482,7 +482,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
             temperature += getRealTemperatureIncrease(consume);
 
         } else {
-            temperature -= 0.01;
+            temperature -= 0.05;
             if (temperature < 600) burning = false;
         }
     }
