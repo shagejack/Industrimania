@@ -1,6 +1,6 @@
 # Minecraftology
 
-##About
+## About
 
 Minecraftology（傻氏矿艺学）是为模组包Auferstanden aus Ruinen制作的一个独立模组。它旨在给游戏加入更多现实风格的内容，并试图创造一套更符合人类科学技术发展历史的进度系统。
 
