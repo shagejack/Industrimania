@@ -226,6 +226,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         } else {
                             if (temperature > 298.15) {
                                 temperature -= 1;
+                                durability -= 0.0004 * temperature / 200;
                             } else {
                                 temperature += 1;
                             }
@@ -360,7 +361,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
             }
 
             if(temperature < 1273.15){
-                //*900 ~ 1000*
+                //*750 ~ 1000*
 
                 double r1 = getReactionAmount(1);
                 double r2 = getReactionAmount(2);
@@ -436,7 +437,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
         switch(reaction){
             case 0:
-                amount = 0.0005 * temperature / 800 - mol_CarbonOxide * 0.0001 * temperature / 800;
+                amount = 0.0005 * temperature / 800 - mol_CarbonOxide * 0.0002 * temperature / 800;
                 if (amount > mol_Charcoal) amount = mol_Charcoal;
                 if (amount < 0) amount = 0;
                 break;
@@ -528,9 +529,9 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
     //TODO: Data Rationalization
     public void consumeBlock(World world, BlockPos posInput){
-        if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_iron_oxide && mol_IronOxide <= 0.5){
+        if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_iron_oxide && mol_IronOxide <= 0.25 && mol_Impurities <= 0.5){
             world.setBlockToAir(posInput);
-            mol_IronOxide += 1;
+            mol_IronOxide += 0.5;
             mol_Impurities += 1;
         } else if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_calcite && mol_CalciumOxide <= 0.5){
             world.setBlockToAir(posInput);
