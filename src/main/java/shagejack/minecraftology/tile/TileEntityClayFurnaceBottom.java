@@ -9,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -82,28 +84,28 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
     private BlockPos[] posArr = {
             new BlockPos(-1, 5, 1),   new BlockPos(0, 5, 1),  new BlockPos(1, 5, 1),
-            new BlockPos(-1, 5, 0),                                                           new BlockPos(1, 5, 0),
-            new BlockPos(-1, 5, -1),  new BlockPos(0, 5, 1),  new BlockPos(1, 5, -1),
+            new BlockPos(-1, 5, 0),                                    new BlockPos(1, 5, 0),
+            new BlockPos(-1, 5, -1),  new BlockPos(0, 5, -1),  new BlockPos(1, 5, -1),
 
             new BlockPos(-1, 4, 1),   new BlockPos(0, 4, 1),  new BlockPos(1, 4, 1),
-            new BlockPos(-1, 4, 0),                                                           new BlockPos(1, 4, 0),
-            new BlockPos(-1, 4, -1),  new BlockPos(0, 4, 1),  new BlockPos(1, 4, -1),
+            new BlockPos(-1, 4, 0),                                    new BlockPos(1, 4, 0),
+            new BlockPos(-1, 4, -1),  new BlockPos(0, 4, -1),  new BlockPos(1, 4, -1),
 
             new BlockPos(-1, 3, 1),   new BlockPos(0, 3, 1),  new BlockPos(1, 3, 1),
             new BlockPos(-1, 3, 0),   new BlockPos(0, 3, 0),  new BlockPos(1, 3, 0),
-            new BlockPos(-1, 3, -1),  new BlockPos(0, 3, 1),  new BlockPos(1, 3, -1),
+            new BlockPos(-1, 3, -1),  new BlockPos(0, 3, -1),  new BlockPos(1, 3, -1),
 
             new BlockPos(-1, 2, 1),   new BlockPos(0, 2, 1),  new BlockPos(1, 2, 1),
             new BlockPos(-1, 2, 0),   new BlockPos(0, 2, 0),  new BlockPos(1, 2, 0),
-            new BlockPos(-1, 2, -1),  new BlockPos(0, 2, 1),  new BlockPos(1, 2, -1),
+            new BlockPos(-1, 2, -1),  new BlockPos(0, 2, -1),  new BlockPos(1, 2, -1),
 
             new BlockPos(-1, 1, 1),   new BlockPos(0, 1, 1),  new BlockPos(1, 1, 1),
             new BlockPos(-1, 1, 0),   new BlockPos(0, 1, 0),  new BlockPos(1, 1, 0),
-            new BlockPos(-1, 1, -1),  new BlockPos(0, 1, 1),  new BlockPos(1, 1, -1),
+            new BlockPos(-1, 1, -1),  new BlockPos(0, 1, -1),  new BlockPos(1, 1, -1),
 
             new BlockPos(-1, 0, 1),   new BlockPos(0, 0, 1),  new BlockPos(1, 0, 1),
-            new BlockPos(-1, 0, 0),                                                           new BlockPos(1, 0, 0),
-            new BlockPos(-1, 0, -1),  new BlockPos(0, 0, 1),  new BlockPos(1, 0, -1)
+            new BlockPos(-1, 0, 0),                                    new BlockPos(1, 0, 0),
+            new BlockPos(-1, 0, -1),  new BlockPos(0, 0, -1),  new BlockPos(1, 0, -1)
     };
 
     @Override
@@ -234,6 +236,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                     }
                 }
             }
+
     }
 
     public void manageInput(World world) {
@@ -541,6 +544,10 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
     public void checkComplete(World world) {
         complete = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr);
+    }
+
+    public void debugCheckComplete(){
+        complete = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr, true);
     }
 
 }
