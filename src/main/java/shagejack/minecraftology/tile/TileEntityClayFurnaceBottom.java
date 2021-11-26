@@ -223,8 +223,8 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         temperature = 298.15;
                         completed = true;
                     } else if(durability > 0) {
+                        manageInput(world);
                         if (burning) {
-                            manageInput(world);
                             manageBurn(world);
                         }
                     } else {
@@ -248,7 +248,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
             if (world.getBlockState(inputDown).getBlock() != Blocks.FIRE) {
                 if (world.getBlockState(inputUp).getBlock() == Minecraftology.BLOCKS.gravity_charcoal || world.getBlockState(inputUp).getBlock() == Minecraftology.BLOCKS.gravity_iron_oxide || world.getBlockState(inputUp).getBlock() == Minecraftology.BLOCKS.gravity_calcite) {
                     consumeBlock(world, inputDown);
-                } else if (world.getBlockState(inputUp).getBlock() == Blocks.FIRE) {
+                } else if (world.getBlockState(inputUp).getBlock() == Blocks.FIRE && world.getBlockState(inputDown).getBlock() == Minecraftology.BLOCKS.gravity_charcoal) {
                     burning = true;
                 }
             } else {
@@ -525,11 +525,11 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
     //TODO: Data Rationalization
     public void consumeBlock(World world, BlockPos posInput){
-        if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_iron_oxide){
+        if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_iron_oxide && mol_IronOxide <= 0.5){
             world.setBlockToAir(posInput);
             mol_IronOxide += 1;
             mol_Impurities += 1;
-        } else if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_calcite){
+        } else if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_calcite && mol_CalciumOxide <= 0.5){
             world.setBlockToAir(posInput);
             mol_CalciumOxide += 1;
         } else if (world.getBlockState(posInput).getBlock() == Minecraftology.BLOCKS.gravity_charcoal && mol_Charcoal <= 0.5){
