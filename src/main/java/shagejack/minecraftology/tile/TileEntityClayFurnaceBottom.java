@@ -235,6 +235,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         burnOut();
                     }
                 }
+            markDirty();
             }
 
     }

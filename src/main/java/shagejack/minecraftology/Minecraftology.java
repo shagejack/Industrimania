@@ -10,9 +10,11 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import shagejack.minecraftology.handler.TickHandler;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.init.ItemsMCL;
 import shagejack.minecraftology.network.PacketPipeline;
@@ -30,6 +32,7 @@ public class Minecraftology {
     public static final BlocksMCL BLOCKS = new BlocksMCL();
 
     public static final MCLTab TAB_Minecraftology = new MCLTab("tabMCL", () -> new ItemStack(ITEMS.multimeter));
+    public static final TickHandler TICK_HANDLER;
 
     //public static final MineRegistry MINE_REGISTRY;
     public static final PacketPipeline NETWORK;
@@ -38,6 +41,7 @@ public class Minecraftology {
 
     static {
         NETWORK = new PacketPipeline();
+        TICK_HANDLER = new TickHandler();
     }
 
     /**
@@ -53,6 +57,7 @@ public class Minecraftology {
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(TICK_HANDLER);
 
         ITEMS.init();
         BLOCKS.init();
@@ -76,6 +81,11 @@ public class Minecraftology {
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
         PROXY.postInit(event);
+    }
+
+    @Mod.EventHandler
+    public void serverStart(FMLServerStartedEvent event) {
+        TICK_HANDLER.onServerStart(event);
     }
 
 }
