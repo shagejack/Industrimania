@@ -146,11 +146,13 @@ public class TileEntityIronOreSlag extends MCLTileEntity implements IMCLTickable
         int baseCount = (int) Math.round(getPurity() * Math.sqrt(fortune) * 9);
         int fortuneCount = baseCount * 2 / 3 + world.rand.nextInt(baseCount / 3 + 1);
 
-        ironStack = new ItemStack(Minecraftology.ITEMS.iron_cluster);
+        if(perMass * fortuneCount > 0) {
+            ironStack = new ItemStack(Minecraftology.ITEMS.iron_cluster);
+            Minecraftology.ITEMS.iron_cluster.setMass(ironStack, perMass * fortuneCount);
+            return ironStack;
+        }
 
-        if(!ironStack.isEmpty()) Minecraftology.ITEMS.iron_cluster.setMass(ironStack, perMass * fortuneCount);
-
-        return ironStack;
+        return null;
     }
 
     public ItemStack getRealSlagDrop(){
