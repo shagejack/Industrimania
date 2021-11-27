@@ -1,4 +1,12 @@
+##########################################################################################################
+# Items
+
 item.minecraftology.omni_multimeter.name=调试用万用表
+item.minecraftology.slag.name=炉渣
+item.minecraftology.iron_cluster.name=海绵铁簇
+
+##########################################################################################################
+# Blocks
 
 tile.building.fine_clay.name=堆砌精致黏土块
 tile.building.scorched_clay.name=焦裂的黏土块
@@ -6,6 +14,7 @@ tile.building.scorched_clay.name=焦裂的黏土块
 tile.gravity.charcoal.name=木炭碎块
 tile.gravity.iron_oxide.name=铁矿碎块
 tile.gravity.calcite.name=石灰石碎块
+tile.gravity.dust.name=灰烬块
 
 tile.mechanic.clay_furnace_bottom.name=黏土炼铁炉底
 tile.mechanic.bronze_tube.name=炼铁炉通气管
@@ -16,4 +25,5 @@ tile.mechanic.iron_ore_slag.name=铁矿渣结块
 # Creative Tabs
 
 itemGroup.tabMCL=傻氏矿艺学
+
 ##########################################################################################################
