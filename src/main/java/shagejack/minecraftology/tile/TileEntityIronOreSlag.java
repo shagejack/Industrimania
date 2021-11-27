@@ -70,20 +70,6 @@ public class TileEntityIronOreSlag extends MCLTileEntity implements IMCLTickable
 
     @Override
     public void onDestroyed(World worldIn, BlockPos pos, IBlockState state) {
-        if (temperature < 373.15) {
-            ItemStack ironStack = getRealIronDrop();
-            ItemStack slagStack = getRealSlagDrop();
-            if (!ironStack.isEmpty()) {
-                EntityItem itemIron = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ironStack);
-                worldIn.spawnEntity(itemIron);
-            }
-            if (!slagStack.isEmpty()) {
-                EntityItem itemSlag = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, slagStack);
-                worldIn.spawnEntity(itemSlag);
-            }
-        } else {
-            world.setBlockState(pos, Blocks.FIRE.getDefaultState());
-        }
     }
 
     @Override
@@ -181,6 +167,23 @@ public class TileEntityIronOreSlag extends MCLTileEntity implements IMCLTickable
 
     public double getPurity(){
         return mol_Iron / (mol_Iron + mol_IronOxide * 2 + mol_Impurities);
+    }
+
+    public void onBreak(World worldIn){
+        if (temperature < 373.15) {
+            ItemStack ironStack = getRealIronDrop();
+            ItemStack slagStack = getRealSlagDrop();
+            if (!ironStack.isEmpty()) {
+                EntityItem itemIron = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ironStack);
+                worldIn.spawnEntity(itemIron);
+            }
+            if (!slagStack.isEmpty()) {
+                EntityItem itemSlag = new EntityItem(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, slagStack);
+                worldIn.spawnEntity(itemSlag);
+            }
+        } else {
+            world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+        }
     }
 
 }
