@@ -38,4 +38,9 @@ public class ItemIronCluster extends MCLBaseItem {
         return 0;
     }
 
+    public void setMass(ItemStack itemStack, double mass) {
+        TagCompountCheck(itemStack);
+        itemStack.getTagCompound().setDouble("mass", mass);
+    }
+
 }

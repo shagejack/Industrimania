@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlock;
+import shagejack.minecraftology.items.includes.MCLBaseItem;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.util.LogMCL;
 import shagejack.minecraftology.util.MCLMultiBlockCheckHelper;
@@ -147,7 +148,7 @@ public class TileEntityIronOreSlag extends MCLTileEntity implements IMCLTickable
 
         ironStack = new ItemStack(Minecraftology.ITEMS.iron_cluster);
 
-        ironStack.getTagCompound().setDouble("mass", perMass * fortuneCount);
+        if(!ironStack.isEmpty()) Minecraftology.ITEMS.iron_cluster.setMass(ironStack, perMass * fortuneCount);
 
         return ironStack;
     }
