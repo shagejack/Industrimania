@@ -64,7 +64,7 @@ public class BlocksMCL {
             gravity_iron_oxide = register(new BlockGravity(Material.SAND, "gravity.iron_oxide", 4, 1, 4));
             gravity_charcoal = register(new BlockGravity(Material.SAND, "gravity.charcoal", 4, 0, 4));
             gravity_calcite = register(new BlockGravity(Material.SAND, "gravity.calcite", 4, 0, 4));
-            gravity_dust = register(new BlockGravity(Material.SAND, "gravity.calcite", 4, 0, 4));
+            gravity_dust = register(new BlockGravity(Material.SAND, "gravity.dust", 4, 0, 4));
 
             //Mechanic
             mechanic_clay_furnace_bottom = register(new BlockClayFurnaceBottom(Material.CLAY, "mechanic.clay_furnace_bottom"));
