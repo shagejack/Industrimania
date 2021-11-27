@@ -171,7 +171,7 @@ public class TileEntityIronOreSlag extends MCLTileEntity implements IMCLTickable
 
         double fortune = world.rand.nextDouble();
 
-        int baseCount = (int) Math.round((1-getPurity()) * Math.sqrt(fortune) * 9 + 3);
+        int baseCount = (int) Math.round((1-getPurity()) * Math.sqrt(fortune) * 3 + 3 * mol_Slag);
         int fortuneCount = baseCount * 2 / 3 + world.rand.nextInt(baseCount / 3 + 1);
 
         ironStack = new ItemStack(Minecraftology.ITEMS.slag, fortuneCount);

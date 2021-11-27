@@ -28,7 +28,7 @@ public class ItemIronCluster extends MCLBaseItem {
     @SideOnly(Side.CLIENT)
     public void addDetails(ItemStack itemstack, EntityPlayer player, @Nullable World worldIn, List<String> infos) {
         super.addDetails(itemstack, player, worldIn, infos);
-        infos.add("质量(Mass): " + getMass(itemstack)  + "g");
+        infos.add("\u8d28\u91cf(Mass): " + getMass(itemstack)  + "g");
     }
 
     public double getMass(ItemStack item) {
