@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import shagejack.minecraftology.api.internal.TileEntityProvider;
 
 public abstract class MCLBlockContainer<TE extends TileEntity> extends MCLBlock implements TileEntityProvider<TE> {
+
     public MCLBlockContainer(Material material, String name) {
         super(material, name);
         if (hasTileEntity(getDefaultState()) && TileEntity.getKey(getTileEntityClass()) == null)

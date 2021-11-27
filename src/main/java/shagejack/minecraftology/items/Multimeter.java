@@ -37,9 +37,4 @@ public class Multimeter extends MCLBaseItem {
             player.swingArm(hand);
         return result;
     }
-
-    @Override
-    public boolean hasDetails(ItemStack stack) {
-        return true;
-    }
 }

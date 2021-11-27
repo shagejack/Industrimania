@@ -5,6 +5,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import shagejack.minecraftology.items.*;
+import shagejack.minecraftology.items.includes.MCLBaseItem;
 import shagejack.minecraftology.util.LogMCL;
 
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ public class ItemsMCL {
 
     //	Tools
     public Multimeter multimeter;
+
+    //  Materials
+    public MCLBaseItem slag;
+    public ItemIronCluster iron_cluster;
 
     private int registeredCount = 0;
 
@@ -31,6 +36,10 @@ public class ItemsMCL {
 
         //		Tools
         multimeter = register(new Multimeter("omni_multimeter"));
+
+        //      Materials
+        slag = register(new MCLBaseItem("slag"));
+        iron_cluster = register(new ItemIronCluster("iron_cluster"));
 
         LogMCL.info("Finished registering items");
         LogMCL.info("Registered %d items", registeredCount);

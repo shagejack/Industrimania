@@ -24,16 +24,19 @@ public class BlocksMCL {
 
         //Building
         public BlockBuilding building_fine_clay;
+        public BlockBuilding building_scorched_clay;
 
         //Gravity
         public BlockGravity gravity_iron_oxide;
         public BlockGravity gravity_charcoal;
         public BlockGravity gravity_calcite;
+        public BlockGravity gravity_dust;
 
         //Mechanic
         public BlockClayFurnaceBottom mechanic_clay_furnace_bottom;
         public BlockBronzeTube mechanic_bronze_tube;
         public BlockBlower mechanic_blower;
+        public BlockIronOreSlag mechanic_iron_ore_slag;
 
         private int registeredCount = 0;
 
@@ -53,15 +56,21 @@ public class BlocksMCL {
 
             LogMCL.info("Registering blocks");
 
+            //Building
             building_fine_clay = register(new BlockBuilding(Material.CLAY, "building.fine_clay", 4, 0, 4, SoundType.GROUND));
+            building_scorched_clay = register(new BlockBuilding(Material.CLAY, "building.scorched_clay", 4, 0, 4, SoundType.GROUND));
 
+            //Gravity
             gravity_iron_oxide = register(new BlockGravity(Material.SAND, "gravity.iron_oxide", 4, 1, 4));
             gravity_charcoal = register(new BlockGravity(Material.SAND, "gravity.charcoal", 4, 0, 4));
             gravity_calcite = register(new BlockGravity(Material.SAND, "gravity.calcite", 4, 0, 4));
+            gravity_dust = register(new BlockGravity(Material.SAND, "gravity.calcite", 4, 0, 4));
 
+            //Mechanic
             mechanic_clay_furnace_bottom = register(new BlockClayFurnaceBottom(Material.CLAY, "mechanic.clay_furnace_bottom"));
             mechanic_bronze_tube = register(new BlockBronzeTube(Material.CLAY, "mechanic.bronze_tube"));
             mechanic_blower = register(new BlockBlower(Material.CLAY, "mechanic.blower"));
+            mechanic_iron_ore_slag = register(new BlockIronOreSlag(Material.SAND, "mechanic.iron_ore_slag"));
 
             LogMCL.info("Finished registering blocks");
             LogMCL.info("Registered %d blocks", registeredCount);

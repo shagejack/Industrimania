@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
@@ -20,6 +21,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
+import shagejack.minecraftology.blocks.BlockIronOreSlag;
 import shagejack.minecraftology.blocks.includes.MCLBlock;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.util.LogMCL;
@@ -552,7 +554,23 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
 
     public void burnOut() {
-        //world.setBlockState(getPos(), Minecraftology.BLOCKS.building_fine_clay.getDefaultState());
+        for (BlockPos rPos : posArr) {
+            IBlockState temp = world.getBlockState(getPos().add(rPos));
+            if (Math.random() < 0.5 && temp.getBlock() == Minecraftology.BLOCKS.building_fine_clay) {
+                world.setBlockState(getPos().add(rPos), Minecraftology.BLOCKS.building_scorched_clay.getDefaultState());
+            }
+        }
+        world.setBlockState(getPos().add(0, 1, 0), Minecraftology.BLOCKS.mechanic_iron_ore_slag.getDefaultState());
+        world.setBlockState(getPos().add(0, 2, 0), Minecraftology.BLOCKS.gravity_dust.getDefaultState());
+        world.setBlockState(getPos().add(0, 3, 0), Minecraftology.BLOCKS.gravity_dust.getDefaultState());
+
+        //Settlement
+        TileEntity tileEntity = world.getTileEntity(getPos().add(0, 1, 0));
+        if (tileEntity instanceof TileEntityIronOreSlag) {
+            ((TileEntityIronOreSlag) tileEntity).writeData(mol_Iron, mol_IronOxide, mol_Slag, mol_Impurities, temperature);
+        }
+
+        world.setBlockState(getPos(), Minecraftology.BLOCKS.building_scorched_clay.getDefaultState());
     }
 
     public int checkComplete(World world) {
