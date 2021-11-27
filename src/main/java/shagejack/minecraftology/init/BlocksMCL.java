@@ -10,10 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import shagejack.minecraftology.api.internal.IItemBlockFactory;
 import shagejack.minecraftology.api.internal.OreDictItem;
-import shagejack.minecraftology.blocks.BlockBronzeTube;
-import shagejack.minecraftology.blocks.BlockBuilding;
-import shagejack.minecraftology.blocks.BlockClayFurnaceBottom;
-import shagejack.minecraftology.blocks.BlockGravity;
+import shagejack.minecraftology.blocks.*;
 import shagejack.minecraftology.util.LogMCL;
 
 import java.util.ArrayList;
@@ -36,6 +33,7 @@ public class BlocksMCL {
         //Mechanic
         public BlockClayFurnaceBottom mechanic_clay_furnace_bottom;
         public BlockBronzeTube mechanic_bronze_tube;
+        public BlockBlower mechanic_blower;
 
         private int registeredCount = 0;
 
@@ -63,6 +61,7 @@ public class BlocksMCL {
 
             mechanic_clay_furnace_bottom = register(new BlockClayFurnaceBottom(Material.CLAY, "mechanic.clay_furnace_bottom"));
             mechanic_bronze_tube = register(new BlockBronzeTube(Material.CLAY, "mechanic.bronze_tube"));
+            mechanic_blower = register(new BlockBlower(Material.CLAY, "mechanic.blower"));
 
             LogMCL.info("Finished registering blocks");
             LogMCL.info("Registered %d blocks", registeredCount);

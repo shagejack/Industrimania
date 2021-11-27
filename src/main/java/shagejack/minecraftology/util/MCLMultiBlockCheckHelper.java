@@ -53,6 +53,7 @@ public class MCLMultiBlockCheckHelper {
     public static BlockPos getRotatedPos(BlockPos pos, int i){
         switch(i){
             case 0:
+            case -1:
                 break;
             case 1:
                 pos = new BlockPos(pos.getZ(), pos.getY(), -pos.getX());

@@ -1,6 +1,7 @@
 package shagejack.minecraftology.tile;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +20,9 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
+import shagejack.minecraftology.blocks.includes.MCLBlock;
 import shagejack.minecraftology.init.BlocksMCL;
+import shagejack.minecraftology.util.LogMCL;
 import shagejack.minecraftology.util.MCLMultiBlockCheckHelper;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.multiblock.IMultiBlockTile;
@@ -47,8 +50,6 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
     private double mol_Impurities;
     private boolean completed;
     private boolean burning;
-
-    private int complete;
 
     private final String clay = "minecraftology:building.fine_clay";
     private final String tube = "minecraftology:mechanic.bronze_tube";
@@ -210,8 +211,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         }
 
         if (phase.equals(TickEvent.Phase.END)) {
-                checkComplete(world);
-                if (complete != -1) {
+                if (checkComplete(world) != -1) {
                     if (!completed) {
                         //Initialization
                         durability = 100;
@@ -221,23 +221,22 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         completed = true;
                     } else if(durability > 0) {
                         manageInput(world);
+                        adjustOxygenFlow(world);
                         if (burning) {
                             manageBurn(world);
                         } else {
                             if (temperature > 298.15) {
-                                temperature -= 1;
-                                durability -= 0.0004 * temperature / 200;
+                                temperature -= 0.25;
+                                if (temperature > 373.15) durability -= 0.0004 * temperature / 200;
                             } else {
-                                temperature += 1;
+                                temperature += 0.25;
                             }
                         }
                     } else {
                         burnOut();
                     }
                 } else {
-                    if (completed){
-                        burnOut();
-                    }
+                    if (completed) burnOut();
                 }
             markDirty();
             }
@@ -283,7 +282,6 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
         durability -= 0.0004 * temperature / 200;
         resetVarBelowZero(world);
-        adjustOxygenFlow(world);
         adjustTemperature(world);
         smelting(world);
 
@@ -307,7 +305,17 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
 
     public void adjustOxygenFlow(World world) {
+        double atmosphereOxygenFlow;
+        atmosphereOxygenFlow = 0.75 + 0.5 * Math.random();
+        if (mol_OxygenFlow < atmosphereOxygenFlow) {
+            mol_OxygenFlow += 0.01 * (Math.pow(1 + Math.abs(mol_OxygenFlow - atmosphereOxygenFlow), 2) - 1);
+        } else {
+            mol_OxygenFlow -= 0.01 * (Math.pow(1 + Math.abs(mol_OxygenFlow - atmosphereOxygenFlow), 2) - 1);
+        }
+    }
 
+    public void blowerInput(World world){
+        mol_OxygenFlow += 2 + Math.random() * 0.5 - 0.5 * Math.pow(1 + mol_OxygenFlow, 0.5);
     }
 
     public void smelting(World world) {
@@ -347,7 +355,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
         if (temperature > 1023.15){
             //*Only When Too Much Oxygen*
-            if (mol_OxygenFlow > 3.5){
+            if (mol_OxygenFlow > 4){
 
                 double r4 = getReactionAmount(4);
                 double r5 = getReactionAmount(5);
@@ -547,12 +555,59 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         //world.setBlockState(getPos(), Minecraftology.BLOCKS.building_fine_clay.getDefaultState());
     }
 
-    public void checkComplete(World world) {
-        complete = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr);
+    public int checkComplete(World world) {
+        int complete = -1;
+        int completeState;
+        completeState = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr);
+        IBlockState state = world.getBlockState(pos.add(MCLMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
+        EnumFacing rotation = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+        switch (completeState) {
+            case -1:
+                break;
+            case 0:
+                complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 0 : -1;
+                break;
+            case 1:
+                complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 1 : -1;
+                break;
+            case 2:
+                complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 2 : -1;
+                break;
+            case 3:
+                complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 3 : -1;
+                break;
+        }
+        return complete;
     }
 
-    public void debugCheckComplete(){
-        complete = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr, true);
+    public int debugCheckComplete(){
+        int complete = -1;
+        int completeState;
+        completeState = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr, true);
+        IBlockState state = world.getBlockState(pos.add(MCLMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
+        EnumFacing rotation = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+            switch (completeState) {
+                case -1:
+                    break;
+                case 0:
+                    complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 0 : -1;
+                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
+                    break;
+                case 1:
+                    complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 1 : -1;
+                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
+                    break;
+                case 2:
+                    complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 2 : -1;
+                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
+                    break;
+                case 3:
+                    complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 3 : -1;
+                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
+                    break;
+            }
+            LogMCL.debug("Result: " + complete);
+            return complete;
     }
 
 }

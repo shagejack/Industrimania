@@ -25,15 +25,19 @@ public class BlockClayFurnaceBottom extends MCLBlockContainer<TileEntityClayFurn
     }
 
     /* DEBUG
+     */
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityClayFurnaceBottom) {
-            ((TileEntityClayFurnaceBottom) tileEntity).debugCheckComplete();
+        if(playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.multimeter) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (tileEntity instanceof TileEntityClayFurnaceBottom) {
+                ((TileEntityClayFurnaceBottom) tileEntity).debugCheckComplete();
+            }
+            return true;
         }
-        return true;
+        return false;
     }
-     */
+
 
     @Override
     public Class<TileEntityClayFurnaceBottom> getTileEntityClass() {
