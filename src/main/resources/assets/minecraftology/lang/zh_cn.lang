@@ -4,6 +4,7 @@
 item.minecraftology.omni_multimeter.name=调试用万用表
 item.minecraftology.forge_hammer.name=锻造锤
 item.minecraftology.saw.name=青铜锯
+item.minecraftology.flat_file.name=平锉
 
 item.minecraftology.slag.name=炉渣
 item.minecraftology.iron_cluster.name=海绵铁簇
@@ -39,6 +40,7 @@ tile.mechanic.iron_ore_slag.name=铁矿渣结块
 tile.mechanic.forge.name=锻造台
 tile.mechanic.forge_furnace.name=锻炉
 tile.mechanic.water_pool.name=水池
+tile.mechanic.filing_table.name=锉削台
 
 ##########################################################################################################
 # Creative Tabs
