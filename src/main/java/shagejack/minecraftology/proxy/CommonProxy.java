@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class CommonProxy {
 
     public void registerCompatModules() {
-       // MatterOverdriveCompat.registerModules();
     }
 
     public EntityPlayer getPlayerEntity(MessageContext ctx) {

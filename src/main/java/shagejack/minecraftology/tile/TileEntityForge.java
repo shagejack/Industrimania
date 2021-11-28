@@ -29,6 +29,10 @@ public class TileEntityForge extends MCLTileEntityContainer {
 
     public int forge_slot;
 
+    public TileEntityForge() {
+        super();
+    }
+
     @Override
     protected void RegisterSlots(Inventory inventory) {
         forge_slot = inventory.AddSlot(new Slot(true));

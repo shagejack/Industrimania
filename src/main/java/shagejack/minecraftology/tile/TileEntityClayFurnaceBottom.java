@@ -110,6 +110,10 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
             new BlockPos(-1, 0, -1),  new BlockPos(0, 0, -1),  new BlockPos(1, 0, -1)
     };
 
+    public TileEntityClayFurnaceBottom(){
+            super();
+    }
+
     @Override
     public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         if (categories.contains(MachineNBTCategory.DATA)) {

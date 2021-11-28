@@ -39,6 +39,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
     };
 
     public TileEntityForgeFurnace(){
+        super();
         inventory = new TileEntityInventory(this, MCLStringHelper.translateToLocal("container.forge_furnace"));
     }
 

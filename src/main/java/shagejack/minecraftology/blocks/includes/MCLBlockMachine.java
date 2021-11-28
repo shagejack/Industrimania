@@ -167,7 +167,7 @@ public abstract class MCLBlockMachine<TE extends TileEntity> extends MCLBlockCon
                     return true;
                 } else {
                     if (world.isRemote) {
-                        TextComponentString message = new TextComponentString(TextFormatting.GOLD + "[Matter Overdrive] " + TextFormatting.RED + MCLStringHelper.translateToLocal("alert.no_rights.dismantle").replace("$0", getLocalizedName()));
+                        TextComponentString message = new TextComponentString(TextFormatting.GOLD + "[Minecraftology] " + TextFormatting.RED + MCLStringHelper.translateToLocal("alert.no_rights.dismantle").replace("$0", getLocalizedName()));
                         message.setStyle(new Style().setColor(TextFormatting.RED));
                         player.sendMessage(message);
                     }

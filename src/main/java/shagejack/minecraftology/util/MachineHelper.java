@@ -22,7 +22,7 @@ public class MachineHelper {
                     FMLNetworkHandler.openGui(player, Minecraftology.INSTANCE, -1, world, pos.getX(), pos.getY(), pos.getZ());
                     return true;
                 } else {
-                    TextComponentString message = new TextComponentString(TextFormatting.GOLD + "[Matter Overdrive] " + TextFormatting.RED + MCLStringHelper.translateToLocal(errorMessage).replace("$0", ((MCLTileEntityMachine) tileEntity).getDisplayName().toString()));
+                    TextComponentString message = new TextComponentString(TextFormatting.GOLD + "[Minecraftology] " + TextFormatting.RED + MCLStringHelper.translateToLocal(errorMessage).replace("$0", ((MCLTileEntityMachine) tileEntity).getDisplayName().toString()));
                     message.setStyle(new Style().setColor(TextFormatting.RED));
                     player.sendMessage(message);
                 }
@@ -37,7 +37,7 @@ public class MachineHelper {
         if (tileEntity instanceof MCLTileEntityMachine) {
             if (!player.capabilities.isCreativeMode &&
                     ((MCLTileEntityMachine) tileEntity).hasOwner() && !((MCLTileEntityMachine) tileEntity).getOwner().equals(player.getGameProfile().getId())) {
-                TextComponentString message = new TextComponentString(TextFormatting.GOLD + "[Matter Overdrive] " + TextFormatting.RED + MCLStringHelper.translateToLocal("alert.no_rights.break").replace("$0", ((MCLTileEntityMachine) tileEntity).getDisplayName().toString()));
+                TextComponentString message = new TextComponentString(TextFormatting.GOLD + "[Minecraftology] " + TextFormatting.RED + MCLStringHelper.translateToLocal("alert.no_rights.break").replace("$0", ((MCLTileEntityMachine) tileEntity).getDisplayName().toString()));
                 message.setStyle(new Style().setColor(TextFormatting.RED));
                 player.sendMessage(message);
                 return false;

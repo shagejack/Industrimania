@@ -78,7 +78,7 @@ public class TickHandler {
                             ((IMCLTickable) tileEntity).onServerTick(event.phase, event.world);
                         }
                 } catch (Throwable e) {
-                    LogMCL.log(Level.ERROR, e, "There was an Error while updating Matter Overdrive Tile Entities.");
+                    LogMCL.log(Level.ERROR, e, "There was an Error while updating Minecraftology Tile Entities.");
                     return;
                 }
             }
