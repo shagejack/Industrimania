@@ -40,7 +40,7 @@ public class BlockWaterPool extends MCLBlock {
 
     public BlockWaterPool(Material material, String name) {
         super(material, name);
-        setSoundType(SoundType.ANVIL);
+        setSoundType(SoundType.STONE);
         setHarvestLevel("pickaxe", 1);
         setHardness(4.0F);
         setResistance(4.0F);

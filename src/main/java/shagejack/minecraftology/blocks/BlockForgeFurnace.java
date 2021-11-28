@@ -18,6 +18,7 @@ import shagejack.minecraftology.gui.inventory.GuiElementLoader;
 import shagejack.minecraftology.tile.TileEntityClayFurnaceBottom;
 import shagejack.minecraftology.tile.TileEntityForge;
 import shagejack.minecraftology.tile.TileEntityForgeFurnace;
+import shagejack.minecraftology.util.MCLBlockHelper;
 import shagejack.minecraftology.util.MachineHelper;
 
 public class BlockForgeFurnace extends MCLBlockMachine<TileEntityForgeFurnace> {
@@ -33,6 +34,8 @@ public class BlockForgeFurnace extends MCLBlockMachine<TileEntityForgeFurnace> {
         setHardness(4.0F);
         setResistance(4.0F);
         setHasGui(true);
+        setHasRotation();
+        setRotationType(MCLBlockHelper.RotationType.FOUR_WAY);
     }
 
     @Override

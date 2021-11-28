@@ -3,8 +3,8 @@
   "defaults": {
     "model": "cube",
     "textures": {
-      "down": "minecraftology:blocks/mechanic.water_pool_top",
-      "up": "minecraftology:blocks/mechanic.water_pool_side",
+      "down": "minecraftology:blocks/mechanic.water_pool_side",
+      "up": "minecraftology:blocks/mechanic.water_pool_top",
       "north": "minecraftology:blocks/mechanic.water_pool_side",
       "south": "minecraftology:blocks/mechanic.water_pool_side",
       "west": "minecraftology:blocks/mechanic.water_pool_side",
