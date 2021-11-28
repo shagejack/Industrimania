@@ -36,12 +36,14 @@ public class IronCluster extends MCLBaseItem {
         infos.add("\u6e29\u5ea6(Temp): " + getTemp(itemstack)  + "K");
         infos.add("===== \u5f62\u72b6 Shape =====");
         int[] shape = getShape(itemstack);
-        for (int i = 0; i < shape[1]; i++){
-            String temp = "";
-            for(int j = 0; j < shape[0]; j++){
-                temp += "\u2b1b\ufe0f";
+        if (shape[0] > 0 && shape[1] > 0) {
+            for (int i = 0; i < shape[1]; i++) {
+                String temp = "";
+                for (int j = 0; j < shape[0]; j++) {
+                    temp += "\u2b1b\ufe0f";
+                }
+                infos.add(temp);
             }
-            infos.add(temp);
         }
 
     }
