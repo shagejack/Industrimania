@@ -24,6 +24,12 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
 
     private double temperature;
     private double fuel;
+    private double furnaceTemp;
+
+    private String[] fuelItemList = {
+            "minecraft:coal",
+            "minecraft:charcoal"
+    };
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
@@ -52,6 +58,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
 
     @Override
     public void onAdded(World world, BlockPos pos, IBlockState state) {
+        furnaceTemp = 298.15;
     }
 
     @Override
@@ -90,6 +97,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
         if (categories.contains(MachineNBTCategory.DATA)) {
             nbt.setDouble("temperature", temperature);
             nbt.setDouble("fuel", fuel);
+            nbt.setDouble("furnaceTemp", furnaceTemp);
         }
     }
 
@@ -98,6 +106,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
         if (categories.contains(MachineNBTCategory.DATA)) {
             temperature = nbt.getDouble("temperature");
             fuel = nbt.getDouble("fuel");
+            furnaceTemp = nbt.getDouble("furnaceTemp");
         }
     }
 
@@ -112,16 +121,42 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
         }
 
         if (phase.equals(TickEvent.Phase.END)) {
+            consumeFuel();
             heatUp();
         }
 
     }
 
+    public void consumeFuel(){
+        ItemStack fuelStack = inventory.getSlot(0).getItem();
+        if (fuel <= 0) {
+            for (String item : fuelItemList) {
+                if (fuelStack.getItem().getRegistryName().toString().equalsIgnoreCase(item)) {
+                    fuelStack.setCount(fuelStack.getCount() - 1);
+                    fuel += 1200;
+                }
+            }
+            furnaceTemp -= 0.25;
+        } else {
+            fuel -= 1;
+            if(furnaceTemp < 1173.15){
+                furnaceTemp += 0.25;
+            }
+        }
+    }
+
 
 
     public void heatUp(){
-        if(inventory.getSlot(1).getItem().getItem() == Minecraftology.ITEMS.iron_cluster) {
-
+        ItemStack inputStack = inventory.getSlot(1).getItem();
+        if (fuel > 0) {
+            if (inputStack.getItem() == Minecraftology.ITEMS.iron_cluster) {
+                double temp = Minecraftology.ITEMS.iron_cluster.getTemp(inputStack);
+                if (temp < furnaceTemp) {
+                   temp += 0.1 * Math.pow((furnaceTemp - temp), 0.5);
+                }
+                Minecraftology.ITEMS.iron_cluster.setTemp(inputStack, temp);
+            }
         }
     }
 
