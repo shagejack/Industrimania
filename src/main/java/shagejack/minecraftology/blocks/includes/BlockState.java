@@ -16,13 +16,11 @@ public class BlockState {
         //把这里的Facing改为响应面的property
         if(active)
         {
-            worldIn.setBlockState(pos,Blocks.LIT_FURNACE.getDefaultState().withProperty(Facing,iBlockState.(Facing)),3);
-            worldIn.setBlockState(pos, Blocks.LIT_FURNACE.getDefaultState().withProperty(Facing,iBlockState.getValue(Facing)),3);
+            //
         }
         else
         {
-            worldIn.setBlockState(pos,Blocks.FURNACE.getDefaultState().withProperty(Facing,iBlockState.getValue(Facing)),3);
-            worldIn.setBlockState(pos,Blocks.FURNACE.getDefaultState().withProperty(Facing,iBlockState.getValue(Facing)),3);
+            //
         }
         if(tileEntity != null) {
             tileEntity.validate();
