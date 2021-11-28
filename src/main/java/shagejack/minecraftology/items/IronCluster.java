@@ -57,7 +57,7 @@ public class IronCluster extends MCLBaseItem {
 
     public double getCarbon(ItemStack item) {
         if (item.hasTagCompound()) {
-            return item.getTagCompound().getDouble("mass");
+            return item.getTagCompound().getDouble("carbon");
         }
         return 0;
     }
