@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube",
+    "textures": {
+      "down": "minecraftology:blocks/mechanic.forge_bottom",
+      "up": "minecraftology:blocks/mechanic.forge_top",
+      "north": "minecraftology:blocks/mechanic.forge_side",
+      "south": "minecraftology:blocks/mechanic.forge_side",
+      "west": "minecraftology:blocks/mechanic.forge_side",
+      "east": "minecraftology:blocks/mechanic.forge_side"
+    }
+  },
+  "variants": {
+    "normal": {"model": "cube"},
+    "inventory": {
+      "model": "cube",
+      "transform": "forge:default-block"
+    }
+  }
+}

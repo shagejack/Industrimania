@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "minecraftology:items/cut_wrought_iron_ingot"
+  }
+}
