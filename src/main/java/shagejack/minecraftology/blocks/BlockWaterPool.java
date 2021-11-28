@@ -4,6 +4,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -12,6 +13,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.items.ItemHandlerHelper;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlock;
 import shagejack.minecraftology.blocks.includes.MCLBlockContainer;
@@ -49,7 +51,9 @@ public class BlockWaterPool extends MCLBlock {
             ItemStack held = playerIn.getHeldItem(EnumHand.MAIN_HAND);
             if (isValidCoolItem(held, playerIn)) {
                 if (Minecraftology.ITEMS.iron_cluster.getTemp(held) > 873.15) {
-                    getCoolResult(held, playerIn);
+                    ItemStack result = getCoolResult(held, playerIn);
+                    held.setCount(0);
+                    ItemHandlerHelper.giveItemToPlayer(playerIn, result, EntityEquipmentSlot.MAINHAND.getSlotIndex());
                     return true;
                 }
             }
@@ -69,7 +73,7 @@ public class BlockWaterPool extends MCLBlock {
         return false;
     }
 
-    public void getCoolResult(ItemStack itemStack, EntityPlayer player){
+    public ItemStack getCoolResult(ItemStack itemStack, EntityPlayer player){
         ItemStack coolResultStack;
         double mass = Minecraftology.ITEMS.iron_cluster.getMass(itemStack);
         double carbon = Minecraftology.ITEMS.iron_cluster.getCarbon(itemStack);
@@ -128,9 +132,10 @@ public class BlockWaterPool extends MCLBlock {
             coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_rubbish);
         }
 
-        itemStack = coolResultStack;
         //TODO:Play Sound
         player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.fire.extinguish")), 1, 1);
+
+        return coolResultStack;
     }
 
 
