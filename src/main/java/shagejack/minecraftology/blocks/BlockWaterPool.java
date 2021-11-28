@@ -18,7 +18,10 @@ import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlock;
 import shagejack.minecraftology.blocks.includes.MCLBlockContainer;
 import shagejack.minecraftology.tile.TileEntityForge;
+import shagejack.minecraftology.util.LogMCL;
 import shagejack.minecraftology.util.MachineHelper;
+
+import java.util.Arrays;
 
 public class BlockWaterPool extends MCLBlock {
 
@@ -80,16 +83,20 @@ public class BlockWaterPool extends MCLBlock {
         double impurities = Minecraftology.ITEMS.iron_cluster.getImpurities(itemStack);
         int[] shape = Minecraftology.ITEMS.iron_cluster.getShape(itemStack);
 
+        LogMCL.debug((shape == shapeList[0]) ? "true" : "false");
+        LogMCL.debug(shape.toString());
+
         if(impurities < 0.1) {
             if(carbon < 0.002) {
+                LogMCL.debug("wrought");
                 //wrought iron
-                if(shape == shapeList[0]){
+                if(Arrays.equals(shape, shapeList[0])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.wrought_iron_big_plate);
                     Minecraftology.ITEMS.wrought_iron_big_plate.setMass(coolResultStack, mass);
-                } else if(shape == shapeList[1]){
+                } else if(Arrays.equals(shape, shapeList[1])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.wrought_iron_ingot);
                     Minecraftology.ITEMS.wrought_iron_ingot.setMass(coolResultStack, mass);
-                } else if(shape == shapeList[2]){
+                } else if(Arrays.equals(shape, shapeList[2])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.wrought_iron_small_plate);
                     Minecraftology.ITEMS.wrought_iron_small_plate.setMass(coolResultStack, mass);
                 } else {
@@ -97,13 +104,13 @@ public class BlockWaterPool extends MCLBlock {
                 }
             } else if (carbon < 0.02){
                 //iron
-                if(shape == shapeList[0]){
+                if(Arrays.equals(shape, shapeList[0])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_big_plate);
                     Minecraftology.ITEMS.iron_big_plate.setMass(coolResultStack, mass);
-                } else if(shape == shapeList[1]){
+                } else if(Arrays.equals(shape, shapeList[1])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_ingot);
                     Minecraftology.ITEMS.iron_ingot.setMass(coolResultStack, mass);
-                } else if(shape == shapeList[2]){
+                } else if(Arrays.equals(shape, shapeList[2])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_small_plate);
                     Minecraftology.ITEMS.iron_small_plate.setMass(coolResultStack, mass);
                 } else {
@@ -111,13 +118,13 @@ public class BlockWaterPool extends MCLBlock {
                 }
             } else if (carbon < 0.043){
                 //pig iron
-                if(shape == shapeList[0]){
+                if(Arrays.equals(shape, shapeList[0])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.pig_iron_big_plate);
                     Minecraftology.ITEMS.pig_iron_big_plate.setMass(coolResultStack, mass);
-                } else if(shape == shapeList[1]){
+                } else if(Arrays.equals(shape, shapeList[1])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.pig_iron_ingot);
                     Minecraftology.ITEMS.pig_iron_ingot.setMass(coolResultStack, mass);
-                } else if(shape == shapeList[2]){
+                } else if(Arrays.equals(shape, shapeList[2])){
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.pig_iron_small_plate);
                     Minecraftology.ITEMS.pig_iron_small_plate.setMass(coolResultStack, mass);
                 } else {
