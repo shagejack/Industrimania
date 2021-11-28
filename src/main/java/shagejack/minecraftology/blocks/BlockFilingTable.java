@@ -14,9 +14,10 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.items.ItemHandlerHelper;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlockContainer;
+import shagejack.minecraftology.tile.TileEntityFilingTable;
 import shagejack.minecraftology.tile.TileEntityForge;
 
-public class BlockFilingTable extends MCLBlockContainer<TileEntityForge> {
+public class BlockFilingTable extends MCLBlockContainer<TileEntityFilingTable> {
 
     private static final ItemStack[] toolStackList = {
         new ItemStack(Minecraftology.ITEMS.flat_file)
@@ -35,12 +36,12 @@ public class BlockFilingTable extends MCLBlockContainer<TileEntityForge> {
         if (player instanceof FakePlayer || player == null)
             return;
 
-        TileEntityForge tileEntity = getTileEntity(worldIn, pos);
+        TileEntityFilingTable tileEntity = getTileEntity(worldIn, pos);
         if (tileEntity != null) {
             ItemStack held = player.getHeldItem(EnumHand.MAIN_HAND);
             if (isValidForgeTool(held, player)) {
                 if(!player.getCooldownTracker().hasCooldown(held.getItem()))
-                tileEntity.forge(player, held);
+                tileEntity.file(player, held);
             }
         }
     }
@@ -92,8 +93,8 @@ public class BlockFilingTable extends MCLBlockContainer<TileEntityForge> {
     }
 
     @Override
-    public Class<TileEntityForge> getTileEntityClass() {
-        return TileEntityForge.class;
+    public Class<TileEntityFilingTable> getTileEntityClass() {
+        return TileEntityFilingTable.class;
     }
 
 

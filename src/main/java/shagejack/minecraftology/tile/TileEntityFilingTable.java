@@ -23,7 +23,7 @@ import java.util.EnumSet;
 
 public class TileEntityFilingTable extends MCLTileEntityContainer {
 
-    public int forge_slot;
+    public int file_slot;
 
     public TileEntityFilingTable() {
         super();
@@ -31,7 +31,7 @@ public class TileEntityFilingTable extends MCLTileEntityContainer {
 
     @Override
     protected void RegisterSlots(Inventory inventory) {
-        forge_slot = inventory.AddSlot(new Slot(true));
+        file_slot = inventory.AddSlot(new Slot(true));
         super.RegisterSlots(inventory);
     }
 
@@ -113,7 +113,7 @@ public class TileEntityFilingTable extends MCLTileEntityContainer {
     protected void onMachineEvent(MachineEvent event) {
     }
 
-    public void forge(EntityPlayer player, ItemStack held){
+    public void file(EntityPlayer player, ItemStack held){
 
         if(held.getItemDamage() <= held.getMaxDamage()) {
 
