@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.apache.logging.log4j.Level;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.api.IMCLTileEntity;
@@ -63,7 +64,12 @@ public abstract class MCLTileEntityContainer extends MCLTileEntity implements IM
         components = new ArrayList<>();
         inventory = new TileEntityInventory(this, "");
         inventoryHandler = new InvWrapper(this);
+        RegisterSlots(inventory);
     }
+
+    protected void RegisterSlots(Inventory inventory) {
+    }
+
 
     @Override
     public boolean isEmpty() {

@@ -15,12 +15,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
+import shagejack.minecraftology.data.Inventory;
+import shagejack.minecraftology.data.TileEntityInventory;
+import shagejack.minecraftology.data.inventory.Slot;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
+import shagejack.minecraftology.util.MCLStringHelper;
 
 import java.util.EnumSet;
 
 public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IMCLTickable, ITickable {
+
+    public int fuel_slot;
+    public int input_slot;
 
     private double temperature;
     private double fuel;
@@ -30,6 +37,17 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
             "minecraft:coal",
             "minecraft:charcoal"
     };
+
+    public TileEntityForgeFurnace(){
+        inventory = new TileEntityInventory(this, MCLStringHelper.translateToLocal("container.forge_furnace"));
+    }
+
+    @Override
+    protected void RegisterSlots(Inventory inventory) {
+        fuel_slot =  inventory.AddSlot(new Slot(false));
+        input_slot = inventory.AddSlot(new Slot(true));
+        super.RegisterSlots(inventory);
+    }
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
@@ -124,7 +142,6 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
             consumeFuel();
             heatUp();
         }
-
     }
 
     public void consumeFuel(){
@@ -144,8 +161,6 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
             }
         }
     }
-
-
 
     public void heatUp(){
         ItemStack inputStack = inventory.getSlot(1).getItem();
