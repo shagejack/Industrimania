@@ -7,6 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -47,7 +49,7 @@ public class BlockWaterPool extends MCLBlock {
             ItemStack held = playerIn.getHeldItem(EnumHand.MAIN_HAND);
             if (isValidCoolItem(held, playerIn)) {
                 if (Minecraftology.ITEMS.iron_cluster.getTemp(held) > 873.15) {
-                    getCoolResult(held);
+                    getCoolResult(held, playerIn);
                     return true;
                 }
             }
@@ -67,14 +69,14 @@ public class BlockWaterPool extends MCLBlock {
         return false;
     }
 
-    public void getCoolResult(ItemStack itemStack){
+    public void getCoolResult(ItemStack itemStack, EntityPlayer player){
         ItemStack coolResultStack;
         double mass = Minecraftology.ITEMS.iron_cluster.getMass(itemStack);
         double carbon = Minecraftology.ITEMS.iron_cluster.getCarbon(itemStack);
         double impurities = Minecraftology.ITEMS.iron_cluster.getImpurities(itemStack);
         int[] shape = Minecraftology.ITEMS.iron_cluster.getShape(itemStack);
 
-        if(impurities < 0.01) {
+        if(impurities < 0.1) {
             if(carbon < 0.002) {
                 //wrought iron
                 if(shape == shapeList[0]){
@@ -128,6 +130,7 @@ public class BlockWaterPool extends MCLBlock {
 
         itemStack = coolResultStack;
         //TODO:Play Sound
+        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.fire.extinguish")), 1, 1);
     }
 
 

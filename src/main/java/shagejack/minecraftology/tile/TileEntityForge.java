@@ -127,13 +127,19 @@ public class TileEntityForge extends MCLTileEntityContainer {
                 if (heavyHit) {
 
                     mass -= 0.0005 * Math.random();
-                    carbon -= 0.001 * Math.random();
+                    carbon -= 0.0005 * Math.random();
                     impurities -= 0.005 * Math.random();
                     temp += 0.1 * Math.random();
 
-                    if(Math.random() < 0.2) {
-                        shape[0] += 1;
-                        shape[1] -= 1;
+                    if (mass <= 0) itemStack.setCount(0);
+                    if (carbon <= 0.0001) carbon = 0.0001;
+                    if (impurities < 0) impurities = 0;
+
+                    if(Math.random() < 0.1) {
+                        if(shape[0] > 1 && shape[1] > 1) {
+                            shape[0] += 1;
+                            shape[1] -= 1;
+                        }
                     }
 
                     player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 2);
@@ -147,13 +153,19 @@ public class TileEntityForge extends MCLTileEntityContainer {
                 } else {
 
                     mass -= 0.00001 * Math.random();
-                    carbon -= 0.001 * Math.random();
+                    carbon -= 0.0001 * Math.random();
                     impurities -= 0.002 * Math.random();
                     temp += 0.05 * Math.random();
 
+                    if (mass <= 0) itemStack.setCount(0);
+                    if (carbon <= 0.0001) carbon = 0.0001;
+                    if (impurities < 0) impurities = 0;
+
                     if(Math.random() < 0.1) {
-                        shape[1] += 1;
-                        shape[0] -= 1;
+                        if(shape[0] > 1 && shape[1] > 1) {
+                            shape[1] += 1;
+                            shape[0] -= 1;
+                        }
                     }
 
                     held.damageItem(1, player);
