@@ -37,9 +37,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Level;
 import shagejack.minecraftology.api.internal.ItemModelProvider;
+import shagejack.minecraftology.client.render.tileentity.TileEntityRendererFilingTable;
 import shagejack.minecraftology.client.render.tileentity.TileEntityRendererForge;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.init.ItemsMCL;
+import shagejack.minecraftology.tile.TileEntityFilingTable;
 import shagejack.minecraftology.tile.TileEntityForge;
 
 import javax.annotation.Nullable;
@@ -62,6 +64,7 @@ public class RenderHandler {
     }
 
     private TileEntityRendererForge tileEntityRendererForge;
+    private TileEntityRendererFilingTable tileEntityRendererFilingTable;
 
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
@@ -88,10 +91,12 @@ public class RenderHandler {
 
     public void createTileEntityRenderers() {
         tileEntityRendererForge = new TileEntityRendererForge();
+        tileEntityRendererFilingTable = new TileEntityRendererFilingTable();
     }
 
     public void registerTileEntitySpecialRenderers() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForge.class, tileEntityRendererForge);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFilingTable.class, tileEntityRendererFilingTable);
     }
 
 }

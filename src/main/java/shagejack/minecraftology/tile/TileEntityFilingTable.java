@@ -1,9 +1,7 @@
 package shagejack.minecraftology.tile;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,19 +16,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.data.Inventory;
 import shagejack.minecraftology.data.inventory.Slot;
-import shagejack.minecraftology.items.IronCluster;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
-import net.minecraft.util.SoundEvent;
-import shagejack.minecraftology.util.LogMCL;
 
 import java.util.EnumSet;
 
-public class TileEntityForge extends MCLTileEntityContainer {
+public class TileEntityFilingTable extends MCLTileEntityContainer {
 
     public int forge_slot;
 
-    public TileEntityForge() {
+    public TileEntityFilingTable() {
         super();
     }
 
@@ -125,32 +120,24 @@ public class TileEntityForge extends MCLTileEntityContainer {
 
             ItemStack itemStack = inventory.getSlot(0).getItem();
             if (itemStack.getItem() == Minecraftology.ITEMS.iron_cluster) {
-
-
                 boolean heavyHit = player.isSneaking();
                 double mass = Minecraftology.ITEMS.iron_cluster.getMass(itemStack);
-                double carbon = Minecraftology.ITEMS.iron_cluster.getCarbon(itemStack);
                 double impurities = Minecraftology.ITEMS.iron_cluster.getImpurities(itemStack);
-                double temp = Minecraftology.ITEMS.iron_cluster.getTemp(itemStack);
                 int[] shape = Minecraftology.ITEMS.iron_cluster.getShape(itemStack);
-
-                if (temp > 873.15){
 
                     if (heavyHit) {
 
-                        mass -= 0.1 * Math.random();
-                        carbon -= 0.001 * Math.random();
-                        impurities -= 0.25 * Math.random();
-                        temp += 0.1 * Math.random();
+                        if (Math.random() < 0.1) {
+                            if (shape[1] > 1) {
 
-                        if (mass <= 0) itemStack.setCount(0);
-                        if (carbon <= 0.001) carbon = 0.001;
-                        if (impurities < 0) impurities = 0;
+                                mass -= mass * shape[1] / ( shape[0] * shape[1] );
+                                impurities -= impurities * shape[1] / ( shape[0] * shape[1] );
 
-                        if (Math.random() < 0.4) {
-                            if (shape[0] > 1 && shape[1] > 1) {
-                                shape[0] += 1;
+                                if (mass <= 0) itemStack.setCount(0);
+                                if (impurities < 0) impurities = 0;
+
                                 shape[1] -= 1;
+
                             }
                         }
 
@@ -160,43 +147,37 @@ public class TileEntityForge extends MCLTileEntityContainer {
                             held.damageItem(1, player);
                         }
 
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.place")), 1, 1);
+                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.fall")), 1, 1);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 20);
 
                     } else {
 
-                        mass -= 0.05 * Math.random();
-                        carbon -= 0.001 * Math.random();
-                        impurities -= 0.1 * Math.random();
-                        temp += 0.05 * Math.random();
+                        if (Math.random() < 0.05) {
+                            if (shape[0] > 1) {
 
-                        if (mass <= 0) itemStack.setCount(0);
-                        if (carbon <= 0.0001) carbon = 0.0001;
-                        if (impurities < 0) impurities = 0;
+                                mass -= mass * shape[0] / ( shape[0] * shape[1] );
+                                impurities -= impurities * shape[0] / ( shape[0] * shape[1] );
 
-                        if (Math.random() < 0.2) {
-                            if (shape[0] > 1 && shape[1] > 1) {
-                                shape[1] += 1;
+                                if (mass <= 0) itemStack.setCount(0);
+                                if (impurities < 0) impurities = 0;
+
                                 shape[0] -= 1;
+
                             }
                         }
 
                         held.damageItem(1, player);
 
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 2);
+                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.step")), 1, 2);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 10);
 
                     }
 
                 Minecraftology.ITEMS.iron_cluster.setMass(itemStack, mass);
-                Minecraftology.ITEMS.iron_cluster.setCarbon(itemStack, carbon);
                 Minecraftology.ITEMS.iron_cluster.setImpurities(itemStack, impurities);
-                Minecraftology.ITEMS.iron_cluster.setTemp(itemStack, temp);
                 Minecraftology.ITEMS.iron_cluster.setShape(itemStack, shape);
-
-            }
 
             }
         }

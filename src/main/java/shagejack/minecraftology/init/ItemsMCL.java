@@ -20,6 +20,7 @@ public class ItemsMCL {
     public Multimeter multimeter;
     public ForgeHammer forge_hammer;
     public Saw saw;
+    public FlatFile flat_file;
 
     //  Materials
     public MCLBaseItem slag;
@@ -50,6 +51,7 @@ public class ItemsMCL {
         multimeter = register(new Multimeter("omni_multimeter"));
         forge_hammer = register(new ForgeHammer("forge_hammer"));
         saw = register(new Saw("saw"));
+        flat_file = register(new FlatFile("flat_file"));
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));
