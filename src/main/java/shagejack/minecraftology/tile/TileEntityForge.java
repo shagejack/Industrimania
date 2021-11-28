@@ -1,20 +1,24 @@
 package shagejack.minecraftology.tile;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
+import shagejack.minecraftology.items.IronCluster;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
+import net.minecraft.util.SoundEvent;
 
 import java.util.EnumSet;
 
@@ -102,10 +106,24 @@ public class TileEntityForge extends MCLTileEntityContainer {
 
     public void forge(EntityPlayer player, ItemStack held){
         if(held.getItemDamage() > 0){
-            if(inventory.getSlot(0).getItem().getItem() == Minecraftology.ITEMS.iron_cluster) {
+            ItemStack itemStack = inventory.getSlot(0).getItem();
+            if(itemStack.getItem() == Minecraftology.ITEMS.iron_cluster) {
+                boolean heavyHit = player.isSneaking();
+                double mass = Minecraftology.ITEMS.iron_cluster.getMass(itemStack);
+                double carbon = Minecraftology.ITEMS.iron_cluster.getCarbon(itemStack);
+                double impurities = Minecraftology.ITEMS.iron_cluster.getImpurities(itemStack);
+                double temp = Minecraftology.ITEMS.iron_cluster.getTemp(itemStack);
+                int[] shape = Minecraftology.ITEMS.iron_cluster.getShape(itemStack);
+
+                if(heavyHit){
+
+                }
+
                 held.damageItem(1, player);
             }
         }
+        //TODO:Play Sound
+        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.place")), 1, 1);
     }
 
 

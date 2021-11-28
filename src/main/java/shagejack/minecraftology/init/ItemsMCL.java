@@ -21,8 +21,18 @@ public class ItemsMCL {
 
     //  Materials
     public MCLBaseItem slag;
+    public MCLBaseItem iron_rubbish;
     public IronCluster iron_cluster;
     public ForgeHammer forge_hammer;
+    public MaterialWithMass iron_ingot;
+    public MaterialWithMass iron_small_plate;
+    public MaterialWithMass iron_big_plate;
+    public MaterialWithMass wrought_iron_ingot;
+    public MaterialWithMass wrought_iron_small_plate;
+    public MaterialWithMass wrought_iron_big_plate;
+    public MaterialWithMass pig_iron_ingot;
+    public MaterialWithMass pig_iron_small_plate;
+    public MaterialWithMass pig_iron_big_plate;
 
     private int registeredCount = 0;
 
@@ -40,8 +50,18 @@ public class ItemsMCL {
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));
+        iron_rubbish = register(new MCLBaseItem("iron_rubbish"));
         iron_cluster = register(new IronCluster("iron_cluster"));
         forge_hammer = register(new ForgeHammer("forge_hammer"));
+        iron_ingot = register(new MaterialWithMass("iron_ingot"));
+        iron_big_plate = register(new MaterialWithMass("iron_big_plate"));
+        iron_small_plate = register(new MaterialWithMass("iron_small_plate"));
+        wrought_iron_ingot = register(new MaterialWithMass("wrought_iron_ingot"));
+        wrought_iron_big_plate = register(new MaterialWithMass("wrought_iron_big_plate"));
+        wrought_iron_small_plate = register(new MaterialWithMass("wrought_iron_small_plate"));
+        pig_iron_ingot = register(new MaterialWithMass("pig_iron_ingot"));
+        pig_iron_big_plate = register(new MaterialWithMass("pig_iron_big_plate"));
+        pig_iron_small_plate = register(new MaterialWithMass("pig_iron_small_plate"));
 
         LogMCL.info("Finished registering items");
         LogMCL.info("Registered %d items", registeredCount);

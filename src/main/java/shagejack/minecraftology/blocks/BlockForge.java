@@ -43,6 +43,7 @@ public class BlockForge extends MCLBlockContainer<TileEntityForge> {
             }
         }
     }
+
     public static boolean isValidForgeTool(ItemStack stack, EntityPlayer player) {
         return !stack.isEmpty() && (isForgeToolWhitelisted(stack));
     }

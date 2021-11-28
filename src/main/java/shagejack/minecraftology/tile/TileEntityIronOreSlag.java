@@ -150,7 +150,7 @@ public class TileEntityIronOreSlag extends MCLTileEntity implements IMCLTickable
             int[] shape = {9 + world.rand.nextInt(2), 9 + world.rand.nextInt(2)};
             ironStack = new ItemStack(Minecraftology.ITEMS.iron_cluster);
             Minecraftology.ITEMS.iron_cluster.setMass(ironStack, perMass * count);
-            Minecraftology.ITEMS.iron_cluster.setCarbon(ironStack, 0.02 + fortune * 0.01);
+            Minecraftology.ITEMS.iron_cluster.setCarbon(ironStack, 0.02 + fortune * 0.015);
             Minecraftology.ITEMS.iron_cluster.setTemp(ironStack, 298.15);
             Minecraftology.ITEMS.iron_cluster.setImpurities(ironStack, 60 * (0.1 + 0.3 * (1 - getPurity())) * mol_Impurities / (mol_Impurities + perMass * count));
             Minecraftology.ITEMS.iron_cluster.setShape(ironStack, shape);

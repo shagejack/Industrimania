@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube",
+    "textures": {
+      "down": "minecraftology:blocks/mechanic.water_pool_top",
+      "up": "minecraftology:blocks/mechanic.water_pool_side",
+      "north": "minecraftology:blocks/mechanic.water_pool_side",
+      "south": "minecraftology:blocks/mechanic.water_pool_side",
+      "west": "minecraftology:blocks/mechanic.water_pool_side",
+      "east": "minecraftology:blocks/mechanic.water_pool_side"
+    }
+  },
+  "variants": {
+    "normal": {"model": "cube"},
+    "inventory": {
+      "model": "cube",
+      "transform": "forge:default-block"
+    }
+  }
+}

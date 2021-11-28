@@ -39,6 +39,7 @@ public class BlocksMCL {
         public BlockIronOreSlag mechanic_iron_ore_slag;
         public BlockForge mechanic_forge;
         public BlockForgeFurnace mechanic_forge_furnace;
+        public BlockWaterPool mechanic_water_pool;
 
         private int registeredCount = 0;
 
@@ -75,6 +76,7 @@ public class BlocksMCL {
             mechanic_iron_ore_slag = register(new BlockIronOreSlag(Material.SAND, "mechanic.iron_ore_slag"));
             mechanic_forge = register(new BlockForge(Material.ANVIL, "mechanic.forge"));
             mechanic_forge_furnace = register(new BlockForgeFurnace(Material.ROCK, "mechanic.forge_furnace"));
+            mechanic_water_pool = register(new BlockWaterPool(Material.ROCK, "mechanic.water_pool"));
 
             LogMCL.info("Finished registering blocks");
             LogMCL.info("Registered %d blocks", registeredCount);

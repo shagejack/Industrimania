@@ -2,8 +2,21 @@
 # Items
 
 item.minecraftology.omni_multimeter.name=调试用万用表
+
 item.minecraftology.slag.name=炉渣
 item.minecraftology.iron_cluster.name=海绵铁簇
+item.minecraftology.iron_rubbish.name=含铁废料
+item.minecraftology.iron_ingot.name=低密度钢锭
+item.minecraftology.iron_small_plate.name=低密度钢大板
+item.minecraftology.iron_big_plate.name=低密度钢板
+
+item.minecraftology.wrought_iron_ingot.name=熟铁锭
+item.minecraftology.wrought_iron_small_plate.name=熟铁大板
+item.minecraftology.wrought_iron_big_plate.name=熟铁板
+
+item.minecraftology.pig_iron_ingot.name=生铁锭
+item.minecraftology.pig_iron_small_plate.name=生铁大板
+item.minecraftology.pig_iron_big_plate.name=生铁板
 
 ##########################################################################################################
 # Blocks
@@ -22,6 +35,7 @@ tile.mechanic.blower.name=鼓风箱
 tile.mechanic.iron_ore_slag.name=铁矿渣结块
 tile.mechanic.forge.name=锻造台
 tile.mechanic.forge_furnace.name=锻炉
+tile.mechanic.water_pool.name=水池
 
 ##########################################################################################################
 # Creative Tabs
