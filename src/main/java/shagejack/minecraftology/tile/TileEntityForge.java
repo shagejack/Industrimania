@@ -128,7 +128,7 @@ public class TileEntityForge extends MCLTileEntityContainer {
 
                     mass -= 0.0005 * Math.random();
                     carbon -= 0.001 * Math.random();
-                    impurities -= 0.05 * Math.random();
+                    impurities -= 0.005 * Math.random();
                     temp += 0.1 * Math.random();
 
                     if(Math.random() < 0.2) {
@@ -148,7 +148,7 @@ public class TileEntityForge extends MCLTileEntityContainer {
 
                     mass -= 0.00001 * Math.random();
                     carbon -= 0.001 * Math.random();
-                    impurities -= 0.02 * Math.random();
+                    impurities -= 0.002 * Math.random();
                     temp += 0.05 * Math.random();
 
                     if(Math.random() < 0.1) {
