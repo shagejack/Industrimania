@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
+import shagejack.minecraftology.blocks.includes.BlockStateHelper;
 import shagejack.minecraftology.data.Inventory;
 import shagejack.minecraftology.data.TileEntityInventory;
 import shagejack.minecraftology.data.inventory.Slot;
@@ -148,6 +149,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
     public void consumeFuel(){
         ItemStack fuelStack = inventory.getSlot(0).getItem();
         if (fuel <= 0) {
+            BlockStateHelper.setState(false, world, pos);
             for (String item : fuelItemList) {
                 if (fuelStack.getItem().getRegistryName().toString().equalsIgnoreCase(item)) {
                     fuelStack.setCount(fuelStack.getCount() - 1);
@@ -156,6 +158,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
             }
             furnaceTemp -= 0.25;
         } else {
+            BlockStateHelper.setState(true, world, pos);
             fuel -= 1;
             if(furnaceTemp < 1173.15){
                 furnaceTemp += 0.25;
@@ -165,7 +168,6 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
 
     public void heatUp(){
         ItemStack inputStack = inventory.getSlot(1).getItem();
-        if (fuel > 0) {
             if (inputStack.getItem() == Minecraftology.ITEMS.iron_cluster) {
                 double temp = Minecraftology.ITEMS.iron_cluster.getTemp(inputStack);
                 if (temp < furnaceTemp) {
@@ -173,7 +175,6 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
                 }
                 Minecraftology.ITEMS.iron_cluster.setTemp(inputStack, temp);
             }
-        }
     }
 
 

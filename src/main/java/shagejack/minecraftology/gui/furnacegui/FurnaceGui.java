@@ -25,6 +25,5 @@ public class FurnaceGui extends Container {
     public boolean canInteractWith(EntityPlayer player) {
         return false;
         //return new ItemStack().isItemEqual(playerIn.getCurrentEquippedItem());
-        //可用这种办法检测手持
     }
 }

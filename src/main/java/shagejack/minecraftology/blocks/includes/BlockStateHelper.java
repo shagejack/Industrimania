@@ -6,21 +6,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import shagejack.minecraftology.Minecraftology;
 
-public class BlockState {
+public class BlockStateHelper {
 
     public static void setState(boolean active, World worldIn, BlockPos pos){
         IBlockState iBlockState = worldIn.getBlockState(pos);
         TileEntity tileEntity = worldIn.getTileEntity(pos);
 
-        //把这里的Facing改为响应面的property
         if(active)
         {
-            //
+            worldIn.setBlockState(pos, Minecraftology.BLOCKS.mechanic_forge_furnace.getDefaultState().withProperty(MCLBlock.PROPERTY_DIRECTION,iBlockState.getValue(MCLBlock.PROPERTY_DIRECTION)),3);
         }
         else
         {
-            //
+            worldIn.setBlockState(pos, Minecraftology.BLOCKS.mechanic_forge_furnace_lit.getDefaultState().withProperty(MCLBlock.PROPERTY_DIRECTION,iBlockState.getValue(MCLBlock.PROPERTY_DIRECTION)),3);
         }
         if(tileEntity != null) {
             tileEntity.validate();
