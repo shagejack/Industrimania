@@ -3,7 +3,6 @@ package shagejack.minecraftology.tile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -46,7 +45,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
 
     @Override
     protected void RegisterSlots(Inventory inventory) {
-        fuel_slot =  inventory.AddSlot(new Slot(false));
+        fuel_slot = inventory.AddSlot(new Slot(false));
         input_slot = inventory.AddSlot(new Slot(true));
         super.RegisterSlots(inventory);
     }
@@ -147,7 +146,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
     }
 
     public void consumeFuel(){
-        ItemStack fuelStack = inventory.getSlot(0).getItem();
+        ItemStack fuelStack = inventory.getSlot(fuel_slot).getItem();
         if (fuel <= 0) {
             BlockStateHelper.setState(false, world, pos);
             for (String item : fuelItemList) {
@@ -167,7 +166,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
     }
 
     public void heatUp(){
-        ItemStack inputStack = inventory.getSlot(1).getItem();
+        ItemStack inputStack = inventory.getSlot(input_slot).getItem();
             if (inputStack.getItem() == Minecraftology.ITEMS.iron_cluster) {
                 double temp = Minecraftology.ITEMS.iron_cluster.getTemp(inputStack);
                 if (temp < furnaceTemp) {

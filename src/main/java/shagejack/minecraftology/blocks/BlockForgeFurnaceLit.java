@@ -18,10 +18,6 @@ import shagejack.minecraftology.util.MachineHelper;
 
 public class BlockForgeFurnaceLit extends BlockForgeFurnace {
 
-    private static final ItemStack[] toolStackList = {
-        new ItemStack(Minecraftology.ITEMS.iron_cluster)
-    };
-
     public BlockForgeFurnaceLit(Material material, String name) {
         super(material, name);
         setSoundType(SoundType.STONE);

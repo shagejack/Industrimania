@@ -7,6 +7,7 @@ import net.minecraft.util.EnumFacing;
 import javax.annotation.Nullable;
 
 public class EmptyStorage<T> implements Capability.IStorage<T> {
+
     private static final EmptyStorage<?> _instance = new EmptyStorage<>();
     public static <T> EmptyStorage<T> getInstance() {
         return (EmptyStorage<T>) _instance;
