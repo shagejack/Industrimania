@@ -154,13 +154,15 @@ public class TileEntityForge extends MCLTileEntityContainer {
                             }
                         }
 
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 2);
-
                         if (held.getItemDamage() > 1) {
                             held.damageItem(2, player);
                         } else {
                             held.damageItem(1, player);
                         }
+
+                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 2);
+
+                        player.getCooldownTracker().setCooldown(held.getItem(), 20);
 
                     } else {
 
@@ -183,6 +185,8 @@ public class TileEntityForge extends MCLTileEntityContainer {
                         held.damageItem(1, player);
 
                         player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.place")), 1, 1);
+
+                        player.getCooldownTracker().setCooldown(held.getItem(), 10);
 
                     }
 
