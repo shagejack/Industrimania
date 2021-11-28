@@ -154,8 +154,11 @@ public class TileEntitySawTable extends MCLTileEntityContainer {
                         case "minecraftology:iron_ingot":
                             newStack = new ItemStack(Minecraftology.ITEMS.cut_iron_ingot, amount);
                             break;
-                        case "minecraftology:pig_iron_ingot":newStack = new ItemStack(Minecraftology.ITEMS.cut_pig_iron_ingot, amount);
+                        case "minecraftology:pig_iron_ingot":
+                            newStack = new ItemStack(Minecraftology.ITEMS.cut_pig_iron_ingot, amount);
                             break;
+                        case "minecraftology:iron_rubbish":
+                            newStack = new ItemStack(Minecraftology.ITEMS.cut_iron_rubbish, amount);
                         default:
                             newStack = itemStack.copy();
                             flag = false;
