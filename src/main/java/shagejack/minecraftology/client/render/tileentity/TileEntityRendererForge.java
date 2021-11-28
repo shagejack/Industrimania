@@ -7,29 +7,18 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import shagejack.minecraftology.tile.TileEntityForge;
 
-public class TileEntityRendererForge extends TileEntitySpecialRenderer<TileEntityForge> {
+public class TileEntityRendererForge extends MCLTileEntityRendererBase<TileEntityForge> {
     private EntityItem item;
 
     @Override
-    public void render(TileEntityForge tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        if (!tileEntity.shouldRender())
-            return;
+    public void render(TileEntityForge te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, z);
+        if (!te.getStackInSlot(0).isEmpty())
+            renderStillItem(te, te.getStackInSlot(0), 0.5F, 1.15F, 0.5F, 2F);
+        GlStateManager.popMatrix();
 
-        if (item == null) {
-            item = new EntityItem(tileEntity.getWorld());
-        }
-
-        ItemStack newStack = tileEntity.getStackInSlot(0);
-
-        if (!newStack.isEmpty()) {
-            item.setItem(newStack);
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(-0.23, 0.69, 0);
-            GlStateManager.rotate(90, 0, 1, 0);
-            GlStateManager.rotate(90, 1, 0, 0);
-            item.hoverStart = 0f;
-            Minecraft.getMinecraft().getRenderManager().renderEntity(item, 0, 0, 0, 0, 0, true);
-            GlStateManager.popMatrix();
-        }
+        super.render(te, x, y + 1, z, partialTicks, destroyStage, alpha);
     }
+
 }
