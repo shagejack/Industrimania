@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class IronCluster extends MCLBaseItem {
+
     public IronCluster(String name) {
         super(name);
         setMaxStackSize(1);
@@ -36,13 +37,15 @@ public class IronCluster extends MCLBaseItem {
         infos.add("\u6e29\u5ea6(Temp): " + MCLStringHelper.formatNumber(getTemp(itemstack))  + "K");
         infos.add("===== \u5f62\u72b6 Shape =====");
         int[] shape = getShape(itemstack);
-        if (shape[0] > 0 && shape[1] > 0) {
-            for (int i = 0; i < shape[1]; i++) {
-                String temp = "";
-                for (int j = 0; j < shape[0]; j++) {
-                    temp += "\u2b1b";
+        if(shape != null) {
+            if (shape[0] > 0 && shape[1] > 0) {
+                for (int i = 0; i < shape[1]; i++) {
+                    String temp = "";
+                    for (int j = 0; j < shape[0]; j++) {
+                        temp += "\u2b1b";
+                    }
+                    infos.add(temp);
                 }
-                infos.add(temp);
             }
         }
 
