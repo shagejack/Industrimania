@@ -15,6 +15,10 @@ public class TileEntityRendererForge extends TileEntitySpecialRenderer<TileEntit
         if (!tileEntity.shouldRender())
             return;
 
+        if (item == null) {
+            item = new EntityItem(tileEntity.getWorld());
+        }
+
         ItemStack newStack = tileEntity.getStackInSlot(0);
 
         if (!newStack.isEmpty()) {
