@@ -21,7 +21,8 @@ public class ItemsMCL {
 
     //  Materials
     public MCLBaseItem slag;
-    public ItemIronCluster iron_cluster;
+    public IronCluster iron_cluster;
+    public ForgeHammer forge_hammer;
 
     private int registeredCount = 0;
 
@@ -39,7 +40,8 @@ public class ItemsMCL {
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));
-        iron_cluster = register(new ItemIronCluster("iron_cluster"));
+        iron_cluster = register(new IronCluster("iron_cluster"));
+        forge_hammer = register(new ForgeHammer("forge_hammer"));
 
         LogMCL.info("Finished registering items");
         LogMCL.info("Registered %d items", registeredCount);

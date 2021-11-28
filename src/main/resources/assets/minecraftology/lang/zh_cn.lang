@@ -20,6 +20,8 @@ tile.mechanic.clay_furnace_bottom.name=黏土炼铁炉底
 tile.mechanic.bronze_tube.name=炼铁炉通气管
 tile.mechanic.blower.name=鼓风箱
 tile.mechanic.iron_ore_slag.name=铁矿渣结块
+tile.mechanic.forge.name=锻造台
+tile.mechanic.forge_furnace.name=锻炉
 
 ##########################################################################################################
 # Creative Tabs

@@ -19,6 +19,7 @@ import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.Reference;
 import shagejack.minecraftology.client.RenderHandler;
 import shagejack.minecraftology.client.model.MCLModelLoader;
+import shagejack.minecraftology.client.render.HoloIcons;
 import shagejack.minecraftology.handler.KeyHandler;
 import shagejack.minecraftology.handler.MouseHandler;
 import shagejack.minecraftology.handler.thread.RegistryToast;
@@ -28,7 +29,7 @@ public class ClientProxy extends CommonProxy {
     public static RenderHandler renderHandler;
     public static KeyHandler keyHandler;
     public static MouseHandler mouseHandler;
-    //public static HoloIcons holoIcons;
+    public static HoloIcons holoIcons;
     public static FontRenderer moFontRender;
     private MCLModelLoader modelLoader;
 

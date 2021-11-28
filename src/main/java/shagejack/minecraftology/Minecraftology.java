@@ -42,6 +42,7 @@ public class Minecraftology {
     static {
         NETWORK = new PacketPipeline();
         TICK_HANDLER = new TickHandler();
+
     }
 
     /**

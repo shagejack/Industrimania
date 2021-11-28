@@ -514,27 +514,11 @@ public abstract class MCLTileEntityMachine extends MCLTileEntity implements IMCL
         }
     }
 
-   /* @Override
+    //TODO: Owner Check
+    @Override
     public boolean isUsableByPlayer(EntityPlayer player) {
-        if (hasOwner()) {
-            if (player.getGameProfile().getId().equals(owner) || player.capabilities.isCreativeMode) {
-                return true;
-            } else {
-                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-                    ItemStack itemStack = player.inventory.getStackInSlot(i);
-                    if (!itemStack.isEmpty() && itemStack.getItem() instanceof SecurityProtocol) {
-                        if (itemStack.hasTagCompound() && itemStack.getItemDamage() == 2 && UUID.fromString(itemStack.getTagCompound().getString("Owner")).equals(owner)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        } else {
-            return true;
-        }
-
-        return false;
-    } */
+        return true;
+    }
 
     @Override
     public void openInventory(EntityPlayer player) {

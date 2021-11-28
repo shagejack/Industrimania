@@ -33,7 +33,7 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'stable', version: '39-1.12'
 
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/mcl_at.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
