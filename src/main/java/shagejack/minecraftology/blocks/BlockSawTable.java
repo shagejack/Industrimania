@@ -46,10 +46,11 @@ public class BlockSawTable extends MCLBlockContainer<TileEntitySawTable> {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
             ItemStack stack = playerIn.getHeldItem(hand);
+            ItemStack held = playerIn.getHeldItem(EnumHand.MAIN_HAND);
             TileEntitySawTable tileEntity = (TileEntitySawTable) worldIn.getTileEntity(pos);
             if (tileEntity == null) return false;
 
-            if (!playerIn.isSneaking()) {
+            if (!isValidSawTool(held, playerIn)) {
                 if (!stack.isEmpty() && tileEntity.isItemValidForSlot(0, stack)) {
                     ItemStack itemStack = tileEntity.getStackInSlot(0);
                     boolean flag = false;
@@ -78,11 +79,8 @@ public class BlockSawTable extends MCLBlockContainer<TileEntitySawTable> {
                 if (playerIn instanceof FakePlayer || playerIn == null)
                     return false;
 
-                    ItemStack held = playerIn.getHeldItem(EnumHand.MAIN_HAND);
-                    if (isValidSawTool(held, playerIn)) {
-                        if(!playerIn.getCooldownTracker().hasCooldown(held.getItem()))
-                            tileEntity.saw(playerIn, held);
-                    }
+                if(!playerIn.getCooldownTracker().hasCooldown(held.getItem()))
+                    tileEntity.saw(playerIn, held);
             }
 
             tileEntity.markDirty();
