@@ -22,6 +22,7 @@ import shagejack.minecraftology.items.IronCluster;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
 import net.minecraft.util.SoundEvent;
+import shagejack.minecraftology.util.LogMCL;
 
 import java.util.EnumSet;
 
@@ -118,9 +119,20 @@ public class TileEntityForge extends MCLTileEntityContainer {
     }
 
     public void forge(EntityPlayer player, ItemStack held){
-        if(held.getItemDamage() > 0) {
+        //Debug
+        LogMCL.debug("Now Forging 0!");
+
+        if(held.getItemDamage() <= held.getMaxDamage()) {
+
+            //Debug
+            LogMCL.debug("Now Forging 1!");
+
             ItemStack itemStack = inventory.getSlot(0).getItem();
             if (itemStack.getItem() == Minecraftology.ITEMS.iron_cluster) {
+
+                //Debug
+                LogMCL.debug("Now Forging 2!");
+
                 boolean heavyHit = player.isSneaking();
                 double mass = Minecraftology.ITEMS.iron_cluster.getMass(itemStack);
                 double carbon = Minecraftology.ITEMS.iron_cluster.getCarbon(itemStack);
