@@ -49,7 +49,7 @@ public class BlockSawTable extends MCLBlockContainer<TileEntitySawTable> {
             TileEntitySawTable tileEntity = (TileEntitySawTable) worldIn.getTileEntity(pos);
             if (tileEntity == null) return false;
 
-            if (playerIn.isSneaking()) {
+            if (!playerIn.isSneaking()) {
                 if (!stack.isEmpty() && tileEntity.isItemValidForSlot(0, stack)) {
                     ItemStack itemStack = tileEntity.getStackInSlot(0);
                     boolean flag = false;
