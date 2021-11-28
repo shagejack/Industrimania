@@ -44,7 +44,7 @@ public class BlockForge extends MCLBlockContainer<TileEntityForge> {
         if (tileEntity != null) {
             ItemStack held = player.getHeldItem(EnumHand.MAIN_HAND);
             if (isValidForgeTool(held, player)) {
-                if(player.getCooldownTracker().hasCooldown(held.getItem()))
+                if(!player.getCooldownTracker().hasCooldown(held.getItem()))
                 tileEntity.forge(player, held);
             }
         }
