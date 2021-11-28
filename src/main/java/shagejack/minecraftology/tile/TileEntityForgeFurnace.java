@@ -7,10 +7,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.machines.MachineNBTCategory;
@@ -18,7 +20,10 @@ import shagejack.minecraftology.machines.events.MachineEvent;
 
 import java.util.EnumSet;
 
-public class TileEntityForgeFurnace extends MCLTileEntityContainer {
+public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IMCLTickable, ITickable {
+
+    private double temperature;
+    private double fuel;
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
@@ -83,14 +88,16 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer {
     @Override
     public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         if (categories.contains(MachineNBTCategory.DATA)) {
-
+            nbt.setDouble("temperature", temperature);
+            nbt.setDouble("fuel", fuel);
         }
     }
 
     @Override
     public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         if (categories.contains(MachineNBTCategory.DATA)) {
-
+            temperature = nbt.getDouble("temperature");
+            fuel = nbt.getDouble("fuel");
         }
     }
 
@@ -98,13 +105,23 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer {
     protected void onMachineEvent(MachineEvent event) {
     }
 
+    @Override
+    public void onServerTick(TickEvent.Phase phase, World world) {
+        if (world == null) {
+            return;
+        }
+
+        if (phase.equals(TickEvent.Phase.END)) {
+            heatUp();
+        }
+
+    }
 
 
-    public void forge(EntityPlayer player, ItemStack held){
-        if(held.getItemDamage() > 0){
-            if(inventory.getSlot(0).getItem().getItem() == Minecraftology.ITEMS.iron_cluster) {
-                held.damageItem(1, player);
-            }
+
+    public void heatUp(){
+        if(inventory.getSlot(1).getItem().getItem() == Minecraftology.ITEMS.iron_cluster) {
+
         }
     }
 
