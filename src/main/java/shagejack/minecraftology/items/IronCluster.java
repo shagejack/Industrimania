@@ -115,6 +115,9 @@ public class IronCluster extends MCLBaseItem {
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int slot, boolean isHolding) {
         if (getTemp(itemStack) > 298.15) {
             setTemp(itemStack, getTemp(itemStack) - 0.01);
+            if(getTemp(itemStack) > 353.15){
+                entity.setFire(20);
+            }
         }
     }
 
