@@ -10,7 +10,7 @@ public class ForgeHammer extends MCLBaseItem {
     public ForgeHammer(String name) {
         super(name);
         setMaxStackSize(1);
-        this.setMaxDamage(256);
+        this.setMaxDamage(1024);
     }
 
 }

@@ -8,13 +8,14 @@ item.minecraftology.saw.name=青铜锯
 item.minecraftology.slag.name=炉渣
 item.minecraftology.iron_cluster.name=海绵铁簇
 item.minecraftology.iron_rubbish.name=含铁废料
+
 item.minecraftology.iron_ingot.name=低密度钢锭
 item.minecraftology.iron_small_plate.name=低密度钢大板
 item.minecraftology.iron_big_plate.name=低密度钢板
 
-item.minecraftology.wrought_iron_ingot.name=熟铁锭
-item.minecraftology.wrought_iron_small_plate.name=熟铁大板
-item.minecraftology.wrought_iron_big_plate.name=熟铁板
+item.minecraftology.wrought_iron_ingot.name=铸铁锭
+item.minecraftology.wrought_iron_small_plate.name=铸铁大板
+item.minecraftology.wrought_iron_big_plate.name=铸铁板
 
 item.minecraftology.pig_iron_ingot.name=生铁锭
 item.minecraftology.pig_iron_small_plate.name=生铁大板
