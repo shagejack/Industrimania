@@ -39,18 +39,6 @@ public class BlockForgeFurnace extends MCLBlockMachine<TileEntityForgeFurnace> {
         return MachineHelper.canOpenMachine(worldIn, pos, playerIn, hasGui, getUnlocalizedMessage(0));
     }
 
-    public static boolean isValidForgeItem(ItemStack stack, EntityPlayer player) {
-        return !stack.isEmpty() && (isForgeItemWhitelisted(stack));
-    }
-
-    private static boolean isForgeItemWhitelisted(ItemStack stack) {
-        for (ItemStack itemStack : toolStackList) {
-            if (ItemStack.areItemsEqualIgnoreDurability(itemStack, stack))
-                return true;
-        }
-        return false;
-    }
-
 
     @Override
     public Class<TileEntityForgeFurnace> getTileEntityClass() {
