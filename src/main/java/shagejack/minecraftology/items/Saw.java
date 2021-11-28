@@ -7,7 +7,7 @@ public class Saw extends MCLBaseItem {
     public Saw(String name) {
         super(name);
         setMaxStackSize(1);
-        this.setMaxDamage(256);
+        this.setMaxDamage(1024);
     }
 
 }

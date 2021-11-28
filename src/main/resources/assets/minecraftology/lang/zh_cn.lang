@@ -8,6 +8,13 @@ item.minecraftology.flat_file.name=平锉
 
 item.minecraftology.slag.name=炉渣
 item.minecraftology.iron_cluster.name=海绵铁簇
+
+item.minecraftology.cut_iron_rubbish.name=铁碎屑
+
+item.minecraftology.cut_wrought_iron_ingot.name=切割铸铁锭
+item.minecraftology.cut_iron_ingot.name=切割低密度钢锭
+item.minecraftology.cut_pig_iron_ingot.name=切割生铁锭
+
 item.minecraftology.iron_rubbish.name=含铁废料
 
 item.minecraftology.iron_ingot.name=低密度钢锭
@@ -41,6 +48,7 @@ tile.mechanic.forge.name=锻造台
 tile.mechanic.forge_furnace.name=锻炉
 tile.mechanic.water_pool.name=水池
 tile.mechanic.filing_table.name=锉削台
+tile.mechanic.saw_table.name=切割台
 
 ##########################################################################################################
 # Creative Tabs

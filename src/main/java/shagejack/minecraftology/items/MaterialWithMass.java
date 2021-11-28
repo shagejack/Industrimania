@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import shagejack.minecraftology.items.includes.MCLBaseItem;
+import shagejack.minecraftology.util.MCLStringHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,7 +27,7 @@ public class MaterialWithMass extends MCLBaseItem {
     @SideOnly(Side.CLIENT)
     public void addDetails(ItemStack itemstack, EntityPlayer player, @Nullable World worldIn, List<String> infos) {
         super.addDetails(itemstack, player, worldIn, infos);
-        infos.add("\u8d28\u91cf(Mass): " + getMass(itemstack)  + "g");
+        infos.add("\u8d28\u91cf(Mass): " + MCLStringHelper.formatNumber(getMass(itemstack)) + "g");
     }
 
     public double getMass(ItemStack item) {
@@ -39,6 +40,18 @@ public class MaterialWithMass extends MCLBaseItem {
     public void setMass(ItemStack itemStack, double mass) {
         TagCompountCheck(itemStack);
         itemStack.getTagCompound().setDouble("mass", mass);
+    }
+
+    public int getCut(ItemStack item) {
+        if (item.hasTagCompound()) {
+            return item.getTagCompound().getInteger("cut");
+        }
+        return 0;
+    }
+
+    public void setCut(ItemStack itemStack, int cut) {
+        TagCompountCheck(itemStack);
+        itemStack.getTagCompound().setInteger("cut", cut);
     }
 
 }

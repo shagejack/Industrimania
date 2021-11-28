@@ -30,10 +30,10 @@ public class IronCluster extends MCLBaseItem {
     @SideOnly(Side.CLIENT)
     public void addDetails(ItemStack itemstack, EntityPlayer player, @Nullable World worldIn, List<String> infos) {
         super.addDetails(itemstack, player, worldIn, infos);
-        infos.add("\u8d28\u91cf(Mass): " + getMass(itemstack)  + "g");
-        infos.add("\u6742\u8d28(Impurities): " + getImpurities(itemstack)  + "g");
-        infos.add("\u78b3\u542b\u91cf(Carbon): " + getCarbon(itemstack) * 100  + "%");
-        infos.add("\u6e29\u5ea6(Temp): " + getTemp(itemstack)  + "K");
+        infos.add("\u8d28\u91cf(Mass): " + MCLStringHelper.formatNumber(getMass(itemstack))  + "g");
+        infos.add("\u6742\u8d28(Impurities): " + MCLStringHelper.formatNumber(getImpurities(itemstack))  + "g");
+        infos.add("\u78b3\u542b\u91cf(Carbon): " + MCLStringHelper.formatNumber(getCarbon(itemstack) * 100)  + "%");
+        infos.add("\u6e29\u5ea6(Temp): " + MCLStringHelper.formatNumber(getTemp(itemstack))  + "K");
         infos.add("===== \u5f62\u72b6 Shape =====");
         int[] shape = getShape(itemstack);
         if (shape[0] > 0 && shape[1] > 0) {

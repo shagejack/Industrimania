@@ -101,6 +101,7 @@ public class BlockWaterPool extends MCLBlock {
                     Minecraftology.ITEMS.wrought_iron_small_plate.setMass(coolResultStack, mass);
                 } else {
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_rubbish);
+                    Minecraftology.ITEMS.iron_rubbish.setMass(coolResultStack, mass);
                 }
             } else if (carbon < 0.02){
                 //iron
@@ -115,6 +116,7 @@ public class BlockWaterPool extends MCLBlock {
                     Minecraftology.ITEMS.iron_small_plate.setMass(coolResultStack, mass);
                 } else {
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_rubbish);
+                    Minecraftology.ITEMS.iron_rubbish.setMass(coolResultStack, mass);
                 }
             } else if (carbon < 0.043){
                 //pig iron
@@ -129,14 +131,17 @@ public class BlockWaterPool extends MCLBlock {
                     Minecraftology.ITEMS.pig_iron_small_plate.setMass(coolResultStack, mass);
                 } else {
                     coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_rubbish);
+                    Minecraftology.ITEMS.iron_rubbish.setMass(coolResultStack, mass);
                 }
             } else {
                 //rubbish
                 coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_rubbish);
+                Minecraftology.ITEMS.iron_rubbish.setMass(coolResultStack, mass);
             }
         } else {
             //rubbish
             coolResultStack = new ItemStack(Minecraftology.ITEMS.iron_rubbish);
+            Minecraftology.ITEMS.iron_rubbish.setMass(coolResultStack, mass);
         }
 
         //TODO:Play Sound
