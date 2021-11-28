@@ -40,7 +40,7 @@ public class IronCluster extends MCLBaseItem {
             for (int i = 0; i < shape[1]; i++) {
                 String temp = "";
                 for (int j = 0; j < shape[0]; j++) {
-                    temp += "\u2b1b\ufe0f";
+                    temp += "\u2b1b";
                 }
                 infos.add(temp);
             }
