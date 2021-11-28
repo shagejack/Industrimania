@@ -15,7 +15,7 @@ public class TileEntityRendererForge extends MCLTileEntityRendererBase<TileEntit
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         if (!te.getStackInSlot(0).isEmpty())
-            renderStillItem(te, te.getStackInSlot(0), 0.5F, 1.15F, 0.5F, 2F);
+            renderStillItem(te, te.getStackInSlot(0), 0.5F, 1.2F, 0.5F, 1F);
         GlStateManager.popMatrix();
 
         super.render(te, x, y + 1, z, partialTicks, destroyStage, alpha);
