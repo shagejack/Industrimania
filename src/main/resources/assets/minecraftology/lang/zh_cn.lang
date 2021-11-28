@@ -2,6 +2,8 @@
 # Items
 
 item.minecraftology.omni_multimeter.name=调试用万用表
+item.minecraftology.forge_hammer.name=锻造锤
+item.minecraftology.saw.name=青铜锯
 
 item.minecraftology.slag.name=炉渣
 item.minecraftology.iron_cluster.name=海绵铁簇

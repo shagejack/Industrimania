@@ -2,13 +2,18 @@ package shagejack.minecraftology.blocks;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.items.ItemHandlerHelper;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlockContainer;
 import shagejack.minecraftology.tile.TileEntityForge;
@@ -56,6 +61,39 @@ public class BlockForge extends MCLBlockContainer<TileEntityForge> {
         return false;
     }
 
+    @Override
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        ItemStack stack = playerIn.getHeldItem(hand);
+        TileEntityForge tileEntity = (TileEntityForge) worldIn.getTileEntity(pos);
+        if (tileEntity == null) return false;
+
+        if (!stack.isEmpty() && tileEntity.isItemValidForSlot(0, stack)) {
+            ItemStack itemStack = tileEntity.getStackInSlot(0);
+            boolean flag = false;
+
+            if (itemStack.isEmpty()) {
+                tileEntity.setInventorySlotContents(0, stack.copy());
+                stack.setCount(stack.getCount() - 1);
+                flag = true;
+            }
+
+            if (flag)
+                return true;
+        }
+
+        ItemStack result = tileEntity.removeStackFromSlot(0);
+
+        if (result.isEmpty()) {
+            if (!stack.isEmpty())
+                return false;
+        }
+
+        if (!result.isEmpty())
+            ItemHandlerHelper.giveItemToPlayer(playerIn, result, EntityEquipmentSlot.MAINHAND.getSlotIndex());
+
+        tileEntity.markDirty();
+        return true;
+    }
 
     @Override
     public Class<TileEntityForge> getTileEntityClass() {

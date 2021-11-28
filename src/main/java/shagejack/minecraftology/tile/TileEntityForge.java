@@ -3,6 +3,7 @@ package shagejack.minecraftology.tile;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,6 +16,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
+import shagejack.minecraftology.data.Inventory;
+import shagejack.minecraftology.data.inventory.Slot;
 import shagejack.minecraftology.items.IronCluster;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
@@ -23,6 +26,14 @@ import net.minecraft.util.SoundEvent;
 import java.util.EnumSet;
 
 public class TileEntityForge extends MCLTileEntityContainer {
+
+    public int forge_slot;
+
+    @Override
+    protected void RegisterSlots(Inventory inventory) {
+        forge_slot = inventory.AddSlot(new Slot(true));
+        super.RegisterSlots(inventory);
+    }
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
@@ -101,8 +112,6 @@ public class TileEntityForge extends MCLTileEntityContainer {
     @Override
     protected void onMachineEvent(MachineEvent event) {
     }
-
-
 
     public void forge(EntityPlayer player, ItemStack held){
         if(held.getItemDamage() > 0) {

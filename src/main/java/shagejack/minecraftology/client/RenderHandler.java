@@ -37,8 +37,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Level;
 import shagejack.minecraftology.api.internal.ItemModelProvider;
+import shagejack.minecraftology.client.render.tileentity.TileEntityRendererForge;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.init.ItemsMCL;
+import shagejack.minecraftology.tile.TileEntityForge;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -59,6 +61,17 @@ public class RenderHandler {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    private TileEntityRendererForge tileEntityRendererForge;
+
+    @SubscribeEvent
+    public void onRenderWorldLast(RenderWorldLastEvent event) {
+    }
+
+    //Called when the client ticks.
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+    }
+
     @SubscribeEvent
     public void modelLoadEvent(ModelRegistryEvent event) {
         for (Item item : ItemsMCL.items) {
@@ -71,6 +84,14 @@ public class RenderHandler {
             else
                 ClientUtil.registerWithMapper(block);
         }
+    }
+
+    public void createTileEntityRenderers() {
+        tileEntityRendererForge = new TileEntityRendererForge();
+    }
+
+    public void registerTileEntitySpecialRenderers() {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForge.class, tileEntityRendererForge);
     }
 
 }

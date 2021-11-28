@@ -83,14 +83,14 @@ public class ClientProxy extends CommonProxy {
 
 
         //renderHandler.createBlockRenderers();
-        //renderHandler.createTileEntityRenderers(MatterOverdrive.CONFIG_HANDLER);
+        renderHandler.createTileEntityRenderers();
         //renderHandler.createBioticStatRenderers();
         //renderHandler.createStarmapRenderers();
         //renderHandler.createModels();
 
 
         //renderHandler.registerWeaponLayers();
-        //renderHandler.registerTileEntitySpecialRenderers();
+        renderHandler.registerTileEntitySpecialRenderers();
         //renderHandler.registerBlockColors();
 
         //renderHandler.registerItemColors();

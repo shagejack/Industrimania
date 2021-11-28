@@ -18,12 +18,13 @@ public class ItemsMCL {
 
     //	Tools
     public Multimeter multimeter;
+    public ForgeHammer forge_hammer;
+    public Saw saw;
 
     //  Materials
     public MCLBaseItem slag;
     public MCLBaseItem iron_rubbish;
     public IronCluster iron_cluster;
-    public ForgeHammer forge_hammer;
     public MaterialWithMass iron_ingot;
     public MaterialWithMass iron_small_plate;
     public MaterialWithMass iron_big_plate;
@@ -47,12 +48,13 @@ public class ItemsMCL {
 
         //		Tools
         multimeter = register(new Multimeter("omni_multimeter"));
+        forge_hammer = register(new ForgeHammer("forge_hammer"));
+        saw = register(new Saw("saw"));
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));
         iron_rubbish = register(new MCLBaseItem("iron_rubbish"));
         iron_cluster = register(new IronCluster("iron_cluster"));
-        forge_hammer = register(new ForgeHammer("forge_hammer"));
         iron_ingot = register(new MaterialWithMass("iron_ingot"));
         iron_big_plate = register(new MaterialWithMass("iron_big_plate"));
         iron_small_plate = register(new MaterialWithMass("iron_small_plate"));
