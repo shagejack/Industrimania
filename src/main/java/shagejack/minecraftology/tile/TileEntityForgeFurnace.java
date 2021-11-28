@@ -104,6 +104,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
 
     }
 
+    @Override
     public void onChunkUnload() {
     }
 
