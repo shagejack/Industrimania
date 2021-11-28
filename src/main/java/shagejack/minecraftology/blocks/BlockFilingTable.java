@@ -39,18 +39,18 @@ public class BlockFilingTable extends MCLBlockContainer<TileEntityFilingTable> {
         TileEntityFilingTable tileEntity = getTileEntity(worldIn, pos);
         if (tileEntity != null) {
             ItemStack held = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (isValidForgeTool(held, player)) {
+            if (isValidFileTool(held, player)) {
                 if(!player.getCooldownTracker().hasCooldown(held.getItem()))
                 tileEntity.file(player, held);
             }
         }
     }
 
-    public static boolean isValidForgeTool(ItemStack stack, EntityPlayer player) {
-        return !stack.isEmpty() && (isForgeToolWhitelisted(stack));
+    public static boolean isValidFileTool(ItemStack stack, EntityPlayer player) {
+        return !stack.isEmpty() && (isFileToolWhitelisted(stack));
     }
 
-    private static boolean isForgeToolWhitelisted(ItemStack stack) {
+    private static boolean isFileToolWhitelisted(ItemStack stack) {
         for (ItemStack itemStack : toolStackList) {
             if (ItemStack.areItemsEqualIgnoreDurability(itemStack, stack))
                 return true;
@@ -61,7 +61,7 @@ public class BlockFilingTable extends MCLBlockContainer<TileEntityFilingTable> {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack stack = playerIn.getHeldItem(hand);
-        TileEntityForge tileEntity = (TileEntityForge) worldIn.getTileEntity(pos);
+        TileEntityFilingTable tileEntity = (TileEntityFilingTable) worldIn.getTileEntity(pos);
         if (tileEntity == null) return false;
 
         if (!stack.isEmpty() && tileEntity.isItemValidForSlot(0, stack)) {
