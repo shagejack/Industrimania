@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import shagejack.minecraftology.gui.inventory.GuiElementLoader;
 import shagejack.minecraftology.handler.TickHandler;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.init.ItemsMCL;
@@ -74,6 +75,7 @@ public class Minecraftology {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         PROXY.init(event);
+        new GuiElementLoader();
     }
 
     /**
