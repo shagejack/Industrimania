@@ -138,9 +138,9 @@ public class TileEntityForge extends MCLTileEntityContainer {
 
                     if (heavyHit) {
 
-                        mass -= 0.005 * Math.random();
+                        mass -= 0.1 * Math.random();
                         carbon -= 0.001 * Math.random();
-                        impurities -= 0.05 * Math.random();
+                        impurities -= 0.25 * Math.random();
                         temp += 0.1 * Math.random();
 
                         if (mass <= 0) itemStack.setCount(0);
@@ -160,15 +160,15 @@ public class TileEntityForge extends MCLTileEntityContainer {
                             held.damageItem(1, player);
                         }
 
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 2);
+                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.place")), 1, 1);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 20);
 
                     } else {
 
-                        mass -= 0.001 * Math.random();
-                        carbon -= 0.0005 * Math.random();
-                        impurities -= 0.02 * Math.random();
+                        mass -= 0.05 * Math.random();
+                        carbon -= 0.001 * Math.random();
+                        impurities -= 0.1 * Math.random();
                         temp += 0.05 * Math.random();
 
                         if (mass <= 0) itemStack.setCount(0);
@@ -184,7 +184,7 @@ public class TileEntityForge extends MCLTileEntityContainer {
 
                         held.damageItem(1, player);
 
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.place")), 1, 1);
+                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 2);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 10);
 
