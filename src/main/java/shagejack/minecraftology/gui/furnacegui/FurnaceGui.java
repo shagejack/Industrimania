@@ -1,9 +1,8 @@
-package shagejack.minecraftology.gui.FurnaceGui;
+package shagejack.minecraftology.gui.furnacegui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 

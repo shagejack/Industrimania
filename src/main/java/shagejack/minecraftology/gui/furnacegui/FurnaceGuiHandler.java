@@ -1,6 +1,5 @@
-package shagejack.minecraftology.gui.FurnaceGui;
+package shagejack.minecraftology.gui.furnacegui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraft.world.World;
 import net.minecraft.entity.player.EntityPlayer;
