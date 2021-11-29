@@ -1,10 +1,13 @@
 package shagejack.minecraftology;
 
+import shagejack.minecraftology.client.data.Color;
+
 public class Reference {
     public static final String MOD_ID = "minecraftology";
     public static final String MOD_NAME = "Minecraftology";
     public static final String VERSION = "@VERSION@";
     public static final String VERSION_DATE = "@DATE@";
+    public static final String GUI_FACTORY_CLASS = "shagejack.minecraftology.gui.GuiConfigFactory";
     public static final String DEPENDENCIES = "";
     public static final String CHANNEL_NAME = "mcl_channel";
     public static final String CHANNEL_GUI_NAME = CHANNEL_NAME + ":gui";
@@ -32,4 +35,18 @@ public class Reference {
     public static final String PATH_INFO = MOD_ID + ":info/";
     public static final String TEXTURE_ARROW_PROGRESS = PATH_ELEMENTS + "progress_arrow_right.png";
     public static final String TEXTURE_FE_METER = PATH_ELEMENTS + "fe.png";
+    public static final Color COLOR_WHITE = new Color(255, 255, 255);
+    public static final Color COLOR_MCL = new Color(191, 228, 230);
+    public static final Color COLOR_HOLO = new Color(169, 226, 251);
+    public static final Color COLOR_YELLOW_STRIPES = new Color(254, 203, 4);
+    public static final Color COLOR_HOLO_RED = new Color(230, 80, 20);
+    public static final Color COLOR_HOLO_GREEN = new Color(24, 207, 0);
+    public static final Color COLOR_HOLO_YELLOW = new Color(252, 223, 116);
+    public static final Color COLOR_HOLO_PURPLE = new Color(116, 23, 230);
+    public static final Color COLOR_GUI_NORMAL = new Color(62, 81, 84);
+    public static final Color COLOR_GUI_LIGHT = new Color(100, 113, 136);
+    public static final Color COLOR_GUI_LIGHTER = new Color(139, 126, 168);
+    public static final Color COLOR_GUI_DARK = new Color(44, 54, 52);
+    public static final Color COLOR_GUI_DARKER = new Color(34, 40, 37);
+    public static final Color COLOR_GUI_ENERGY = new Color(224, 0, 0);
 }

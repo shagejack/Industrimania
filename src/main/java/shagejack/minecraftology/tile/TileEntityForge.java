@@ -19,6 +19,7 @@ import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.data.Inventory;
 import shagejack.minecraftology.data.inventory.Slot;
 import shagejack.minecraftology.items.IronCluster;
+import shagejack.minecraftology.machines.MCLTileEntityMachine;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
 import net.minecraft.util.SoundEvent;
@@ -26,9 +27,9 @@ import shagejack.minecraftology.util.LogMCL;
 
 import java.util.EnumSet;
 
-public class TileEntityForge extends MCLTileEntityContainer {
+public class TileEntityForge extends MCLTileEntityMachine {
 
-    public int forge_slot;
+    public static int forge_slot;
 
     public TileEntityForge() {
         super();

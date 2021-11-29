@@ -11,7 +11,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlockMachine;
-import shagejack.minecraftology.gui.inventory.GuiElementLoader;
 import shagejack.minecraftology.tile.TileEntityForgeFurnace;
 import shagejack.minecraftology.util.MCLBlockHelper;
 import shagejack.minecraftology.util.MachineHelper;

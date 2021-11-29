@@ -19,14 +19,15 @@ import shagejack.minecraftology.data.Inventory;
 import shagejack.minecraftology.data.inventory.Slot;
 import shagejack.minecraftology.items.IronCluster;
 import shagejack.minecraftology.items.MaterialWithMass;
+import shagejack.minecraftology.machines.MCLTileEntityMachine;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
 
 import java.util.EnumSet;
 
-public class TileEntitySawTable extends MCLTileEntityContainer {
+public class TileEntitySawTable extends MCLTileEntityMachine {
 
-    public int file_slot;
+    public static int file_slot;
 
     public TileEntitySawTable() {
         super();

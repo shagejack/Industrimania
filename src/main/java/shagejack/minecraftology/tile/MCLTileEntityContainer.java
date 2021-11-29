@@ -41,9 +41,11 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
+//You Should Not Use This
+/*
 public abstract class MCLTileEntityContainer extends MCLTileEntity implements IMCLTileEntity, ISidedInventory, ITickable {
 
-    protected Inventory inventory;
+    protected final Inventory inventory;
     protected final IItemHandler inventoryHandler;
 
     @SideOnly(Side.CLIENT)
@@ -358,3 +360,5 @@ public abstract class MCLTileEntityContainer extends MCLTileEntity implements IM
     }
 
 }
+
+ */
