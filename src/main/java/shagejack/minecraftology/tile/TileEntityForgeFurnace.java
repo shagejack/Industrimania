@@ -16,19 +16,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.BlockStateHelper;
 import shagejack.minecraftology.data.Inventory;
-import shagejack.minecraftology.data.TileEntityInventory;
 import shagejack.minecraftology.data.inventory.Slot;
+import shagejack.minecraftology.machines.MCLTileEntityMachine;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
-import shagejack.minecraftology.util.LogMCL;
-import shagejack.minecraftology.util.MCLStringHelper;
 
 import java.util.EnumSet;
 
-public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IMCLTickable, ITickable {
+public class TileEntityForgeFurnace extends MCLTileEntityMachine implements IMCLTickable, ITickable {
 
-    public static int fuel_slot;
-    public static int input_slot;
+    public static int FUEL_SLOT_ID;
+    public static int INPUT_SLOT_ID;
 
     private double temperature;
     private double fuel;
@@ -45,8 +43,8 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
 
     @Override
     protected void RegisterSlots(Inventory inventory) {
-        fuel_slot = inventory.AddSlot(new Slot(false));
-        input_slot = inventory.AddSlot(new Slot(true));
+        FUEL_SLOT_ID = inventory.AddSlot(new Slot(false));
+        INPUT_SLOT_ID = inventory.AddSlot(new Slot(true));
         super.RegisterSlots(inventory);
     }
 
@@ -147,7 +145,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
     }
 
     public void consumeFuel(){
-        ItemStack fuelStack = inventory.getSlot(fuel_slot).getItem();
+        ItemStack fuelStack = inventory.getSlot(FUEL_SLOT_ID).getItem();
         if (fuel <= 0) {
             for (String item : fuelItemList) {
                 if (fuelStack.getItem().getRegistryName().toString().equalsIgnoreCase(item)) {
@@ -171,7 +169,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
     }
 
     public void heatUp(){
-        ItemStack inputStack = inventory.getSlot(input_slot).getItem();
+        ItemStack inputStack = inventory.getSlot(INPUT_SLOT_ID).getItem();
             if (inputStack.getItem() == Minecraftology.ITEMS.iron_cluster) {
                 double temp = Minecraftology.ITEMS.iron_cluster.getTemp(inputStack);
                 if (temp < furnaceTemp) {

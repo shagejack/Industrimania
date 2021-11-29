@@ -16,12 +16,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.data.Inventory;
 import shagejack.minecraftology.data.inventory.Slot;
+import shagejack.minecraftology.machines.MCLTileEntityMachine;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
 
 import java.util.EnumSet;
 
-public class TileEntityFilingTable extends MCLTileEntityContainer {
+public class TileEntityFilingTable extends MCLTileEntityMachine {
 
     public static int file_slot;
 

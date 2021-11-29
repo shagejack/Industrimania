@@ -14,12 +14,11 @@ import shagejack.minecraftology.api.container.IMachineWatcher;
 import shagejack.minecraftology.container.slot.SlotInventory;
 import shagejack.minecraftology.data.Inventory;
 import shagejack.minecraftology.machines.MCLTileEntityMachine;
-import shagejack.minecraftology.tile.MCLTileEntityContainer;
 import shagejack.minecraftology.util.MCLInventoryHelper;
 
 import javax.annotation.Nonnull;
 
-public class ContainerMachine<T extends MCLTileEntityContainer> extends MCLBaseContainer implements IMachineWatcher {
+public class ContainerMachine<T extends MCLTileEntityMachine> extends MCLBaseContainer implements IMachineWatcher {
     protected T machine;
     EntityPlayer entityPlayer;
     private int progressScaled;
