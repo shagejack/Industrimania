@@ -19,6 +19,7 @@ import shagejack.minecraftology.blocks.includes.MCLBlockContainer;
 import shagejack.minecraftology.tile.TileEntityForge;
 import shagejack.minecraftology.tile.TileEntityIronOreSlag;
 
+import java.awt.*;
 import java.util.List;
 
 public class BlockForge extends MCLBlockContainer<TileEntityForge> {
@@ -33,6 +34,8 @@ public class BlockForge extends MCLBlockContainer<TileEntityForge> {
         setHarvestLevel("pickaxe", 1);
         setHardness(4.0F);
         setResistance(4.0F);
+        setLightOpacity(0);
+        this.fullBlock = false;
     }
 
     @Override

@@ -14,7 +14,6 @@ import net.minecraftforge.common.util.FakePlayer;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlockContainer;
 import shagejack.minecraftology.blocks.includes.MCLBlockMachine;
-import shagejack.minecraftology.gui.inventory.GuiElementLoader;
 import shagejack.minecraftology.tile.TileEntityClayFurnaceBottom;
 import shagejack.minecraftology.tile.TileEntityForge;
 import shagejack.minecraftology.tile.TileEntityForgeFurnace;
@@ -40,9 +39,7 @@ public class BlockForgeFurnace extends MCLBlockMachine<TileEntityForgeFurnace> {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        int id = GuiElementLoader.GUI_DEMO;
-        playerIn.openGui(Minecraftology.INSTANCE,id,worldIn,pos.getX(),pos.getY(), pos.getZ());
-        return MachineHelper.canOpenMachine(worldIn, pos, playerIn, hasGui, getUnlocalizedMessage(0));
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
 
 

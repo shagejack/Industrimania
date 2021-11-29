@@ -13,19 +13,24 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import shagejack.minecraftology.gui.inventory.GuiElementLoader;
+import shagejack.minecraftology.handler.ConfigurationHandler;
+import shagejack.minecraftology.handler.GuiHandler;
 import shagejack.minecraftology.handler.TickHandler;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.init.ItemsMCL;
 import shagejack.minecraftology.network.PacketPipeline;
 import shagejack.minecraftology.proxy.CommonProxy;
 
+import java.io.File;
+
 @Mod(
         modid = Reference.MOD_ID,
         name = Reference.MOD_NAME,
         version = Reference.VERSION,
-        dependencies = Reference.DEPENDENCIES
+        dependencies = Reference.DEPENDENCIES,
+        guiFactory = Reference.GUI_FACTORY_CLASS
 )
 public class Minecraftology {
 
@@ -34,6 +39,8 @@ public class Minecraftology {
 
     public static final MCLTab TAB_Minecraftology = new MCLTab("tabMCL", () -> new ItemStack(ITEMS.multimeter));
     public static final TickHandler TICK_HANDLER;
+    public static final GuiHandler GUI_HANDLER;
+    public static final ConfigurationHandler CONFIG_HANDLER;
 
     //public static final MineRegistry MINE_REGISTRY;
     public static final PacketPipeline NETWORK;
@@ -41,9 +48,10 @@ public class Minecraftology {
     public static CommonProxy PROXY;
 
     static {
+        CONFIG_HANDLER = new ConfigurationHandler(new File("config"));
         NETWORK = new PacketPipeline();
         TICK_HANDLER = new TickHandler();
-
+        GUI_HANDLER = new GuiHandler();
     }
 
     /**
@@ -74,8 +82,12 @@ public class Minecraftology {
      */
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        GUI_HANDLER.register(event.getSide());
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, GUI_HANDLER);
+        CONFIG_HANDLER.init();
+
+
         PROXY.init(event);
-        new GuiElementLoader();
     }
 
     /**
@@ -84,6 +96,8 @@ public class Minecraftology {
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
         PROXY.postInit(event);
+
+        CONFIG_HANDLER.postInit();
     }
 
     @Mod.EventHandler

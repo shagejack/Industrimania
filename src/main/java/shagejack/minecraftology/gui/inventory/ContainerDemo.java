@@ -12,6 +12,7 @@ public class ContainerDemo extends Container {
     protected Slot inputSlot;
     protected Slot outputSlot;
     public ContainerDemo(EntityPlayer player) {
+
         super();
         this.addSlotToContainer(this.inputSlot = new Slot((IInventory) items, 0, 38+0*32, 20){
             @Override
