@@ -556,6 +556,7 @@ public abstract class MCLGuiBase extends GuiContainer implements IButtonHandler,
         return (MCLBaseContainer) inventorySlots;
     }
 
+    @Override
     public MCLElementBase addElement(MCLElementBase element) {
         this.elements.add(element);
         return element;
