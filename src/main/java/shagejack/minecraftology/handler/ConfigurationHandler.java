@@ -24,22 +24,18 @@ public class ConfigurationHandler {
     public static final String CATEGORY_WORLD_SPAWN_ORES = "spawn ores";
     public static final String CATEGORY_WORLD_SPAWN_OTHER = "spawn other";
     public static final String CATEGORY_WORLD_SPAWN = "spawn";
-    public static final String CATEGORY_ABILITIES = "abilities";
     public static final String CATEGORY_CLIENT = "client";
     public static final String CATEGORY_SERVER = "server";
     public static final String CATEGORY_ENCHANTMENTS = "enchantments";
     public static final String CATEGORY_ENTITIES = "entities";
     public static final String CATEGORY_COMPATIBILITY = "compatibility";
     public static final String CATEGORY_DEBUG = "debug";
-    public static final String KEY_AUTOMATIC_RECIPE_CALCULATION = "automatic matter calculation from recipe";
-    public static final String KEY_AUTOMATIC_FURNACE_CALCULATION = "automatic matter calculation from furnace";
-    public static final String KEY_AUTOMATIC_INSCRIBER_CALCULATION = "automatic matter calculation from inscriber";
     public static final String KEY_MAX_BROADCASTS = "max broadcasts per tick";
     public static final String KEY_MBLACKLIST = "blacklist";
     public static final String KEY_BLACKLIST_MODS = "mod_blacklist";
     public static final String KEY_VERSION_CHECK = "version_check";
-    public static final String KEY_MATTER_REGISTRATION_DEBUG = "matter registration";
-    public static final String KEY_MATTER_CALCULATION_DEBUG = "matter calculation";
+    public static final String KEY_MATTER_REGISTRATION_DEBUG = "mcl registration";
+    public static final String KEY_MATTER_CALCULATION_DEBUG = "mcl calculation";
 
     public final File configDir;
 
@@ -48,7 +44,7 @@ public class ConfigurationHandler {
 
     public ConfigurationHandler(File configDir) {
         this.configDir = configDir;
-        config = new Configuration(new File(configDir, "MatterOverdrive/MatterOverdrive.cfg"), "1.0");
+        config = new Configuration(new File(configDir, "Minecraftology/minecraftology.cfg"), "1.0");
         subscribers = new HashSet<>();
     }
 
@@ -81,16 +77,12 @@ public class ConfigurationHandler {
         category = config.getCategory(CATEGORY_WORLD_GEN);
         category.setComment("World Generation options.");
         updateCategoryLang(category);
-        category = config.getCategory(CATEGORY_ABILITIES);
-        category.setComment("Android Player Abilities");
-        updateCategoryLang(category);
         category = config.getCategory(CATEGORY_COMPATIBILITY);
         category.setComment("Option for other mods");
         updateCategoryLang(category);
 
         config.get(CATEGORY_WORLD_GEN, CATEGORY_WORLD_SPAWN_ORES, true, "Should ores such as dilithium and tritanium ore spawn in the world. This applies for all ores !").setLanguageKey(String.format("config.%s.name", CATEGORY_WORLD_SPAWN_ORES.replace(' ', '_')));
 
-        config.getBoolean(KEY_AUTOMATIC_RECIPE_CALCULATION, CATEGORY_MCL, true, "Shoud Matter be automaticly calculated from Recipes");
 
         save();
     }
@@ -203,7 +195,6 @@ public class ConfigurationHandler {
         list.add(new ConfigElement(getCategory(ConfigurationHandler.CATEGORY_SERVER)));
         list.add(new ConfigElement(getCategory(ConfigurationHandler.CATEGORY_WORLD_GEN)));
         list.add(new ConfigElement(getCategory(ConfigurationHandler.CATEGORY_MACHINES)));
-        list.add(new ConfigElement(getCategory(ConfigurationHandler.CATEGORY_ABILITIES)));
         list.add(new ConfigElement(getCategory(ConfigurationHandler.CATEGORY_ENTITIES)));
         list.add(new ConfigElement(getCategory(ConfigurationHandler.CATEGORY_DEBUG)));
         list.add(new ConfigElement(getCategory(ConfigurationHandler.CATEGORY_COMPATIBILITY)));

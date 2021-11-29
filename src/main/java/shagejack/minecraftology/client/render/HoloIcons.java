@@ -165,7 +165,6 @@ public class HoloIcons implements ITextureMapPopulator {
         reg(ir, "android_feature_icon_bg_black", 22);
         reg(ir, "smile", 16);
 
-        //Minecraftology.STAT_REGISTRY.registerIcons(ir, this);
     }
 }
 

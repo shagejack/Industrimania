@@ -3,6 +3,7 @@
   "defaults": {
     "model": "cube",
     "textures": {
+      "particle": "minecraftology:blocks/mechanic.forge_furnace_side",
       "down": "minecraftology:blocks/mechanic.forge_furnace_side",
       "up": "minecraftology:blocks/mechanic.forge_furnace_side",
       "north": "minecraftology:blocks/mechanic.forge_furnace_front_on",

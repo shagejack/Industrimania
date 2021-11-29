@@ -47,8 +47,8 @@ public class ClientProxy extends CommonProxy {
     private void registerSubscribtions() {
         MinecraftForge.EVENT_BUS.register(keyHandler);
         MinecraftForge.EVENT_BUS.register(mouseHandler);
-        //MinecraftForge.EVENT_BUS.register(new TooltipHandler());
-        //MinecraftForge.EVENT_BUS.register(holoIcons);
+        //inecraftForge.EVENT_BUS.register(new TooltipHandler());
+        MinecraftForge.EVENT_BUS.register(holoIcons);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ClientProxy extends CommonProxy {
 
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
-        //holoIcons = new HoloIcons();
+        holoIcons = new HoloIcons();
 
         registerSubscribtions();
 

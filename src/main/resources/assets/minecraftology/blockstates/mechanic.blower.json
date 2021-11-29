@@ -3,6 +3,7 @@
   "defaults": {
     "model": "cube",
     "textures": {
+      "particle": "minecraftology:blocks/mechanic.blower_side",
       "down": "minecraftology:blocks/mechanic.blower_side_reversed",
       "up": "minecraftology:blocks/mechanic.blower_side_reversed",
       "north": "minecraftology:blocks/mechanic.blower_front",

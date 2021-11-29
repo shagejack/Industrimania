@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import shagejack.minecraftology.Reference;
 import shagejack.minecraftology.network.packet.AbstractBiPacketHandler;
 import shagejack.minecraftology.network.packet.client.AbstractClientPacketHandler;
+import shagejack.minecraftology.network.packet.server.PacketSendMachineNBT;
 
 @ChannelHandler.Sharable
 public class PacketPipeline {
@@ -26,6 +27,7 @@ public class PacketPipeline {
     }
 
     public void registerPackets() {
+        registerBiPacket(PacketSendMachineNBT.BiHandler.class, PacketSendMachineNBT.class);
     }
 
     public <REQ extends IMessage, REPLY extends IMessage> void registerPacket(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType) {

@@ -58,4 +58,4 @@ itemGroup.tabMCL=傻氏矿艺学
 
 ##########################################################################################################
 # Gui
-container.minecraftology.demo=Minecraftoloy Gui Demo
+gui.forge_furnace.name=锻炉

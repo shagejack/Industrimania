@@ -1,6 +1,7 @@
 package shagejack.minecraftology.gui;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import shagejack.minecraftology.Reference;
 import shagejack.minecraftology.container.ContainerForgeFurnace;
 import shagejack.minecraftology.container.ContainerMachine;
 import shagejack.minecraftology.gui.element.ElementInventorySlot;
@@ -13,14 +14,10 @@ public class GuiForgeFurnace extends MCLGuiMachine<TileEntityForgeFurnace> {
 
     public GuiForgeFurnace(InventoryPlayer inventoryPlayer, TileEntityForgeFurnace machine) {
         super(new ContainerForgeFurnace(inventoryPlayer, machine), machine);
-        name = "inscriber";
-        //inscribe_progress = new ElementDualScaled(this, 32, 55);
-        fuelSlot = new ElementInventorySlot(this, getContainer().getSlotAt(TileEntityForgeFurnace.FUEL_SLOT_ID), 129, 25, 22, 22, "big");
-        inputSlot = new ElementInventorySlot(this, getContainer().getSlotAt(TileEntityForgeFurnace.INPUT_SLOT_ID), 129, 55, 22, 22, "big");
+        name = "forge_furnace";
+        fuelSlot = new ElementInventorySlot(this, getContainer().getSlotAt(TileEntityForgeFurnace.FUEL_SLOT_ID), 129, 55, 22, 22, "big");
+        inputSlot = new ElementInventorySlot(this, getContainer().getSlotAt(TileEntityForgeFurnace.INPUT_SLOT_ID), 129, 25, 22, 22, "big");
 
-        //inscribe_progress.setMode(1);
-        //inscribe_progress.setSize(24, 16);
-        //inscribe_progress.setTexture(Reference.TEXTURE_ARROW_PROGRESS, 48, 16);
     }
 
     @Override

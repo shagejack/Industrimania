@@ -16,7 +16,7 @@ import net.minecraftforge.items.SlotItemHandler;
 public class ContainerMetalFurnace extends Container {
     private IItemHandler upItems;
     private IItemHandler downItems;
-    //protected TileEntityMetalFurnace tile;传入一个tileentity
+    //protected TileEntityMetalFurnace tile;
     protected int burnTime = 0;
     public ContainerMetalFurnace(EntityPlayer player, TileEntity tileEntity){
         super();

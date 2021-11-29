@@ -16,11 +16,11 @@ public class BlockStateHelper {
 
         if(active)
         {
-            worldIn.setBlockState(pos, Minecraftology.BLOCKS.mechanic_forge_furnace.getDefaultState().withProperty(MCLBlock.PROPERTY_DIRECTION,iBlockState.getValue(MCLBlock.PROPERTY_DIRECTION)),3);
+            worldIn.setBlockState(pos, Minecraftology.BLOCKS.mechanic_forge_furnace_lit.getDefaultState().withProperty(MCLBlock.PROPERTY_DIRECTION,iBlockState.getValue(MCLBlock.PROPERTY_DIRECTION)),3);
         }
         else
         {
-            worldIn.setBlockState(pos, Minecraftology.BLOCKS.mechanic_forge_furnace_lit.getDefaultState().withProperty(MCLBlock.PROPERTY_DIRECTION,iBlockState.getValue(MCLBlock.PROPERTY_DIRECTION)),3);
+            worldIn.setBlockState(pos, Minecraftology.BLOCKS.mechanic_forge_furnace.getDefaultState().withProperty(MCLBlock.PROPERTY_DIRECTION,iBlockState.getValue(MCLBlock.PROPERTY_DIRECTION)),3);
         }
         if(tileEntity != null) {
             tileEntity.validate();

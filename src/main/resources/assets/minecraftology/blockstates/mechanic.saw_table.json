@@ -3,6 +3,7 @@
   "defaults": {
     "model": "cube",
     "textures": {
+      "particle": "minecraftology:blocks/mechanic.saw_table_side",
       "down": "minecraftology:blocks/mechanic.saw_table_bottom",
       "up": "minecraftology:blocks/mechanic.saw_table_top",
       "north": "minecraftology:blocks/mechanic.saw_table_side",

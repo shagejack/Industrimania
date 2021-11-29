@@ -104,7 +104,7 @@ public class guiContainerDemo extends GuiContainer {
         this.drawHorizontalLine(8,167,43,0xFF000000);
         String title = I18n.format("container.minecraftology.demo");
         this.fontRenderer.drawString(title,(this.xSize - this.fontRenderer.getStringWidth(title))/2,6,0x404040);
-        //ItemStack item = new ItemStack(ItemLoader.ironCluster); 需要填入材质
+        //ItemStack item = new ItemStack(ItemLoader.ironCluster);
         //this.itemRender.renderItemAndEffectIntoGUI(item,8,20);
     }
 }

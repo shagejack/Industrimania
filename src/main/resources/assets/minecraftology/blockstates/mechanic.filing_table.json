@@ -3,6 +3,7 @@
   "defaults": {
     "model": "cube",
     "textures": {
+      "particle": "minecraftology:blocks/mechanic.filing_table.side",
       "down": "minecraftology:blocks/mechanic.filing_table_bottom",
       "up": "minecraftology:blocks/mechanic.filing_table_top",
       "north": "minecraftology:blocks/mechanic.filing_table_side",

@@ -11,7 +11,8 @@ public class ContainerDemo extends Container {
     private ItemStackHandler items = new ItemStackHandler(2);
     protected Slot inputSlot;
     protected Slot outputSlot;
-    public ContainerDemo() {
+
+    public ContainerDemo(EntityPlayer player) {
         super();
         this.addSlotToContainer(this.inputSlot = new Slot((IInventory) items, 0, 38+0*32, 20){
             @Override
@@ -58,7 +59,7 @@ public class ContainerDemo extends Container {
         else{
             slot.onSlotChanged();
         }
-        //slot.onPickupFromSlot(playerIn,newStack);修改为未知的方法
+        //slot.onPickupFromSlot(playerIn,newStack);
         return oldStack;
     }
 
