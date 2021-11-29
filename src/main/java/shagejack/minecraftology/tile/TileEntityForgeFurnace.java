@@ -20,14 +20,15 @@ import shagejack.minecraftology.data.TileEntityInventory;
 import shagejack.minecraftology.data.inventory.Slot;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
+import shagejack.minecraftology.util.LogMCL;
 import shagejack.minecraftology.util.MCLStringHelper;
 
 import java.util.EnumSet;
 
 public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IMCLTickable, ITickable {
 
-    public int fuel_slot;
-    public int input_slot;
+    public static int fuel_slot;
+    public static int input_slot;
 
     private double temperature;
     private double fuel;
@@ -40,7 +41,6 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
 
     public TileEntityForgeFurnace(){
         super();
-        inventory = new TileEntityInventory(this, MCLStringHelper.translateToLocal("container.forge_furnace"));
     }
 
     @Override
@@ -149,14 +149,18 @@ public class TileEntityForgeFurnace extends MCLTileEntityContainer implements IM
     public void consumeFuel(){
         ItemStack fuelStack = inventory.getSlot(fuel_slot).getItem();
         if (fuel <= 0) {
-            BlockStateHelper.setState(false, world, pos);
             for (String item : fuelItemList) {
                 if (fuelStack.getItem().getRegistryName().toString().equalsIgnoreCase(item)) {
                     fuelStack.setCount(fuelStack.getCount() - 1);
                     fuel += 1200;
+                    break;
                 }
             }
-            furnaceTemp -= 0.25;
+            if(furnaceTemp > 298.15) {
+                furnaceTemp -= 0.25;
+            } else {
+                BlockStateHelper.setState(false, world, pos);
+            }
         } else {
             BlockStateHelper.setState(true, world, pos);
             fuel -= 1;

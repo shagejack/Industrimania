@@ -28,7 +28,7 @@ import java.util.EnumSet;
 
 public class TileEntityForge extends MCLTileEntityContainer {
 
-    public int forge_slot;
+    public static int forge_slot;
 
     public TileEntityForge() {
         super();

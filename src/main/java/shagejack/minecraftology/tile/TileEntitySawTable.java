@@ -26,7 +26,7 @@ import java.util.EnumSet;
 
 public class TileEntitySawTable extends MCLTileEntityContainer {
 
-    public int file_slot;
+    public static int file_slot;
 
     public TileEntitySawTable() {
         super();

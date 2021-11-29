@@ -29,6 +29,8 @@ public class BlockFilingTable extends MCLBlockContainer<TileEntityFilingTable> {
         setHarvestLevel("pickaxe", 1);
         setHardness(4.0F);
         setResistance(4.0F);
+        setLightOpacity(0);
+        this.fullBlock = false;
     }
 
     @Override

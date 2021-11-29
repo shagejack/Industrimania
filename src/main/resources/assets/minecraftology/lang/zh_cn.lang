@@ -46,6 +46,7 @@ tile.mechanic.blower.name=鼓风箱
 tile.mechanic.iron_ore_slag.name=铁矿渣结块
 tile.mechanic.forge.name=锻造台
 tile.mechanic.forge_furnace.name=锻炉
+tile.mechanic.forge_furnace_lit.name=锻炉
 tile.mechanic.water_pool.name=水池
 tile.mechanic.filing_table.name=锉削台
 tile.mechanic.saw_table.name=切割台

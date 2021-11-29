@@ -43,7 +43,7 @@ import java.util.UUID;
 
 public abstract class MCLTileEntityContainer extends MCLTileEntity implements IMCLTileEntity, ISidedInventory, ITickable {
 
-    protected Inventory inventory;
+    protected final Inventory inventory;
     protected final IItemHandler inventoryHandler;
 
     @SideOnly(Side.CLIENT)
