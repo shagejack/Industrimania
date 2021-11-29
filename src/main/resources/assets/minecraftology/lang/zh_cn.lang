@@ -56,3 +56,5 @@ tile.mechanic.saw_table.name=切割台
 itemGroup.tabMCL=傻氏矿艺学
 
 ##########################################################################################################
+# Gui
+container.minecraftology.demo=Minecraftoloy Gui Demo
