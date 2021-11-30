@@ -140,7 +140,7 @@ public class TileEntityForge extends MCLTileEntityMachine {
                     if (heavyHit) {
 
                         mass -= 0.1 * Math.random();
-                        carbon -= 0.001 * Math.random();
+                        carbon -= 0.0005 * Math.random();
                         impurities -= 0.25 * Math.random();
                         temp += 0.1 * Math.random();
 
@@ -149,7 +149,7 @@ public class TileEntityForge extends MCLTileEntityMachine {
                         if (impurities < 0) impurities = 0;
 
                         if (Math.random() < 0.4) {
-                            if (shape[0] > 1 && shape[1] > 1) {
+                            if (shape[1] > 1) {
                                 shape[0] += 1;
                                 shape[1] -= 1;
                             }
@@ -168,7 +168,7 @@ public class TileEntityForge extends MCLTileEntityMachine {
                     } else {
 
                         mass -= 0.05 * Math.random();
-                        carbon -= 0.001 * Math.random();
+                        carbon -= 0.0005 * Math.random();
                         impurities -= 0.1 * Math.random();
                         temp += 0.05 * Math.random();
 
@@ -177,7 +177,7 @@ public class TileEntityForge extends MCLTileEntityMachine {
                         if (impurities < 0) impurities = 0;
 
                         if (Math.random() < 0.2) {
-                            if (shape[0] > 1 && shape[1] > 1) {
+                            if (shape[0] > 1) {
                                 shape[1] += 1;
                                 shape[0] -= 1;
                             }
