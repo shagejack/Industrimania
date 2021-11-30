@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import shagejack.minecraftology.machines.MCLTileEntityMachine;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.network.packet.AbstractBiPacketHandler;
 import shagejack.minecraftology.network.packet.TileEntityUpdatePacket;
@@ -64,9 +65,9 @@ public class PacketSendMachineNBT extends TileEntityUpdatePacket {
             if (tileEntity instanceof MCLTileEntity) {
                 ((MCLTileEntity) tileEntity).readCustomNBT(message.data, MachineNBTCategory.decode(message.cattegories));
                 if (message.forceUpdate) {
-                   // if (tileEntity instanceof MCLTileEntityMachine) {
-                   //     ((MCLTileEntityMachine) tileEntity).forceSync();
-                    //}
+                    if (tileEntity instanceof MCLTileEntityMachine) {
+                        ((MCLTileEntityMachine) tileEntity).forceSync();
+                    }
                 }
             }
         }

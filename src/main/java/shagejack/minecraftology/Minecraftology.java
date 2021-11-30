@@ -19,6 +19,7 @@ import shagejack.minecraftology.handler.ConfigurationHandler;
 import shagejack.minecraftology.handler.GuiHandler;
 import shagejack.minecraftology.handler.TickHandler;
 import shagejack.minecraftology.init.BlocksMCL;
+import shagejack.minecraftology.init.CapabilitiesMCL;
 import shagejack.minecraftology.init.ItemsMCL;
 import shagejack.minecraftology.network.PacketPipeline;
 import shagejack.minecraftology.proxy.CommonProxy;
@@ -71,6 +72,8 @@ public class Minecraftology {
 
         ITEMS.init();
         BLOCKS.init();
+
+        CapabilitiesMCL.init();
 
         NETWORK.registerPackets();
 

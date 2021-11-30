@@ -101,15 +101,15 @@ public class TileEntitySawTable extends MCLTileEntityMachine {
 
     @Override
     public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
-        if (categories.contains(MachineNBTCategory.DATA)) {
-
+        if (categories.contains(MachineNBTCategory.INVENTORY) && toDisk) {
+            inventory.writeToNBT(nbt, true);
         }
     }
 
     @Override
     public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
-        if (categories.contains(MachineNBTCategory.DATA)) {
-
+        if (categories.contains(MachineNBTCategory.INVENTORY)) {
+            inventory.readFromNBT(nbt);
         }
     }
 

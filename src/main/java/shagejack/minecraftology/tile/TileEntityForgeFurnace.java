@@ -119,6 +119,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityMachine implements IMCL
 
     @Override
     public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
+        super.writeCustomNBT(nbt, categories, toDisk);
         if (categories.contains(MachineNBTCategory.DATA)) {
             nbt.setDouble("fuel", fuel);
             nbt.setDouble("furnaceTemp", furnaceTemp);
@@ -127,6 +128,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityMachine implements IMCL
 
     @Override
     public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
+        super.readCustomNBT(nbt, categories);
         if (categories.contains(MachineNBTCategory.DATA)) {
             fuel = nbt.getDouble("fuel");
             furnaceTemp = nbt.getDouble("furnaceTemp");
