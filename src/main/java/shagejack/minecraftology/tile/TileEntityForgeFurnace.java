@@ -67,7 +67,7 @@ public class TileEntityForgeFurnace extends MCLTileEntityMachine implements IMCL
 
     @Override
     public boolean hasSound() {
-        return true;
+        return false;
     }
 
     @Override
