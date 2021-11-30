@@ -193,6 +193,7 @@ public class ElementBaseGroup extends MCLElementBase implements IButtonHandler, 
         return element;
     }
 
+    @Override
     public MCLElementBase addElement(MCLElementBase element) {
         if (element == null) {
             return null;
