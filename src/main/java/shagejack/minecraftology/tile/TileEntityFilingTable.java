@@ -140,6 +140,9 @@ public class TileEntityFilingTable extends MCLTileEntityMachine {
                                 shape[1] -= 1;
 
                             }
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.step")), 1, 2);
+                        } else {
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.fall")), 1, 1);
                         }
 
                         if (held.getItemDamage() > 1) {
@@ -147,8 +150,6 @@ public class TileEntityFilingTable extends MCLTileEntityMachine {
                         } else {
                             held.damageItem(1, player);
                         }
-
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.fall")), 1, 1);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 20);
 
@@ -166,11 +167,12 @@ public class TileEntityFilingTable extends MCLTileEntityMachine {
                                 shape[0] -= 1;
 
                             }
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.step")), 1, 2);
+                        } else {
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.place")), 1, 1);
                         }
 
                         held.damageItem(1, player);
-
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.sand.step")), 1, 2);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 10);
 

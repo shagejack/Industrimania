@@ -152,7 +152,11 @@ public class TileEntityForge extends MCLTileEntityMachine {
                             if (shape[1] > 1) {
                                 shape[0] += 1;
                                 shape[1] -= 1;
+
                             }
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.use")), 1, 2);
+                        } else {
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.place")), 1, 1);
                         }
 
                         if (held.getItemDamage() > 1) {
@@ -160,8 +164,6 @@ public class TileEntityForge extends MCLTileEntityMachine {
                         } else {
                             held.damageItem(1, player);
                         }
-
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.place")), 1, 1);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 20);
 
@@ -181,11 +183,12 @@ public class TileEntityForge extends MCLTileEntityMachine {
                                 shape[1] += 1;
                                 shape[0] -= 1;
                             }
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.use")), 1, 2);
+                        } else {
+                            player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 1);
                         }
 
                         held.damageItem(1, player);
-
-                        player.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("block.anvil.land")), 1, 2);
 
                         player.getCooldownTracker().setCooldown(held.getItem(), 10);
 
