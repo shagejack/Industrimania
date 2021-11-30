@@ -3,6 +3,7 @@ package shagejack.minecraftology.items;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -83,7 +84,7 @@ public class IronCluster extends MCLBaseItem {
         if (item.hasTagCompound()) {
             return item.getTagCompound().getIntArray("shape");
         }
-        return null;
+        return new int[1];
     }
 
     public void setMass(ItemStack itemStack, double mass) {
@@ -114,9 +115,10 @@ public class IronCluster extends MCLBaseItem {
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int slot, boolean isHolding) {
         if (getTemp(itemStack) > 298.15) {
-            setTemp(itemStack, getTemp(itemStack) - 0.01);
+            setTemp(itemStack, getTemp(itemStack) - 0.25);
             if(getTemp(itemStack) > 353.15){
                 entity.setFire(20);
+                entity.attackEntityFrom(DamageSource.LAVA, 1);
             }
         }
     }

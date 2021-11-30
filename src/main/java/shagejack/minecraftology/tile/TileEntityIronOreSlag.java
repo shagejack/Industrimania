@@ -144,7 +144,7 @@ public class TileEntityIronOreSlag extends MCLTileEntity implements IMCLTickable
 
         double perMass = mol_Iron * 56 / 10;
 
-        int count = (int) Math.round(getPurity() * Math.pow(fortune, 0.25) * 10);
+        int count = (int) Math.round(getPurity() * Math.pow(fortune, 0.25) * 5 + 5);
 
         if(perMass * count > 0) {
             int[] shape = {9 + world.rand.nextInt(2), 9 + world.rand.nextInt(2)};

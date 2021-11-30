@@ -581,23 +581,25 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         int complete = -1;
         int completeState;
         completeState = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr);
-        IBlockState state = world.getBlockState(pos.add(MCLMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
-        EnumFacing rotation = state.getValue(MCLBlock.PROPERTY_DIRECTION);
-        switch (completeState) {
-            case -1:
-                break;
-            case 0:
-                complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 0 : -1;
-                break;
-            case 1:
-                complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 1 : -1;
-                break;
-            case 2:
-                complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 2 : -1;
-                break;
-            case 3:
-                complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 3 : -1;
-                break;
+        if (completeState != -1) {
+            IBlockState state = world.getBlockState(pos.add(MCLMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
+            EnumFacing rotation = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+            switch (completeState) {
+                case -1:
+                    break;
+                case 0:
+                    complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 0 : -1;
+                    break;
+                case 1:
+                    complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 1 : -1;
+                    break;
+                case 2:
+                    complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 2 : -1;
+                    break;
+                case 3:
+                    complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 3 : -1;
+                    break;
+            }
         }
         return complete;
     }
@@ -608,26 +610,30 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         completeState = MCLMultiBlockCheckHelper.checkComplete(world, getPos(), structure, posArr, true);
         IBlockState state = world.getBlockState(pos.add(MCLMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
         EnumFacing rotation = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+        if (completeState != -1) {
             switch (completeState) {
-                case -1:
-                    break;
                 case 0:
                     complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 0 : -1;
-                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
+                    if (complete == -1)
+                        LogMCL.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
                     break;
                 case 1:
                     complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 1 : -1;
-                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
+                    if (complete == -1)
+                        LogMCL.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
                     break;
                 case 2:
                     complete = (rotation == EnumFacing.NORTH || rotation == EnumFacing.SOUTH) ? 2 : -1;
-                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
+                    if (complete == -1)
+                        LogMCL.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
                     break;
                 case 3:
                     complete = (rotation == EnumFacing.WEST || rotation == EnumFacing.EAST) ? 3 : -1;
-                    if (complete == -1) LogMCL.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
+                    if (complete == -1)
+                        LogMCL.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
                     break;
             }
+        }
             LogMCL.debug("Result: " + complete);
             return complete;
     }

@@ -21,6 +21,7 @@ public class ItemsMCL {
     public ForgeHammer forge_hammer;
     public Saw saw;
     public FlatFile flat_file;
+    public FireTongs fire_tongs;
 
     //  Materials
     public MCLBaseItem slag;
@@ -56,6 +57,7 @@ public class ItemsMCL {
         forge_hammer = register(new ForgeHammer("forge_hammer"));
         saw = register(new Saw("saw"));
         flat_file = register(new FlatFile("flat_file"));
+        fire_tongs = register(new FireTongs("fire_tongs"));
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));

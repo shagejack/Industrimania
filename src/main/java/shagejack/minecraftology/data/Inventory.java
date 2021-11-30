@@ -37,6 +37,7 @@ public class Inventory implements IInventory {
         this.usableCondition = usableCondition;
     }
 
+
     @Override
     public boolean isEmpty() {
         return slots.isEmpty();

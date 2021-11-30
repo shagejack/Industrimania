@@ -38,7 +38,7 @@ public class ContainerMachine<T extends MCLTileEntityMachine> extends MCLBaseCon
 
     }
 
-    /*
+
     @Override
     public void addListener(IContainerListener icrafting) {
         super.addListener(icrafting);
@@ -53,6 +53,8 @@ public class ContainerMachine<T extends MCLTileEntityMachine> extends MCLBaseCon
             machine.removeWatcher(this);
         }
     }
+
+    /*
 
     @Override
     public void detectAndSendChanges() {

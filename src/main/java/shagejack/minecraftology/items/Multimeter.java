@@ -22,7 +22,6 @@ public class Multimeter extends MCLBaseItem {
 
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        ItemStack stack = player.getHeldItem(hand);
         IBlockState state = world.getBlockState(pos);
         EnumActionResult result = EnumActionResult.PASS;
 
