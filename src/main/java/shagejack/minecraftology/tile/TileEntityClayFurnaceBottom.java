@@ -54,6 +54,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
     private double mol_Impurities;
     private boolean completed;
     private boolean burning;
+    private boolean safe_removed;
 
     private final String clay = "minecraftology:building.fine_clay";
     private final String tube = "minecraftology:mechanic.bronze_tube";
@@ -120,6 +121,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
     public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         if (categories.contains(MachineNBTCategory.DATA)) {
 
+            nbt.setBoolean("safe_removed", safe_removed);
             nbt.setBoolean("completed", completed);
             nbt.setBoolean("burning", burning);
             nbt.setDouble("durability", durability);
@@ -138,6 +140,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
     @Override
     public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         if (categories.contains(MachineNBTCategory.DATA)) {
+            safe_removed = nbt.getBoolean("safe_removed");
             completed = nbt.getBoolean("completed");
             burning = nbt.getBoolean("burning");
             mol_Iron = nbt.getDouble("mol_Iron");
@@ -156,7 +159,6 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
     @Override
     public void onAdded(World world, BlockPos pos, IBlockState state) {
-
     }
 
     @Override
@@ -166,7 +168,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
     @Override
     public void onDestroyed(World worldIn, BlockPos pos, IBlockState state) {
-
+        if (!safe_removed && temperature > 473.15) unsafeRemoved();
     }
 
     @Override
@@ -227,6 +229,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         mol_OxygenFlow = 1;
                         temperature = 298.15;
                         completed = true;
+                        safe_removed = false;
                     } else if(durability > 0) {
                         manageInput(world);
                         adjustOxygenFlow(world);
@@ -584,6 +587,7 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
 
     public void burnOut() {
+        safe_removed = true;
         world.playSound((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 5.0F, world.rand.nextFloat() * 0.1F + 0.9F, true);
         for (BlockPos rPos : posArr) {
             IBlockState temp = world.getBlockState(getPos().add(rPos));
@@ -675,6 +679,28 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
     public double getOxygenFlow(){
         return mol_OxygenFlow;
+    }
+
+    public void unsafeRemoved(){
+        for (BlockPos rPos : posArr) {
+            IBlockState temp = world.getBlockState(getPos().add(rPos));
+            if (temp.getBlock() == Minecraftology.BLOCKS.building_fine_clay) {
+                world.setBlockState(getPos().add(rPos), Minecraftology.BLOCKS.building_scorched_clay.getDefaultState());
+            }
+        }
+
+        world.setBlockState(getPos().add(0, 1, 0), Minecraftology.BLOCKS.mechanic_iron_ore_slag.getDefaultState());
+        world.setBlockState(getPos().add(0, 2, 0), Minecraftology.BLOCKS.gravity_dust.getDefaultState());
+        world.setBlockState(getPos().add(0, 3, 0), Minecraftology.BLOCKS.gravity_dust.getDefaultState());
+
+        //Settlement
+        TileEntity tileEntity = world.getTileEntity(getPos().add(0, 1, 0));
+        if (tileEntity instanceof TileEntityIronOreSlag) {
+            ((TileEntityIronOreSlag) tileEntity).writeData(mol_Iron, mol_IronOxide, mol_Slag, mol_Impurities, temperature);
+        }
+
+        world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 5.0F, true);
+        world.setBlockToAir(pos);
     }
 
 }
