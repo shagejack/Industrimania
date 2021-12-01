@@ -45,17 +45,21 @@ public class BlockClayFurnaceBottom extends MCLBlockContainer<TileEntityClayFurn
             return true;
         }
 
-        if(playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.gloves) {
-            double temp = tileEntity.getTemperature() - 15.0D + 30 * worldIn.rand.nextDouble();
-            playerIn.sendMessage(new TextComponentString("\u6478\u8d77\u6765\u6e29\u5ea6\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(temp) + "K"));
-        } else {
-            if (tileEntity.getTemperature() < 423.15) {
-                double temp = tileEntity.getTemperature() - 25.0D + 50 * worldIn.rand.nextDouble();
+        if(tileEntity.checkComplete(worldIn) == -1) {
+            if (playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.gloves) {
+                double temp = tileEntity.getTemperature() - 15.0D + 30 * worldIn.rand.nextDouble();
                 playerIn.sendMessage(new TextComponentString("\u6478\u8d77\u6765\u6e29\u5ea6\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(temp) + "K"));
             } else {
-                playerIn.attackEntityFrom(DamageSource.ON_FIRE, 2);
-                playerIn.sendMessage(new TextComponentString("\u4e0d\u884c\uff0c\u592a\u70eb\u4e86\uff01"));
+                if (tileEntity.getTemperature() < 423.15) {
+                    double temp = tileEntity.getTemperature() - 25.0D + 50 * worldIn.rand.nextDouble();
+                    playerIn.sendMessage(new TextComponentString("\u6478\u8d77\u6765\u6e29\u5ea6\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(temp) + "K"));
+                } else {
+                    playerIn.attackEntityFrom(DamageSource.ON_FIRE, 2);
+                    playerIn.sendMessage(new TextComponentString("\u4e0d\u884c\uff0c\u592a\u70eb\u4e86\uff01"));
+                }
             }
+        } else {
+            playerIn.sendMessage(new TextComponentString("\u6839\u672c\u6ca1\u70b9\u71c3\uff0c\u6478\u8d77\u6765\u5c31\u50cf\u662f\u5ba4\u6e29\uff0c\u0032\u0037\u0033\u002e\u0031\u0035\u004b"));
         }
 
         return true;
