@@ -22,6 +22,8 @@ public class ItemsMCL {
     public Saw saw;
     public FlatFile flat_file;
     public FireTongs fire_tongs;
+    public MCLBaseItem wind_flag;
+    public MCLBaseItem gloves;
 
     //  Materials
     public MCLBaseItem slag;
@@ -59,6 +61,8 @@ public class ItemsMCL {
         saw = register(new Saw("saw"));
         flat_file = register(new FlatFile("flat_file"));
         fire_tongs = register(new FireTongs("fire_tongs"));
+        wind_flag = register(new MCLBaseItem("wind_flag"));
+        gloves = register(new MCLBaseItem("gloves"));
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));

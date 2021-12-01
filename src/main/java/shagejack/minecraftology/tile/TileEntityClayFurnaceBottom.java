@@ -669,4 +669,12 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         return burning;
     }
 
+    public double getTemperature(){
+        return temperature;
+    }
+
+    public double getOxygenFlow(){
+        return mol_OxygenFlow;
+    }
+
 }

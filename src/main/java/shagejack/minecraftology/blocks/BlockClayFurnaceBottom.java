@@ -6,11 +6,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,6 +17,7 @@ import shagejack.minecraftology.blocks.includes.MCLBlock;
 import shagejack.minecraftology.blocks.includes.MCLBlockContainer;
 import shagejack.minecraftology.tile.TileEntityClayFurnaceBottom;
 import shagejack.minecraftology.util.MCLBlockHelper;
+import shagejack.minecraftology.util.MCLStringHelper;
 import shagejack.minecraftology.util.MachineHelper;
 
 import java.util.Random;
@@ -35,14 +34,31 @@ public class BlockClayFurnaceBottom extends MCLBlockContainer<TileEntityClayFurn
      */
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        TileEntityClayFurnaceBottom tileEntity = (TileEntityClayFurnaceBottom) worldIn.getTileEntity(pos);
+        if (tileEntity == null) {
+            return false;
+        }
         if(playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.multimeter) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityClayFurnaceBottom) {
-                ((TileEntityClayFurnaceBottom) tileEntity).debugCheckComplete();
-            }
+            tileEntity.debugCheckComplete();
+            playerIn.sendMessage(new TextComponentString("\u6e29\u5ea6\uff1a" + MCLStringHelper.formatNumber(tileEntity.getTemperature()) + "K"));
+            playerIn.sendMessage(new TextComponentString("\u6c27\u6c14\u6d41\u91cf\uff1a" + MCLStringHelper.formatNumber(tileEntity.getOxygenFlow()) + "mol/t"));
             return true;
         }
-        return false;
+
+        if(playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.gloves) {
+            double temp = tileEntity.getTemperature() - 15.0D + 30 * worldIn.rand.nextDouble();
+            playerIn.sendMessage(new TextComponentString("\u6478\u8d77\u6765\u6e29\u5ea6\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(temp) + "K"));
+        } else {
+            if (tileEntity.getTemperature() < 423.15) {
+                double temp = tileEntity.getTemperature() - 25.0D + 50 * worldIn.rand.nextDouble();
+                playerIn.sendMessage(new TextComponentString("\u6478\u8d77\u6765\u6e29\u5ea6\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(temp) + "K"));
+            } else {
+                playerIn.attackEntityFrom(DamageSource.ON_FIRE, 2);
+                playerIn.sendMessage(new TextComponentString("\u4e0d\u884c\uff0c\u592a\u70eb\u4e86\uff01"));
+            }
+        }
+
+        return true;
     }
 
     @SideOnly(Side.CLIENT)

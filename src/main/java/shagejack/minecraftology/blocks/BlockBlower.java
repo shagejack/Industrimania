@@ -8,12 +8,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import shagejack.minecraftology.Minecraftology;
 import shagejack.minecraftology.blocks.includes.MCLBlock;
 import shagejack.minecraftology.tile.TileEntityClayFurnaceBottom;
 import shagejack.minecraftology.util.MCLBlockHelper;
 import shagejack.minecraftology.util.MCLMultiBlockCheckHelper;
+import shagejack.minecraftology.util.MCLStringHelper;
 
 public class BlockBlower extends MCLBlock {
 
@@ -66,6 +68,11 @@ public class BlockBlower extends MCLBlock {
         }
 
         if(tileEntity instanceof TileEntityClayFurnaceBottom && ((TileEntityClayFurnaceBottom) tileEntity).checkComplete(worldIn) != -1) {
+            if(playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.wind_flag){
+                double oxygenFlow = ((TileEntityClayFurnaceBottom) tileEntity).getOxygenFlow() - 0.5D + worldIn.rand.nextDouble();
+                playerIn.sendMessage(new TextComponentString("\u6c27\u6c14\u6d41\u91cf\u770b\u8d77\u6765\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(oxygenFlow) + "mol/t"));
+                return true;
+            }
                 ((TileEntityClayFurnaceBottom) tileEntity).blowerInput(worldIn);
                 return true;
         }
