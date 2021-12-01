@@ -32,51 +32,52 @@ public class BlockBlower extends MCLBlock {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        EnumFacing rotation = state.getValue(MCLBlock.PROPERTY_DIRECTION);
-        TileEntity tileEntity = null;
-        IBlockState stateTube;
-        EnumFacing rotationTube;
-        switch (rotation) {
-            case EAST:
-                stateTube = worldIn.getBlockState(pos.add(-1, 0, 0));
-                rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
-                if (rotationTube == EnumFacing.WEST || rotationTube == EnumFacing.EAST) {
-                    tileEntity = worldIn.getTileEntity(pos.add(-2, -1, 0));
-                }
-                break;
-            case WEST:
-                stateTube = worldIn.getBlockState(pos.add(1, 0, 0));
-                rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
-                if (rotationTube == EnumFacing.WEST || rotationTube == EnumFacing.EAST) {
-                    tileEntity = worldIn.getTileEntity(pos.add(2, -1, 0));
-                }
-                break;
-            case SOUTH:
-                stateTube = worldIn.getBlockState(pos.add(0, 0, -1));
-                rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
-                if (rotationTube == EnumFacing.NORTH || rotationTube == EnumFacing.SOUTH) {
-                    tileEntity = worldIn.getTileEntity(pos.add(0, -1, -2));
-                }
-                break;
-            case NORTH:
-                stateTube = worldIn.getBlockState(pos.add(0, 0, 1));
-                rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
-                if (rotationTube == EnumFacing.NORTH || rotationTube == EnumFacing.SOUTH) {
-                    tileEntity = worldIn.getTileEntity(pos.add(0, -1, 2));
-                }
-                break;
-        }
-
-        if(tileEntity instanceof TileEntityClayFurnaceBottom && ((TileEntityClayFurnaceBottom) tileEntity).checkComplete(worldIn) != -1) {
-            if(playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.wind_flag){
-                double oxygenFlow = ((TileEntityClayFurnaceBottom) tileEntity).getOxygenFlow() - 0.5D + worldIn.rand.nextDouble();
-                playerIn.sendMessage(new TextComponentString("\u6c27\u6c14\u6d41\u91cf\u770b\u8d77\u6765\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(oxygenFlow) + "mol/t"));
-                return true;
+            EnumFacing rotation = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+            TileEntity tileEntity = null;
+            IBlockState stateTube;
+            EnumFacing rotationTube;
+            switch (rotation) {
+                case EAST:
+                    stateTube = worldIn.getBlockState(pos.add(-1, 0, 0));
+                    rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+                    if (rotationTube == EnumFacing.WEST || rotationTube == EnumFacing.EAST) {
+                        tileEntity = worldIn.getTileEntity(pos.add(-2, -1, 0));
+                    }
+                    break;
+                case WEST:
+                    stateTube = worldIn.getBlockState(pos.add(1, 0, 0));
+                    rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+                    if (rotationTube == EnumFacing.WEST || rotationTube == EnumFacing.EAST) {
+                        tileEntity = worldIn.getTileEntity(pos.add(2, -1, 0));
+                    }
+                    break;
+                case SOUTH:
+                    stateTube = worldIn.getBlockState(pos.add(0, 0, -1));
+                    rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+                    if (rotationTube == EnumFacing.NORTH || rotationTube == EnumFacing.SOUTH) {
+                        tileEntity = worldIn.getTileEntity(pos.add(0, -1, -2));
+                    }
+                    break;
+                case NORTH:
+                    stateTube = worldIn.getBlockState(pos.add(0, 0, 1));
+                    rotationTube = state.getValue(MCLBlock.PROPERTY_DIRECTION);
+                    if (rotationTube == EnumFacing.NORTH || rotationTube == EnumFacing.SOUTH) {
+                        tileEntity = worldIn.getTileEntity(pos.add(0, -1, 2));
+                    }
+                    break;
             }
+
+            if (tileEntity instanceof TileEntityClayFurnaceBottom && ((TileEntityClayFurnaceBottom) tileEntity).checkComplete(worldIn) != -1) {
+                if (playerIn.getHeldItem(hand).getItem() == Minecraftology.ITEMS.wind_flag) {
+                    double oxygenFlow = ((TileEntityClayFurnaceBottom) tileEntity).getOxygenFlow() - 0.25D + 0.5 * worldIn.rand.nextDouble();
+                    if (worldIn.isRemote) playerIn.sendMessage(new TextComponentString("\u6c27\u6c14\u6d41\u91cf\u770b\u8d77\u6765\u5927\u6982\u662f\u2026\u2026" + MCLStringHelper.formatNumber(oxygenFlow) + "mol/t"));
+                    return true;
+                }
                 ((TileEntityClayFurnaceBottom) tileEntity).blowerInput(worldIn);
                 return true;
-        }
-        return false;
+            }
+
+            return true;
     }
 
 
