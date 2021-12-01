@@ -3,7 +3,7 @@
   "defaults": {
     "model": "cube",
     "textures": {
-      "particle": "minecraftology:blocks/mechanic.fine_clay_side",
+      "particle": "minecraftology:blocks/building.fine_clay_side",
       "down": "minecraftology:blocks/building.fine_clay_top",
       "up": "minecraftology:blocks/mechanic.clay_furnace_bottom_top",
       "north": "minecraftology:blocks/building.fine_clay_side",

@@ -12,6 +12,8 @@ item.minecraftology.iron_cluster.name=海绵铁簇
 
 item.minecraftology.cut_iron_rubbish.name=铁碎屑
 
+item.minecraftology.burnt_stone_slab.name=煅烧石板材
+
 item.minecraftology.cut_wrought_iron_ingot.name=切割铸铁锭
 item.minecraftology.cut_iron_ingot.name=切割低密度钢锭
 item.minecraftology.cut_pig_iron_ingot.name=切割生铁锭

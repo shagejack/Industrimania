@@ -29,6 +29,7 @@ public class ItemsMCL {
     public MCLBaseItem cut_iron_ingot;
     public MCLBaseItem cut_pig_iron_ingot;
     public MCLBaseItem cut_iron_rubbish;
+    public MCLBaseItem burnt_stone_slab;
     public IronCluster iron_cluster;
     public MaterialWithMass iron_rubbish;
     public MaterialWithMass iron_ingot;
@@ -66,6 +67,7 @@ public class ItemsMCL {
         cut_iron_ingot = register(new MCLBaseItem("cut_iron_ingot"));
         cut_pig_iron_ingot = register(new MCLBaseItem("cut_pig_iron_ingot"));
         cut_iron_rubbish = register(new MCLBaseItem("cut_iron_rubbish"));
+        burnt_stone_slab = register(new MCLBaseItem("burnt_stone_slab"));
         iron_cluster = register(new IronCluster("iron_cluster"));
         iron_ingot = register(new MaterialWithMass("iron_ingot"));
         iron_big_plate = register(new MaterialWithMass("iron_big_plate"));

@@ -3,6 +3,7 @@ package shagejack.minecraftology.tile;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemCoal;
 import net.minecraft.item.ItemStack;
@@ -201,7 +202,16 @@ public class TileEntityForgeFurnace extends MCLTileEntityMachine implements IMCL
                 if (temp < furnaceTemp) {
                    temp += 0.1 * Math.pow((furnaceTemp - temp), 0.5);
                 }
+                furnaceTemp -= 0.2;
                 Minecraftology.ITEMS.iron_cluster.setTemp(inputStack, temp);
+            } else if(inputStack.getItem() == Item.getItemFromBlock(Blocks.STONE_SLAB) && inputStack.getCount() == 1){
+                if (furnaceTemp > 1073.15) {
+                    if(Math.random() < 0.0001){
+                        inputStack.shrink(1);
+                        inventory.setInventorySlotContents(INPUT_SLOT_ID, new ItemStack(Minecraftology.ITEMS.burnt_stone_slab));
+                    }
+                    furnaceTemp -= 0.2;
+                }
             }
     }
 

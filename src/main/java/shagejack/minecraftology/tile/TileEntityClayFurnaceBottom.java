@@ -6,6 +6,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -14,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -242,7 +244,19 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
                         burnOut();
                     }
                 } else {
-                    if (completed) burnOut();
+                    if (completed) {
+                        if(temperature > 373.15) {
+                            burnOut();
+                        } else {
+                            manageBroken(world);
+                            if (temperature > 298.15) {
+                                temperature -= 0.25;
+                                if (temperature > 373.15) durability -= 0.0004 * temperature / 200;
+                            } else {
+                                temperature += 0.25;
+                            }
+                        }
+                    }
                 }
             markDirty();
             }
@@ -318,6 +332,18 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         } else {
             mol_OxygenFlow -= 0.01 * (Math.pow(1 + Math.abs(mol_OxygenFlow - atmosphereOxygenFlow), 2) - 1);
         }
+    }
+
+    public void manageBroken(World world) {
+        double atmosphereOxygenFlow;
+        atmosphereOxygenFlow = 2 + 1.5 * Math.random();
+        if (mol_OxygenFlow < atmosphereOxygenFlow) {
+            mol_OxygenFlow += 0.01 * (Math.pow(1 + Math.abs(mol_OxygenFlow - atmosphereOxygenFlow), 2) - 1);
+        } else {
+            mol_OxygenFlow -= 0.01 * (Math.pow(1 + Math.abs(mol_OxygenFlow - atmosphereOxygenFlow), 2) - 1);
+        }
+
+        mol_Charcoal -= 0.0005;
     }
 
     public void blowerInput(World world){
@@ -558,9 +584,10 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
 
 
     public void burnOut() {
+        world.playSound((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 5.0F, world.rand.nextFloat() * 0.1F + 0.9F, true);
         for (BlockPos rPos : posArr) {
             IBlockState temp = world.getBlockState(getPos().add(rPos));
-            if (Math.random() < 0.5 && temp.getBlock() == Minecraftology.BLOCKS.building_fine_clay) {
+            if (Math.random() < 0.8 && temp.getBlock() == Minecraftology.BLOCKS.building_fine_clay) {
                 world.setBlockState(getPos().add(rPos), Minecraftology.BLOCKS.building_scorched_clay.getDefaultState());
             }
         }
@@ -636,6 +663,10 @@ public class TileEntityClayFurnaceBottom extends MCLTileEntity implements IMCLTi
         }
             LogMCL.debug("Result: " + complete);
             return complete;
+    }
+
+    public boolean isBurning(){
+        return burning;
     }
 
 }
