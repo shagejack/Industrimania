@@ -1,27 +1,27 @@
 package shagejack.minecraftology.data;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import shagejack.minecraftology.api.matter.IMatterHandler;
 
-public class MatterStorage extends FluidTank implements IMatterHandler {
+public class MCLFluidTank extends FluidTank implements IMatterHandler {
 
     private int maxExtract;
     private int maxReceive;
 
-    public MatterStorage(int capacity) {
-        this(capacity, capacity, capacity);
-    }
-
-    public MatterStorage(int capacity, int maxTransfer) {
-        this(capacity, maxTransfer, maxTransfer);
-    }
-
-    public MatterStorage(int capacity, int maxExtract, int maxReceive) {
+    public MCLFluidTank(int capacity) {
         super(capacity);
-        this.maxExtract = maxExtract;
-        this.maxReceive = maxReceive;
+    }
+
+    public MCLFluidTank(FluidStack fluidStack, int capacity) {
+        super(fluidStack, capacity);
+    }
+
+    public MCLFluidTank(Fluid fluid, int amount, int capacity) {
+        super(fluid, amount, capacity);
     }
 
     public int getMaxExtract() {
@@ -80,5 +80,20 @@ public class MatterStorage extends FluidTank implements IMatterHandler {
             return drained.amount;
         }
     }
+
+    @Override
+    public boolean canFillFluidType(FluidStack fluid) {
+        return super.canFillFluidType(fluid);
+    }
+
+    @Override
+    public void onContentsChanged() {
+        if (this.tile != null && !tile.getWorld().isRemote) {
+            final IBlockState state = this.tile.getWorld().getBlockState(this.tile.getPos());
+            this.tile.getWorld().notifyBlockUpdate(this.tile.getPos(), state, state, 8);
+            this.tile.markDirty();
+        }
+    }
+
 }
 

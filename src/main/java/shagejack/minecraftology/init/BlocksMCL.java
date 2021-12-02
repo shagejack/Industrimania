@@ -43,6 +43,7 @@ public class BlocksMCL {
         public BlockWaterPool mechanic_water_pool;
         public BlockFilingTable mechanic_filing_table;
         public BlockSawTable mechanic_saw_table;
+        public BlockConcreteMixer mechanic_concrete_mixer;
 
         private int registeredCount = 0;
 
@@ -75,7 +76,7 @@ public class BlocksMCL {
             //Mechanic
             mechanic_clay_furnace_bottom = register(new BlockClayFurnaceBottom(Material.CLAY, "mechanic.clay_furnace_bottom"));
             mechanic_bronze_tube = register(new BlockBronzeTube(Material.CLAY, "mechanic.bronze_tube"));
-            mechanic_blower = register(new BlockBlower(Material.CLAY, "mechanic.blower"));
+            mechanic_blower = register(new BlockBlower(Material.ROCK, "mechanic.blower"));
             mechanic_iron_ore_slag = register(new BlockIronOreSlag(Material.SAND, "mechanic.iron_ore_slag"));
             mechanic_forge = register(new BlockForge(Material.ANVIL, "mechanic.forge"));
             mechanic_forge_furnace = register(new BlockForgeFurnace(Material.ROCK, "mechanic.forge_furnace"));
@@ -83,6 +84,7 @@ public class BlocksMCL {
             mechanic_water_pool = register(new BlockWaterPool(Material.ROCK, "mechanic.water_pool"));
             mechanic_filing_table = register(new BlockFilingTable(Material.ROCK, "mechanic.filing_table"));
             mechanic_saw_table = register(new BlockSawTable(Material.ROCK, "mechanic.saw_table"));
+            mechanic_concrete_mixer = register(new BlockConcreteMixer(Material.ROCK, "mechanic.concrete_mixer"));
 
             LogMCL.info("Finished registering blocks");
             LogMCL.info("Registered %d blocks", registeredCount);

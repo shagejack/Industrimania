@@ -27,6 +27,7 @@ public class ItemsMCL {
 
     //  Materials
     public MCLBaseItem slag;
+    public MCLBaseItem clinker;
     public MCLBaseItem cut_wrought_iron_ingot;
     public MCLBaseItem cut_iron_ingot;
     public MCLBaseItem cut_pig_iron_ingot;
@@ -66,6 +67,7 @@ public class ItemsMCL {
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));
+        clinker = register(new MCLBaseItem("clinker"));
         iron_rubbish = register(new MaterialWithMass("iron_rubbish"));
         cut_wrought_iron_ingot = register(new MCLBaseItem("cut_wrought_iron_ingot"));
         cut_iron_ingot = register(new MCLBaseItem("cut_iron_ingot"));

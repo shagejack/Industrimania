@@ -5,7 +5,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import shagejack.minecraftology.api.internal.Storage;
 import shagejack.minecraftology.api.matter.IMatterHandler;
-import shagejack.minecraftology.data.MatterStorage;
+import shagejack.minecraftology.data.MCLFluidTank;
 
 /**
  * @author shadowfacts
@@ -16,7 +16,7 @@ public class CapabilitiesMCL {
     public static Capability<IMatterHandler> MATTER_HANDLER;
 
     public static void init() {
-        CapabilityManager.INSTANCE.register(IMatterHandler.class, new Storage<>(), () -> new MatterStorage(2000));
+        CapabilityManager.INSTANCE.register(IMatterHandler.class, new Storage<>(), () -> new MCLFluidTank(2000));
     }
 
 }

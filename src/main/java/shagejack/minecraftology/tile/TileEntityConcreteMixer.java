@@ -1,0 +1,352 @@
+package shagejack.minecraftology.tile;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
+import shagejack.minecraftology.data.Inventory;
+import shagejack.minecraftology.data.MCLFluidTank;
+import shagejack.minecraftology.data.inventory.Slot;
+import shagejack.minecraftology.data.inventory.SlotOne;
+import shagejack.minecraftology.machines.MCLTileEntityMachine;
+import shagejack.minecraftology.machines.MachineNBTCategory;
+import shagejack.minecraftology.machines.events.MachineEvent;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+
+import java.util.EnumSet;
+
+public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMCLTickable, ITickable {
+
+    public MCLFluidTank tank;
+    private IItemHandler itemHandler;
+
+    private int prevStirProgress = 0;
+    private int stirProgress = 0;
+    private int stirCount = 0;
+    private int itemPos = 0;
+    private boolean mixing = false;
+    private boolean countUp = true;
+
+    public static int[] input_slot = new int [9];
+    public static int output_slot;
+
+    public TileEntityConcreteMixer() {
+        super();
+        this.tank = new MCLFluidTank(null, Fluid.BUCKET_VOLUME * 3);
+        this.tank.setTileEntity(this);
+    }
+
+    @Override
+    protected void RegisterSlots(Inventory inventory) {
+        for (int i = 0; i < input_slot.length; i++) {
+            input_slot[i] = inventory.AddSlot(new SlotOne(false));
+        }
+        output_slot = inventory.AddSlot(new Slot(true));
+        super.RegisterSlots(inventory);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        super.onDataPacket(net, pkt);
+        tank.onContentsChanged();
+    }
+
+    @Override
+    public int[] getSlotsForFace(EnumFacing side) {
+        return new int[0];
+    }
+
+    @Override
+    public SoundEvent getSound() {
+        return null;
+    }
+
+    @Override
+    public boolean hasSound() {
+        return true;
+    }
+
+    @Override
+    public boolean getServerActive() {
+        return true;
+    }
+
+    @Override
+    public float soundVolume() {
+        return 0.3f;
+    }
+
+    @Override
+    public void onAdded(World world, BlockPos pos, IBlockState state) {
+    }
+
+    @Override
+    public void onPlaced(World world, EntityLivingBase entityLiving) {
+
+    }
+
+    @Override
+    public void onDestroyed(World worldIn, BlockPos pos, IBlockState state) {
+    }
+
+    @Override
+    public void onNeighborBlockChange(IBlockAccess world, BlockPos pos, IBlockState state, Block neighborBlock) {
+
+    }
+
+    @Override
+    public void writeToDropItem(ItemStack itemStack) {
+
+    }
+
+    @Override
+    public void readFromPlaceItem(ItemStack itemStack) {
+
+    }
+
+    public void onChunkUnload() {
+    }
+
+    @Override
+    protected void onAwake(Side side) {
+    }
+
+    @Override
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
+        if (categories.contains(MachineNBTCategory.INVENTORY) && toDisk) {
+            inventory.writeToNBT(nbt, true);
+        }
+
+        tank.writeToNBT(nbt);
+
+        //nbt.setInteger("stirProgress", stirProgress);
+        nbt.setInteger("stirCount", stirCount);
+        nbt.setBoolean("mixing", getMixing());
+    }
+
+    @Override
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
+        if (categories.contains(MachineNBTCategory.INVENTORY)) {
+            inventory.readFromNBT(nbt);
+        }
+
+        tank.readFromNBT(nbt);
+
+        //stirProgress = nbt.getInteger("stirProgress");
+        stirCount = nbt.getInteger("stirCount");
+        mixing = nbt.getBoolean("mixing");
+    }
+
+    @Override
+    protected void onMachineEvent(MachineEvent event) {
+    }
+
+    @Override
+    public void onServerTick(TickEvent.Phase phase, World world) {
+        if (world == null) {
+            return;
+        }
+
+        if (phase.equals(TickEvent.Phase.END)) {
+            prevStirProgress = stirProgress;
+            if (getWorld().isRemote) {
+
+                if (countUp && itemPos <= 20) {
+                    itemPos++;
+                    if (itemPos == 20)
+                        countUp = false;
+                }
+                if (!countUp && itemPos >= 0) {
+                    itemPos--;
+                    if (itemPos == 0)
+                        countUp = true;
+                }
+            }
+
+            if (getMixing() && stirProgress < 90)
+                stirProgress += 2;
+            if (stirProgress >= 90) {
+                setMixing(false);
+                stirProgress = 0;
+                prevStirProgress = 0;
+            }
+
+            if (!getWorld().isRemote) {
+                if (getStirCount() >= 20 && tank.getFluidAmount() >= Fluid.BUCKET_VOLUME && stirProgress >= 88) {
+                    ItemStack output = ItemStack.EMPTY;
+
+                    //I know this piece of code is really fucked up, but it works anyway
+                    String recipes[][] = {
+                            {"minecraft:egg"}
+                    };
+
+                    ItemStack recipesOutput[] = {
+                            new ItemStack(Items.CAKE)
+                    };
+
+                    FluidStack recipesFluidStack[] = {
+                            new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME)
+                    };
+
+                    int recipe = -1;
+
+                    for (int i = 0; i < recipes.length; i++) {
+                        int index = 0;
+                        int[] consumed_slots = new int[9];
+                        int consumed = 0;
+                        int j = 0;
+
+                        int itemCount = 0;
+                        for (int m = 0; m < input_slot.length; m++) {
+                            if (!inventory.getSlot(input_slot[i]).getItem().isEmpty()) {
+                                itemCount++;
+                            }
+                        }
+
+                        if (itemCount != recipes[i].length) continue;
+
+                        while (consumed < input_slot.length) {
+
+                            if (index == recipes[i].length) {
+                                break;
+                            }
+
+                            if (recipes[i][index] == null) {
+                                break;
+                            }
+
+                            for (int k = 0; k < consumed_slots.length; k++) {
+                                if (j == consumed_slots[k]) ;
+                                k++;
+                            }
+
+                            if (inventory.getSlot(input_slot[j]).getItem().getItem().getRegistryName().toString().equalsIgnoreCase(recipes[i][index])) {
+                                j = 0;
+                                index++;
+                                consumed_slots[consumed] = j;
+                                consumed++;
+                                continue;
+                            }
+
+                            if (j == 8) {
+                                break;
+                            } else {
+                                j++;
+                            }
+                        }
+                        if (index < recipes[i].length - 1) {
+                            recipe = -1;
+                        } else {
+                            recipe = i;
+                        }
+                    }
+
+                    if(recipe != -1) {
+                        if (tank.getFluid() == null || !tank.getFluid().isFluidEqual(recipesFluidStack[recipe]))
+                            recipe = -1;
+                        if (tank.getFluidAmount() < recipesFluidStack[recipe].amount)
+                            recipe = -1;
+                    }
+
+                    if (recipe == -1) {
+                        setStirCount(0);
+                        return;
+                    } else {
+                        output = recipesOutput[recipe];
+                        for (int i = 0; i < 9; i++)
+                            if (!inventory.getSlot(input_slot[i]).getItem().isEmpty())
+                                setInventorySlotContents(i, ItemStack.EMPTY);
+                        tank.drain(Fluid.BUCKET_VOLUME, true);
+                        setStirCount(0);
+                        spawnItemStack(getWorld(), pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 0.5D, output);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void spawnItemStack(World world, double x, double y, double z, ItemStack stack) {
+        EntityItem entityitem = new EntityItem(world, x, y, z, stack);
+        entityitem.motionX = 0D;
+        entityitem.motionY = 0D;
+        entityitem.motionZ = 0D;
+        entityitem.setPickupDelay(20);
+        world.spawnEntity(entityitem);
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+            return (T) tank;
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+            return (T) (itemHandler == null ? (itemHandler = createUnSidedHandler()) : itemHandler);
+        return super.getCapability(capability, facing);
+    }
+
+    protected IItemHandler createUnSidedHandler() {
+        return new InvWrapper(this);
+    }
+
+    public void setStirCount(int stirs) {
+        this.stirCount = stirs;
+        markForUpdate();
+    }
+
+    public int getStirCount() {
+        return stirCount;
+    }
+
+    public int getStirProgress() {
+        return stirProgress;
+    }
+    public boolean getMixing() {
+        return mixing;
+    }
+
+    public void setMixing(boolean mix) {
+        mixing = mix;
+        markForUpdate();
+    }
+
+    public int getItemPos() {
+        return itemPos;
+    }
+
+    public void markForUpdate() {
+        IBlockState state = this.getWorld().getBlockState(this.getPos());
+        this.getWorld().notifyBlockUpdate(this.getPos(), state, state, 2);
+    }
+
+    public int getPrevStirProgress() {
+        return prevStirProgress;
+    }
+
+
+
+}
