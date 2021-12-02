@@ -11,6 +11,7 @@ item.minecraftology.gloves.name=石棉手套
 
 item.minecraftology.slag.name=炉渣
 item.minecraftology.iron_cluster.name=海绵铁簇
+item.minecraftology.clinker.name=硅酸盐水泥熟料
 
 item.minecraftology.cut_iron_rubbish.name=铁碎屑
 
@@ -55,6 +56,7 @@ tile.mechanic.forge_furnace_lit.name=锻炉
 tile.mechanic.water_pool.name=水池
 tile.mechanic.filing_table.name=锉削台
 tile.mechanic.saw_table.name=切割台
+tile.mechanic.concrete_mixer.name=混凝土搅拌盆
 
 ##########################################################################################################
 # Creative Tabs

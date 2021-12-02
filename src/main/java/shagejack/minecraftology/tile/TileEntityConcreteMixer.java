@@ -5,12 +5,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -32,10 +34,11 @@ import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import shagejack.minecraftology.util.LogMCL;
 
 import java.util.EnumSet;
 
-public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMCLTickable, ITickable {
+public class TileEntityConcreteMixer extends MCLTileEntityMachine implements ITickable {
 
     public MCLFluidTank tank;
     private IItemHandler itemHandler;
@@ -48,7 +51,6 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
     private boolean countUp = true;
 
     public static int[] input_slot = new int [9];
-    public static int output_slot;
 
     public TileEntityConcreteMixer() {
         super();
@@ -61,7 +63,6 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
         for (int i = 0; i < input_slot.length; i++) {
             input_slot[i] = inventory.AddSlot(new SlotOne(false));
         }
-        output_slot = inventory.AddSlot(new Slot(true));
         super.RegisterSlots(inventory);
     }
 
@@ -73,7 +74,20 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
-        return new int[0];
+        int[] SLOTS = new int[getSizeInventory()];
+        for (int index = 0; index < SLOTS.length; index++)
+            SLOTS[index] = index;
+        return SLOTS;
+    }
+
+    @Override
+    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
+        return true;
+    }
+
+    @Override
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
+        return true;
     }
 
     @Override
@@ -162,12 +176,12 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
     }
 
     @Override
-    public void onServerTick(TickEvent.Phase phase, World world) {
-        if (world == null) {
-            return;
-        }
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+        return oldState.getBlock() != newState.getBlock();
+    }
 
-        if (phase.equals(TickEvent.Phase.END)) {
+    @Override
+    public void update() {
             prevStirProgress = stirProgress;
             if (getWorld().isRemote) {
 
@@ -197,15 +211,18 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
 
                     //I know this piece of code is really fucked up, but it works anyway
                     String recipes[][] = {
-                            {"minecraft:egg"}
+                            {"minecraft:sand:0", "minecraft:sand:0", "minecraft:gravel:0", "minecraft:gravel:0", "minecraftology:clinker:0", "minecraftology:clinker:0", "contenttweaker:dustslag:0", "primal:carbonate_slack:0", "gregtech:meta_item_1:4287"}
                     };
 
                     ItemStack recipesOutput[] = {
-                            new ItemStack(Items.CAKE)
+                            new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("tconstruct:soil")))
                     };
 
-                    FluidStack recipesFluidStack[] = {
-                            new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME)
+                    FluidStack recipesFluidStack[][] = {
+                            {new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME),
+                            new FluidStack(FluidRegistry.getFluid("watersurfacecontaminated"), Fluid.BUCKET_VOLUME),
+                            new FluidStack(FluidRegistry.getFluid("watermineralcontaminated"), Fluid.BUCKET_VOLUME),
+                            new FluidStack(FluidRegistry.getFluid("wateroceancontaminated"), Fluid.BUCKET_VOLUME)}
                     };
 
                     int recipe = -1;
@@ -218,14 +235,23 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
 
                         int itemCount = 0;
                         for (int m = 0; m < input_slot.length; m++) {
-                            if (!inventory.getSlot(input_slot[i]).getItem().isEmpty()) {
+                            if (!inventory.getSlot(input_slot[m]).getItem().isEmpty()) {
                                 itemCount++;
                             }
                         }
 
+                        //LogMCL.debug("item count is " + itemCount + " and current recipe item count is " + recipes[i].length);
+
                         if (itemCount != recipes[i].length) continue;
 
+                        //LogMCL.debug("item count matched!");
+
                         while (consumed < input_slot.length) {
+
+                            String s = "";
+                            for (int num : consumed_slots) s += num + ",";
+
+                            //LogMCL.debug("index=" + index + ",consumed=" + consumed + ", j=" + j + " while consumed slots are " + s);
 
                             if (index == recipes[i].length) {
                                 break;
@@ -240,10 +266,10 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
                                 k++;
                             }
 
-                            if (inventory.getSlot(input_slot[j]).getItem().getItem().getRegistryName().toString().equalsIgnoreCase(recipes[i][index])) {
-                                j = 0;
+                            if (matches(inventory.getSlot(input_slot[j]).getItem(), recipes[i][index])) {
                                 index++;
                                 consumed_slots[consumed] = j;
+                                j = 0;
                                 consumed++;
                                 continue;
                             }
@@ -261,10 +287,23 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
                         }
                     }
 
+                    int recipeFluid = -1;
+
+                    if (tank.getFluid() == null) recipe = -1;
+
                     if(recipe != -1) {
-                        if (tank.getFluid() == null || !tank.getFluid().isFluidEqual(recipesFluidStack[recipe]))
-                            recipe = -1;
-                        if (tank.getFluidAmount() < recipesFluidStack[recipe].amount)
+
+                        for(int i = 0; i < recipesFluidStack[recipe].length; i++) {
+                            if (tank.getFluid().isFluidEqual(recipesFluidStack[recipe][i]))
+                                recipeFluid = i;
+                        }
+
+                    }
+
+                    if(recipeFluid == -1) recipe = -1;
+
+                    if(recipe != -1) {
+                        if (tank.getFluidAmount() < recipesFluidStack[recipe][recipeFluid].amount)
                             recipe = -1;
                     }
 
@@ -275,14 +314,13 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
                         output = recipesOutput[recipe];
                         for (int i = 0; i < 9; i++)
                             if (!inventory.getSlot(input_slot[i]).getItem().isEmpty())
-                                setInventorySlotContents(i, ItemStack.EMPTY);
+                                inventory.setInventorySlotContents(input_slot[i], ItemStack.EMPTY);
                         tank.drain(Fluid.BUCKET_VOLUME, true);
                         setStirCount(0);
                         spawnItemStack(getWorld(), pos.getX() + 0.5D, pos.getY() + 1D, pos.getZ() + 0.5D, output);
                     }
                 }
             }
-        }
     }
 
     public static void spawnItemStack(World world, double x, double y, double z, ItemStack stack) {
@@ -292,6 +330,13 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
         entityitem.motionZ = 0D;
         entityitem.setPickupDelay(20);
         world.spawnEntity(entityitem);
+    }
+
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        NBTTagCompound tag = new NBTTagCompound();
+        writeToNBT(tag);
+        return new SPacketUpdateTileEntity(getPos(), 0, tag);
     }
 
     @Override
@@ -345,6 +390,23 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements IMC
 
     public int getPrevStirProgress() {
         return prevStirProgress;
+    }
+
+    public boolean matches(ItemStack stack, String item){
+        String[] temp = item.split(":");
+        String name = null;
+        int meta = 0;
+        if (temp.length == 3) {
+            name = temp[0] + ":" + temp[1];
+            meta = Integer.parseInt(temp[2]);
+        } else if (temp.length == 2) {
+            name = temp[0] + ":" + temp[1];
+        }
+
+        if(name == null) return false;
+        if (!stack.getItem().getRegistryName().toString().equalsIgnoreCase(name)) return false;
+        if (stack.getItemDamage() != meta) return false;
+        return true;
     }
 
 

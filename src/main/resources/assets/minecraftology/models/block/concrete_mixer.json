@@ -1,10 +1,10 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "0": "blocks/stone",
-        "1": "blocks/stone",
-        "2": "blocks/stone",
-        "particle": "blocks/stone"
+        "0": "blocks/stone_slab_top",
+        "1": "blocks/stone_slab_top",
+        "2": "blocks/stone_slab_top",
+        "particle": "blocks/stone_slab_top"
     },
     "elements": [
         {
