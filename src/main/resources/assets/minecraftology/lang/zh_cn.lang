@@ -8,10 +8,14 @@ item.minecraftology.flat_file.name=平锉
 item.minecraftology.fire_tongs.name=火钳
 item.minecraftology.wind_flag.name=小旗
 item.minecraftology.gloves.name=石棉手套
+item.minecraftology.iron_pipe.name=铁吹管
 
 item.minecraftology.slag.name=炉渣
 item.minecraftology.iron_cluster.name=海绵铁簇
 item.minecraftology.clinker.name=硅酸盐水泥熟料
+item.minecraftology.dust_sodium_carbonate.name=碳酸钠粉末
+item.minecraftology.dust_potassium_carbonate.name=碳酸钾粉末
+item.minecraftology.raw_glass_material.name=玻璃原料粉
 
 item.minecraftology.cut_iron_rubbish.name=铁碎屑
 
@@ -35,6 +39,8 @@ item.minecraftology.pig_iron_ingot.name=生铁锭
 item.minecraftology.pig_iron_small_plate.name=生铁大板
 item.minecraftology.pig_iron_big_plate.name=生铁板
 
+item.minecraftology.glass_mould_block.name=玻璃吹制模具(方块)
+
 ##########################################################################################################
 # Blocks
 
@@ -57,6 +63,14 @@ tile.mechanic.water_pool.name=水池
 tile.mechanic.filing_table.name=锉削台
 tile.mechanic.saw_table.name=切割台
 tile.mechanic.concrete_mixer.name=混凝土搅拌盆
+tile.mechanic.glass_melting_furnace.name=玻璃熔窑
+tile.mechanic.glass_melting_furnace_input.name=玻璃熔窑燃烧室
+tile.mechanic.glass_melting_furnace_output.name=玻璃熔窑出液口
+tile.mechanic.glass_mould.name=玻璃吹制槽
+
+###############################################################################################################
+# Fluids
+fluid.half_molten_glass.name=半熔融态玻璃
 
 ##########################################################################################################
 # Creative Tabs
@@ -66,3 +80,4 @@ itemGroup.tabMCL=傻氏矿艺学
 ##########################################################################################################
 # Gui
 gui.forge_furnace.name=锻炉
+gui.glass_melting_furnace_input.name=玻璃熔窑燃烧室

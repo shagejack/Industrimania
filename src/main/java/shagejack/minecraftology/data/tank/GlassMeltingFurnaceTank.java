@@ -1,4 +1,4 @@
-package shagejack.minecraftology.data;
+package shagejack.minecraftology.data.tank;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.MathHelper;
@@ -6,21 +6,22 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import shagejack.minecraftology.api.matter.IMatterHandler;
+import shagejack.minecraftology.init.FluidsMCL;
 
-public class MCLFluidTank extends FluidTank implements IMatterHandler {
+public class GlassMeltingFurnaceTank extends MCLFluidTank implements IMatterHandler {
 
     private int maxExtract;
     private int maxReceive;
 
-    public MCLFluidTank(int capacity) {
+    public GlassMeltingFurnaceTank(int capacity) {
         super(capacity);
     }
 
-    public MCLFluidTank(FluidStack fluidStack, int capacity) {
+    public GlassMeltingFurnaceTank(FluidStack fluidStack, int capacity) {
         super(fluidStack, capacity);
     }
 
-    public MCLFluidTank(Fluid fluid, int amount, int capacity) {
+    public GlassMeltingFurnaceTank(Fluid fluid, int amount, int capacity) {
         super(fluid, amount, capacity);
     }
 
@@ -83,7 +84,12 @@ public class MCLFluidTank extends FluidTank implements IMatterHandler {
 
     @Override
     public boolean canFillFluidType(FluidStack fluid) {
-        return super.canFillFluidType(fluid);
+        return fluid != null && fluid.getFluid() == FluidsMCL.halfMoltenGlass;
+    }
+
+    @Override
+    public boolean canDrainFluidType(FluidStack fluid) {
+        return fluid != null && fluid.getFluid() == FluidsMCL.halfMoltenGlass;
     }
 
     @Override

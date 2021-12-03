@@ -102,7 +102,7 @@ public class TileEntityRendererConcreteMixer extends TileEntitySpecialRenderer<T
             GlStateManager.pushMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.translate(x, y, z);
-            GlStateManager.scale(0.25D, 0.25D, 0.25D);
+            GlStateManager.scale(0.5D, 0.5D, 0.5D);
             GlStateManager.translate(0D, itemBob, 0D);
             GlStateManager.rotate((float) rotation, 0, 1, 0);
             Minecraft.getMinecraft().getRenderItem().renderItem(tile.getStackInSlot(slotIndex), ItemCameraTransforms.TransformType.FIXED);

@@ -2,10 +2,16 @@ package shagejack.minecraftology.init;
 
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import shagejack.minecraftology.fluids.FluidHalfMoltenGlass;
 
 public class FluidsMCL {
 
+    public static FluidHalfMoltenGlass halfMoltenGlass;
+
     public static void init(FMLPreInitializationEvent event) {
+        halfMoltenGlass = new FluidHalfMoltenGlass("half_molten_glass");
+        FluidRegistry.registerFluid(halfMoltenGlass);
+        FluidRegistry.addBucketForFluid(halfMoltenGlass);
 
         registerFluidContainers();
     }

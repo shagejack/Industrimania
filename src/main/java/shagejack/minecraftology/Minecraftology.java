@@ -15,11 +15,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import shagejack.minecraftology.handler.ConfigurationHandler;
 import shagejack.minecraftology.handler.GuiHandler;
 import shagejack.minecraftology.handler.TickHandler;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.init.CapabilitiesMCL;
+import shagejack.minecraftology.init.FluidsMCL;
 import shagejack.minecraftology.init.ItemsMCL;
 import shagejack.minecraftology.network.PacketPipeline;
 import shagejack.minecraftology.proxy.CommonProxy;
@@ -49,6 +51,7 @@ public class Minecraftology {
     public static CommonProxy PROXY;
 
     static {
+        FluidRegistry.enableUniversalBucket();
         CONFIG_HANDLER = new ConfigurationHandler(new File("config"));
         NETWORK = new PacketPipeline();
         TICK_HANDLER = new TickHandler();
@@ -71,6 +74,7 @@ public class Minecraftology {
         MinecraftForge.EVENT_BUS.register(TICK_HANDLER);
 
         ITEMS.init();
+        FluidsMCL.init(event);
         BLOCKS.init();
 
         CapabilitiesMCL.init();

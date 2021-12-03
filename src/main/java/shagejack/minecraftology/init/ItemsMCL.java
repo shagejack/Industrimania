@@ -24,10 +24,14 @@ public class ItemsMCL {
     public FireTongs fire_tongs;
     public MCLBaseItem wind_flag;
     public MCLBaseItem gloves;
+    public MCLBaseItem iron_pipe;
 
     //  Materials
     public MCLBaseItem slag;
     public MCLBaseItem clinker;
+    public MCLBaseItem dust_sodium_carbonate;
+    public MCLBaseItem dust_potassium_carbonate;
+    public MCLBaseItem raw_glass_material;
     public MCLBaseItem cut_wrought_iron_ingot;
     public MCLBaseItem cut_iron_ingot;
     public MCLBaseItem cut_pig_iron_ingot;
@@ -44,6 +48,9 @@ public class ItemsMCL {
     public MaterialWithMass pig_iron_ingot;
     public MaterialWithMass pig_iron_small_plate;
     public MaterialWithMass pig_iron_big_plate;
+
+    //Mould
+    public MCLBaseItem glass_mould_block;
 
     private int registeredCount = 0;
 
@@ -64,10 +71,14 @@ public class ItemsMCL {
         fire_tongs = register(new FireTongs("fire_tongs"));
         wind_flag = register(new MCLBaseItem("wind_flag"));
         gloves = register(new MCLBaseItem("gloves"));
+        iron_pipe = register(new MCLBaseItem("iron_pipe"));
 
         //      Materials
         slag = register(new MCLBaseItem("slag"));
         clinker = register(new MCLBaseItem("clinker"));
+        dust_sodium_carbonate = register(new MCLBaseItem("dust_sodium_carbonate"));
+        dust_potassium_carbonate = register(new MCLBaseItem("dust_potassium_carbonate"));
+        raw_glass_material = register(new MCLBaseItem("raw_glass_material"));
         iron_rubbish = register(new MaterialWithMass("iron_rubbish"));
         cut_wrought_iron_ingot = register(new MCLBaseItem("cut_wrought_iron_ingot"));
         cut_iron_ingot = register(new MCLBaseItem("cut_iron_ingot"));
@@ -84,6 +95,9 @@ public class ItemsMCL {
         pig_iron_ingot = register(new MaterialWithMass("pig_iron_ingot"));
         pig_iron_big_plate = register(new MaterialWithMass("pig_iron_big_plate"));
         pig_iron_small_plate = register(new MaterialWithMass("pig_iron_small_plate"));
+
+        //Mould
+        glass_mould_block = register(new MCLBaseItem("glass_mould_block"));
 
         LogMCL.info("Finished registering items");
         LogMCL.info("Registered %d items", registeredCount);

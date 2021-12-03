@@ -5,7 +5,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import shagejack.minecraftology.api.internal.Storage;
 import shagejack.minecraftology.api.matter.IMatterHandler;
-import shagejack.minecraftology.data.MCLFluidTank;
+import shagejack.minecraftology.data.tank.MCLFluidTank;
 
 /**
  * @author shadowfacts

@@ -78,7 +78,9 @@ public class BlockFilingTable extends MCLBlockContainer<TileEntityFilingTable> {
                 boolean flag = false;
 
                 if (itemStack.isEmpty()) {
-                    tileEntity.setInventorySlotContents(0, stack.copy());
+                    ItemStack ingredient = stack.copy();
+                    ingredient.setCount(1);
+                    tileEntity.setInventorySlotContents(0, ingredient);
                     stack.setCount(stack.getCount() - 1);
                     flag = true;
                 }

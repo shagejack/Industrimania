@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,28 +19,21 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 import shagejack.minecraftology.data.Inventory;
-import shagejack.minecraftology.data.MCLFluidTank;
-import shagejack.minecraftology.data.inventory.Slot;
+import shagejack.minecraftology.data.tank.MCLFluidTank;
 import shagejack.minecraftology.data.inventory.SlotOne;
 import shagejack.minecraftology.machines.MCLTileEntityMachine;
 import shagejack.minecraftology.machines.MachineNBTCategory;
 import shagejack.minecraftology.machines.events.MachineEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import shagejack.minecraftology.util.LogMCL;
 
 import java.util.EnumSet;
 
 public class TileEntityConcreteMixer extends MCLTileEntityMachine implements ITickable {
 
     public MCLFluidTank tank;
-    private IItemHandler itemHandler;
 
     private int prevStirProgress = 0;
     private int stirProgress = 0;
@@ -74,10 +66,7 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements ITi
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
-        int[] SLOTS = new int[getSizeInventory()];
-        for (int index = 0; index < SLOTS.length; index++)
-            SLOTS[index] = index;
-        return SLOTS;
+        return new int[0];
     }
 
     @Override
@@ -97,7 +86,7 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements ITi
 
     @Override
     public boolean hasSound() {
-        return true;
+        return false;
     }
 
     @Override
@@ -341,7 +330,7 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements ITi
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
@@ -349,13 +338,7 @@ public class TileEntityConcreteMixer extends MCLTileEntityMachine implements ITi
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
             return (T) tank;
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-            return (T) (itemHandler == null ? (itemHandler = createUnSidedHandler()) : itemHandler);
         return super.getCapability(capability, facing);
-    }
-
-    protected IItemHandler createUnSidedHandler() {
-        return new InvWrapper(this);
     }
 
     public void setStirCount(int stirs) {

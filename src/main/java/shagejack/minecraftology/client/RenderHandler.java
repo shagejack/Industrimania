@@ -40,10 +40,7 @@ import shagejack.minecraftology.api.internal.ItemModelProvider;
 import shagejack.minecraftology.client.render.tileentity.*;
 import shagejack.minecraftology.init.BlocksMCL;
 import shagejack.minecraftology.init.ItemsMCL;
-import shagejack.minecraftology.tile.TileEntityConcreteMixer;
-import shagejack.minecraftology.tile.TileEntityFilingTable;
-import shagejack.minecraftology.tile.TileEntityForge;
-import shagejack.minecraftology.tile.TileEntitySawTable;
+import shagejack.minecraftology.tile.*;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -68,6 +65,7 @@ public class RenderHandler {
     private TileEntityRendererFilingTable tileEntityRendererFilingTable;
     private TileEntityRendererSawTable tileEntityRendererSawTable;
     private TileEntityRendererConcreteMixer tileEntityRendererConcreteMixer;
+    private TileEntityRendererGlassMould tileEntityRendererGlassMould;
 
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event) {
@@ -97,6 +95,7 @@ public class RenderHandler {
         tileEntityRendererFilingTable = new TileEntityRendererFilingTable();
         tileEntityRendererSawTable = new TileEntityRendererSawTable();
         tileEntityRendererConcreteMixer = new TileEntityRendererConcreteMixer();
+        tileEntityRendererGlassMould = new TileEntityRendererGlassMould();
     }
 
     public void registerTileEntitySpecialRenderers() {
@@ -104,6 +103,7 @@ public class RenderHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFilingTable.class, tileEntityRendererFilingTable);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySawTable.class, tileEntityRendererSawTable);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConcreteMixer.class, tileEntityRendererConcreteMixer);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGlassMould.class, tileEntityRendererGlassMould);
     }
 
 }

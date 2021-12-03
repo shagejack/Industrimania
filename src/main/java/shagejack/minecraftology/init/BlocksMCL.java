@@ -44,6 +44,10 @@ public class BlocksMCL {
         public BlockFilingTable mechanic_filing_table;
         public BlockSawTable mechanic_saw_table;
         public BlockConcreteMixer mechanic_concrete_mixer;
+        public BlockGlassMeltingFurnace mechanic_glass_melting_furnace;
+        public BlockGlassMeltingFurnaceInput mechanic_glass_melting_furnace_input;
+        public BlockGlassMeltingFurnaceOutput mechanic_glass_melting_furnace_output;
+        public BlockGlassMould mechanic_glass_mould;
 
         private int registeredCount = 0;
 
@@ -85,6 +89,10 @@ public class BlocksMCL {
             mechanic_filing_table = register(new BlockFilingTable(Material.ROCK, "mechanic.filing_table"));
             mechanic_saw_table = register(new BlockSawTable(Material.ROCK, "mechanic.saw_table"));
             mechanic_concrete_mixer = register(new BlockConcreteMixer(Material.ROCK, "mechanic.concrete_mixer"));
+            mechanic_glass_melting_furnace = register(new BlockGlassMeltingFurnace(Material.ROCK, "mechanic.glass_melting_furnace"));
+            mechanic_glass_melting_furnace_input = register(new BlockGlassMeltingFurnaceInput(Material.ROCK, "mechanic.glass_melting_furnace_input"));
+            mechanic_glass_melting_furnace_output = register(new BlockGlassMeltingFurnaceOutput(Material.ROCK, "mechanic.glass_melting_furnace_output"));
+            mechanic_glass_mould = register(new BlockGlassMould(Material.ROCK, "mechanic.glass_mould"));
 
             LogMCL.info("Finished registering blocks");
             LogMCL.info("Registered %d blocks", registeredCount);
