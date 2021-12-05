@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
 
-public class TileEntityRendererConcreteMixer extends TileEntitySpecialRenderer<TileEntityConcreteMixer> {
+public class TileEntityRendererConcreteMixer extends MCLTileEntityRendererBase<TileEntityConcreteMixer> {
 
     @Override
     public void render(TileEntityConcreteMixer tile, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
@@ -95,6 +95,7 @@ public class TileEntityRendererConcreteMixer extends TileEntitySpecialRenderer<T
         Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(Blocks.STONE.getDefaultState(), 1.0F);
         GlStateManager.popMatrix();
         GlStateManager.popMatrix();
+        super.render(tile, x, y + 1, z, partialTick, destroyStage, alpha);
     }
 
     private void renderItemInSlot(TileEntityConcreteMixer tile, int slotIndex, double x, double y, double z, double itemBob, double rotation) {

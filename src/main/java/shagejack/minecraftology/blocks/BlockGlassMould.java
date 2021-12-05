@@ -74,17 +74,15 @@ public class BlockGlassMould extends MCLBlockMachine<TileEntityGlassMould> imple
             if (!player.isSneaking()) {
                 if (!heldItem.isEmpty()) {
                     if(heldItem.getItem() != Minecraftology.ITEMS.iron_pipe) {
-                        for (int i = 0; i <= 0; i++) {
-                            if (tile.getStackInSlot(i).isEmpty()) {
+                            if (tile.getStackInSlot(0).isEmpty()) {
                                 ItemStack ingredient = heldItem.copy();
                                 ingredient.setCount(1);
-                                tile.setInventorySlotContents(i, ingredient);
+                                tile.setInventorySlotContents(0, ingredient);
                                 if (!player.capabilities.isCreativeMode)
                                     heldItem.shrink(1);
                                 world.notifyBlockUpdate(pos, state, state, 3);
                                 return true;
                             }
-                        }
                     } else if (tile != null && tile.tank.getFluidAmount() >= Fluid.BUCKET_VOLUME) {
                         if(!tile.getBlowing()) {
                             tile.setBlowing(true);

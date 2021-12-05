@@ -318,7 +318,7 @@ public class TileEntityGlassMeltingFurnace extends MCLTileEntityMachine implemen
     public void manageBurn(){
         if(isBurning()){
             if(temperature < 1523.15){
-                temperature += 0.01;
+                temperature += 0.025;
             }
         } else {
             if(temperature > 298.15){
