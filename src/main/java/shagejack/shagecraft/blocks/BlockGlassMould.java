@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -21,6 +22,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.ItemHandlerHelper;
 import shagejack.shagecraft.Shagecraft;
 import shagejack.shagecraft.blocks.includes.ShageBlockMachine;
 import shagejack.shagecraft.tile.TileEntityGlassMould;
@@ -99,9 +101,15 @@ public class BlockGlassMould extends ShageBlockMachine<TileEntityGlassMould> imp
 
             if (player.isSneaking()) {
                     if (!tile.getStackInSlot(0).isEmpty()) {
-                        if (!player.inventory.addItemStackToInventory(tile.getStackInSlot(0)))
-                            ForgeHooks.onPlayerTossEvent(player, tile.getStackInSlot(0), false);
-                        tile.removeStackFromSlot(0);
+                        ItemStack result = tile.removeStackFromSlot(0);
+
+                        if (result.isEmpty()) {
+                            if (!heldItem.isEmpty())
+                                return false;
+                        }
+                        if (!result.isEmpty())
+                            ItemHandlerHelper.giveItemToPlayer(player, result, EntityEquipmentSlot.MAINHAND.getSlotIndex());
+
                         world.notifyBlockUpdate(pos, state, state, 3);
                         tile.markDirty();
                         return true;

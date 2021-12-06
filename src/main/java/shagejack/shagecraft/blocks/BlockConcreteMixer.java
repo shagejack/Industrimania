@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +19,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.ItemHandlerHelper;
 import shagejack.shagecraft.blocks.includes.ShageBlockMachine;
 import shagejack.shagecraft.tile.TileEntityConcreteMixer;
 
@@ -97,9 +99,16 @@ public class BlockConcreteMixer extends ShageBlockMachine<TileEntityConcreteMixe
             if (player.isSneaking()) {
                 for (int i = 8; i >= 0; i--) {
                     if (!tile.getStackInSlot(i).isEmpty()) {
-                        if (!player.inventory.addItemStackToInventory(tile.getStackInSlot(i)))
-                            ForgeHooks.onPlayerTossEvent(player, tile.getStackInSlot(i), false);
-                        tile.removeStackFromSlot(i);
+
+                        ItemStack result = tile.removeStackFromSlot(i);
+
+                        if (result.isEmpty()) {
+                            if (!heldItem.isEmpty())
+                                return false;
+                        }
+                        if (!result.isEmpty())
+                            ItemHandlerHelper.giveItemToPlayer(player, result, EntityEquipmentSlot.MAINHAND.getSlotIndex());
+
                         tile.setStirCount(0);
                         tile.setMixing(false);
                         world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5F, 2F);

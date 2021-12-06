@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 import shagejack.shagecraft.tile.TileEntityGlassMould;
@@ -55,8 +56,9 @@ public class TileEntityRendererGlassMould extends ShageTileEntityRendererBase<Ti
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
-        if (!te.getStackInSlot(0).isEmpty())
+        if (!te.getStackInSlot(0).isEmpty()) {
             renderStillItem(te, te.getStackInSlot(0), 0.5F, 0.5F, 0.5F, 2.0F);
+        }
         GlStateManager.popMatrix();
 
         super.render(te, x, y + 1, z, partialTicks, destroyStage, alpha);
