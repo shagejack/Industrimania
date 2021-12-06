@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -66,15 +67,15 @@ public class BlockConcreteMixer extends ShageBlockMachine<TileEntityConcreteMixe
             return FluidUtil.getFluidHandler(heldItem) != null;
         }
 
-        if (!world.isRemote && world.getTileEntity(pos) instanceof TileEntityConcreteMixer) {
+        if (world.getTileEntity(pos) instanceof TileEntityConcreteMixer) {
             TileEntityConcreteMixer tile = (TileEntityConcreteMixer) world.getTileEntity(pos);
             if (!player.isSneaking()) {
                 if (tile != null && heldItem.isEmpty() && tile.tank.getFluidAmount() >= Fluid.BUCKET_VOLUME) {
                     if(!tile.getMixing()) {
                         tile.setMixing(true);
                         tile.setStirCount(tile.getStirCount() + 1);
-                        world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_PLAYER_SWIM, SoundCategory.BLOCKS, 0.5F, 0.25F);
-                        world.notifyBlockUpdate(pos, state, state, 3);
+                        if(!world.isRemote) world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_PLAYER_SWIM, SoundCategory.BLOCKS, 0.5F, 0.25F);
+                        tile.forceSync();
                         return true;
                     }
                 }
@@ -88,8 +89,8 @@ public class BlockConcreteMixer extends ShageBlockMachine<TileEntityConcreteMixe
                                 heldItem.shrink(1);
                             tile.setStirCount(0);
                             tile.setMixing(false);
-                            world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_PLAYER_SPLASH, SoundCategory.BLOCKS, 0.75F, 2F);
-                            world.notifyBlockUpdate(pos, state, state, 3);
+                            if(!world.isRemote) world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_PLAYER_SPLASH, SoundCategory.BLOCKS, 0.75F, 2F);
+                            tile.forceSync();
                             return true;
                         }
                     }
@@ -111,8 +112,8 @@ public class BlockConcreteMixer extends ShageBlockMachine<TileEntityConcreteMixe
 
                         tile.setStirCount(0);
                         tile.setMixing(false);
-                        world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5F, 2F);
-                        world.notifyBlockUpdate(pos, state, state, 3);
+                        if(!world.isRemote) world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 0.5F, 2F);
+                        tile.forceSync();
                         tile.markDirty();
                         return true;
                     }

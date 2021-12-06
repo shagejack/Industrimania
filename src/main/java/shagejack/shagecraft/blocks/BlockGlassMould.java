@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -70,7 +71,7 @@ public class BlockGlassMould extends ShageBlockMachine<TileEntityGlassMould> imp
             return FluidUtil.getFluidHandler(heldItem) != null;
         }
 
-        if (!world.isRemote && world.getTileEntity(pos) instanceof TileEntityGlassMould) {
+        if (world.getTileEntity(pos) instanceof TileEntityGlassMould) {
             TileEntityGlassMould tile = (TileEntityGlassMould) world.getTileEntity(pos);
             if (!player.isSneaking()) {
                 if (!heldItem.isEmpty()) {
@@ -81,15 +82,15 @@ public class BlockGlassMould extends ShageBlockMachine<TileEntityGlassMould> imp
                                 tile.setInventorySlotContents(0, ingredient);
                                 if (!player.capabilities.isCreativeMode)
                                     heldItem.shrink(1);
-                                world.notifyBlockUpdate(pos, state, state, 3);
+                                tile.forceSync();
                                 return true;
                             }
                     } else if (tile != null && tile.tank.getFluidAmount() >= Fluid.BUCKET_VOLUME) {
                         if(!tile.getBlowing()) {
                             tile.setBlowing(true);
                             tile.setBlowCount(tile.getBlowCount() + 1);
-                            world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_PLAYER_BREATH, SoundCategory.BLOCKS, 0.5F, 0.25F);
-                            world.notifyBlockUpdate(pos, state, state, 3);
+                            if(!world.isRemote) world.playSound((EntityPlayer)null, pos, SoundEvents.ENTITY_PLAYER_BREATH, SoundCategory.BLOCKS, 0.5F, 0.25F);
+                            tile.forceSync();
                             return true;
                         } else {
                             tile.setBlowCount(0);
@@ -110,7 +111,7 @@ public class BlockGlassMould extends ShageBlockMachine<TileEntityGlassMould> imp
                         if (!result.isEmpty())
                             ItemHandlerHelper.giveItemToPlayer(player, result, EntityEquipmentSlot.MAINHAND.getSlotIndex());
 
-                        world.notifyBlockUpdate(pos, state, state, 3);
+                        tile.forceSync();
                         tile.markDirty();
                         return true;
                     }
