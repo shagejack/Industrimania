@@ -1,0 +1,22 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube",
+    "textures": {
+      "particle": "shagecraft:blocks/mechanic.forge_side",
+      "down": "shagecraft:blocks/mechanic.forge_bottom",
+      "up": "shagecraft:blocks/mechanic.forge_top",
+      "north": "shagecraft:blocks/mechanic.forge_side",
+      "south": "shagecraft:blocks/mechanic.forge_side",
+      "west": "shagecraft:blocks/mechanic.forge_side",
+      "east": "shagecraft:blocks/mechanic.forge_side"
+    }
+  },
+  "variants": {
+    "normal": {"model": "cube"},
+    "inventory": {
+      "model": "cube",
+      "transform": "forge:default-block"
+    }
+  }
+}

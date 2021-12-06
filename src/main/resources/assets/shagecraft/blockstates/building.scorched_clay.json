@@ -1,0 +1,22 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube",
+    "textures": {
+      "particle": "shagecraft:blocks/building.scorched_clay_top",
+      "down": "shagecraft:blocks/building.scorched_clay_top",
+      "up": "shagecraft:blocks/building.scorched_clay_top",
+      "north": "shagecraft:blocks/building.scorched_clay_side",
+      "south": "shagecraft:blocks/building.scorched_clay_side",
+      "west": "shagecraft:blocks/building.scorched_clay_side",
+      "east": "shagecraft:blocks/building.scorched_clay_side"
+    }
+  },
+  "variants": {
+    "normal": {"model": "cube"},
+    "inventory": {
+      "model": "cube",
+      "transform": "forge:default-block"
+    }
+  }
+}

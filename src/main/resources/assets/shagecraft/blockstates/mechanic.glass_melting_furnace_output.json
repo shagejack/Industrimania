@@ -1,0 +1,22 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube",
+    "textures": {
+      "particle": "blocks/brick",
+      "down": "blocks/brick",
+      "up": "blocks/brick",
+      "north": "shagecraft:blocks/mechanic.glass_melting_furnace_output_side",
+      "south": "shagecraft:blocks/mechanic.glass_melting_furnace_output_side",
+      "west": "shagecraft:blocks/mechanic.glass_melting_furnace_output_side",
+      "east": "shagecraft:blocks/mechanic.glass_melting_furnace_output_side"
+    }
+  },
+  "variants": {
+    "normal": {"model": "cube"},
+    "inventory": {
+      "model": "cube",
+      "transform": "forge:default-block"
+    }
+  }
+}

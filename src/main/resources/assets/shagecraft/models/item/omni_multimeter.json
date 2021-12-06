@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "shagecraft:items/omni_multimeter"
+  }
+}
