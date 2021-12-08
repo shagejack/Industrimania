@@ -136,7 +136,7 @@ public class TileEntityForge extends ShageTileEntityMachine {
 
                         mass -= 0.1 * Math.random();
                         carbon -= 0.0005 * Math.random();
-                        impurities -= 0.25 * Math.random();
+                        impurities -= 0.025 * Math.random();
                         temp += 0.1 * Math.random();
 
                         if (mass <= 0) itemStack.setCount(0);
@@ -166,7 +166,7 @@ public class TileEntityForge extends ShageTileEntityMachine {
 
                         mass -= 0.05 * Math.random();
                         carbon -= 0.0005 * Math.random();
-                        impurities -= 0.1 * Math.random();
+                        impurities -= 0.01 * Math.random();
                         temp += 0.05 * Math.random();
 
                         if (mass <= 0) itemStack.setCount(0);

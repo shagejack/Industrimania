@@ -49,6 +49,9 @@ public class ShagecraftBlocks {
         public BlockGlassMeltingFurnaceOutput mechanic_glass_melting_furnace_output;
         public BlockGlassMould mechanic_glass_mould;
 
+        //Steam Transfer
+        public BlockSteamPipe steam_pipe;
+
         private int registeredCount = 0;
 
         @SubscribeEvent
@@ -93,6 +96,9 @@ public class ShagecraftBlocks {
             mechanic_glass_melting_furnace_input = register(new BlockGlassMeltingFurnaceInput(Material.ROCK, "mechanic.glass_melting_furnace_input"));
             mechanic_glass_melting_furnace_output = register(new BlockGlassMeltingFurnaceOutput(Material.ROCK, "mechanic.glass_melting_furnace_output"));
             mechanic_glass_mould = register(new BlockGlassMould(Material.ROCK, "mechanic.glass_mould"));
+
+            //Steam Transfer
+            steam_pipe = register(new BlockSteamPipe(Material.ROCK, "steam_pipe"));
 
             LogShage.info("Finished registering blocks");
             LogShage.info("Registered %d blocks", registeredCount);

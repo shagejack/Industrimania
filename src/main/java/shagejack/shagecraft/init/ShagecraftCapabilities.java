@@ -4,7 +4,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import shagejack.shagecraft.api.internal.Storage;
-import shagejack.shagecraft.api.matter.IMatterHandler;
+import shagejack.shagecraft.api.steam.ISteamHandler;
 import shagejack.shagecraft.data.tank.ShageFluidTank;
 
 /**
@@ -12,11 +12,11 @@ import shagejack.shagecraft.data.tank.ShageFluidTank;
  */
 public class ShagecraftCapabilities {
 
-    @CapabilityInject(IMatterHandler.class)
-    public static Capability<IMatterHandler> MATTER_HANDLER;
+    @CapabilityInject(ISteamHandler.class)
+    public static Capability<ISteamHandler> STEAM_HANDLER;
 
     public static void init() {
-        CapabilityManager.INSTANCE.register(IMatterHandler.class, new Storage<>(), () -> new ShageFluidTank(2000));
+        CapabilityManager.INSTANCE.register(ISteamHandler.class, new Storage<>(), () -> new ShageFluidTank(2000));
     }
 
 }

@@ -4,10 +4,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import shagejack.shagecraft.api.matter.IMatterHandler;
+import shagejack.shagecraft.api.steam.ISteamHandler;
 import shagejack.shagecraft.init.ShagecraftFluids;
 
-public class GlassMeltingFurnaceTank extends ShageFluidTank implements IMatterHandler {
+public class GlassMeltingFurnaceTank extends ShageFluidTank implements ISteamHandler {
 
     private int maxExtract;
     private int maxReceive;

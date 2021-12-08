@@ -5,9 +5,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import shagejack.shagecraft.api.matter.IMatterHandler;
+import shagejack.shagecraft.api.steam.ISteamHandler;
 
-public class ShageFluidTank extends FluidTank implements IMatterHandler {
+public class ShageFluidTank extends FluidTank implements ISteamHandler {
 
     private int maxExtract;
     private int maxReceive;

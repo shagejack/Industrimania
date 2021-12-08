@@ -21,19 +21,19 @@ item.shagecraft.cut_iron_rubbish.name=铁碎屑
 
 item.shagecraft.burnt_stone_slab.name=煅烧石板材
 
-item.shagecraft.cut_wrought_iron_ingot.name=切割铸铁锭
-item.shagecraft.cut_iron_ingot.name=切割低密度钢锭
+item.shagecraft.cut_wrought_iron_ingot.name=切割锻铁锭
+item.shagecraft.cut_iron_ingot.name=切割低合金锻钢锭
 item.shagecraft.cut_pig_iron_ingot.name=切割生铁锭
 
 item.shagecraft.iron_rubbish.name=含铁废料
 
-item.shagecraft.iron_ingot.name=低密度钢锭
-item.shagecraft.iron_small_plate.name=低密度钢大板
-item.shagecraft.iron_big_plate.name=低密度钢板
+item.shagecraft.iron_ingot.name=低合金锻钢锭
+item.shagecraft.iron_small_plate.name=低合金锻钢大板
+item.shagecraft.iron_big_plate.name=低合金锻钢板
 
-item.shagecraft.wrought_iron_ingot.name=铸铁锭
-item.shagecraft.wrought_iron_small_plate.name=铸铁大板
-item.shagecraft.wrought_iron_big_plate.name=铸铁板
+item.shagecraft.wrought_iron_ingot.name=锻铁锭
+item.shagecraft.wrought_iron_small_plate.name=锻铁大板
+item.shagecraft.wrought_iron_big_plate.name=锻铁板
 
 item.shagecraft.pig_iron_ingot.name=生铁锭
 item.shagecraft.pig_iron_small_plate.name=生铁大板
@@ -68,9 +68,11 @@ tile.mechanic.glass_melting_furnace_input.name=玻璃熔窑燃烧室
 tile.mechanic.glass_melting_furnace_output.name=玻璃熔窑出液口
 tile.mechanic.glass_mould.name=玻璃吹制槽
 
+tile.steam_pipe.name=蒸汽管道
+
 ###############################################################################################################
 # Fluids
-fluid.half_molten_glass.name=半熔融态玻璃
+fluid.half_molten_glass=半熔融态玻璃
 
 ##########################################################################################################
 # Creative Tabs

@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import shagejack.shagecraft.handler.ConfigurationHandler;
 import shagejack.shagecraft.handler.GuiHandler;
 import shagejack.shagecraft.handler.TickHandler;
+import shagejack.shagecraft.handler.steam_network.SteamNetworkHandler;
 import shagejack.shagecraft.init.ShagecraftBlocks;
 import shagejack.shagecraft.init.ShagecraftCapabilities;
 import shagejack.shagecraft.init.ShagecraftFluids;
@@ -38,6 +39,7 @@ public class Shagecraft {
     public static final TickHandler TICK_HANDLER;
     public static final GuiHandler GUI_HANDLER;
     public static final ConfigurationHandler CONFIG_HANDLER;
+    public static final SteamNetworkHandler STEAM_NETWORK_HANDLER;
 
     //public static final MineRegistry MINE_REGISTRY;
     public static final PacketPipeline NETWORK;
@@ -50,6 +52,7 @@ public class Shagecraft {
         NETWORK = new PacketPipeline();
         TICK_HANDLER = new TickHandler();
         GUI_HANDLER = new GuiHandler();
+        STEAM_NETWORK_HANDLER = new SteamNetworkHandler();
     }
 
     /**
@@ -74,6 +77,8 @@ public class Shagecraft {
         ShagecraftCapabilities.init();
 
         NETWORK.registerPackets();
+
+        MinecraftForge.EVENT_BUS.register(STEAM_NETWORK_HANDLER);
 
         PROXY.preInit(event);
     }
