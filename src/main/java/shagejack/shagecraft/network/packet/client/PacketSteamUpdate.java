@@ -18,7 +18,6 @@
 
 package shagejack.shagecraft.network.packet.client;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -28,10 +27,8 @@ import shagejack.shagecraft.init.ShagecraftCapabilities;
 import shagejack.shagecraft.network.packet.TileEntityUpdatePacket;
 
 public class PacketSteamUpdate extends TileEntityUpdatePacket {
-    private double steam_volume = 0;
+    private double steam_mass = 0;
     private double steam_temp = 0;
-    private double steam_pressure = 0;
-    private double steam_humidity = 0;
     private int steam_state = 0;
 
     public PacketSteamUpdate() {
@@ -39,10 +36,8 @@ public class PacketSteamUpdate extends TileEntityUpdatePacket {
 
     public PacketSteamUpdate(TileEntity tileentity) {
         super(tileentity.getPos());
-        steam_volume = tileentity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getSteamVolume();
+        steam_mass = tileentity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getSteamMass();
         steam_temp = tileentity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getSteamTemp();
-        steam_pressure = tileentity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getSteamPressure();
-        steam_humidity = tileentity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getSteamHumidity();
         steam_state = tileentity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getSteamState();
     }
 
@@ -54,10 +49,8 @@ public class PacketSteamUpdate extends TileEntityUpdatePacket {
                 TileEntity tileEntity = player.world.getTileEntity(message.pos);
 
                 if (tileEntity != null) {
-                    tileEntity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).setSteamVolume(message.steam_volume);
+                    tileEntity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).setSteamMass(message.steam_mass);
                     tileEntity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).setSteamTemp(message.steam_temp);
-                    tileEntity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).setSteamPressure(message.steam_pressure);
-                    tileEntity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).setSteamHumidity(message.steam_humidity);
                     tileEntity.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).setSteamState(message.steam_state);
                 }
             }

@@ -9,10 +9,17 @@ import shagejack.shagecraft.tile.pipes.TileEntitySteamPipe;
 import javax.annotation.Nonnull;
 
 public class BlockSteamPipe extends BlockPipe<TileEntitySteamPipe> {
-    public BlockSteamPipe(Material material, String name) {
+    protected double capacity;
+
+    public BlockSteamPipe(Material material, String name, double capacity) {
         super(material, name);
         setHardness(10.0F);
         this.setResistance(5.0f);
+        this.setCapacity(capacity);
+    }
+
+    public void setCapacity(double capacity) {
+        this.capacity = capacity;
     }
 
     @Override
@@ -23,6 +30,6 @@ public class BlockSteamPipe extends BlockPipe<TileEntitySteamPipe> {
     @Nonnull
     @Override
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        return new TileEntitySteamPipe();
+        return new TileEntitySteamPipe(capacity);
     }
 }

@@ -8,9 +8,44 @@ import net.minecraftforge.common.util.INBTSerializable;
  */
 public interface ISteamHandler extends INBTSerializable<NBTTagCompound> {
     /**
-     * @return the current steam volume.
+     * @return the current steam mass.
      */
-    double getSteamVolume();
+    double getSteamMass();
+
+    /**
+     *
+     * @param properties
+     * @return actual enthalpy in KJ/kg
+     */
+    double getActualEnthalpy(double[] properties);
+
+    /**
+     *
+     * @param efficiency
+     * @param mass
+     * @param enthalpy
+     * @return actual work in KJ.
+     */
+    double getActualWork(double efficiency, double mass, double enthalpy);
+
+    double getCurrentActualWork(double efficiency);
+
+    /**
+     *
+     * @return actual power in KW.
+     */
+    double getActualPower(double efficiency, double mass, double pressure);
+
+    double getCurrentActualPower(double efficiency);
+
+    double getCurrentEnthalpyConsume();
+
+    /**
+     *
+     * @param consume consumed enthalpy.
+     * @return temperature drop from consumed enthalpy;
+     */
+    double manageSteamTempFromConsume(double consume);
 
     /**
      * @return the current steam temperature.
@@ -19,19 +54,28 @@ public interface ISteamHandler extends INBTSerializable<NBTTagCompound> {
 
     double getSteamPressure();
 
-    double getSteamHumidity();
+    //double getSteamQuality();
 
     int getSteamState();
 
-    void setSteamVolume(double volume);
+    void setSteamMass(double mass);
 
     void setSteamTemp(double temp);
 
-    void setSteamPressure(double pressure);
+    //void setSteamPressure(double pressure);
 
-    void setSteamHumidity(double humidity);
+    //void setSteamQuality(double quality);
 
     void setSteamState(int state);
+
+    /**
+     * empty the steam storage.
+     */
+    void releaseSteam();
+
+    boolean hasSteam();
+
+    boolean isExceededCapacity();
 
     /**
      * @return the maximum capacity.
@@ -39,44 +83,36 @@ public interface ISteamHandler extends INBTSerializable<NBTTagCompound> {
     double getCapacity();
 
     /**
-     * @param capacity Sets the capacity
+     * @param capacity Sets the capacity.
      */
     void setCapacity(double capacity);
 
     /**
-     * Modifies the amount of matter stored by the given amount.
-     *
-     * @param amount The amount of matter to add/subtract
-     * @return The amount added/subtracted
-     */
-    double[] modifySteam(double amount);
-
-    /**
      * Used to receive steam.
      *
-     * @param amount   the amount of received matter.
+     * @param properties   the properties of received matter.
      * @param simulate is this a simulation.
-     *                 No matter will be stored if this is true.
-     *                 Used to check if the given amount of matter can be received.
+     *                 No steam will be stored if this is true.
+     *
      * @return the amount of matter received.
      * This is the same, not matter if the call is a simulation.
      */
-    double[] receiveSteam(double[] properties, int state, boolean simulate);
+    double[] receiveSteam(double[] properties, boolean simulate);
 
     /**
      * Used to extract steam.
      *
-     * @param amount   the amount of matter extracted.
-     * @param simulate No matter will be stored if this is set to true.
-     *                 Used to check if the specified amount of matter can be extracted.
+     * @param properties  the properties of steam extracted.
+     * @param simulate No steam will be stored if this is set to true.
+     *
      * @return the amount of matter extracted.
      * This is the same, no matter if the call is a simulation.
      */
-    double[] extractSteam(double[] properties, int state, boolean simulate);
+    double[] mergeSteam(double[] properties, double[] target, boolean simulate);
 
     /**
      * Used to get merged properties.
-     * @return 0: volume, 1: temp, 2: pressure, 3: humidity.
+     * @return 0: mass, 1: temp, 2: state.
      */
     double[] mergeProperties();
 
@@ -85,10 +121,10 @@ public interface ISteamHandler extends INBTSerializable<NBTTagCompound> {
     @Override
     default NBTTagCompound serializeNBT() {
         NBTTagCompound tag = new NBTTagCompound();
-        tag.setDouble("steam_volume", getSteamVolume());
+        tag.setDouble("steam_mass", getSteamMass());
         tag.setDouble("steam_temp", getSteamTemp());
-        tag.setDouble("steam_pressure", getSteamPressure());
-        tag.setDouble("steam_humidity", getSteamHumidity());
+        //tag.setDouble("steam_pressure", getSteamPressure());
+        //tag.setDouble("steam_quality", getSteamQuality());
         tag.setInteger("steam_state", getSteamState());
         tag.setDouble("capacity", getCapacity());
         return tag;
@@ -96,10 +132,10 @@ public interface ISteamHandler extends INBTSerializable<NBTTagCompound> {
 
     @Override
     default void deserializeNBT(NBTTagCompound tag) {
-        setSteamVolume(tag.getDouble("steam_volume"));
+        setSteamMass(tag.getDouble("steam_mass"));
         setSteamTemp(tag.getDouble("steam_temp"));
-        setSteamPressure(tag.getDouble("steam_pressure"));
-        setSteamHumidity(tag.getDouble("steam_humidity"));
+        //setSteamPressure(tag.getDouble("steam_pressure"));
+        //setSteamQuality(tag.getDouble("steam_quality"));
         setSteamState(tag.getInteger("steam_state"));
         setCapacity(tag.getDouble("capacity"));
     }

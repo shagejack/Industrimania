@@ -49,8 +49,10 @@ public class ShagecraftBlocks {
         public BlockGlassMeltingFurnaceOutput mechanic_glass_melting_furnace_output;
         public BlockGlassMould mechanic_glass_mould;
 
-        //Steam Transfer
-        public BlockSteamPipe steam_pipe;
+        //Steam
+        public BlockBoiler steam_boiler;
+        public BlockSteamForgeHammer steam_forge_hammer;
+        public BlockSteamPipe steam_steam_pipe;
 
         private int registeredCount = 0;
 
@@ -97,8 +99,11 @@ public class ShagecraftBlocks {
             mechanic_glass_melting_furnace_output = register(new BlockGlassMeltingFurnaceOutput(Material.ROCK, "mechanic.glass_melting_furnace_output"));
             mechanic_glass_mould = register(new BlockGlassMould(Material.ROCK, "mechanic.glass_mould"));
 
-            //Steam Transfer
-            steam_pipe = register(new BlockSteamPipe(Material.ROCK, "steam_pipe"));
+
+            //Steam
+            steam_boiler = register(new BlockBoiler(Material.ROCK, "steam.boiler"));
+            steam_forge_hammer = register(new BlockSteamForgeHammer(Material.ROCK, "steam.forge_hammer"));
+            steam_steam_pipe = register(new BlockSteamPipe(Material.ROCK, "steam.steam_pipe", 50));
 
             LogShage.info("Finished registering blocks");
             LogShage.info("Registered %d blocks", registeredCount);

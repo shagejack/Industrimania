@@ -195,7 +195,7 @@ public class TileEntityForgeFurnace extends ShageTileEntityMachine implements IS
             if (inputStack.getItem() == Shagecraft.ITEMS.iron_cluster) {
                 double temp = Shagecraft.ITEMS.iron_cluster.getTemp(inputStack);
                 if (temp < furnaceTemp) {
-                   temp += 0.1 * Math.pow((furnaceTemp - temp), 0.5);
+                   temp += 0.01 * Math.pow((furnaceTemp - temp), 0.5);
                 }
                 furnaceTemp -= 0.2;
                 Shagecraft.ITEMS.iron_cluster.setTemp(inputStack, temp);

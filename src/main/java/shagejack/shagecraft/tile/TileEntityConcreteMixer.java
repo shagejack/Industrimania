@@ -145,6 +145,7 @@ public class TileEntityConcreteMixer extends ShageTileEntityMachine implements I
         //nbt.setInteger("stirProgress", stirProgress);
         nbt.setInteger("stirCount", stirCount);
         nbt.setBoolean("mixing", getMixing());
+        super.writeCustomNBT(nbt, categories, toDisk);
     }
 
     @Override
@@ -158,6 +159,7 @@ public class TileEntityConcreteMixer extends ShageTileEntityMachine implements I
         //stirProgress = nbt.getInteger("stirProgress");
         stirCount = nbt.getInteger("stirCount");
         mixing = nbt.getBoolean("mixing");
+        super.readCustomNBT(nbt, categories);
     }
 
     @Override

@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "0": "shagecraft:blocks/steam_pipe"
+      "0": "shagecraft:blocks/steam.steam_pipe"
     },
     "model": "shagecraft:pipe/pipe_center"
   },

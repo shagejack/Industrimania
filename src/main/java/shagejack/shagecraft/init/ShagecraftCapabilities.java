@@ -5,6 +5,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import shagejack.shagecraft.api.internal.Storage;
 import shagejack.shagecraft.api.steam.ISteamHandler;
+import shagejack.shagecraft.data.SteamStorage;
 import shagejack.shagecraft.data.tank.ShageFluidTank;
 
 /**
@@ -16,7 +17,7 @@ public class ShagecraftCapabilities {
     public static Capability<ISteamHandler> STEAM_HANDLER;
 
     public static void init() {
-        CapabilityManager.INSTANCE.register(ISteamHandler.class, new Storage<>(), () -> new ShageFluidTank(2000));
+        CapabilityManager.INSTANCE.register(ISteamHandler.class, new Storage<>(), () -> new SteamStorage(1000));
     }
 
 }

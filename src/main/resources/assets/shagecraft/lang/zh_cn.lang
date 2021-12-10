@@ -68,7 +68,9 @@ tile.mechanic.glass_melting_furnace_input.name=玻璃熔窑燃烧室
 tile.mechanic.glass_melting_furnace_output.name=玻璃熔窑出液口
 tile.mechanic.glass_mould.name=玻璃吹制槽
 
-tile.steam_pipe.name=蒸汽管道
+tile.steam.steam_pipe.name=蒸汽管道
+tile.steam.boiler.name=锅炉
+tile.steam.forge_hammer.name=蒸汽锻造锤
 
 ###############################################################################################################
 # Fluids

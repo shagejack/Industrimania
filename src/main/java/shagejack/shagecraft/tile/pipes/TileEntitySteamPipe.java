@@ -24,7 +24,9 @@ import shagejack.shagecraft.network.packet.client.PacketSteamUpdate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Random;
 
 public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
@@ -36,9 +38,9 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
 
     private double durability;
 
-    public TileEntitySteamPipe() {
+    public TileEntitySteamPipe(double capacity) {
         t = new TimeTracker();
-        storage = new SteamStorage(1000);
+        storage = new SteamStorage(capacity);
         this.transferSpeed = 10;
     }
 
@@ -46,8 +48,10 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
     public void update() {
         super.update();
         if (!world.isRemote) {
-            manageSteamStored();
-            manageTransfer();
+            if (checkStored()) {
+                manageSteamStored();
+                manageTransfer();
+            }
             manageNetwork();
         }
     }
@@ -62,53 +66,85 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
     }
 
     public void manageTransfer() {
-        if (storage.getSteamVolume() > 0 && getNetwork() != null) {
-            for (IFluidPipe pipe : getNetwork().getNodes()) {
+        if (storage.getSteamMass() > 0 && getNetwork() != null) {
+            //for (IFluidPipe pipe : getNetwork().getNodes()) {
+            List<EnumFacing> faces = new ArrayList<>();
                 for (EnumFacing direction : EnumFacing.VALUES) {
-                    TileEntity handler = pipe.getTile().getWorld().getTileEntity(pipe.getTile().getPos().offset(direction));
-                    if (handler != null && handler.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()) && !(handler instanceof IFluidPipe)) {
-
-                        double[] properties = storage.mergeProperties();
-
-                        //Transfer Steam
-                        double[] transferredProperties = storage.extractSteam(handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).mergeProperties(), handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamState(), false);
-
-                        for (double prop : transferredProperties) {
-                            if (prop != 0) {
-                                Shagecraft.NETWORK.sendToAllAround(new PacketSteamUpdate(handler), handler, 64);
-                                break;
-                            }
+                    //TileEntity handler = pipe.getTile().getWorld().getTileEntity(pipe.getTile().getPos().offset(direction));
+                    TileEntity handler = world.getTileEntity(getPos().offset(direction));
+                    //if (handler != null && handler.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()) && !(handler instanceof IFluidPipe))
+                    if (handler != null && handler.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite())) {
+                        if (storage.getSteamMass() * storage.getSteamPressure() < handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamMass() * handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamPressure()) {
+                            faces.add(direction);
                         }
-
-                        if (storage.getSteamVolume() <= 0) {
-                            return;
-                        }
-
                     }
                 }
-            }
+                for (EnumFacing direction : faces) {
+                    TileEntity handler = world.getTileEntity(getPos().offset(direction));
+                    extractSteam(storage.mergeProperties(), faces.size(), handler, direction);
+                }
+            //}
         }
+    }
+
+    public void extractSteam(double[] properties, int faces, TileEntity handler, EnumFacing direction) {
+        if (properties[0] * storage.getSteamPressure() < handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamMass() * handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamPressure()){
+
+            properties[0] = properties[0] / faces;
+
+            /*
+            if (properties[0] + handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamMass() > handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getCapacity()) {
+                properties[0] = handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getCapacity() - properties[0] + handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamMass();
+            }
+            */
+
+            //Transfer Steam
+            double[] transferredProperties = storage.mergeSteam(properties, handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).mergeProperties(), false);
+
+            properties[0] = storage.getSteamMass() - properties[0];
+
+            storage.setProperties(properties);
+            handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).setProperties(transferredProperties);
+
+            Shagecraft.NETWORK.sendToAllAround(new PacketSteamUpdate(handler), handler, 64);
+
+
+            if (storage.getSteamMass() <= 0) {
+                storage.setSteamState(0);
+            }
+
+        }
+    }
+
+    public boolean checkStored() {
+        if(storage.getSteamMass() > 0){
+            return true;
+        }
+        return false;
     }
 
     public void manageSteamStored() {
-        //TODO: Cooling
+
         double[] properties = storage.mergeProperties();
-        if (properties[0] > 0) {
-            if (properties[1] > 298.15) {
+
+        //TODO: Cooling
+        if (properties[0] > 0 && properties[2] != 0) {
+            if (properties[1] > 373.15) {
                 properties[1] -= 0.01;
+            } else if (properties[0] > 0){
+                properties[0] = 0;
             }
         }
 
+        if (properties[0] <= 0) properties[2] = 0;
+
         storage.setProperties(properties);
 
-    }
+        if (storage.isExceededCapacity()){
+            world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, (float) (3.0 * storage.getSteamPressure()), false);
+            world.setBlockToAir(getPos());
+        }
 
-    public double getActualEnthalpy(double[] properties, int state){
-        return 0;
-    }
-
-    public double[] managePropertiesFromBoilerHeat(double[] properties, int state){
-        return properties;
     }
 
     @Override
