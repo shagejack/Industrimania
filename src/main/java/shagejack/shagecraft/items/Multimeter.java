@@ -37,16 +37,16 @@ public class Multimeter extends ShageBaseItem {
 
             TileEntity te = world.getTileEntity(pos);
 
-            if (te != null && te.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, side)) {
-                double[] steam_properties = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, side).mergeProperties();
-                double steam_pressure = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, side).getSteamPressure();
-                double steam_capacity = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, side).getCapacity();
+            if (te != null && te.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, null)) {
+                double[] steam_properties = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).mergeProperties();
+                double steam_pressure = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getSteamPressure();
+                double steam_capacity = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getCapacity();
                 double steam_occupied_capacity = steam_properties[0] * steam_pressure;
 
-                double steam_enthalpy = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, side).getActualEnthalpy(steam_properties);
-                double steam_enthalpy_consumable = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, side).getCurrentEnthalpyConsume();
-                double steam_power = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, side).getCurrentActualPower(1);
-                double steam_work = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, side).getActualWork(1, steam_properties[0], steam_enthalpy_consumable);
+                double steam_enthalpy = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getActualEnthalpy(steam_properties);
+                double steam_enthalpy_consumable = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getCurrentEnthalpyConsume();
+                double steam_power = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getCurrentActualPower(1);
+                double steam_work = te.getCapability(ShagecraftCapabilities.STEAM_HANDLER, null).getActualWork(1, steam_properties[0], steam_enthalpy_consumable);
 
                 String steam_state_string = "\u7a7a";
                 switch ((int) steam_properties[2]) {

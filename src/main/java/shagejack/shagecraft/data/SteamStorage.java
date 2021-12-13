@@ -1,9 +1,15 @@
 package shagejack.shagecraft.data;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import shagejack.shagecraft.api.steam.ISteamHandler;
 
 public class SteamStorage implements ISteamHandler {
+
+    protected TileEntity tile;
 
     private double steam_mass;
     private double steam_temp;
@@ -14,6 +20,11 @@ public class SteamStorage implements ISteamHandler {
     private double capacity;
     private double maxExtract;
     private double maxReceive;
+
+    public void setTileEntity(TileEntity tile)
+    {
+        this.tile = tile;
+    }
 
     public SteamStorage(double capacity) {
         this(capacity, capacity, capacity);
@@ -153,12 +164,12 @@ public class SteamStorage implements ISteamHandler {
                 target = properties;
             } else if (target[2] == properties[2]) {
                 target[0] += properties[0];
-                target[1] = ( target[0] * target[1] + properties[0] * properties[1] ) / target[0] + properties[0];
+                target[1] = ( target[0] * target[1] + properties[0] * properties[1] ) / ( target[0] + properties[0] );
             } else {
                 if (properties[2] == 1) {
                     //Saturated Steam Into Overheated Steam
                     target[0] += properties[0];
-                    target[1] = ( target[0] * target[1] + properties[0] * properties[1] ) / target[0] + properties[0];
+                    target[1] = ( target[0] * target[1] + properties[0] * properties[1] ) / ( target[0] + properties[0] );
 
                     if (target[1] - properties[1] * target[0] / properties[0] > 50) {
                         if (Math.random() < 0.2 * properties[0] / target[0]) {
@@ -184,12 +195,34 @@ public class SteamStorage implements ISteamHandler {
 
     public SteamStorage readFromNBT(NBTTagCompound nbt)
     {
+        if (!nbt.hasKey("SteamEmpty"))
+        {
+            setSteamMass(nbt.getDouble("steam_mass"));
+            setSteamTemp(nbt.getDouble("steam_temp"));
+            setSteamState(nbt.getInteger("steam_state"));
+        }
+        else
+        {
+            setSteamMass(0);
+            setSteamTemp(0);
+            setSteamState(0);
+        }
+
         return this;
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
-
+        if (hasSteam())
+        {
+            nbt.setDouble("steam_mass", steam_mass);
+            nbt.setDouble("steam_temp", steam_temp);
+            nbt.setInteger("steam_state", steam_state);
+        }
+        else
+        {
+            nbt.setString("SteamEmpty", "");
+        }
         return nbt;
     }
 
@@ -282,5 +315,13 @@ public class SteamStorage implements ISteamHandler {
     @Override
     public boolean isExceededCapacity() {
         return hasSteam() && getSteamMass() * getSteamPressure() > getCapacity();
+    }
+
+    public void onContentsChanged() {
+        if (this.tile != null && !tile.getWorld().isRemote) {
+            final IBlockState state = this.tile.getWorld().getBlockState(this.tile.getPos());
+            this.tile.getWorld().notifyBlockUpdate(this.tile.getPos(), state, state, 8);
+            this.tile.markDirty();
+        }
     }
 }

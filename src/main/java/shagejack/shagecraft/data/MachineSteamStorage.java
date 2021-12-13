@@ -1,5 +1,6 @@
 package shagejack.shagecraft.data;
 
+import net.minecraft.block.state.IBlockState;
 import shagejack.shagecraft.tile.ShageTileEntityMachineSteam;
 
 public class MachineSteamStorage<T extends ShageTileEntityMachineSteam> extends SteamStorage {

@@ -53,8 +53,10 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         this.steamStorage.setCapacity(STEAM_CAPACITY);
         this.steamStorage.setMaxReceive(STEAM_CAPACITY);
         this.steamStorage.setMaxExtract(STEAM_CAPACITY);
+        this.steamStorage.setTileEntity(this);
 
-        tank = new ShageFluidTank(4000);
+        this.tank = new ShageFluidTank(4000);
+        this.tank.setTileEntity(this);
         time = new TimeTracker();
         playerSlotsMain = true;
         playerSlotsHotbar = true;
@@ -82,9 +84,9 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
     @Override
     public void update() {
         super.update();
-        this.manageSteamStored();
+        //this.manageSteamStored();
         this.manageProduce();
-        this.manageExtract();
+        //this.manageExtract();
     }
 
     public void manageSteamStored() {
@@ -111,19 +113,25 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
             world.setBlockToAir(getPos());
         }
 
+        updateClientSteam();
+
     }
 
     public void manageProduce() {
         double[] produce = new double[3];
         double heat = 0;
 
-        FluidStack[] waterStack =
-                {
-                        new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME),
-                        new FluidStack(FluidRegistry.getFluid("watersurfacecontaminated"), Fluid.BUCKET_VOLUME),
-                        new FluidStack(FluidRegistry.getFluid("watermineralcontaminated"), Fluid.BUCKET_VOLUME),
-                        new FluidStack(FluidRegistry.getFluid("wateroceancontaminated"), Fluid.BUCKET_VOLUME)
-                };
+        List<FluidStack> waterStack = new ArrayList<>();
+
+        waterStack.add(new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME));
+
+        if(FluidRegistry.getFluid("watersurfacecontaminated") != null) {
+            waterStack.add(new FluidStack(FluidRegistry.getFluid("watersurfacecontaminated"), Fluid.BUCKET_VOLUME));
+            waterStack.add(new FluidStack(FluidRegistry.getFluid("watermineralcontaminated"), Fluid.BUCKET_VOLUME));
+            waterStack.add(new FluidStack(FluidRegistry.getFluid("wateroceancontaminated"), Fluid.BUCKET_VOLUME));
+        }
+
+
 
         if (temperature > 393.15) {
 
@@ -134,8 +142,8 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
 
             if(tank.getFluid() != null) {
                 boolean flag = false;
-                for (int i = 0; i < waterStack.length; i++) {
-                    if (tank.getFluid().isFluidEqual(waterStack[i])) {
+                for (int i = 0; i < waterStack.size(); i++) {
+                    if (tank.getFluid().isFluidEqual(waterStack.get(i))) {
                         flag = true;
                         break;
                     }
@@ -152,7 +160,13 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
                     world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 5.0F, true);
                     world.setBlockToAir(getPos());
                 }
+            } else if (temperature / 10000 > Math.random()) {
+                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 5.0F, true);
+                world.setBlockToAir(getPos());
             }
+
+        } else if (temperature > 298.15) {
+            temperature -= 0.2;
         }
 
         //if (steamStorage.getSteamMass() * steamStorage.getSteamPressure() < steamStorage.getCapacity()) {
@@ -160,24 +174,29 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         //}
 
         this.steamStorage.setProperties(managePropertiesFromBoilerHeat(steamStorage.mergeProperties(), heat));
+
+        updateClientSteam();
+
     }
 
     public void manageExtract() {
         if (!world.isRemote) {
             if (time.hasDelayPassed(world, STEAM_EXTRACT_SPEED)) {
-                List<EnumFacing> faces = new ArrayList<>();
-                for (EnumFacing dir : EnumFacing.VALUES) {
-                    TileEntity e = world.getTileEntity(getPos().offset(dir));
-                    EnumFacing opposite = dir.getOpposite();
-                    if (e != null && e.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, opposite)) {
-                        if (steamStorage.getSteamMass() * steamStorage.getSteamPressure() < e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamMass() * e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamPressure()) {
-                            faces.add(dir);
+                if (steamStorage.hasSteam()) {
+                    List<EnumFacing> faces = new ArrayList<>();
+                    for (EnumFacing dir : EnumFacing.VALUES) {
+                        TileEntity e = world.getTileEntity(getPos().offset(dir));
+                        EnumFacing opposite = dir.getOpposite();
+                        if (e != null && e.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, opposite)) {
+                            if (steamStorage.getSteamMass() * steamStorage.getSteamPressure() < e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamMass() * e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamPressure()) {
+                                faces.add(dir);
+                            }
                         }
                     }
-                }
-                for (EnumFacing direction : faces) {
-                    TileEntity handler = world.getTileEntity(getPos().offset(direction));
-                    extractSteam(steamStorage.mergeProperties(), faces.size(), handler, direction);
+                    for (EnumFacing direction : faces) {
+                        TileEntity handler = world.getTileEntity(getPos().offset(direction));
+                        extractSteam(steamStorage.mergeProperties(), faces.size(), handler, direction);
+                    }
                 }
             }
         }

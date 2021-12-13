@@ -2,6 +2,8 @@ package shagejack.shagecraft.tile;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -65,6 +67,12 @@ public abstract class ShageTileEntityMachineSteam extends ShageTileEntityMachine
 
     public MachineSteamStorage getSteamStorage() {
         return steamStorage;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        steamStorage.onContentsChanged();
+        super.onDataPacket(net, pkt);
     }
 
     @Override

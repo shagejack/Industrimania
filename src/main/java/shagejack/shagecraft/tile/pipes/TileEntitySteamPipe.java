@@ -40,7 +40,8 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
 
     public TileEntitySteamPipe(double capacity) {
         t = new TimeTracker();
-        storage = new SteamStorage(capacity);
+        this.storage = new SteamStorage(capacity);
+        this.storage.setTileEntity(this);
         this.transferSpeed = 10;
     }
 
@@ -165,6 +166,7 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
     public void writeCustomNBT(NBTTagCompound comp, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         if (!world.isRemote && categories.contains(MachineNBTCategory.DATA) && toDisk) {
             storage.writeToNBT(comp);
+            comp.setDouble("durability", durability);
         }
         super.writeCustomNBT(comp, categories, toDisk);
     }
@@ -172,6 +174,7 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
     @Override
     public void readCustomNBT(NBTTagCompound comp, EnumSet<MachineNBTCategory> categories) {
         if (categories.contains(MachineNBTCategory.DATA)) {
+            storage.readFromNBT(comp);
             durability = comp.getDouble("durability");
         }
         super.readCustomNBT(comp, categories);
@@ -189,7 +192,7 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
 
     @Override
     public void onAdded(World world, BlockPos pos, IBlockState state) {
-
+        durability = 100;
     }
 
     public boolean tryConnectToNeighborNetworks(World world) {
