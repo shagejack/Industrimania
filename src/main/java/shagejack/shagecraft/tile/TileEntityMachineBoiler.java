@@ -151,9 +151,9 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
                     }
                 }
                 if (flag) {
-                    if (tank.getFluidAmount() > 1) {
+                    if (tank.getFluidAmount() >= 1) {
                         produce[0] = 0.001;
-                        produce[1] = 373.15 + Math.pow(temperature, 0.75);
+                        produce[1] = 373.15 + Math.pow(temperature - 373.15, 0.5);
                         produce[2] = 1;
                         temperature -= 0.01;
                         tank.drain(1, true);
