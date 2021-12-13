@@ -41,7 +41,6 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
     public TileEntitySteamPipe(double capacity) {
         t = new TimeTracker();
         this.storage = new SteamStorage(capacity);
-        this.storage.setTileEntity(this);
         this.transferSpeed = 10;
     }
 
@@ -107,12 +106,12 @@ public class TileEntitySteamPipe extends TileEntityPipe implements IFluidPipe {
             storage.setProperties(properties);
             handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).setProperties(transferredProperties);
 
-            Shagecraft.NETWORK.sendToAllAround(new PacketSteamUpdate(handler), handler, 64);
-
 
             if (storage.getSteamMass() <= 0) {
                 storage.setSteamState(0);
             }
+
+            if (!world.isRemote) Shagecraft.NETWORK.sendToAllAround(new PacketSteamUpdate(handler), handler, 64);
 
         }
     }

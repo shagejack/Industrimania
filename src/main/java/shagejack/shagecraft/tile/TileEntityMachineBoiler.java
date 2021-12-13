@@ -86,9 +86,14 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         //this.manageSteamStored();
         this.manageProduce();
         //this.manageExtract();
+        if (!world.isRemote) {
+            updateClientSteam();
+        }
     }
 
     public void manageSteamStored() {
+
+        if(!steamStorage.hasSteam()) return;
 
         double[] properties = steamStorage.mergeProperties();
 
@@ -148,7 +153,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
                 if (flag) {
                     if (tank.getFluidAmount() > 1) {
                         produce[0] = 0.001;
-                        produce[1] = temperature;
+                        produce[1] = 373.15 + Math.pow(temperature, 0.75);
                         produce[2] = 1;
                         temperature -= 0.01;
                         tank.drain(1, true);
@@ -167,7 +172,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         }
 
         //if (steamStorage.getSteamMass() * steamStorage.getSteamPressure() < steamStorage.getCapacity()) {
-            this.steamStorage.setProperties(managePropertiesFromBoilerProduce(steamStorage.mergeProperties(), produce));
+        this.steamStorage.setProperties(managePropertiesFromBoilerProduce(steamStorage.mergeProperties(), produce));
         //}
 
         this.steamStorage.setProperties(managePropertiesFromBoilerHeat(steamStorage.mergeProperties(), heat));
@@ -217,12 +222,11 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
             steamStorage.setProperties(properties);
             handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).setProperties(transferredProperties);
 
-            Shagecraft.NETWORK.sendToAllAround(new PacketSteamUpdate(handler), handler, 64);
-
-
             if (steamStorage.getSteamMass() <= 0) {
                 steamStorage.setSteamState(0);
             }
+
+            if (!world.isRemote) Shagecraft.NETWORK.sendToAllAround(new PacketSteamUpdate(handler), handler, 64);
 
         }
     }

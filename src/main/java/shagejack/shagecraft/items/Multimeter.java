@@ -59,15 +59,31 @@ public class Multimeter extends ShageBaseItem {
                         steam_state_string = "\u8fc7\u70ed\u84b8\u6c7d";
                 }
 
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u8d28\u91cf: " + steam_properties[0] + " KG"));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u6e29\u5ea6: " + steam_properties[1] + " K"));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u72b6\u6001: " + steam_state_string));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u538b\u5f3a: " + steam_pressure + " MPa"));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u5bb9\u91cf: " + steam_occupied_capacity + " / " + steam_capacity + " (" + (steam_occupied_capacity / steam_capacity * 100) + "%)"));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u7113\u503c: " + steam_enthalpy + " KJ/KG"));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u5355\u6b21\u505a\u529f\u6709\u6548\u7113\u503c: " + steam_enthalpy_consumable + " KJ/KG"));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u505a\u529f\u529f\u7387\u0028\u6548\u7387\u0031\u0030\u0030\u0025\u0029: " + steam_power + " KW"));
-                if (world.isRemote) player.sendMessage(new TextComponentString("\u84b8\u6c7d\u5355\u6b21\u6240\u4f5c\u673a\u68b0\u529f\u0028\u6548\u7387\u0031\u0030\u0030\u0025\u0029: " + steam_work + " KJ"));
+                if(!player.isSneaking()) {
+                    if (world.isRemote) {
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u8d28\u91cf: " + steam_properties[0] + " KG"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u6e29\u5ea6: " + steam_properties[1] + " K"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u72b6\u6001: " + steam_state_string));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u538b\u5f3a: " + steam_pressure + " MPa"));
+                        player.sendMessage(new TextComponentString("\u5bb9\u91cf: " + steam_occupied_capacity + " / " + steam_capacity + " (" + (steam_occupied_capacity / steam_capacity * 100) + "%)"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u7113\u503c: " + steam_enthalpy + " KJ/KG"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u5355\u6b21\u505a\u529f\u6709\u6548\u7113\u503c: " + steam_enthalpy_consumable + " KJ/KG"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u505a\u529f\u529f\u7387\u0028\u6548\u7387\u0031\u0030\u0030\u0025\u0029: " + steam_power + " KW"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u5355\u6b21\u6240\u4f5c\u673a\u68b0\u529f\u0028\u6548\u7387\u0031\u0030\u0030\u0025\u0029: " + steam_work + " KJ"));
+                    }
+                } else {
+                    if (!world.isRemote) {
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u8d28\u91cf: " + steam_properties[0] + " KG"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u6e29\u5ea6: " + steam_properties[1] + " K"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u72b6\u6001: " + steam_state_string));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u538b\u5f3a: " + steam_pressure + " MPa"));
+                        player.sendMessage(new TextComponentString("\u5bb9\u91cf: " + steam_occupied_capacity + " / " + steam_capacity + " (" + (steam_occupied_capacity / steam_capacity * 100) + "%)"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u7113\u503c: " + steam_enthalpy + " KJ/KG"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u5355\u6b21\u505a\u529f\u6709\u6548\u7113\u503c: " + steam_enthalpy_consumable + " KJ/KG"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u505a\u529f\u529f\u7387\u0028\u6548\u7387\u0031\u0030\u0030\u0025\u0029: " + steam_power + " KW"));
+                        player.sendMessage(new TextComponentString("\u84b8\u6c7d\u5355\u6b21\u6240\u4f5c\u673a\u68b0\u529f\u0028\u6548\u7387\u0031\u0030\u0030\u0025\u0029: " + steam_work + " KJ"));
+                    }
+                }
             }
         }
 
