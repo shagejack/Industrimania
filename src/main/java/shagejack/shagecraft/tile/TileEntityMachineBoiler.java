@@ -83,7 +83,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
     @Override
     public void update() {
         super.update();
-        //this.manageSteamStored();
+        this.manageSteamStored();
         this.manageProduce();
         //this.manageExtract();
         if (!world.isRemote) {
@@ -113,7 +113,11 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         steamStorage.setProperties(properties);
 
         if (steamStorage.isExceededCapacity()){
-            world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, (float) (5.0 * steamStorage.getSteamPressure()), false);
+            if (steamStorage.getSteamPressure() < 10) {
+                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, (float) (5.0 * steamStorage.getSteamPressure()), false);
+            } else {
+                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 50.0F, false);
+            }
             world.setBlockToAir(getPos());
         }
 
