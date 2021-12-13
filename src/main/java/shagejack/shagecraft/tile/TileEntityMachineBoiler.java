@@ -53,7 +53,6 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         this.steamStorage.setCapacity(STEAM_CAPACITY);
         this.steamStorage.setMaxReceive(STEAM_CAPACITY);
         this.steamStorage.setMaxExtract(STEAM_CAPACITY);
-        this.steamStorage.setTileEntity(this);
 
         this.tank = new ShageFluidTank(4000);
         this.tank.setTileEntity(this);
@@ -112,8 +111,6 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
             world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, (float) (5.0 * steamStorage.getSteamPressure()), false);
             world.setBlockToAir(getPos());
         }
-
-        updateClientSteam();
 
     }
 
@@ -174,8 +171,6 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         //}
 
         this.steamStorage.setProperties(managePropertiesFromBoilerHeat(steamStorage.mergeProperties(), heat));
-
-        updateClientSteam();
 
     }
 

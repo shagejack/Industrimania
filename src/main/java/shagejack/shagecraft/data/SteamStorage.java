@@ -9,8 +9,6 @@ import shagejack.shagecraft.api.steam.ISteamHandler;
 
 public class SteamStorage implements ISteamHandler {
 
-    protected TileEntity tile;
-
     private double steam_mass;
     private double steam_temp;
     //private double steam_pressure;
@@ -20,11 +18,6 @@ public class SteamStorage implements ISteamHandler {
     private double capacity;
     private double maxExtract;
     private double maxReceive;
-
-    public void setTileEntity(TileEntity tile)
-    {
-        this.tile = tile;
-    }
 
     public SteamStorage(double capacity) {
         this(capacity, capacity, capacity);
@@ -315,13 +308,5 @@ public class SteamStorage implements ISteamHandler {
     @Override
     public boolean isExceededCapacity() {
         return hasSteam() && getSteamMass() * getSteamPressure() > getCapacity();
-    }
-
-    public void onContentsChanged() {
-        if (this.tile != null && !tile.getWorld().isRemote) {
-            final IBlockState state = this.tile.getWorld().getBlockState(this.tile.getPos());
-            this.tile.getWorld().notifyBlockUpdate(this.tile.getPos(), state, state, 8);
-            this.tile.markDirty();
-        }
     }
 }

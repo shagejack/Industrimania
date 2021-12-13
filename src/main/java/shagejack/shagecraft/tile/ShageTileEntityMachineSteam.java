@@ -71,7 +71,6 @@ public abstract class ShageTileEntityMachineSteam extends ShageTileEntityMachine
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-        steamStorage.onContentsChanged();
         super.onDataPacket(net, pkt);
     }
 
