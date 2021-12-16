@@ -51,6 +51,7 @@ public class ShagecraftBlocks {
 
         //Steam
         public BlockBoiler steam_boiler;
+        public BlockBoilerHeater steam_boiler_heater;
         public BlockSteamForgeHammer steam_forge_hammer;
         public BlockSteamPipe steam_steam_pipe;
 
@@ -102,8 +103,9 @@ public class ShagecraftBlocks {
 
             //Steam
             steam_boiler = register(new BlockBoiler(Material.ROCK, "steam.boiler"));
+            steam_boiler_heater = register(new BlockBoilerHeater(Material.ROCK, "steam.boiler_heater"));
             steam_forge_hammer = register(new BlockSteamForgeHammer(Material.ROCK, "steam.forge_hammer"));
-            steam_steam_pipe = register(new BlockSteamPipe(Material.ROCK, "steam.steam_pipe", 50));
+            steam_steam_pipe = register(new BlockSteamPipe(Material.ROCK, "steam.steam_pipe"));
 
             LogShage.info("Finished registering blocks");
             LogShage.info("Registered %d blocks", registeredCount);

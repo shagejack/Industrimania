@@ -83,6 +83,7 @@ public class SteamStorage implements ISteamHandler {
             double e = 0.433;
             double lnt = Math.log(t_r);
             double lnp = a + b * lnt + c * lnt * lnt + d * Math.pow(lnt, 4) + e * Math.pow(t_r, 5);
+            if (lnp > 11) lnp = 11;
             return Math.pow(Math.E, lnp) / 1000;
         } else if (steam_state == 2) {
             double t_r = steam_temp / 647;
@@ -93,6 +94,7 @@ public class SteamStorage implements ISteamHandler {
             double e = 0.433;
             double lnt = Math.log(t_r);
             double lnp = a + b * lnt + c * lnt * lnt + d * Math.pow(lnt, 4) + e * Math.pow(t_r, 5);
+            if (lnp > 11) lnp = 11;
             return 1.2 * Math.pow(Math.E, lnp) / 1000;
         }
         return 0;
@@ -149,41 +151,46 @@ public class SteamStorage implements ISteamHandler {
 
     @Override
     public double[] mergeSteam(double[] properties, double[] target, boolean simulate) {
-        if (properties.length == 3 && target.length == 3) {
-            if (properties[0] <= 0 || properties[1] <= 298.15) properties[2] = 0;
-            if (target[0] <= 0 || target[1] <= 298.15) target[2] = 0;
 
-            if (target[2] == 0) {
-                target = properties;
-            } else if (target[2] == properties[2]) {
-                target[0] += properties[0];
-                target[1] = ( target[0] * target[1] + properties[0] * properties[1] ) / ( target[0] + properties[0] );
+        double[] result = target;
+
+        if (properties.length == 3 && result.length == 3) {
+            if (properties[0] <= 0 || properties[1] <= 298.15) properties[2] = 0;
+
+            if (result[2] == 0) {
+                result = properties;
+            } else if (result[2] == properties[2]) {
+                result[1] = ( result[0] * result[1] + properties[0] * properties[1] ) / ( result[0] + properties[0] );
+                result[0] += properties[0];
             } else {
                 if (properties[2] == 1) {
                     //Saturated Steam Into Overheated Steam
-                    target[0] += properties[0];
-                    target[1] = ( target[0] * target[1] + properties[0] * properties[1] ) / ( target[0] + properties[0] );
+                    result[1] = ( result[0] * result[1] + properties[0] * properties[1] ) / ( result[0] + properties[0] );
 
-                    if (target[1] - properties[1] * target[0] / properties[0] > 50) {
-                        if (Math.random() < 0.2 * properties[0] / target[0]) {
-                            target[2] = 1;
+                    if (result[1] - properties[1] * result[0] / properties[0] > 50) {
+                        if (Math.random() < 0.2 * properties[0] / result[0]) {
+                            result[2] = 1;
                         }
                     }
+
+                    result[0] += properties[0];
 
                 } else if (properties[2] == 2) {
                     //Overheated Steam Into Saturated Steam
-                    target[0] += properties[0];
-                    target[1] = ( target[0] * target[1] + properties[0] * properties[1] ) / target[0] + properties[0];
+                    result[1] = ( result[0] * result[1] + properties[0] * properties[1] ) / result[0] + properties[0];
 
-                    if (properties[1] * properties[0] / target[0] - target[1] > 50) {
-                        if (Math.random() < 0.2 * properties[0] / target[0]) {
-                            target[2] = 2;
+                    if (properties[1] * properties[0] / result[0] - result[1] > 50) {
+                        if (Math.random() < 0.2 * properties[0] / result[0]) {
+                            result[2] = 2;
                         }
                     }
+
+                    result[0] += properties[0];
                 }
             }
+            if (result[0] <= 0 || result[1] <= 298.15) result[2] = 0;
         }
-        return target;
+        return result;
     }
 
     public SteamStorage readFromNBT(NBTTagCompound nbt)
@@ -259,9 +266,9 @@ public class SteamStorage implements ISteamHandler {
         }
     }
 
-    public double getCurrentEnthalpyConsume(){
+    public double getCurrentEnthalpyConsume() {
         if (getSteamState() != 0 && getSteamTemp() > 373.15) {
-            return getSteamPressure();
+            return getSteamPressure() * getSteamTemp() / 40;
         } else {
             return 0;
         }

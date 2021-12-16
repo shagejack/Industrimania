@@ -36,14 +36,16 @@ import java.util.List;
 import java.util.Random;
 
 public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam implements ISidedInventory {
-    public static final int STEAM_EXTRACT_SPEED = 32;
+    //public static final int STEAM_EXTRACT_SPEED = 32;
     private static final Random random = new Random();
-    private final TimeTracker time;
-    private final double STEAM_CAPACITY = 100;
+    //private final TimeTracker time;
+    private final double STEAM_CAPACITY = 500;
 
     private final ShageFluidTank tank;
     public int INPUT_SLOT_ID;
     public int OUTPUT_SLOT_ID;
+
+    private List<FluidStack> waterStack = new ArrayList<>();
 
     private double temperature;
 
@@ -56,9 +58,17 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
 
         this.tank = new ShageFluidTank(4000);
         this.tank.setTileEntity(this);
-        time = new TimeTracker();
+        //time = new TimeTracker();
         playerSlotsMain = true;
         playerSlotsHotbar = true;
+
+        this.waterStack.add(new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME));
+
+        if(FluidRegistry.getFluid("watersurfacecontaminated") != null) {
+            this.waterStack.add(new FluidStack(FluidRegistry.getFluid("watersurfacecontaminated"), Fluid.BUCKET_VOLUME));
+            this.waterStack.add(new FluidStack(FluidRegistry.getFluid("watermineralcontaminated"), Fluid.BUCKET_VOLUME));
+            this.waterStack.add(new FluidStack(FluidRegistry.getFluid("wateroceancontaminated"), Fluid.BUCKET_VOLUME));
+        }
     }
 
     @Override
@@ -85,7 +95,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         super.update();
         this.manageSteamStored();
         this.manageProduce();
-        //this.manageExtract();
+        this.manageExtract();
         if (!world.isRemote) {
             updateClientSteam();
         }
@@ -103,7 +113,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
                 if (properties[1] > 373.15) {
                     properties[1] -= 0.01;
                 } else if (properties[0] > 0) {
-                    properties[0] = 0;
+                    properties[1] = 0;
                 }
             }
         }
@@ -113,12 +123,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
         steamStorage.setProperties(properties);
 
         if (steamStorage.isExceededCapacity()){
-            if (steamStorage.getSteamPressure() < 10) {
-                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, (float) (5.0 * steamStorage.getSteamPressure()), false);
-            } else {
-                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 50.0F, false);
-            }
-            world.setBlockToAir(getPos());
+            explode();
         }
 
     }
@@ -126,18 +131,6 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
     public void manageProduce() {
         double[] produce = new double[3];
         double heat = 0;
-
-        List<FluidStack> waterStack = new ArrayList<>();
-
-        waterStack.add(new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME));
-
-        if(FluidRegistry.getFluid("watersurfacecontaminated") != null) {
-            waterStack.add(new FluidStack(FluidRegistry.getFluid("watersurfacecontaminated"), Fluid.BUCKET_VOLUME));
-            waterStack.add(new FluidStack(FluidRegistry.getFluid("watermineralcontaminated"), Fluid.BUCKET_VOLUME));
-            waterStack.add(new FluidStack(FluidRegistry.getFluid("wateroceancontaminated"), Fluid.BUCKET_VOLUME));
-        }
-
-
 
         if (temperature > 393.15) {
 
@@ -148,27 +141,29 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
 
             if(tank.getFluid() != null) {
                 boolean flag = false;
-                for (int i = 0; i < waterStack.size(); i++) {
-                    if (tank.getFluid().isFluidEqual(waterStack.get(i))) {
+                for (int i = 0; i < this.waterStack.size(); i++) {
+                    if (tank.getFluid().isFluidEqual(this.waterStack.get(i))) {
                         flag = true;
                         break;
                     }
                 }
                 if (flag) {
-                    if (tank.getFluidAmount() >= 1) {
-                        produce[0] = 0.001;
-                        produce[1] = 373.15 + Math.pow(temperature - 373.15, 0.5);
+                    int consume = (int) Math.floor(temperature / 400);
+                    if (tank.getFluidAmount() >= consume) {
+                        produce[0] = 0.001 * consume;
+                        produce[1] = 373.15 + Math.pow(temperature - 373.15, 0.84);
+                        if (produce[1] > 700) produce[1] = 700;
                         produce[2] = 1;
                         temperature -= 0.01;
-                        tank.drain(1, true);
+                        tank.drain(consume, true);
+                    } else if (temperature / 10000 > Math.random()) {
+                        explode();
                     }
                 } else if (temperature / 10000 > Math.random()) {
-                    world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 5.0F, true);
-                    world.setBlockToAir(getPos());
+                    explode();
                 }
             } else if (temperature / 10000 > Math.random()) {
-                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 5.0F, true);
-                world.setBlockToAir(getPos());
+                explode();
             }
 
         } else if (temperature > 298.15) {
@@ -185,14 +180,14 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
 
     public void manageExtract() {
         if (!world.isRemote) {
-            if (time.hasDelayPassed(world, STEAM_EXTRACT_SPEED)) {
+            //if (time.hasDelayPassed(world, STEAM_EXTRACT_SPEED)) {
                 if (steamStorage.hasSteam()) {
                     List<EnumFacing> faces = new ArrayList<>();
                     for (EnumFacing dir : EnumFacing.VALUES) {
                         TileEntity e = world.getTileEntity(getPos().offset(dir));
                         EnumFacing opposite = dir.getOpposite();
                         if (e != null && e.hasCapability(ShagecraftCapabilities.STEAM_HANDLER, opposite)) {
-                            if (steamStorage.getSteamMass() * steamStorage.getSteamPressure() < e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamMass() * e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamPressure()) {
+                            if (steamStorage.getSteamMass() * steamStorage.getSteamPressure() > e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamMass() * e.getCapability(ShagecraftCapabilities.STEAM_HANDLER, dir.getOpposite()).getSteamPressure()) {
                                 faces.add(dir);
                             }
                         }
@@ -202,15 +197,18 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
                         extractSteam(steamStorage.mergeProperties(), faces.size(), handler, direction);
                     }
                 }
-            }
+            //}
         }
 
     }
 
     public void extractSteam(double[] properties, int faces, TileEntity handler, EnumFacing direction) {
-        if (properties[0] * steamStorage.getSteamPressure() < handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamMass() * handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamPressure()){
 
-            properties[0] = properties[0] / faces;
+        if (properties[0] * steamStorage.getSteamPressure() > handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamMass() * handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamPressure()){
+
+            double[] remainProperties = properties;
+
+            remainProperties[0] = remainProperties[0] / ( faces + 1 );
 
             /*
             if (properties[0] + handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getSteamMass() > handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).getCapacity()) {
@@ -219,12 +217,12 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
             */
 
             //Transfer Steam
-            double[] transferredProperties = steamStorage.mergeSteam(properties, handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).mergeProperties(), false);
+            double[] resultProperties = steamStorage.mergeSteam(remainProperties, handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).mergeProperties(), false);
 
-            properties[0] = steamStorage.getSteamMass() - properties[0];
+            remainProperties[0] = steamStorage.getSteamMass() - remainProperties[0];
 
-            steamStorage.setProperties(properties);
-            handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).setProperties(transferredProperties);
+            steamStorage.setProperties(remainProperties);
+            handler.getCapability(ShagecraftCapabilities.STEAM_HANDLER, direction.getOpposite()).setProperties(resultProperties);
 
             if (steamStorage.getSteamMass() <= 0) {
                 steamStorage.setSteamState(0);
@@ -234,6 +232,8 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
 
         }
     }
+
+
 
     @Override
     public SoundEvent getSound() {
@@ -251,7 +251,37 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
     }
 
     public boolean isProducing() {
+
+        if (temperature > 393.15) {
+            if (tank.getFluid() != null) {
+                boolean flag = false;
+                for (int i = 0; i < this.waterStack.size(); i++) {
+                    if (tank.getFluid().isFluidEqual(this.waterStack.get(i))) {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (flag && tank.getFluidAmount() >= 1) {
+                    return true;
+                }
+            }
+        }
+
         return false;
+    }
+
+    public void explode() {
+        world.setBlockToAir(getPos());
+        if (steamStorage.hasSteam()) {
+            if (steamStorage.getSteamPressure() < 10) {
+                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, (float) (5.0 * steamStorage.getSteamPressure()), true);
+            } else {
+                world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 50.0F, true);
+            }
+        } else {
+            world.createExplosion(null, getPos().getX() + 0.5D, getPos().getY() + 0.5D, getPos().getZ() + 0.5D, 5.0F, true);
+        }
     }
 
     @Override
@@ -277,6 +307,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
                 //Saturated Steam
                 if(temperature - properties[1] > 0 && properties[1] < 873.15) {
                     properties[1] += 0.4 * heat / properties[0];
+                    if (properties[1] > 700) properties[1] = 700;
                 }
 
                 //TODO: Use timer instead of random number
@@ -290,6 +321,7 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
                 //Overheated Steam
                 if(temperature - properties[1] > 0 && properties[1] < 1473.15) {
                     properties[1] += 0.35 * heat / properties[0];
+                    if (properties[1] > 700) properties[1] = 700;
                 }
                 if(temperature - properties[1] < 20) {
                     if (heat < properties[1] / 3 && heat * properties[0] < Math.random() * 1.0e10) {
@@ -299,6 +331,14 @@ public class TileEntityMachineBoiler extends ShageTileEntityMachineSteam impleme
             }
         }
         return properties;
+    }
+
+    public double getTemp() {
+        return temperature;
+    }
+
+    public void setTemp(double temp) {
+        temperature = temp;
     }
 
     @Override

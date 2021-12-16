@@ -70,6 +70,7 @@ tile.mechanic.glass_mould.name=玻璃吹制槽
 
 tile.steam.steam_pipe.name=蒸汽管道
 tile.steam.boiler.name=锅炉
+tile.steam.boiler_heater.name=锅炉加热器
 tile.steam.forge_hammer.name=蒸汽锻造锤
 
 ###############################################################################################################
@@ -85,3 +86,4 @@ itemGroup.tabShage=傻哥工艺
 # Gui
 gui.forge_furnace.name=锻炉
 gui.glass_melting_furnace_input.name=玻璃熔窑燃烧室
+gui.boiler_heater.name=锅炉加热器

@@ -576,7 +576,7 @@ public class TileEntityClayFurnaceBottom extends ShageTileEntity implements ISha
 
     public void burnOut() {
         safe_removed = true;
-        world.playSound((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 5.0F, world.rand.nextFloat() * 0.1F + 0.9F, true);
+        playSound(world, SoundEvents.BLOCK_FIRE_EXTINGUISH, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 5.0F, world.rand.nextFloat() * 0.1F + 0.9F);
         for (BlockPos rPos : posArr) {
             IBlockState temp = world.getBlockState(getPos().add(rPos));
             if (Math.random() < 0.8 && temp.getBlock() == Shagecraft.BLOCKS.building_fine_clay) {

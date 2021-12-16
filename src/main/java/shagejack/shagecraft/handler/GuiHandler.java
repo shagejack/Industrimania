@@ -37,10 +37,12 @@ public class GuiHandler implements IGuiHandler {
             //Container Registration
             registerContainer(TileEntityForgeFurnace.class, ContainerForgeFurnace.class);
             registerContainer(TileEntityGlassMeltingFurnaceInput.class, ContainerGlassMeltingFurnaceInput.class);
+            registerContainer(TileEntityBoilerHeater.class, ContainerBoilerHeater.class);
         } else {
             //Gui Registration
             registerGuiAndContainer(TileEntityForgeFurnace.class, GuiForgeFurnace.class, ContainerForgeFurnace.class);
             registerGuiAndContainer(TileEntityGlassMeltingFurnaceInput.class, GuiGlassMeltingFurnaceInput.class, ContainerGlassMeltingFurnaceInput.class);
+            registerGuiAndContainer(TileEntityBoilerHeater.class, GuiBoilerHeater.class, ContainerBoilerHeater.class);
         }
     }
 

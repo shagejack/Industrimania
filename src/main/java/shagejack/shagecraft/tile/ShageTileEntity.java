@@ -1,10 +1,14 @@
 package shagejack.shagecraft.tile;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,6 +29,22 @@ public abstract class ShageTileEntity extends TileEntity implements IShageTileEn
 
     public ShageTileEntity(World world, int meta) {
         super();
+    }
+
+    public static void playSound(World worldObj, SoundEvent soundName, double x, double y, double z, double volume, double pitch) {
+        SPacketSoundEffect soundEffect = new SPacketSoundEffect(soundName, SoundCategory.BLOCKS, x, y, z, (float) volume, (float) pitch);
+
+        for (int j = 0; j < worldObj.playerEntities.size(); ++j) {
+            EntityPlayerMP entityplayermp = (EntityPlayerMP)worldObj.playerEntities.get(j);
+            double d7 = x - entityplayermp.posX;
+            double d8 = y - entityplayermp.posY;
+            double d9 = z - entityplayermp.posZ;
+            double d10 = d7 * d7 + d8 * d8 + d9 * d9;
+
+            if (d10 <= 256.0D) {
+                entityplayermp.connection.sendPacket(soundEffect);
+            }
+        }
     }
 
     @Override
