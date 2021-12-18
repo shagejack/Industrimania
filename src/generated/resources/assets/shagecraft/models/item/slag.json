@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "shage_craft:item/wind_flag"
+    "layer0": "shagecraft:item/slag"
   }
 }

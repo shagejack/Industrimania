@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "shage_craft:item/cut_iron_ingot"
+    "layer0": "shagecraft:item/raw_glass_material"
   }
 }

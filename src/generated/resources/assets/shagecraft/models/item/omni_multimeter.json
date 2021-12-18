@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "shage_craft:item/dust_potassium_carbonate"
+    "layer0": "shagecraft:item/omni_multimeter"
   }
 }

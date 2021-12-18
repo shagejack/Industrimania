@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "shage_craft:item/gloves"
+    "layer0": "shagecraft:item/gloves"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "shage_craft:item/wrought_iron_ingot"
+    "layer0": "shagecraft:item/iron_pipe"
   }
 }

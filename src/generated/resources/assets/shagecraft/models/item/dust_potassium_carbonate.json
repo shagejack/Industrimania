@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "shage_craft:item/raw_glass_material"
+    "layer0": "shagecraft:item/dust_potassium_carbonate"
   }
 }
