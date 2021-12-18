@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "shagecraft:block/building.fine_clay/z",
+    "up": "shagecraft:block/building.fine_clay/z",
+    "north": "shagecraft:block/building.fine_clay/side",
+    "south": "shagecraft:block/building.fine_clay/side",
+    "east": "shagecraft:block/building.fine_clay/side",
+    "west": "shagecraft:block/building.fine_clay/side"
+  }
+}

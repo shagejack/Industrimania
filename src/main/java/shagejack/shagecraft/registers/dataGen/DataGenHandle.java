@@ -37,6 +37,7 @@ public class DataGenHandle {
     public static Lazy<UncheckedModelFile> blockBuiltinEntity = () -> uncheckedModel( "builtin/entity");
     public static Lazy<ExistingModelFile> blockCubeAll = () -> existingModel(itemModelPro.get(), "block/cube_all");
     public static Lazy<ExistingModelFile> blockCube = () -> existingModel(itemModelPro.get(), "block/cube");
+    public static Lazy<ExistingModelFile> blockCubeRotatable = () -> existingModel(itemModelPro.get(), "");
 
     public static void addItemModelTask(Consumer<ItemModelProvider> task) {
         runOnDataGen(() -> () -> {
