@@ -1,35 +1,26 @@
 package shagejack.shagecraft.registers;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.shagecraft.ShageCraft;
 import shagejack.shagecraft.registers.AllItem.ItemBuilder;
 import shagejack.shagecraft.registers.dataGen.DataGenHandle;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class AllBlock {
+import static shagejack.shagecraft.registers.dataGen.DataGenHandle.checkTextureFileExist;
+import static shagejack.shagecraft.registers.dataGen.DataGenHandle.checkTextureFileExist;
 
-    static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
+public class AllBlock {
 
     public static final ItemBlock building_fine_clay
             = new BlockBuilder()
-            .name("building.fine_clay")
-            .specificModel(null)
+            .name("building_fine_clay")
+            .autoFullCubeModel()
             .buildBlockWithItem();
 
     static class BlockBuilder {
@@ -70,116 +61,195 @@ public class AllBlock {
             return this;
         }
 
-        public BlockBuilder allSpecificModel(String down, String up, String north, String south, String east, String west) {
+        public BlockBuilder allSpecificModel(String up, String down, String north, String south, String west, String east) {
             DataGenHandle.addBlockModelTask(provider -> {
                 var block = this.block;
                 ShageCraft.LOGGER.debug("""
                          set all specific model for Block:{} with
+                          up:{}
                          down:{}
-                         up:{}
                          north:{}
                          south:{}
-                        east:{}""", name, down, up, north, south, east);
+                         west:{}
+                        east:{}""", name, up, down, north, south, west, east);
                 provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
                         .parent(DataGenHandle.blockCube.get())
-                        .texture("down", down)
                         .texture("up", up)
+                        .texture("down", down)
                         .texture("north", north)
                         .texture("south", south)
-                        .texture("east", east)
-                        .texture("west", west);
+                        .texture("west", west)
+                        .texture("east", east);
+
             });
             return this;
         }
 
         /**
-         * Usually param just needs to be null, this function will automatically check if file exists in hard-coded locations. <p>
-         * The folder is .../assets/shagecraft/models/block/$BLOCK_NAME$/ <p>
+         * The folder is assets/stagecraft/models/block/$BLOCK_NAME$/ <p>
          * while file names (ended with .png) are <p>
-         * side #default texture if others do not exist <p>
+         * default texture if others do not exist <p>
+         * uo <p>
          * down <p>
-         * up <p>
-         * north <p>
-         * south <p>
-         * east <p>
-         * west <p>
+         * left <p>
+         * right <p>
+         * front <p>
+         * back <p>
          * And the existence of the listing files means special occasions <p>
          * x #the front and the back are the same <p>
          * y #the left and the right are the same <p>
          * z #the bottom and the top are the same <p>
-         * files detected later will override the earlier ones
-         * @param modifier It's a String Array: {down, up, north, south, east, west}.
+         * xyz supports combine
+         * files specific less will override those which specifies less except the default
+         * <p>
+         * Argument : north is the front
+         *
          * @return BlockBuilder
          */
-
-        public BlockBuilder specificModel(@Nullable String[] modifier) {
+        public BlockBuilder autoFullCubeModel() {
             DataGenHandle.addBlockModelTask(provider -> {
-                var block = this.block;
-
-                String[] textures = new String[]{
-                        "side", "side", "side", "side", "side", "side"
-                };
-
-                textures[0] = isValidRL(provider, makeRL(name, "down")) ? "down" : textures[0];
-                textures[1] = isValidRL(provider, makeRL(name, "up")) ? "up" : textures[1];
-                textures[2] = isValidRL(provider, makeRL(name, "north")) ? "north" : textures[2];
-                textures[3] = isValidRL(provider, makeRL(name, "south")) ? "south" : textures[3];
-                textures[4] = isValidRL(provider, makeRL(name, "east")) ? "east" : textures[4];
-                textures[5] = isValidRL(provider, makeRL(name, "west")) ? "west" : textures[5];
-
-                // the front and the back are the same
-                if (isValidRL(provider,  makeRL(name,"x"))) {
-                    textures[2] = "x";
-                    textures[3] = "x";
-                }
-
-                //the left and the right are the same
-                if (isValidRL(provider,  makeRL(name,"y"))) {
-                    textures[4] = "y";
-                    textures[5] = "y";
-                }
-
-                //the bottom and the top are the same
-                if (isValidRL(provider,  makeRL(name,"z"))) {
-                    textures[0] = "z";
-                    textures[1] = "z";
-                }
-
-                if (modifier != null) {
-                    for (int i = 0; i < modifier.length; i++) {
-                        textures[i] = modifier[i];
+                try {
+                    final var allSame = "block/"+Objects.requireNonNull(this.name);
+                    if (checkTextureFileExist(provider, allSame)) {
+                        ShageCraft.LOGGER.debug("automatically set cube all model for Block:{}", name);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
+                                .parent(DataGenHandle.blockCubeAll.get()).texture("all", allSame);
+                        return;
                     }
+                    final var defaultTexture = String.format("%s/%s", name, name);
+                    if (!checkTextureFileExist(provider, defaultTexture)) {
+                        throw new IllegalStateException(String.format("can't find all same texture and default texture for Block:%s",name));
+                    }
+                    var front = defaultTexture;
+                    var back = defaultTexture;
+                    var left = defaultTexture;
+                    var right = defaultTexture;
+                    var up = defaultTexture;
+                    var down = defaultTexture;
+
+                    var xyTexture = String.format("block/%s/xy", name);
+                    var xzTexture = String.format("block/%s/xy", name);
+                    var yzTexture = String.format("block/%s/yz", name);
+                    boolean xyExist = checkTextureFileExist(provider, xyTexture);
+                    boolean xzExist = checkTextureFileExist(provider, xzTexture);
+                    boolean yzExist = checkTextureFileExist(provider, yzTexture);
+                    checkThrow(xyExist && yzExist && xzExist, "xy,xz,yz");
+                    checkThrow(xyExist && xzExist, "xy,xz");
+                    checkThrow(xyExist && yzExist, "xy,yz");
+                    checkThrow(xzExist && yzExist, "xz,yz");
+                    if (xyExist) {
+                        front = xyTexture;
+                        back = xyTexture;
+                        left = xyTexture;
+                        right = xyTexture;
+                    }
+                    if (xzExist) {
+                        front = xzTexture;
+                        back = xzTexture;
+                        up = xzTexture;
+                        down = xzTexture;
+                    }
+                    if (yzExist) {
+                        left = yzTexture;
+                        right = yzTexture;
+                        up = yzTexture;
+                        down = yzTexture;
+                    }
+
+                    var xTexture = String.format("block/%s/x", name);
+                    var yTexture = String.format("block/%s/y", name);
+                    var zTexture = String.format("block/%s/z", name);
+                    boolean xExist = checkTextureFileExist(provider, xTexture);
+                    boolean yExist = checkTextureFileExist(provider, yTexture);
+                    boolean zExist = checkTextureFileExist(provider, zTexture);
+                    checkThrow(xyExist && xExist, "xy,x");
+                    checkThrow(xyExist && yExist, "xy,y");
+                    checkThrow(xzExist && xExist, "xz,x");
+                    checkThrow(xzExist && zExist, "xz,z");
+                    checkThrow(yzExist && yExist, "yz,y");
+                    checkThrow(yzExist && zExist, "yz,z");
+                    if (xExist) {
+                        front = xTexture;
+                        back = xTexture;
+                    }
+                    if (yExist) {
+                        left = yTexture;
+                        right = yTexture;
+                    }
+                    if (zExist) {
+                        up = zTexture;
+                        down = zTexture;
+                    }
+
+                    var frontTexture = String.format("block/%s/front", name);
+                    var backTexture = String.format("block/%s/back", name);
+                    var leftTexture = String.format("block/%s/left", name);
+                    var rightTexture = String.format("block/%s/right", name);
+                    var upTexture = String.format("block/%s/up", name);
+                    var downTexture = String.format("block/%s/down", name);
+                    var frontExist = checkTextureFileExist(provider, frontTexture);
+                    var backExist = checkTextureFileExist(provider, backTexture);
+                    var leftExist = checkTextureFileExist(provider, leftTexture);
+                    var rightExist = checkTextureFileExist(provider, rightTexture);
+                    var upExist = checkTextureFileExist(provider, upTexture);
+                    var downExist = checkTextureFileExist(provider, downTexture);
+                    checkThrow(xExist && frontExist && backExist, "x,front,back");
+                    checkThrow(xExist && frontExist, "x,front");
+                    checkThrow(xExist && backExist, "x,back");
+                    checkThrow(yExist && leftExist && rightExist, "y,left,right");
+                    checkThrow(yExist && leftExist, "y,left");
+                    checkThrow(yExist && rightExist, "y,right");
+                    checkThrow(zExist && upExist && downExist, "z,up,down");
+                    checkThrow(zExist && upExist, "z,up");
+                    checkThrow(zExist && downExist, "z,down");
+
+                    if (frontExist) {
+                        front = frontTexture;
+                    }
+                    if (backExist) {
+                        back = backTexture;
+                    }
+                    if (leftExist) {
+                        left = leftTexture;
+                    }
+                    if (rightExist) {
+                        right = rightTexture;
+                    }
+                    if (upExist) {
+                        up = upTexture;
+                    }
+                    if (downExist) {
+                        down = downTexture;
+                    }
+
+                    ShageCraft.LOGGER.debug("""
+                        automatically set full cube block model for Block:{} with
+                        up:{}
+                        down:{}
+                        front/north:{}
+                        back/south:{}
+                        left/west:{}
+                        right/east:{}""", name, up, down, front, back, left, right);
+                    provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
+                            .parent(DataGenHandle.blockCube.get())
+                            .texture("up", up)
+                            .texture("down", down)
+                            .texture("north", front)
+                            .texture("south", back)
+                            .texture("west", left)
+                            .texture("east", right);
+
+                }catch (IllegalStateException e){
+                    ShageCraft.LOGGER.error(e.getMessage());
                 }
-
-                /*
-                ShageCraft.LOGGER.debug("""
-                         set all specific model for Block:{} with
-                         down:{}
-                         up:{}
-                         north:{}
-                         south:{}
-                        east:{}""", name); */
-
-
-
-                provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
-                        .parent(DataGenHandle.blockCube.get())
-                        .texture("down", makeRL(name,textures[0]))
-                        .texture("up", makeRL(name,textures[1]))
-                        .texture("north", makeRL(name,textures[2]))
-                        .texture("south", makeRL(name,textures[3]))
-                        .texture("east", makeRL(name,textures[4]))
-                        .texture("west", makeRL(name,textures[5]));
             });
             return this;
         }
 
-        public boolean isValidRL(BlockModelProvider provider, String location) {
-            return provider.existingFileHelper.exists(new ResourceLocation(ShageCraft.MOD_ID, location), TEXTURE);
-        }
-
-        public String makeRL(String name, String location) {
-            return "block/" + name + "/" + location;
+        public static void checkThrow(boolean condition, String message) {
+            if (condition) {
+                throw new IllegalStateException(String.format("%s specified at same at", message));
+            }
         }
 
         public BlockBuilder name(String name) {

@@ -1,6 +1,8 @@
 package shagejack.shagecraft.registers.dataGen;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -27,11 +29,12 @@ import static shagejack.shagecraft.ShageCraft.MOD_ID;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenHandle {
 
+    public static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
 
     private static final List<Consumer<ItemModelProvider>> itemModelTasks = new ArrayList();
     private static final ArrayList<Consumer<BlockModelProvider>> blockModelTasks = new ArrayList();
-    private static Wrapper<ItemModelProvider> itemModelPro = new Wrapper();
-    private static Wrapper<BlockModelProvider> blockModelPro = new Wrapper();
+    private static final Wrapper<ItemModelProvider> itemModelPro = new Wrapper();
+    private static final Wrapper<BlockModelProvider> blockModelPro = new Wrapper();
     public static Lazy<ExistingModelFile> itemGeneratedModel = () -> existingModel(itemModelPro.get(), "item/generated");
     public static Lazy<ExistingModelFile> itemHeldModel = () -> existingModel(itemModelPro.get(), "item/handheld");
     public static Lazy<UncheckedModelFile> blockBuiltinEntity = () -> uncheckedModel( "builtin/entity");
@@ -55,6 +58,18 @@ public class DataGenHandle {
         if (FMLEnvironment.dist == Dist.CLIENT && ShageCraft.isDataGen) {
             toRun.get().run();
         }
+    }
+
+    public static boolean checkTextureFileExist(ModelProvider<?> provider, String texturePath){
+        return provider.existingFileHelper.exists(new ResourceLocation(MOD_ID,texturePath), DataGenHandle.TEXTURE);
+    }
+
+    public static boolean checkItemTextureFileExist(ModelProvider<?> provider, String texturePath){
+        return checkTextureFileExist(provider, String.format("item/%s", texturePath));
+    }
+
+    public static boolean checkBlockTextureFileExist(ModelProvider<?> provider, String texturePath){
+        return  checkTextureFileExist(provider,String.format("block/%s",texturePath ));
     }
 
     static ExistingModelFile existingModel(ModelProvider<?> provider, String path) {

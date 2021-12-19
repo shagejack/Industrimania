@@ -1,12 +1,10 @@
 package shagejack.shagecraft.registers;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.shagecraft.ShageCraft;
 import shagejack.shagecraft.registers.dataGen.DataGenHandle;
@@ -52,14 +50,12 @@ public class AllItem {
             return this;
         }
 
-        static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
-
         public ItemBuilder simpleModel(String texture) {
 //            DataGenHandle.runOnDataGen( () -> () ->
             DataGenHandle.addItemModelTask((provider) -> {
                 var item = this.registryObject.get();
                 ShageCraft.LOGGER.debug("set itemHeldModel for Item:{}", name);
-                if (provider.existingFileHelper.exists(new ResourceLocation(ShageCraft.MOD_ID, texture), TEXTURE)) {
+                if (provider.existingFileHelper.exists(new ResourceLocation(ShageCraft.MOD_ID, texture), DataGenHandle.TEXTURE)) {
                     provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
                             .parent(DataGenHandle.itemHeldModel.get()).texture("layer0", texture);
                 } else {
