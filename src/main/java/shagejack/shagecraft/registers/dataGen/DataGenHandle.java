@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile.ExistingModelFile;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
@@ -30,11 +31,14 @@ import static shagejack.shagecraft.ShageCraft.MOD_ID;
 public class DataGenHandle {
 
     public static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
+    public static final ExistingFileHelper.ResourceType MODEL = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");
 
-    private static final List<Consumer<ItemModelProvider>> itemModelTasks = new ArrayList();
+    private static final ArrayList<Consumer<ItemModelProvider>> itemModelTasks = new ArrayList();
     private static final ArrayList<Consumer<BlockModelProvider>> blockModelTasks = new ArrayList();
+    private static final ArrayList<Consumer<BlockStateProvider>> blockStateTasks = new ArrayList();
     private static final Wrapper<ItemModelProvider> itemModelPro = new Wrapper();
     private static final Wrapper<BlockModelProvider> blockModelPro = new Wrapper();
+    private static final Wrapper<BlockStateProvider> blockStatePro = new Wrapper();
     public static Lazy<ExistingModelFile> itemGeneratedModel = () -> existingModel(itemModelPro.get(), "item/generated");
     public static Lazy<ExistingModelFile> itemHeldModel = () -> existingModel(itemModelPro.get(), "item/handheld");
     public static Lazy<UncheckedModelFile> blockBuiltinEntity = () -> uncheckedModel( "builtin/entity");
@@ -51,6 +55,12 @@ public class DataGenHandle {
     public static void addBlockModelTask(Consumer<BlockModelProvider> task) {
         runOnDataGen(() -> () -> {
             blockModelTasks.add(task);
+        });
+    }
+
+    public static void addBlockStateTask(Consumer<BlockStateProvider> task) {
+        runOnDataGen(() -> () -> {
+            blockStateTasks.add(task);
         });
     }
 
@@ -121,6 +131,13 @@ public class DataGenHandle {
             }
         };
 
+        BlockStateProvider blockStateProvider = new BlockStateProvider(generator, MOD_ID, existingFileHelper) {
+            @Override
+            protected void registerStatesAndModels() {
+                blockStateTasks.forEach((task) -> task.accept(this));
+            }
+        };
+
 //        LanguageProvider languageProvider = new LanguageProvider(generator,MOD_ID,) {
 //            @Override
 //            protected void addTranslations() {
@@ -129,10 +146,12 @@ public class DataGenHandle {
 //        };
 
         itemModelPro.set(() -> itemModelProvider);
-        blockModelPro.set( () -> blockModelProvider);
+        blockModelPro.set(() -> blockModelProvider);
+        blockStatePro.set(() -> blockStateProvider);
 
         generator.addProvider(itemModelProvider);
         generator.addProvider(blockModelProvider);
+        generator.addProvider(blockStateProvider);
 //        generator.addProvider(languageProvider);
     }
 }

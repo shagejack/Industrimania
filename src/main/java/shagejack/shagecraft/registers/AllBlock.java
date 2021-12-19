@@ -1,18 +1,25 @@
 package shagejack.shagecraft.registers;
 
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.shagecraft.ShageCraft;
+import shagejack.shagecraft.content.contraptions.base.BlockDirectionalBase;
 import shagejack.shagecraft.registers.AllItem.ItemBuilder;
 import shagejack.shagecraft.registers.dataGen.DataGenHandle;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-import static shagejack.shagecraft.registers.dataGen.DataGenHandle.checkTextureFileExist;
 import static shagejack.shagecraft.registers.dataGen.DataGenHandle.checkTextureFileExist;
 
 public class AllBlock {
@@ -21,34 +28,154 @@ public class AllBlock {
             = new BlockBuilder()
             .name("building_fine_clay")
             .autoFullCubeModel()
-            .buildBlockWithItem();
+            .rotatableBlockState("SIX_WAYS")
+            .buildBlockWithItem(BlockDirectionalBase::new);
 
     static class BlockBuilder {
+
         private String name;
         private RegistryObject<Block> block;
         private Properties property;
 
-        public RegistryObject<Block> buildBlock() {
+        public <T extends Block> RegistryObject<Block> buildBlock(@Nullable Function<Properties, T> factory) {
             Objects.requireNonNull(name);
             if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
-            block = RegisterHandle.BLOCK_REGISTER.register(name, () -> new Block(property));
+
+            if (factory != null) {
+                block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property));
+            } else {
+                block = RegisterHandle.BLOCK_REGISTER.register(name, () -> new Block(property));
+            }
             ShageCraft.LOGGER.debug("register Block:{}", name);
             return block;
         }
 
-        public ItemBlock buildBlockWithItem() {
-            var block = buildBlock();
-            final ItemBuilder itemModelBuilder = new ItemBuilder().name(this.name);
+        public <T extends Block> ItemBlock buildBlockWithItem(@Nullable Function<Properties, T> factory) {
+            var block = buildBlock(factory);
+            final ItemBuilder itemModelBuilder
+                    = new ItemBuilder()
+                    .name(this.name)
+                    .blockModel("block/" + this.name);
             ShageCraft.LOGGER.debug("register Block:{} with Item:{}", name, name);
             return new ItemBlock(itemModelBuilder.build(block), block);
         }
 
-        public ItemBlock buildBlockWithItem(Consumer<ItemBuilder> consumer) {
-            var block = buildBlock();
-            final ItemBuilder itemBuilder = new ItemBuilder();
+        public <T extends Block> ItemBlock buildBlockWithItem(Consumer<ItemBuilder> consumer, @Nullable Function<Properties, T> factory) {
+            var block = buildBlock(factory);
+            final ItemBuilder itemBuilder
+                    = new ItemBuilder()
+                    .name(this.name)
+                    .blockModel("block/" + this.name);
             consumer.accept(itemBuilder);
             ShageCraft.LOGGER.debug("register Block:{} with Item:{}", name, itemBuilder);
             return new ItemBlock(itemBuilder.build(block), block);
+        }
+
+        public BlockBuilder simpleBlockState() {
+            DataGenHandle.addBlockStateTask((provider) -> {
+                var block = this.block;
+                ShageCraft.LOGGER.debug("set block state for Block:{}", name);
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .forAllStates(state -> ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(new ResourceLocation(ShageCraft.MOD_ID, "block/" + this.name))).build());
+            });
+            return this;
+        }
+
+        public BlockBuilder rotatableBlockState(String type) {
+            DataGenHandle.addBlockStateTask((provider) -> {
+                var block = this.block;
+                var modelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(ShageCraft.MOD_ID, "block/" + this.name));
+                if (type == "FOUR_WAYS") {
+
+                    ShageCraft.LOGGER.debug("set rotatable(FOUR_WAYS) block state for Block:{}", name);
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.NORTH)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(0)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.SOUTH)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(180)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.WEST)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(90)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.EAST)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(270)
+                            .addModel();
+
+                } else if (type == "SIX_WAYS") {
+
+                    ShageCraft.LOGGER.debug("set rotatable(SIX_WAYS) block state for Block:{}", name);
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.NORTH)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(0)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.SOUTH)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(180)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.WEST)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(90)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.EAST)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationY(270)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.UP)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationX(270)
+                            .addModel();
+
+                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                            .partialState()
+                            .with(BlockDirectionalBase.FACING, Direction.DOWN)
+                            .modelForState()
+                            .modelFile(modelFile)
+                            .rotationX(90)
+                            .addModel();
+
+                }
+            });
+            return this;
         }
 
         public BlockBuilder allSameModel(String path) {
@@ -89,7 +216,8 @@ public class AllBlock {
          * The folder is assets/stagecraft/models/block/$BLOCK_NAME$/ <p>
          * while file names (ended with .png) are <p>
          * default texture if others do not exist <p>
-         * uo <p>
+         * particle <p> THIS IS FOR BLOCK PARTICLE
+         * up <p>
          * down <p>
          * left <p>
          * right <p>
@@ -116,7 +244,7 @@ public class AllBlock {
                                 .parent(DataGenHandle.blockCubeAll.get()).texture("all", allSame);
                         return;
                     }
-                    final var defaultTexture = String.format("%s/%s", name, name);
+                    final var defaultTexture = String.format("block/%s/%s", name, "default");
                     if (!checkTextureFileExist(provider, defaultTexture)) {
                         throw new IllegalStateException(String.format("can't find all same texture and default texture for Block:%s",name));
                     }
@@ -126,6 +254,7 @@ public class AllBlock {
                     var right = defaultTexture;
                     var up = defaultTexture;
                     var down = defaultTexture;
+                    var particle = defaultTexture;
 
                     var xyTexture = String.format("block/%s/xy", name);
                     var xzTexture = String.format("block/%s/xy", name);
@@ -222,16 +351,26 @@ public class AllBlock {
                         down = downTexture;
                     }
 
+                    var particleTexture = String.format("block/%s/particle", name);
+                    var particleExist = checkTextureFileExist(provider, particleTexture);
+                    checkThrow(particleExist, "particle");
+
+                    if (particleExist) {
+                        particle = particleTexture;
+                    }
+
                     ShageCraft.LOGGER.debug("""
                         automatically set full cube block model for Block:{} with
+                        particle:{}
                         up:{}
                         down:{}
                         front/north:{}
                         back/south:{}
                         left/west:{}
-                        right/east:{}""", name, up, down, front, back, left, right);
+                        right/east:{}""", name, particle, up, down, front, back, left, right);
                     provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
                             .parent(DataGenHandle.blockCube.get())
+                            .texture("particle", particle)
                             .texture("up", up)
                             .texture("down", down)
                             .texture("north", front)

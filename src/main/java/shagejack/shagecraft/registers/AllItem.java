@@ -1,10 +1,14 @@
 package shagejack.shagecraft.registers;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.VanillaPackResources;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.shagecraft.ShageCraft;
 import shagejack.shagecraft.registers.dataGen.DataGenHandle;
@@ -67,6 +71,33 @@ public class AllItem {
             ;
             return this;
         }
+
+        public ItemBuilder blockModel(String model) {
+            DataGenHandle.addItemModelTask((provider) -> {
+                var item = this.registryObject.get();
+                ShageCraft.LOGGER.debug("set itemHeldModel for ItemBlock:{}", name);
+                    provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
+                            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(ShageCraft.MOD_ID, model)));
+            })
+            ;
+            return this;
+        }
+
+        public ItemBuilder specificModel(String model) {
+            DataGenHandle.addItemModelTask((provider) -> {
+                var item = this.registryObject.get();
+                ShageCraft.LOGGER.debug("set itemHeldModel for Item:{}", name);
+                if (provider.existingFileHelper.exists(new ResourceLocation(ShageCraft.MOD_ID, model), DataGenHandle.MODEL)) {
+                    provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
+                            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(ShageCraft.MOD_ID, model)));
+                } else {
+                    System.out.println("model:" + model + " not exists for Item:" + name);
+                }
+            })
+            ;
+            return this;
+        }
+
 
         public RegistryObject<Item> build() {
             Objects.requireNonNull(name);
