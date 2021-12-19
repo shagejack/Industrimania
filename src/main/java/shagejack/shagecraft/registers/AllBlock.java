@@ -240,7 +240,7 @@ public class AllBlock {
                             .texture("east", right);
 
                 }catch (IllegalStateException e){
-                    ShageCraft.LOGGER.error(e.getMessage());
+                    ShageCraft.LOGGER.error("failed to set autoFullCubeModel for Block:{},reason:{}",name,e.getMessage());
                 }
             });
             return this;
