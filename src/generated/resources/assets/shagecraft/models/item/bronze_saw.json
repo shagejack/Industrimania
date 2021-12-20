@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "shagecraft:item/bronze_saw/bronze_saw"
+  }
+}

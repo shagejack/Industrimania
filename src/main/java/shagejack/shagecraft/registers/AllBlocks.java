@@ -3,16 +3,16 @@ package shagejack.shagecraft.registers;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.shagecraft.ShageCraft;
 import shagejack.shagecraft.content.contraptions.base.BlockDirectionalBase;
-import shagejack.shagecraft.registers.AllItem.ItemBuilder;
+import shagejack.shagecraft.registers.AllItems.ItemBuilder;
 import shagejack.shagecraft.registers.dataGen.DataGenHandle;
 
 import javax.annotation.Nullable;
@@ -22,14 +22,51 @@ import java.util.function.Function;
 
 import static shagejack.shagecraft.registers.dataGen.DataGenHandle.checkTextureFileExist;
 
-public class AllBlock {
+public class AllBlocks {
 
     public static final ItemBlock building_fine_clay
             = new BlockBuilder()
             .name("building_fine_clay")
             .autoFullCubeModel()
-            .rotatableBlockState("SIX_WAYS")
-            .buildBlockWithItem(BlockDirectionalBase::new);
+            .simpleBlockState()
+            .buildBlockWithItem(null);
+
+    public static final ItemBlock building_scorched_clay
+            = new BlockBuilder()
+            .name("building_scorched_clay")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem(null);
+
+    public static final ItemBlock gravity_calcite
+            = new BlockBuilder()
+            .name("gravity_calcite")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem(GravelBlock::new);
+
+    public static final ItemBlock gravity_charcoal
+            = new BlockBuilder()
+            .name("gravity_charcoal")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem(GravelBlock::new);
+
+    public static final ItemBlock gravity_dust
+            = new BlockBuilder()
+            .name("gravity_dust")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem(GravelBlock::new);
+
+    public static final ItemBlock gravity_iron_oxide
+            = new BlockBuilder()
+            .name("gravity_iron_oxide")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem(GravelBlock::new);
+
+
 
     static class BlockBuilder {
 

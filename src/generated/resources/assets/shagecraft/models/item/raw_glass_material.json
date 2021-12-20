@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "shagecraft:item/raw_glass_material/raw_glass_material"
+  }
+}

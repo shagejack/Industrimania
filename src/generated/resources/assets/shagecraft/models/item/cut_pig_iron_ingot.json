@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "shagecraft:item/cut_pig_iron_ingot/cut_pig_iron_ingot"
+  }
+}

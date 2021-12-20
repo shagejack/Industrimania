@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "shagecraft:block/building_fine_clay",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "shagecraft:block/building_fine_clay",
+      "x": 270
+    },
+    "facing=north": {
+      "model": "shagecraft:block/building_fine_clay"
+    },
+    "facing=south": {
+      "model": "shagecraft:block/building_fine_clay",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "shagecraft:block/building_fine_clay",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "shagecraft:block/building_fine_clay",
+      "y": 270
+    }
+  }
+}

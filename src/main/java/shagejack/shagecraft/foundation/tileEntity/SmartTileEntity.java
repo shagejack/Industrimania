@@ -1,0 +1,204 @@
+package shagejack.shagecraft.foundation.tileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import shagejack.shagecraft.api.event.TileEntityBehaviourEvent;
+import shagejack.shagecraft.content.schematics.ItemRequirement;
+import shagejack.shagecraft.foundation.tileEntity.behaviour.BehaviourType;
+import shagejack.shagecraft.foundation.utility.IInteractionChecker;
+import shagejack.shagecraft.foundation.utility.IPartialSafeNBT;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
+public abstract class SmartTileEntity extends SyncedTileEntity implements IPartialSafeNBT, IInteractionChecker {
+
+	private final Map<BehaviourType<?>, TileEntityBehaviour> behaviours = new HashMap<>();
+	private boolean initialized = false;
+	private boolean firstNbtRead = true;
+	private int lazyTickRate;
+	private int lazyTickCounter;
+
+	// Used for simulating this TE in a client-only setting
+	private boolean virtualMode;
+
+	public SmartTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
+
+		setLazyTickRate(10);
+
+		ArrayList<TileEntityBehaviour> list = new ArrayList<>();
+		addBehaviours(list);
+		list.forEach(b -> behaviours.put(b.getType(), b));
+	}
+
+	public abstract void addBehaviours(List<TileEntityBehaviour> behaviours);
+
+	/**
+	 * Gets called just before reading tile data for behaviours. Register anything
+	 * here that depends on your custom te data.
+	 */
+	public void addBehavioursDeferred(List<TileEntityBehaviour> behaviours) {}
+
+	public void initialize() {
+		if (firstNbtRead) {
+			firstNbtRead = false;
+			MinecraftForge.EVENT_BUS.post(new TileEntityBehaviourEvent<>(this, behaviours));
+		}
+
+		forEachBehaviour(TileEntityBehaviour::initialize);
+		lazyTick();
+	}
+
+	public void tick() {
+		if (!initialized && hasLevel()) {
+			initialize();
+			initialized = true;
+		}
+
+		if (lazyTickCounter-- <= 0) {
+			lazyTickCounter = lazyTickRate;
+			lazyTick();
+		}
+
+		forEachBehaviour(TileEntityBehaviour::tick);
+	}
+
+	public void lazyTick() {
+	}
+
+	/**
+	 * Hook only these in future subclasses of STE
+	 */
+	protected void write(CompoundTag tag, boolean clientPacket) {
+		super.saveAdditional(tag);
+		forEachBehaviour(tb -> tb.write(tag, clientPacket));
+	}
+
+	@Override
+	public void writeSafe(CompoundTag tag, boolean clientPacket) {
+		super.saveAdditional(tag);
+		forEachBehaviour(tb -> {
+			if (tb.isSafeNBT())
+				tb.write(tag, clientPacket);
+		});
+	}
+
+	/**
+	 * Hook only these in future subclasses of STE
+	 */
+	protected void read(CompoundTag tag, boolean clientPacket) {
+		if (firstNbtRead) {
+			firstNbtRead = false;
+			ArrayList<TileEntityBehaviour> list = new ArrayList<>();
+			addBehavioursDeferred(list);
+			list.forEach(b -> behaviours.put(b.getType(), b));
+			MinecraftForge.EVENT_BUS.post(new TileEntityBehaviourEvent<>(this, behaviours));
+		}
+		super.load(tag);
+		forEachBehaviour(tb -> tb.read(tag, clientPacket));
+	}
+
+	@Override
+	public final void load(CompoundTag tag) {
+		read(tag, false);
+	}
+
+	@Override
+	public final void saveAdditional(CompoundTag tag) {
+		write(tag, false);
+	}
+
+	@Override
+	public final void readClient(CompoundTag tag) {
+		read(tag, true);
+	}
+
+	@Override
+	public final CompoundTag writeClient(CompoundTag tag) {
+		write(tag, true);
+		return tag;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends TileEntityBehaviour> T getBehaviour(BehaviourType<T> type) {
+		return (T) behaviours.get(type);
+	}
+
+	protected void forEachBehaviour(Consumer<TileEntityBehaviour> action) {
+		behaviours.values().forEach(action);
+	}
+
+	protected void attachBehaviourLate(TileEntityBehaviour behaviour) {
+		behaviours.put(behaviour.getType(), behaviour);
+		behaviour.initialize();
+	}
+
+	public ItemRequirement getRequiredItems() {
+		return behaviours.values().stream()
+			.reduce(ItemRequirement.NONE, (r, b) -> r.with(b.getRequiredItems()), (r, r1) -> r.with(r1));
+	}
+
+	protected void removeBehaviour(BehaviourType<?> type) {
+		TileEntityBehaviour remove = behaviours.remove(type);
+		if (remove != null) {
+			remove.remove();
+		}
+	}
+
+	@Override
+	public void setRemoved() {
+		forEachBehaviour(TileEntityBehaviour::remove);
+		super.setRemoved();
+	}
+
+	public void setLazyTickRate(int slowTickRate) {
+		this.lazyTickRate = slowTickRate;
+		this.lazyTickCounter = slowTickRate;
+	}
+
+	public void markVirtual() {
+		virtualMode = true;
+	}
+
+	public boolean isVirtual() {
+		return virtualMode;
+	}
+
+	@Override
+	public boolean canPlayerUse(Player player) {
+		if (level == null || level.getBlockEntity(worldPosition) != this)
+			return false;
+		return player.distanceToSqr(worldPosition.getX() + 0.5D, worldPosition.getY() + 0.5D,
+			worldPosition.getZ() + 0.5D) <= 64.0D;
+	}
+
+	public void sendToContainer(FriendlyByteBuf buffer) {
+		buffer.writeBlockPos(getBlockPos());
+		buffer.writeNbt(getUpdateTag());
+	}
+
+	@SuppressWarnings("deprecation")
+	public void refreshBlockState() {
+		setBlockState(getLevel().getBlockState(getBlockPos()));
+	}
+
+	protected boolean isItemHandlerCap(Capability<?> cap) {
+		return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+	}
+
+	protected boolean isFluidHandlerCap(Capability<?> cap) {
+		return cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY;
+	}
+}

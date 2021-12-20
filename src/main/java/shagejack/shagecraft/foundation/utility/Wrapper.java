@@ -1,4 +1,4 @@
-package shagejack.shagecraft.util;
+package shagejack.shagecraft.foundation.utility;
 
 import java.util.function.Supplier;
 

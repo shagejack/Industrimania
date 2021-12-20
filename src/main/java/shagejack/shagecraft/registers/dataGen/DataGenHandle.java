@@ -18,10 +18,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import shagejack.shagecraft.ShageCraft;
-import shagejack.shagecraft.util.Wrapper;
+import shagejack.shagecraft.foundation.utility.Wrapper;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

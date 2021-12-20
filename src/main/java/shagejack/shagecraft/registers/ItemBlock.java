@@ -7,7 +7,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-record ItemBlock(RegistryObject<Item> item, RegistryObject<Block> block) {
+public record ItemBlock(RegistryObject<Item> item, RegistryObject<Block> block) {
     public ItemBlock item(Consumer<RegistryObject<Item>> consumer) {
         consumer.accept(item);
         return this;
