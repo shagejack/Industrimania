@@ -8,9 +8,9 @@ Shagecraft is a Minecraft mod made for modpack Forsaken Odyssey. It aims to prov
 
 ## License
 
-本项目依据GPL 3通用公共许可协议进行授权，部分源码来自由Horizon Studio开发的模组超能物质（Matter Overdrive）。
+本项目依据GPL 3通用公共许可协议进行授权。
 
-This project is released under GPL 3. Part of source code is from Matter Overdrive by Horizon Studio.
+This project is released under GPL 3. 
 
     This file is part of ShageCraft.
     
