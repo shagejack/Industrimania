@@ -12,6 +12,8 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.shagecraft.ShageCraft;
 import shagejack.shagecraft.content.contraptions.base.BlockDirectionalBase;
+import shagejack.shagecraft.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
+import shagejack.shagecraft.content.metallurgy.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.shagecraft.registers.AllItems.ItemBuilder;
 import shagejack.shagecraft.registers.dataGen.DataGenHandle;
 
@@ -66,6 +68,19 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlockWithItem(GravelBlock::new);
 
+    public static final ItemBlock mechanic_clay_furnace_bottom
+            = new BlockBuilder()
+            .name("mechanic_clay_furnace_bottom")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem(ClayFurnaceBottomBlock::new);
+
+    public static final ItemBlock mechanic_iron_ore_slag
+            = new BlockBuilder()
+            .name("iron_ore_slag")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem(IronOreSlagBlock::new);
 
 
     static class BlockBuilder {
