@@ -31,14 +31,14 @@ public class AllBlocks {
             .name("building_fine_clay")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(null);
+            .buildBlockWithItem();
 
     public static final ItemBlock building_scorched_clay
             = new BlockBuilder()
             .name("building_scorched_clay")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(null);
+            .buildBlockWithItem();
 
     public static final ItemBlock gravity_calcite
             = new BlockBuilder()
@@ -77,10 +77,17 @@ public class AllBlocks {
 
     public static final ItemBlock mechanic_iron_ore_slag
             = new BlockBuilder()
-            .name("iron_ore_slag")
+            .name("mechanic_iron_ore_slag")
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlockWithItem(IronOreSlagBlock::new);
+
+    public static final ItemBlock mechanic_bronze_tube_block
+            = new BlockBuilder()
+            .name("mechanic_bronze_tube_block")
+            .autoFullCubeModel()
+            .rotatableBlockState("FOUR_WAYS")
+            .buildBlockWithItem(BlockDirectionalBase::new);
 
 
     static class BlockBuilder {
@@ -89,21 +96,36 @@ public class AllBlocks {
         private RegistryObject<Block> block;
         private Properties property;
 
-        public <T extends Block> RegistryObject<Block> buildBlock(@Nullable Function<Properties, T> factory) {
+        public <T extends Block> RegistryObject<Block> buildBlock(Function<Properties, T> factory) {
             Objects.requireNonNull(name);
             if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
 
-            if (factory != null) {
-                block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property));
-            } else {
-                block = RegisterHandle.BLOCK_REGISTER.register(name, () -> new Block(property));
-            }
+            block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property));
             ShageCraft.LOGGER.debug("register Block:{}", name);
             return block;
         }
 
-        public <T extends Block> ItemBlock buildBlockWithItem(@Nullable Function<Properties, T> factory) {
+        public <T extends Block> RegistryObject<Block> buildBlock() {
+            Objects.requireNonNull(name);
+            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
+
+            block = RegisterHandle.BLOCK_REGISTER.register(name, () -> new Block(property));
+            ShageCraft.LOGGER.debug("register Block:{}", name);
+            return block;
+        }
+
+        public <T extends Block> ItemBlock buildBlockWithItem(Function<Properties, T> factory) {
             var block = buildBlock(factory);
+            final ItemBuilder itemModelBuilder
+                    = new ItemBuilder()
+                    .name(this.name)
+                    .blockModel("block/" + this.name);
+            ShageCraft.LOGGER.debug("register Block:{} with Item:{}", name, name);
+            return new ItemBlock(itemModelBuilder.build(block), block);
+        }
+
+        public <T extends Block> ItemBlock buildBlockWithItem() {
+            var block = buildBlock();
             final ItemBuilder itemModelBuilder
                     = new ItemBuilder()
                     .name(this.name)

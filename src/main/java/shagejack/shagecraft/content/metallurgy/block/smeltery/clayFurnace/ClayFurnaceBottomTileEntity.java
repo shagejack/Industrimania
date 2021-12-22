@@ -45,9 +45,9 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
     private boolean burning;
     private boolean safe_removed;
 
-    private final String clay = "shagecraft:building.fine_clay";
-    private final String tube = "shagecraft:mechanic.bronze_tube";
-    private final String coal = "shagecraft:gravity.charcoal";
+    private final String clay = "shagecraft:building_fine_clay";
+    private final String tube = "shagecraft:mechanic_bronze_tube";
+    private final String coal = "shagecraft:gravity_charcoal";
 
     //Multi Blocks
     private String[] structure = {
@@ -621,6 +621,10 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
 
         level.explode(null, getBlockPos().getX() + 0.5D, getBlockPos().getY() + 0.5D, getBlockPos().getZ() + 0.5D, 5.0F, Explosion.BlockInteraction.BREAK);
         level.removeBlock(getBlockPos(), false);
+    }
+
+    public void onDestroyed(Level level, BlockPos pos, BlockState state) {
+        if (!safe_removed && temperature > 473.15) unsafeRemoved();
     }
 
 

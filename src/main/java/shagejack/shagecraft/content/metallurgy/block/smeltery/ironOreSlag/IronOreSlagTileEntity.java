@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import shagejack.shagecraft.ShageCraft;
+import shagejack.shagecraft.content.metallurgy.item.smeltery.cluster.IronCluster;
 import shagejack.shagecraft.foundation.tileEntity.SmartTileEntity;
 import shagejack.shagecraft.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.shagecraft.foundation.utility.ShageMultiBlockCheckHelper;
@@ -91,12 +92,11 @@ public class IronOreSlagTileEntity extends SmartTileEntity {
         if(perMass * count > 0) {
             int[] shape = {9 + level.random.nextInt(2), 9 + level.random.nextInt(2)};
             ironStack = new ItemStack(AllItems.ironCluster.get());
-            //TODO
-            //AllItems.ironCluster.get().setMass(ironStack, perMass * count);
-            //AllItems.ironCluster.get().setCarbon(ironStack, 0.02 + fortune * 0.01);
-            //AllItems.ironCluster.get().setTemp(ironStack, 298.15);
-            //AllItems.ironCluster.get().setImpurities(ironStack, 60  * (0.05 + mol_Impurities));
-            //AllItems.ironCluster.get().setShape(ironStack, shape);
+            IronCluster.setMass(ironStack, perMass * count);
+            IronCluster.setCarbon(ironStack, 0.02 + fortune * 0.01);
+            IronCluster.setTemp(ironStack, 298.15);
+            IronCluster.setImpurities(ironStack, 60  * (0.05 + mol_Impurities));
+            IronCluster.setShape(ironStack, shape);
             return ironStack;
         }
 

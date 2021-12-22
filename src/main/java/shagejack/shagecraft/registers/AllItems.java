@@ -5,9 +5,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.shagecraft.ShageCraft;
+import shagejack.shagecraft.content.metallurgy.item.smeltery.cluster.IronCluster;
 import shagejack.shagecraft.registers.dataGen.DataGenHandle;
 
 import java.util.Objects;
@@ -29,7 +31,6 @@ public class AllItems {
     public static final RegistryObject<Item> forgeHammer = new ItemBuilder().name("forge_hammer").simpleModel("forge_hammer").build();
     public static final RegistryObject<Item> gloves = new ItemBuilder().name("gloves").simpleModel("gloves").build();
     public static final RegistryObject<Item> ironBigPlate = new ItemBuilder().name("iron_big_plate").simpleModel("iron_big_plate").build();
-    public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").build();
     public static final RegistryObject<Item> ironIngot = new ItemBuilder().name("iron_ingot").simpleModel("iron_ingot").build();
     public static final RegistryObject<Item> ironPipe = new ItemBuilder().name("iron_pipe").simpleModel("iron_pipe").build();
     public static final RegistryObject<Item> ironRubbish = new ItemBuilder().name("iron_rubbish").simpleModel("iron_rubbish").build();
@@ -40,6 +41,8 @@ public class AllItems {
     public static final RegistryObject<Item> windFlag = new ItemBuilder().name("wind_flag").simpleModel("wind_flag").build();
     public static final RegistryObject<Item> wroughtIronIngot = new ItemBuilder().name("wrought_iron_ingot").simpleModel("wrought_iron_ingot").build();
     public static final RegistryObject<Item> wroughtIronSmallPlate = new ItemBuilder().name("wrought_iron_small_plate").simpleModel("wrought_iron_small_plate").build();
+
+    public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").build(IronCluster::new);
 
     public static final class ItemBuilder {
         private String name;
@@ -100,6 +103,14 @@ public class AllItems {
             Objects.requireNonNull(name);
             if (property == null) property = new Properties().tab(AllTabs.tab);
             registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new Item(property));
+            ShageCraft.LOGGER.debug("register Item {}", name);
+            return registryObject;
+        }
+
+        public <T extends Item> RegistryObject<Item> build(Function<Properties, T> factory) {
+            Objects.requireNonNull(name);
+            if (property == null) property = new Properties().tab(AllTabs.tab);
+            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> factory.apply(property));
             ShageCraft.LOGGER.debug("register Item {}", name);
             return registryObject;
         }
