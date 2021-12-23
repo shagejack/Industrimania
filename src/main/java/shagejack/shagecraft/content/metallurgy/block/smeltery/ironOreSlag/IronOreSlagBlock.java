@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.shagecraft.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
 import shagejack.shagecraft.foundation.block.ITE;
+import shagejack.shagecraft.registers.AllTileEntities;
 
 public class IronOreSlagBlock extends Block implements ITE<IronOreSlagTileEntity> {
 
@@ -17,12 +18,12 @@ public class IronOreSlagBlock extends Block implements ITE<IronOreSlagTileEntity
 
     @Override
     public Class<IronOreSlagTileEntity> getTileEntityClass() {
-        return null;
+        return IronOreSlagTileEntity.class;
     }
 
     @Override
     public BlockEntityType<? extends IronOreSlagTileEntity> getTileEntityType() {
-        return null;
+        return (BlockEntityType<? extends IronOreSlagTileEntity>) AllTileEntities.iron_ore_slag.get();
     }
 
     @Override

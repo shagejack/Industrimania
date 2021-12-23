@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "shagecraft:block/mechanic_iron_ore_slag"
+    }
+  }
+}

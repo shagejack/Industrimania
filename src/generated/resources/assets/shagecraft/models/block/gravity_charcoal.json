@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "shagecraft:block/gravity_charcoal/default",
+    "up": "shagecraft:block/gravity_charcoal/default",
+    "down": "shagecraft:block/gravity_charcoal/default",
+    "north": "shagecraft:block/gravity_charcoal/default",
+    "south": "shagecraft:block/gravity_charcoal/default",
+    "west": "shagecraft:block/gravity_charcoal/default",
+    "east": "shagecraft:block/gravity_charcoal/default"
+  }
+}

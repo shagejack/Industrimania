@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.shagecraft.foundation.block.ITE;
+import shagejack.shagecraft.registers.AllTileEntities;
 
 public class ClayFurnaceBottomBlock extends Block implements ITE<ClayFurnaceBottomTileEntity> {
 
@@ -16,12 +17,12 @@ public class ClayFurnaceBottomBlock extends Block implements ITE<ClayFurnaceBott
 
     @Override
     public Class<ClayFurnaceBottomTileEntity> getTileEntityClass() {
-        return null;
+        return ClayFurnaceBottomTileEntity.class;
     }
 
     @Override
     public BlockEntityType<? extends ClayFurnaceBottomTileEntity> getTileEntityType() {
-        return null;
+        return (BlockEntityType<? extends ClayFurnaceBottomTileEntity>) AllTileEntities.clay_furnace_bottom.get();
     }
 
     @Override
