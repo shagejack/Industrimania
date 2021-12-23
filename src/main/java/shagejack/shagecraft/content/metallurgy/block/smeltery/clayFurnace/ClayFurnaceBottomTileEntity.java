@@ -491,6 +491,9 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
     }
 
     //TODO: Data Rationalization
+
+
+
     public void consumeBlock(Level level, BlockPos posInput){
         if (level.getBlockState(posInput).getBlock() == AllBlocks.gravity_iron_oxide.block().get() && mol_IronOxide <= 0.25 && mol_Impurities <= 0.5){
             level.removeBlock(posInput, false);

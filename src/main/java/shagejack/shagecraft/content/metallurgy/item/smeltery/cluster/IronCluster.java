@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
@@ -99,6 +100,13 @@ public class IronCluster extends Item {
     }
 
     //TODO: ToolTip Lines
+    public void appendTooltip(ItemStack itemStack, @Nullable Level level, List<String> tooltip, TooltipFlag flag) {
+        tooltip.add("Mass: " + getMass(itemStack));
+        tooltip.add("Carbon: " + getCarbon(itemStack));
+        tooltip.add("Impurities: " + getImpurities(itemStack));
+        tooltip.add("Temp: " + getTemp(itemStack));
+        tooltip.add("Shape: " + getShape(itemStack));
+    }
 
 
 }

@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import shagejack.shagecraft.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.shagecraft.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
 
@@ -21,6 +22,7 @@ import java.util.Set;
 
 public class AllTileEntities {
 
+    @NotNull
     public static final RegistryObject<BlockEntityType<?>> clay_furnace_bottom
             = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
             .name("clay_furnace_bottom")
