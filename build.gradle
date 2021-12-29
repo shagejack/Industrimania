@@ -131,6 +131,10 @@ jar {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+    exclude "**/*.bat"
+    exclude "**/*.bbmodel"
+    exclude "**/*.psd"
+    exclude "**/*.exe"
 }
 
 // Example configuration to allow publishing using the maven-publish plugin
