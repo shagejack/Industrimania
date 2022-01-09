@@ -11,7 +11,7 @@ public class ShageMultiBlockCheckHelper {
         boolean[] complete = {true, true, true, true};
 
         for (int j = 0; j < complete.length; j++) {
-        for (int i = 0; i < structure.length; i++) {
+            for (int i = 0; i < structure.length; i++) {
                 if (!world.getBlockState(pos.offset(getRotatedPos(rPos[i], j))).getBlock().getRegistryName().toString().equalsIgnoreCase(structure[i])) {
                     complete[j] = false;
                 }

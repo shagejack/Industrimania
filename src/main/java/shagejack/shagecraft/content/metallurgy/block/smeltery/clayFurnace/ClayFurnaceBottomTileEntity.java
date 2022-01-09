@@ -67,9 +67,9 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
             clay,coal,clay,
             clay,clay,clay,
 
-            clay,tube,clay,
-            clay,coal,clay,
             clay,clay,clay,
+            clay,coal,clay,
+            clay,tube,clay,
 
             clay,clay,clay,
             clay,     clay,

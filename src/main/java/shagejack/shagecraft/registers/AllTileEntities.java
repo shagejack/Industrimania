@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.common.util.NonNullSupplier;
@@ -22,19 +23,25 @@ import java.util.Set;
 
 public class AllTileEntities {
 
-    @NotNull
     public static final RegistryObject<BlockEntityType<?>> clay_furnace_bottom
             = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
             .name("clay_furnace_bottom")
             .tileEntity(ClayFurnaceBottomTileEntity::new)
-            .validBlock(AllBlocks.mechanic_clay_furnace_bottom.block().get())
+            .validBlock(AllBlocks.mechanic_clay_furnace_bottom)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> iron_ore_slag
             = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
             .name("iron_ore_slag")
             .tileEntity(ClayFurnaceBottomTileEntity::new)
-            .validBlock(AllBlocks.mechanic_iron_ore_slag.block().get())
+            .validBlock(AllBlocks.mechanic_iron_ore_slag)
+            .build();
+
+    public static final RegistryObject<BlockEntityType<?>> bronze_tube
+            = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
+            .name("bronze_tube")
+            .tileEntity(ClayFurnaceBottomTileEntity::new)
+            .validBlock(AllBlocks.mechanic_bronze_tube_block)
             .build();
 
 
@@ -55,14 +62,14 @@ public class AllTileEntities {
 
         private String name;
         private BlockEntityFactory<T> factory = null;
-        private final Set<Block> validBlocks = new HashSet<>();
+        private final Set<ItemBlock> validBlocks = new HashSet<>();
 
         @Nullable
         private NonNullSupplier<NonNullFunction<BlockEntityRendererProvider.Context, BlockEntityRenderer<? super T>>> renderer;
 
         public RegistryObject<BlockEntityType<?>> build() {
             BlockEntityFactory<T> factory = this.factory;
-            registryObject = RegisterHandle.BLOCK_ENTITY_TYPE_REGISTER.register(name, () -> BlockEntityType.Builder.of((pos, state) -> factory.create(pos, state), validBlocks.toArray(Block[]::new))
+            registryObject = RegisterHandle.BLOCK_ENTITY_TYPE_REGISTER.register(name, () -> BlockEntityType.Builder.of((pos, state) -> factory.create(pos, state), validBlocks.stream().map(b -> b.block().get()).toArray(Block[]::new))
                     .build(null));
             return registryObject;
         }
@@ -81,7 +88,7 @@ public class AllTileEntities {
             return this;
         }
 
-        public TileEntityBuilder<T> validBlock(Block block) {
+        public TileEntityBuilder<T> validBlock(ItemBlock block) {
             validBlocks.add(block);
             return this;
         }

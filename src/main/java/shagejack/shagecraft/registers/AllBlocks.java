@@ -84,9 +84,9 @@ public class AllBlocks {
 
     public static final ItemBlock mechanic_bronze_tube_block
             = new BlockBuilder()
-            .name("mechanic_bronze_tube_block")
+            .name("mechanic_bronze_tube")
             .autoFullCubeModel()
-            .rotatableBlockState("FOUR_WAYS")
+            .rotatableBlockState()
             .buildBlockWithItem(BlockDirectionalBase::new);
 
 
@@ -155,49 +155,12 @@ public class AllBlocks {
             return this;
         }
 
-        public BlockBuilder rotatableBlockState(String type) {
+        public BlockBuilder rotatableBlockState() {
             DataGenHandle.addBlockStateTask((provider) -> {
                 var block = this.block;
                 var modelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(ShageCraft.MOD_ID, "block/" + this.name));
-                if (type == "FOUR_WAYS") {
 
-                    ShageCraft.LOGGER.debug("set rotatable(FOUR_WAYS) block state for Block:{}", name);
-
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.NORTH)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(0)
-                            .addModel();
-
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.SOUTH)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(180)
-                            .addModel();
-
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.WEST)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(90)
-                            .addModel();
-
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.EAST)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(270)
-                            .addModel();
-
-                } else if (type == "SIX_WAYS") {
-
-                    ShageCraft.LOGGER.debug("set rotatable(SIX_WAYS) block state for Block:{}", name);
+                    ShageCraft.LOGGER.debug("set rotatable block state for Block:{}", name);
 
                     provider.getVariantBuilder(Objects.requireNonNull(block.get()))
                             .partialState()
@@ -246,8 +209,6 @@ public class AllBlocks {
                             .modelFile(modelFile)
                             .rotationX(90)
                             .addModel();
-
-                }
             });
             return this;
         }
