@@ -1,58 +1,61 @@
 package shagejack.shagecraft.registers;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
-import shagejack.shagecraft.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.shagecraft.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
 
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AllTileEntities {
 
     public static final RegistryObject<BlockEntityType<?>> clay_furnace_bottom
             = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
             .name("clay_furnace_bottom")
             .tileEntity(ClayFurnaceBottomTileEntity::new)
-            .validBlock(AllBlocks.mechanic_clay_furnace_bottom)
+            .validBlocks(AllBlocks.mechanic_clay_furnace_bottom)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> iron_ore_slag
             = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
             .name("iron_ore_slag")
             .tileEntity(ClayFurnaceBottomTileEntity::new)
-            .validBlock(AllBlocks.mechanic_iron_ore_slag)
+            .validBlocks(AllBlocks.mechanic_iron_ore_slag)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> bronze_tube
             = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
             .name("bronze_tube")
             .tileEntity(ClayFurnaceBottomTileEntity::new)
-            .validBlock(AllBlocks.mechanic_bronze_tube_block)
+            .validBlocks(AllBlocks.mechanic_bronze_tube_block)
+//            .renderer(() -> (context) -> new TestTer()) //workable test ,remove this after test
             .build();
 
 
     static class TileEntityBuilder<T extends BlockEntity> {
 
-        RegistryObject<BlockEntityType<?>> registryObject;
+        private RegistryObject<BlockEntityType<?>> blockEntityType;
+        private static final List<Binder<?>> tasks = new ArrayList<>();
 
+        @FunctionalInterface
         public interface BlockEntityFactory<T extends BlockEntity> {
-
             public T create(BlockPos pos, BlockState state);
-
         }
 
         public TileEntityBuilder<T> tileEntity(BlockEntityFactory<T> factory) {
@@ -62,16 +65,16 @@ public class AllTileEntities {
 
         private String name;
         private BlockEntityFactory<T> factory = null;
-        private final Set<ItemBlock> validBlocks = new HashSet<>();
-
-        @Nullable
-        private NonNullSupplier<NonNullFunction<BlockEntityRendererProvider.Context, BlockEntityRenderer<? super T>>> renderer;
+        private final Set<RegistryObject<Block>> validBlocks = new HashSet<>();
 
         public RegistryObject<BlockEntityType<?>> build() {
             BlockEntityFactory<T> factory = this.factory;
-            registryObject = RegisterHandle.BLOCK_ENTITY_TYPE_REGISTER.register(name, () -> BlockEntityType.Builder.of((pos, state) -> factory.create(pos, state), validBlocks.stream().map(b -> b.block().get()).toArray(Block[]::new))
+            blockEntityType = RegisterHandle.BLOCK_ENTITY_TYPE_REGISTER.register(name, ()
+                    -> BlockEntityType.Builder.of((pos, state)
+                            -> factory.create(pos, state),
+                            validBlocks.stream().map(RegistryObject::get).toArray(Block[]::new))
                     .build(null));
-            return registryObject;
+            return blockEntityType;
         }
 
         public TileEntityBuilder<T> name(String name) {
@@ -80,18 +83,42 @@ public class AllTileEntities {
         }
 
         public TileEntityBuilder<T> renderer(NonNullSupplier<NonNullFunction<BlockEntityRendererProvider.Context, BlockEntityRenderer<? super T>>> renderer) {
-            if (this.renderer == null) { // First call only
-                //TODO: TileEntity Renderer
-                //DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::registerRenderer);
-            }
-            this.renderer = renderer;
+            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+                    tasks.add(new Binder(blockEntityType, context -> renderer.get().apply(context))));
             return this;
         }
 
-        public TileEntityBuilder<T> validBlock(ItemBlock block) {
-            validBlocks.add(block);
+        public TileEntityBuilder<T> validBlocks(ItemBlock... block) {
+            validBlocks.addAll(Arrays.stream(block).map(ItemBlock::block).toList());
             return this;
+        }
+
+        public TileEntityBuilder<T> validBlocks(RegistryObject<Block>... block) {
+            validBlocks.addAll(Arrays.stream(block).toList());
+            return this;
+        }
+
+        @SubscribeEvent
+        public static void bind(final FMLClientSetupEvent event) {
+            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> tasks.forEach(Binder::register));
+        }
+
+        private record Binder<T extends BlockEntity>(RegistryObject<BlockEntityType<? extends T>> blockEntityType,
+                                                     BlockEntityRendererProvider<T> render) {
+            private void register() {
+                DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
+                        BlockEntityRenderers.register(blockEntityType.get(), render)
+                );
+            }
         }
 
     }
 }
+
+//class TestTer implements BlockEntityRenderer<ClayFurnaceBottomTileEntity> { //workable test , remove this after use
+//
+//    @Override
+//    public void render(ClayFurnaceBottomTileEntity blockEntity, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+//
+//    }
+//}
