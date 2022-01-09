@@ -99,14 +99,25 @@ public class IronCluster extends Item {
         }
     }
 
-    //TODO: ToolTip Lines
     public void appendTooltip(ItemStack itemStack, @Nullable Level level, List<String> tooltip, TooltipFlag flag) {
         tooltip.add("Mass: " + getMass(itemStack));
         tooltip.add("Carbon: " + getCarbon(itemStack));
         tooltip.add("Impurities: " + getImpurities(itemStack));
         tooltip.add("Temp: " + getTemp(itemStack));
-        tooltip.add("Shape: " + getShape(itemStack));
+        int[] shape = getShape(itemStack);
+        tooltip.add("=====Shape=====");
+        if (shape != null && shape[0] > 0 && shape[1] > 0) {
+            for (int i = 0; i < shape[1]; i++) {
+                String temp = "";
+                for (int j = 0; j < shape[0]; j++) {
+                    temp += "\u2b1b";
+                }
+                tooltip.add(temp);
+            }
+        }
     }
+
+    //TODO: hurt player and set player on fire when in inventory
 
 
 }
