@@ -1,4 +1,4 @@
-# [Industrimania](shagejack.github.io)
+# [Industrimania](https://shagejack.github.io)
 
 ![](https://img.shields.io/badge/Available%20for-MC%201.18.1-blue)
 ![](https://img.shields.io/github/license/ShageJack/Industrimania)
