@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "shagecraft:item/forge_hammer/forge_hammer"
+    "layer0": "industrimania:item/forge_hammer/forge_hammer"
   }
 }
