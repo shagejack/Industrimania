@@ -1,6 +1,8 @@
 # [Industrimania](shagejack.github.io)
 
-![](https://img.shields.io/cocoapods/l/Industrimania.svg?style=flat)
+![](https://img.shields.io/badge/Available%20for-MC%201.18.1-blue)
+![](https://img.shields.io/github/license/ShageJack/Industrimania)
+![](https://img.shields.io/github/issues/ShageJack/Industrimania)
 
 ## About
 
