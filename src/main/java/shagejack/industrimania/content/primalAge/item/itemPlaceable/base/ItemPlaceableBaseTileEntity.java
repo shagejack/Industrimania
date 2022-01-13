@@ -68,5 +68,5 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
         return "";
     }
 
-    //TODO: render based on block states
+    //TODO: render based on storage
 }
