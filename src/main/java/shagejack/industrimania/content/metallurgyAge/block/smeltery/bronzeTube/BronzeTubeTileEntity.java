@@ -1,4 +1,4 @@
-package shagejack.industrimania.content.metallurgy.block.smeltery.bronzeTube;
+package shagejack.industrimania.content.metallurgyAge.block.smeltery.bronzeTube;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;

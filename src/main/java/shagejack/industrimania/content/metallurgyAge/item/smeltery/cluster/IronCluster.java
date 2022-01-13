@@ -1,4 +1,4 @@
-package shagejack.industrimania.content.metallurgy.item.smeltery.cluster;
+package shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.damagesource.DamageSource;

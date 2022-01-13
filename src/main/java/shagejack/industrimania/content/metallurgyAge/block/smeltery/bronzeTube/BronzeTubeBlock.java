@@ -1,4 +1,4 @@
-package shagejack.industrimania.content.metallurgy.block.smeltery.bronzeTube;
+package shagejack.industrimania.content.metallurgyAge.block.smeltery.bronzeTube;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;

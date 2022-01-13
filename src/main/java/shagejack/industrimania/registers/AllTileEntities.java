@@ -16,12 +16,26 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
-import shagejack.industrimania.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
+import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
 
 import java.util.*;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AllTileEntities {
+
+    public static final RegistryObject<BlockEntityType<?>> item_placeable
+            = new TileEntityBuilder<ItemPlaceableBaseTileEntity>()
+            .name("item_placeable")
+            .tileEntity(ItemPlaceableBaseTileEntity::new)
+            .build();
+
+    public static final RegistryObject<BlockEntityType<?>> wood_placeable
+            = new TileEntityBuilder<WoodPlaceableTileEntity>()
+            .name("wood_placeable")
+            .tileEntity(WoodPlaceableTileEntity::new)
+            .build();
 
     public static final RegistryObject<BlockEntityType<?>> clay_furnace_bottom
             = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()

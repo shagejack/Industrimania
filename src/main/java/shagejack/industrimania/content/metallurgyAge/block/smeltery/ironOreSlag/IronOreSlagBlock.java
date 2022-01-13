@@ -1,4 +1,4 @@
-package shagejack.industrimania.content.metallurgy.block.smeltery.clayFurnace;
+package shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -9,27 +9,27 @@ import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.registers.AllTileEntities;
 
-public class ClayFurnaceBottomBlock extends Block implements ITE<ClayFurnaceBottomTileEntity> {
+public class IronOreSlagBlock extends Block implements ITE<IronOreSlagTileEntity> {
 
-    public ClayFurnaceBottomBlock(Properties properties) {
+    public IronOreSlagBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    public Class<ClayFurnaceBottomTileEntity> getTileEntityClass() {
-        return ClayFurnaceBottomTileEntity.class;
+    public Class<IronOreSlagTileEntity> getTileEntityClass() {
+        return IronOreSlagTileEntity.class;
     }
 
     @Override
-    public BlockEntityType<? extends ClayFurnaceBottomTileEntity> getTileEntityType() {
-        return (BlockEntityType<? extends ClayFurnaceBottomTileEntity>) AllTileEntities.clay_furnace_bottom.get();
+    public BlockEntityType<? extends IronOreSlagTileEntity> getTileEntityType() {
+        return (BlockEntityType<? extends IronOreSlagTileEntity>) AllTileEntities.iron_ore_slag.get();
     }
 
     @Override
     public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState state, boolean p_48717_) {
         BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof ClayFurnaceBottomTileEntity) {
-            ((ClayFurnaceBottomTileEntity) te).onDestroyed(level, pos, oldState);
+        if (te instanceof IronOreSlagTileEntity) {
+            ((IronOreSlagTileEntity) te).onBreak(level);
         }
         super.onRemove(oldState, level, pos, state, p_48717_);
     }

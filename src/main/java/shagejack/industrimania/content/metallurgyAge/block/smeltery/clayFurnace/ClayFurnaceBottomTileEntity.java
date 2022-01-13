@@ -1,4 +1,4 @@
-package shagejack.industrimania.content.metallurgy.block.smeltery.clayFurnace;
+package shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.content.metallurgy.block.smeltery.ironOreSlag.IronOreSlagTileEntity;
+import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagTileEntity;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.ShageMultiBlockCheckHelper;

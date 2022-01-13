@@ -1,4 +1,4 @@
-package shagejack.industrimania.content.metallurgy.block.smeltery.ironOreSlag;
+package shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import shagejack.industrimania.content.metallurgy.item.smeltery.cluster.IronCluster;
+import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.registers.AllItems;

@@ -12,8 +12,8 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
-import shagejack.industrimania.content.metallurgy.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
-import shagejack.industrimania.content.metallurgy.block.smeltery.ironOreSlag.IronOreSlagBlock;
+import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
+import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.industrimania.registers.AllItems.ItemBuilder;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
