@@ -64,15 +64,14 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
 
         for (int x = cp.getMinBlockX(); x <= cp.getMaxBlockX(); x++) {
             for (int z = cp.getMinBlockZ(); z <= cp.getMaxBlockZ(); z++) {
+
+                double FEATURE_SIZE = ROCK_LAYERS.size() * 32;
+
+                double value = noiseMap.eval(x / FEATURE_SIZE, z / FEATURE_SIZE, 0.0);
+                ArrayList<RockLayer> TEMP = (ArrayList<RockLayer>) ROCK_LAYERS.clone();
+                Collections.shuffle(TEMP, new Random((long) (value + 1) / 2 * ROCK_LAYERS.size()));
+
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
-
-                    double FEATURE_SIZE = ROCK_LAYERS.size() * 32;
-
-                    double value = noiseMap.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
-                    ArrayList<RockLayer> TEMP = (ArrayList<RockLayer>) ROCK_LAYERS.clone();
-                    Collections.shuffle(TEMP, new Random((long) (value + 1) / 2 * ROCK_LAYERS.size()));
-
-
 
                     for(RockLayer rockLayer : TEMP) {
                         Block rock = rockLayer.getRock();
