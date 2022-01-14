@@ -9,20 +9,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
-import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import org.antlr.runtime.misc.IntArray;
-import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.api.worldGen.OpenSimplexNoise;
 import shagejack.industrimania.content.worldGen.RockLayer;
 import shagejack.industrimania.registers.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
@@ -69,7 +64,7 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = f.level();
         ChunkPos cp = new ChunkPos(f.origin());
 
-        OpenSimplexNoise noiseMap = new OpenSimplexNoise(level.getSeed());
+        final OpenSimplexNoise noiseMap = new OpenSimplexNoise(level.getSeed());
 
         for (int x = cp.getMinBlockX(); x <= cp.getMaxBlockX(); x++) {
             for (int z = cp.getMinBlockZ(); z <= cp.getMaxBlockZ(); z++) {
@@ -77,12 +72,28 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
                 double FEATURE_SIZE = 4096;
 
                 double value = noiseMap.eval(x / FEATURE_SIZE, z / FEATURE_SIZE, 0.0);
-                ArrayList<RockLayer> TEMP = (ArrayList<RockLayer>) ROCK_LAYERS.clone();
-                Collections.shuffle(TEMP, new Random((long) (value + 1) * 16));
+
+                ArrayList<RockLayer> LAYERS = new ArrayList<RockLayer>();
+
+                Random random = new Random((long) ((value + 1) * 64));
+
+                for (int i = 0; i < 24; i ++) {
+                    RockLayer layerTemp = ROCK_LAYERS.get(random.nextInt(ROCK_LAYERS.size()));
+                    if (ROCK_LAYERS.size() > 24) {
+                        if (!LAYERS.contains(layerTemp)) {
+                            LAYERS.add(layerTemp);
+                        } else {
+                            i--;
+                        }
+                    } else {
+                        LAYERS.add(layerTemp);
+                    }
+                }
+
 
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
 
-                    for (RockLayer rockLayer : TEMP) {
+                    for (RockLayer rockLayer : LAYERS) {
                         Block rock = rockLayer.rock();
                         int minY = rockLayer.minY();
                         int maxY = rockLayer.maxY();
@@ -91,14 +102,14 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
                         BlockPos p = new BlockPos(x, y, z);
                         BlockState state = level.getBlockState(p);
 
-                        Random rnd = new Random((long) (value + 1) * 16);
+                        Random rnd = new Random((long) (value + 1) * 64);
                         int center = minY + rnd.nextInt(maxY - minY);
 
 
                             if (y > center - thicknessH && y < center + thicknessH) {
-                                //if (VANILLA_STONE.contains(state.getBlock())) {
+                                if (VANILLA_STONE.contains(state.getBlock())) {
                                     level.setBlock(p, rock.defaultBlockState(), 2 | 16);
-                                //}
+                                }
                             }
                     }
                 }
@@ -106,7 +117,6 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         //Replace Remaining Vanilla Stone
-        /*
         for (int x = cp.getMinBlockX(); x <= cp.getMaxBlockX(); x++) {
             for (int z = cp.getMinBlockZ(); z <= cp.getMaxBlockZ(); z++) {
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
@@ -120,7 +130,7 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
-        */
+
 
         return true;
     }
