@@ -13,7 +13,7 @@ import java.util.List;
 public class WoodPlaceableTileEntity extends ItemPlaceableBaseTileEntity {
 
     public WoodPlaceableTileEntity(BlockPos pos, BlockState state) {
-        super(pos, state);
+        super(AllTileEntities.wood_placeable.get(), pos, state);
     }
 
     @Override

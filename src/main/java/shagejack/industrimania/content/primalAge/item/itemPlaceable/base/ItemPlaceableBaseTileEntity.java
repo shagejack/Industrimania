@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
@@ -20,6 +21,10 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
 
     public ItemPlaceableBaseTileEntity(BlockPos pos, BlockState state) {
         super(AllTileEntities.item_placeable.get(), pos, state);
+    }
+
+    public ItemPlaceableBaseTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @Override
