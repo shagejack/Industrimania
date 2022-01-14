@@ -25,7 +25,6 @@ public class RockRegistry {
     public static final List<Block> igneousStones = Lists.newArrayList(
             Blocks.ANDESITE,
             Blocks.GRANITE,
-            Blocks.DIORITE,
-            Blocks.CALCITE
+            Blocks.DIORITE
     );
 }
