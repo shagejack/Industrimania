@@ -26,6 +26,42 @@ import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkTextu
 
 public class AllBlocks {
 
+    public static final ItemBlock rock_marble
+            = new BlockBuilder()
+            .name("rock_marble")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_gneiss
+            = new BlockBuilder()
+            .name("rock_gneiss")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_limestone
+            = new BlockBuilder()
+            .name("rock_limestone")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_shale
+            = new BlockBuilder()
+            .name("rock_shale")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_conglomeratee
+            = new BlockBuilder()
+            .name("rock_conglomerate")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+
     public static final ItemBlock building_fine_clay
             = new BlockBuilder()
             .name("building_fine_clay")

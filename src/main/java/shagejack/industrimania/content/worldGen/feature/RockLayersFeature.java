@@ -2,56 +2,45 @@ package shagejack.industrimania.content.worldGen.feature;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import shagejack.industrimania.api.worldGen.OpenSimplexNoise;
-import shagejack.industrimania.content.worldGen.RockLayer;
+import shagejack.industrimania.content.worldGen.Geology;
 import shagejack.industrimania.registers.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
 
-    private final ArrayList<Block> VANILLA_STONE = Lists.newArrayList(
-            Blocks.STONE,
-            Blocks.DEEPSLATE,
-            Blocks.DIORITE,
-            Blocks.ANDESITE,
-            Blocks.GRANITE,
-            Blocks.INFESTED_STONE,
-            Blocks.INFESTED_DEEPSLATE
-    );
-
-    private final ArrayList<RockLayer> ROCK_LAYERS = Lists.newArrayList(
-        //Sedimentary rocks
-        //Metamorphic rocks
-            //Slate
-            new RockLayer(Blocks.DEEPSLATE, -32, 0, 16),
-       //Igneous rocks
-            //Andesite
-            new RockLayer(Blocks.ANDESITE, -32, 0, 8),
-            //Granite
-            new RockLayer(Blocks.GRANITE, -64, 0, 8),
-            //Diorite
-            new RockLayer(Blocks.DIORITE, -64, 0, 8),
-            //Calcite
-            new RockLayer(Blocks.CALCITE, -64, 0, 8),
-
-            new RockLayer(AllBlocks.building_fine_clay.block().get(), -64, 320, 8)
-    );
-
     public RockLayersFeature(Codec p_65786_) {
         super(p_65786_);
+    }
+
+    private Geology geom = null;
+
+    private final Lock glock = new ReentrantLock();
+
+    /** is thread-safe */
+    final Geology getGeology(WorldGenLevel level) {
+        if (geom == null) {
+            glock.lock();
+            try {
+                if (geom == null) {
+                    geom = new Geology(level.getSeed(), 100, 32);
+                }
+            } finally {
+                glock.unlock();
+            }
+        }
+        return geom;
     }
 
     @Override
@@ -64,6 +53,9 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = f.level();
         ChunkPos cp = new ChunkPos(f.origin());
 
+        getGeology(level).replaceStoneInChunk(cp.x, cp.z, level);
+
+        /*
         final OpenSimplexNoise noiseMap = new OpenSimplexNoise(level.getSeed());
 
         for (int x = cp.getMinBlockX(); x <= cp.getMaxBlockX(); x++) {
@@ -93,16 +85,16 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
 
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
 
-                    for (RockLayer rockLayer : LAYERS) {
-                        Block rock = rockLayer.rock();
-                        int minY = rockLayer.minY();
-                        int maxY = rockLayer.maxY();
-                        int thicknessH = rockLayer.thickness() / 2;
+                    for (int j = 0; j < LAYERS.size(); j++) {
+                        Block rock = LAYERS.get(j).rock();
+                        int minY = LAYERS.get(j).minY();
+                        int maxY = LAYERS.get(j).maxY();
+                        int thicknessH = LAYERS.get(j).thickness() / 2;
 
                         BlockPos p = new BlockPos(x, y, z);
                         BlockState state = level.getBlockState(p);
 
-                        Random rnd = new Random((long) (value + 1) * 64);
+                        Random rnd = new Random((long) (value + 1 + j) * 64);
                         int center = minY + rnd.nextInt(maxY - minY);
 
 
@@ -131,6 +123,7 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
 
+         */
 
         return true;
     }
