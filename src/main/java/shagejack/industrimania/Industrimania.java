@@ -1,14 +1,18 @@
 package shagejack.industrimania;
 
 import cpw.mods.modlauncher.Launcher;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shagejack.industrimania.content.worldGen.GenerationRegistry;
 import shagejack.industrimania.content.worldGen.IndustrimaniaFeatures;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.setup.ModSetup;
 
 import static cpw.mods.modlauncher.api.IEnvironment.Keys.LAUNCHTARGET;
 
@@ -21,9 +25,19 @@ public class Industrimania {
             .getProperty(LAUNCHTARGET.get()).orElseThrow().equals("forgedatauserdev");
 
     public Industrimania() {
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
         try {
             RegisterHandle.RegRegisters();
             RegisterHandle.init();
+
+            ModSetup.setup();
+
+            bus.addListener(this::setup);
+            bus.addListener(this::clientSetup);
+
+            MinecraftForge.EVENT_BUS.register(this);
+
         } catch (Exception e) {
             LOGGER.error(e);
         }

@@ -1,5 +1,6 @@
 package shagejack.industrimania.content.worldGen;
 
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
@@ -19,7 +20,7 @@ public class GenerationRegistry {
     }
 
     @SubscribeEvent
-    public void onBiomesLoaded(BiomeLoadingEvent event) {
+    public static void onBiomesLoaded(BiomeLoadingEvent event) {
         BiomeGenerationSettingsBuilder gen = event.getGeneration();
 
         for (GenerationStep.Decoration stage : decorations) {
@@ -30,8 +31,9 @@ public class GenerationRegistry {
             }
         }
 
-        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ROCK_LAYERS_ALL_PLACED);
+        if(event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER)
         gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ORE_REMOVAL_ALL_PLACED);
+        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ROCK_LAYERS_ALL_PLACED);
     }
 
 }

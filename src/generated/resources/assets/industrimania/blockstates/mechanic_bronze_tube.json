@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "industrimania:block/mechanic_bronze_tube",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "industrimania:block/mechanic_bronze_tube",
+      "x": 270
+    },
+    "facing=north": {
+      "model": "industrimania:block/mechanic_bronze_tube"
+    },
+    "facing=south": {
+      "model": "industrimania:block/mechanic_bronze_tube",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "industrimania:block/mechanic_bronze_tube",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "industrimania:block/mechanic_bronze_tube",
+      "y": 270
+    }
+  }
+}

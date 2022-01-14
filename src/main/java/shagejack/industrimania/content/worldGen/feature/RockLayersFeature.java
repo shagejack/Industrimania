@@ -15,6 +15,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import org.antlr.runtime.misc.IntArray;
+import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.api.worldGen.OpenSimplexNoise;
 import shagejack.industrimania.content.worldGen.RockLayer;
 import shagejack.industrimania.registers.AllBlocks;
@@ -37,13 +38,21 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
     );
 
     private final ArrayList<RockLayer> ROCK_LAYERS = Lists.newArrayList(
-            //Sedimentary rocks
-            //Metamorphic rocks
-            new RockLayer(Blocks.DEEPSLATE, -32, 32, 16),
-            //Igneous rocks
-            new RockLayer(Blocks.ANDESITE, 32),
-            new RockLayer(Blocks.GRANITE, -64, 0),
-            new RockLayer(Blocks.DIORITE, -64, 0)
+        //Sedimentary rocks
+        //Metamorphic rocks
+            //Slate
+            new RockLayer(Blocks.DEEPSLATE, -32, 0, 16),
+       //Igneous rocks
+            //Andesite
+            new RockLayer(Blocks.ANDESITE, -32, 0, 8),
+            //Granite
+            new RockLayer(Blocks.GRANITE, -64, 0, 8),
+            //Diorite
+            new RockLayer(Blocks.DIORITE, -64, 0, 8),
+            //Calcite
+            new RockLayer(Blocks.CALCITE, -64, 0, 8),
+
+            new RockLayer(AllBlocks.building_fine_clay.block().get(), -64, 320, 8)
     );
 
     public RockLayersFeature(Codec p_65786_) {
@@ -65,39 +74,39 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
         for (int x = cp.getMinBlockX(); x <= cp.getMaxBlockX(); x++) {
             for (int z = cp.getMinBlockZ(); z <= cp.getMaxBlockZ(); z++) {
 
-                double FEATURE_SIZE = ROCK_LAYERS.size() * 32;
+                double FEATURE_SIZE = 4096;
 
                 double value = noiseMap.eval(x / FEATURE_SIZE, z / FEATURE_SIZE, 0.0);
                 ArrayList<RockLayer> TEMP = (ArrayList<RockLayer>) ROCK_LAYERS.clone();
-                Collections.shuffle(TEMP, new Random((long) (value + 1) / 2 * ROCK_LAYERS.size()));
+                Collections.shuffle(TEMP, new Random((long) (value + 1) * 16));
 
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
 
-                    for(RockLayer rockLayer : TEMP) {
-                        Block rock = rockLayer.getRock();
-                        int minY = rockLayer.getMinY();
-                        int maxY = rockLayer.getMaxY();
-                        int thickness = rockLayer.getThickness();
+                    for (RockLayer rockLayer : TEMP) {
+                        Block rock = rockLayer.rock();
+                        int minY = rockLayer.minY();
+                        int maxY = rockLayer.maxY();
+                        int thicknessH = rockLayer.thickness() / 2;
 
                         BlockPos p = new BlockPos(x, y, z);
                         BlockState state = level.getBlockState(p);
 
-                        Random rnd = new Random((long) (value + 1) / 2 * ROCK_LAYERS.size());
-                        if (maxY - minY - thickness > 0) {
-                            int offset = rnd.nextInt(maxY - minY - thickness);
+                        Random rnd = new Random((long) (value + 1) * 16);
+                        int center = minY + rnd.nextInt(maxY - minY);
 
-                            if (y > minY + offset && y < minY + offset + thickness) {
-                                if (VANILLA_STONE.contains(state.getBlock())) {
+
+                            if (y > center - thicknessH && y < center + thicknessH) {
+                                //if (VANILLA_STONE.contains(state.getBlock())) {
                                     level.setBlock(p, rock.defaultBlockState(), 2 | 16);
-                                }
+                                //}
                             }
-                        }
                     }
                 }
             }
         }
 
         //Replace Remaining Vanilla Stone
+        /*
         for (int x = cp.getMinBlockX(); x <= cp.getMaxBlockX(); x++) {
             for (int z = cp.getMinBlockZ(); z <= cp.getMaxBlockZ(); z++) {
                 for (int y = level.getMinBuildHeight(); y < level.getMaxBuildHeight(); y++) {
@@ -105,12 +114,13 @@ public class RockLayersFeature extends Feature<NoneFeatureConfiguration> {
                     BlockPos p = new BlockPos(x, y, z);
                     BlockState state = level.getBlockState(p);
 
-                    if (VANILLA_STONE.contains(state.getBlock())) {
-                        level.setBlock(p, ROCK_LAYERS.get(0).getRock().defaultBlockState(), 2 | 16);
+                    if (state.getBlock() == Blocks.STONE) {
+                        level.setBlock(p, ROCK_LAYERS.get(0).rock().defaultBlockState(), 2 | 16);
                     }
                 }
             }
         }
+        */
 
         return true;
     }
