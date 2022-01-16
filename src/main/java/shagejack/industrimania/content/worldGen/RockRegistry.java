@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import shagejack.industrimania.registers.AllBlocks;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RockRegistry {
@@ -16,7 +15,7 @@ public class RockRegistry {
             AllBlocks.rock_conglomeratee.block().get(),
             AllBlocks.rock_chalk.block().get(),
             AllBlocks.rock_coal.block().get(),
-            AllBlocks.rock_oilShale.block().get(),
+            AllBlocks.rock_oilshale.block().get(),
             AllBlocks.rock_dolomite.block().get()
     );
     // stone block replacements that are Metamorphic

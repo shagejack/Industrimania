@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Blocks;
 import shagejack.industrimania.content.worldGen.record.Ore;
 import shagejack.industrimania.registers.AllBlocks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OreRegistry {
@@ -18,6 +19,7 @@ public class OreRegistry {
             AllBlocks.rock_rhyolite.block().get()
     );
     public static final Ore hematite = new Ore(OreTypeRegistry.hematite, rockHematite, -32, 32, 0, AllBlocks.lactuca_raddeana.block().get(), null);
+
 
     //galena
     public static final List<Block> rockGalena = Lists.newArrayList(

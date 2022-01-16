@@ -21,6 +21,7 @@ public class RegisterHandle {
     public static void init() {
         new AllItems();
         new AllBlocks();
+        AllBlocks.initOres();
         new AllTileEntities();
     }
 
