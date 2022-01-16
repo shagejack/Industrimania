@@ -211,6 +211,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                                     BlockPos blockPos = new BlockPos(dx, dy, dz);
                                     Block block = level.getBlockState(blockPos).getBlock();
                                     if (isReplaceable(block)) {
+                                        level.setBlock(blockPos, depositRock.defaultBlockState(), 2 | 16);
                                         deposit.add(blockPos);
                                     }
                                 }
@@ -234,6 +235,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                                     BlockPos blockPos = new BlockPos(dx, dy, dz);
                                     Block block = level.getBlockState(blockPos).getBlock();
                                     if (isReplaceable(block)) {
+                                        level.setBlock(blockPos, depositRock.defaultBlockState(), 2 | 16);
                                         deposit.add(blockPos);
                                     }
                                 }
