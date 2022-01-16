@@ -31,9 +31,11 @@ public class GenerationRegistry {
             }
         }
 
-        if(event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER)
-        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ORE_REMOVAL_ALL_PLACED);
-        gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ROCK_LAYERS_ALL_PLACED);
+        if (event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ORE_REMOVAL_ALL_PLACED);
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ROCK_LAYERS_ALL_PLACED);
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, IndustrimaniaFeatures.ORE_GEN_ALL_PLACED);
+        }
     }
 
 }

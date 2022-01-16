@@ -26,16 +26,72 @@ import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkTextu
 
 public class AllBlocks {
 
-    public static final ItemBlock rock_marble
+    //TODO: ore block auto registry
+
+
+    //Plant Sign
+    public static final ItemBlock lactuca_raddeana
             = new BlockBuilder()
-            .name("rock_marble")
+            .name("lactuca_raddeana")
+            .crossTextureModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    //Ore Cap
+    public static final ItemBlock silicon_cap
+            = new BlockBuilder()
+            .name("silicon_cap")
+            //.specialModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    //Igneous Rocks
+    public static final ItemBlock rock_dacite
+            = new BlockBuilder()
+            .name("rock_dacite")
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlockWithItem();
 
-    public static final ItemBlock rock_gneiss
+    public static final ItemBlock rock_rhyolite
             = new BlockBuilder()
-            .name("rock_gneiss")
+            .name("rock_rhyolite")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_trachyte
+            = new BlockBuilder()
+            .name("rock_trachyte")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_basalt
+            = new BlockBuilder()
+            .name("rock_basalt")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_gabbro
+            = new BlockBuilder()
+            .name("rock_gabbro")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_porphyry
+            = new BlockBuilder()
+            .name("rock_porphyry")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    //Sedimentary Rocks
+    public static final ItemBlock rock_chalk
+            = new BlockBuilder()
+            .name("rock_chalk")
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlockWithItem();
@@ -57,6 +113,77 @@ public class AllBlocks {
     public static final ItemBlock rock_conglomeratee
             = new BlockBuilder()
             .name("rock_conglomerate")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_dolomite
+            = new BlockBuilder()
+            .name("rock_dolomite")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_mudstone
+            = new BlockBuilder()
+            .name("rock_mudstone")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_coal
+            = new BlockBuilder()
+            .name("rock_coal")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_oilShale
+            = new BlockBuilder()
+            .name("rock_oilShale")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    //Metamorphic rocks
+    public static final ItemBlock rock_quartzite
+            = new BlockBuilder()
+            .name("rock_quartzite")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_greisen
+            = new BlockBuilder()
+            .name("rock_greisen")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_phyllite
+            = new BlockBuilder()
+            .name("rock_phyllite")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_marble
+            = new BlockBuilder()
+            .name("rock_marble")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_gneiss
+            = new BlockBuilder()
+            .name("rock_gneiss")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlockWithItem();
+
+    public static final ItemBlock rock_granulite
+            = new BlockBuilder()
+            .name("rock_granulite")
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlockWithItem();
@@ -279,6 +406,18 @@ public class AllBlocks {
                         .texture("west", west)
                         .texture("east", east);
 
+            });
+            return this;
+        }
+
+        //TODO: cross texture model
+        public BlockBuilder crossTextureModel() {
+            DataGenHandle.addBlockModelTask(provider -> {
+                try {
+
+                } catch (IllegalStateException e){
+                    Industrimania.LOGGER.error("failed to set cross texture model for Block:{},reason:{}",name,e.getMessage());
+                }
             });
             return this;
         }
