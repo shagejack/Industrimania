@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrimania:item/iron_cluster/iron_cluster"
+  }
+}

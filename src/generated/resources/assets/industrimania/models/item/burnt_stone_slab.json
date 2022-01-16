@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrimania:item/burnt_stone_slab/burnt_stone_slab"
+  }
+}

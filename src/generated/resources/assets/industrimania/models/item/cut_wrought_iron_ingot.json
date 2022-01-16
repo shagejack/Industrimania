@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrimania:item/cut_wrought_iron_ingot/cut_wrought_iron_ingot"
+  }
+}

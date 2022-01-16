@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/mechanic_clay_furnace_bottom/default",
+    "up": "industrimania:block/mechanic_clay_furnace_bottom/up",
+    "down": "industrimania:block/mechanic_clay_furnace_bottom/down",
+    "north": "industrimania:block/mechanic_clay_furnace_bottom/default",
+    "south": "industrimania:block/mechanic_clay_furnace_bottom/default",
+    "west": "industrimania:block/mechanic_clay_furnace_bottom/default",
+    "east": "industrimania:block/mechanic_clay_furnace_bottom/default"
+  }
+}

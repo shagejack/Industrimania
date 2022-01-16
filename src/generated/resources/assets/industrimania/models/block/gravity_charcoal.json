@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/gravity_charcoal/default",
+    "up": "industrimania:block/gravity_charcoal/default",
+    "down": "industrimania:block/gravity_charcoal/default",
+    "north": "industrimania:block/gravity_charcoal/default",
+    "south": "industrimania:block/gravity_charcoal/default",
+    "west": "industrimania:block/gravity_charcoal/default",
+    "east": "industrimania:block/gravity_charcoal/default"
+  }
+}

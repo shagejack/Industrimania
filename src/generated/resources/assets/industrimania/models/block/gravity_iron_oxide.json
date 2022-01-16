@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/gravity_iron_oxide/default",
+    "up": "industrimania:block/gravity_iron_oxide/default",
+    "down": "industrimania:block/gravity_iron_oxide/default",
+    "north": "industrimania:block/gravity_iron_oxide/default",
+    "south": "industrimania:block/gravity_iron_oxide/default",
+    "west": "industrimania:block/gravity_iron_oxide/default",
+    "east": "industrimania:block/gravity_iron_oxide/default"
+  }
+}
