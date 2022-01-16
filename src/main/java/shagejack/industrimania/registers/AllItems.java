@@ -8,14 +8,21 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.content.contraptions.ore.BlockOre;
+import shagejack.industrimania.content.contraptions.ore.ItemOreChunk;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
+import shagejack.industrimania.content.worldGen.OreTypeRegistry;
+import shagejack.industrimania.content.worldGen.record.OreType;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class AllItems {
+
+    public static Map<String, RegistryObject<Item>> ORE_CHUNKS = new HashMap<>();
 
     /*
     * =============
@@ -69,13 +76,42 @@ public class AllItems {
 
     public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").build(IronCluster::new);
 
+    public static void initOres() {
+        for(OreType oreType : OreTypeRegistry.oreTypeList) {
+            for(String rockName : AllBlocks.ROCKS) {
+                for (int grade = 0; grade <= 2; grade ++) {
+                    String key = rockName + "_" + oreType.name() + "_" + grade;
+                    RegistryObject<Item> oreChunk
+                            = new ItemBuilder()
+                            .name("chunk_" + key)
+                            .simpleModel("chunk_" + key)
+                            .build(ItemOreChunk::new);
+
+                    ORE_CHUNKS.put(key, oreChunk);
+                }
+            }
+        }
+    }
+
     public static final class ItemBuilder {
         private String name;
         private Properties property;
         RegistryObject<Item> registryObject;
 
+        private List extraParam = new ArrayList<>();
+
         public ItemBuilder set(Function<Properties, Properties> function) {
             property = function.apply(new Properties());
+            return this;
+        }
+
+        public ItemBuilder addExtraParam(Object param) {
+            this.extraParam.add(param);
+            return this;
+        }
+
+        public ItemBuilder setExtraParam(Object param, int index) {
+            this.extraParam.set(index, param);
             return this;
         }
 
@@ -136,6 +172,14 @@ public class AllItems {
             Objects.requireNonNull(name);
             if (property == null) property = new Properties().tab(AllTabs.tab);
             registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> factory.apply(property));
+            Industrimania.LOGGER.debug("register Item {}", name);
+            return registryObject;
+        }
+
+        public <T extends Item> RegistryObject<Item> build(BiFunction<Properties, List, T> factory) {
+            Objects.requireNonNull(name);
+            if (property == null) property = new Properties().tab(AllTabs.tab);
+            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> factory.apply(property, extraParam));
             Industrimania.LOGGER.debug("register Item {}", name);
             return registryObject;
         }

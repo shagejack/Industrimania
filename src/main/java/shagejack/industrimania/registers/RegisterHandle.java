@@ -19,9 +19,10 @@ public class RegisterHandle {
     public static final DeferredRegister<Fluid> FLUID_REGISTER = DeferredRegister.create(ForgeRegistries.FLUIDS, MOD_ID);
 
     public static void init() {
-        new AllItems();
         new AllBlocks();
+        new AllItems();
         AllBlocks.initOres();
+        AllItems.initOres();
         new AllTileEntities();
     }
 

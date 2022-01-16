@@ -1,5 +1,6 @@
 package shagejack.industrimania.registers;
 
+import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -12,6 +13,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
+import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
@@ -21,6 +23,7 @@ import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -29,7 +32,13 @@ import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkTextu
 public class AllBlocks {
 
     //TODO: ore block auto registry
-    public static List<String> ROCKS = new ArrayList<>();
+    public static List<String> ROCKS = Lists.newArrayList(
+            "andesite",
+            "granite",
+            "diorite",
+            "deepslate"
+    );
+
     public static Map<String, ItemBlock> ORES = new HashMap<>();
 
     //Plant Sign
@@ -262,14 +271,18 @@ public class AllBlocks {
         for(OreType oreType : OreTypeRegistry.oreTypeList) {
             for(String rockName : ROCKS) {
                 for (int grade = 0; grade <= 2; grade ++) {
+                    String key = rockName + "_" + oreType.name() + "_" + grade;
                     ItemBlock oreBlock
                             = new BlockBuilder()
-                            .name(rockName + "_" + oreType.name() + "_" + grade)
+                            .name(key)
+                            .addExtraParam(rockName)
+                            .addExtraParam(oreType)
+                            .addExtraParam(grade)
                             .oreTextureModel()
                             .simpleBlockState()
-                            .buildBlockWithItem();
+                            .buildBlockWithItem(BlockOre::new);
 
-                    ORES.put(oreType.name(), oreBlock);
+                    ORES.put(key, oreBlock);
                 }
             }
         }
@@ -282,11 +295,22 @@ public class AllBlocks {
         private RegistryObject<Block> block;
         private Properties property;
 
+        private List extraParam = new ArrayList<>();
+
         public <T extends Block> RegistryObject<Block> buildBlock(Function<Properties, T> factory) {
             Objects.requireNonNull(name);
             if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
 
             block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property));
+            Industrimania.LOGGER.debug("register Block:{}", name);
+            return block;
+        }
+
+        public <T extends Block> RegistryObject<Block> buildBlock(BiFunction<Properties, List, T> factory) {
+            Objects.requireNonNull(name);
+            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
+
+            block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property, extraParam));
             Industrimania.LOGGER.debug("register Block:{}", name);
             return block;
         }
@@ -301,6 +325,16 @@ public class AllBlocks {
         }
 
         public <T extends Block> ItemBlock buildBlockWithItem(Function<Properties, T> factory) {
+            var block = buildBlock(factory);
+            final ItemBuilder itemModelBuilder
+                    = new ItemBuilder()
+                    .name(this.name)
+                    .blockModel("block/" + this.name);
+            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
+            return new ItemBlock(itemModelBuilder.build(block), block);
+        }
+
+        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, List, T> factory) {
             var block = buildBlock(factory);
             final ItemBuilder itemModelBuilder
                     = new ItemBuilder()
@@ -340,6 +374,16 @@ public class AllBlocks {
             consumer.accept(itemBuilder);
             Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemBuilder);
             return new ItemBlock(itemBuilder.build(block), block);
+        }
+
+        public BlockBuilder addExtraParam(Object param) {
+            this.extraParam.add(param);
+            return this;
+        }
+
+        public BlockBuilder setExtraParam(Object param, int index) {
+            this.extraParam.set(index, param);
+            return this;
         }
 
         public BlockBuilder simpleBlockState() {
