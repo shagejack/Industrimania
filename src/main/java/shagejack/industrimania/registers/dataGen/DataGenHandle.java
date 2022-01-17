@@ -13,6 +13,7 @@ import net.minecraftforge.client.model.generators.ModelFile.ExistingModelFile;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -22,6 +23,7 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.AllBlocks;
+import shagejack.industrimania.registers.AllItems;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -38,10 +40,12 @@ public class DataGenHandle {
     private static final ArrayList<Consumer<ItemModelProvider>> itemModelTasks = new ArrayList();
     private static final ArrayList<Consumer<BlockModelProvider>> blockModelTasks = new ArrayList();
     private static final ArrayList<Consumer<BlockStateProvider>> blockStateTasks = new ArrayList();
+    private static final ArrayList<Consumer<LanguageProvider>> languageTasks = new ArrayList<>();
     private static final Wrapper<ItemModelProvider> itemModelPro = new Wrapper();
     private static final Wrapper<BlockModelProvider> blockModelPro = new Wrapper();
     private static final Wrapper<BlockStateProvider> blockStatePro = new Wrapper();
     private static final Wrapper<BlockTagsProvider> blockTagsPro = new Wrapper<>();
+    private static final Wrapper<LanguageProvider> languagePro = new Wrapper<>();
     public static Lazy<ExistingModelFile> itemGeneratedModel = () -> existingModel(itemModelPro.get(), "item/generated");
     public static Lazy<ExistingModelFile> itemHeldModel = () -> existingModel(itemModelPro.get(), "item/handheld");
     public static Lazy<UncheckedModelFile> blockBuiltinEntity = () -> uncheckedModel( "builtin/entity");
@@ -152,12 +156,19 @@ public class DataGenHandle {
             }
         };
 
-//        LanguageProvider languageProvider = new LanguageProvider(generator,MOD_ID,) {
-//            @Override
-//            protected void addTranslations() {
-//
-//            }
-//        };
+        LanguageProvider languageProviderEN = new LanguageProvider(generator,MOD_ID, "en_US") {
+            @Override
+            protected void addTranslations() {
+
+            }
+        };
+
+       LanguageProvider languageProviderCN = new LanguageProvider(generator,MOD_ID, "zh_CN") {
+            @Override
+            protected void addTranslations() {
+
+            }
+        };
 
         itemModelPro.set(() -> itemModelProvider);
         blockModelPro.set(() -> blockModelProvider);

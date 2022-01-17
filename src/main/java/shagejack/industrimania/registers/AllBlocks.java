@@ -42,7 +42,6 @@ public class AllBlocks {
             "rock_diorite",
             "rock_deepslate"
     );
-
     public static Map<String, Float> ROCKS_HARDNESS = new HashMap<>();
     public static Map<String, Float> ROCKS_EXPLOSION_RESISTANCE = new HashMap<>();
 
@@ -290,27 +289,25 @@ public class AllBlocks {
     //Register Ores
 
     public static void initOres() {
-        for(OreType oreType : OreTypeRegistry.oreTypeList) {
-            for(String rockName : ROCKS) {
-                for (int grade = 0; grade <= 2; grade ++) {
-                    String key = rockName + "_" + oreType.name() + "_" + grade;
-                    ItemBlock oreBlock
-                            = new BlockBuilder()
-                            .name(key)
-                            .material(Material.STONE)
-                            .strength(ROCKS_HARDNESS.get(rockName), ROCKS_EXPLOSION_RESISTANCE.get(rockName))
-                            .tag("mineable/pickaxe")
-                            .addExtraParam(rockName)
-                            .addExtraParam(oreType)
-                            .addExtraParam(grade)
-                            .oreTextureModel()
-                            .simpleBlockState()
-                            .buildBlockWithItem(BlockOre::new, AllTabs.tabOre);
+        OreTypeRegistry.oreTypeMap.forEach( (oreTypeName, oreType) -> {
+                    for (String rockName : ROCKS) {
+                        for (int grade = 0; grade <= 2; grade++) {
+                            String key = rockName + "_" + oreType.name() + "_" + grade;
+                            ItemBlock oreBlock
+                                    = new BlockBuilder()
+                                    .name(key)
+                                    .material(Material.STONE)
+                                    .strength(ROCKS_HARDNESS.get(rockName), ROCKS_EXPLOSION_RESISTANCE.get(rockName))
+                                    .tag("mineable/pickaxe")
+                                    .oreTextureModel()
+                                    .simpleBlockState()
+                                    .buildBlockWithItem(BlockOre::new, AllTabs.tabOre);
 
-                    ORES.put(key, oreBlock);
+                            ORES.put(key, oreBlock);
+                        }
+                    }
                 }
-            }
-        }
+            );
     }
 
 
@@ -321,7 +318,7 @@ public class AllBlocks {
         private Properties property;
         private List<String> tags = new ArrayList<>();
 
-        private List extraParam = new ArrayList<>();
+        private Map<String, Object> extraParam = new HashMap();
 
         public <T extends Block> RegistryObject<Block> buildBlock(Function<Properties, T> factory) {
             Objects.requireNonNull(name);
@@ -333,7 +330,7 @@ public class AllBlocks {
             return block;
         }
 
-        public <T extends Block> RegistryObject<Block> buildBlock(BiFunction<Properties, List, T> factory) {
+        public <T extends Block> RegistryObject<Block> buildBlock(BiFunction<Properties, Map<String, Object>, T> factory) {
             Objects.requireNonNull(name);
             if (property == null) property = BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 6.0F);
 
@@ -373,7 +370,7 @@ public class AllBlocks {
             return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
         }
 
-        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, List, T> factory) {
+        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, Map<String, Object>, T> factory) {
             var block = buildBlock(factory);
             final ItemBuilder itemModelBuilder
                     = new ItemBuilder()
@@ -383,7 +380,7 @@ public class AllBlocks {
             return new ItemBlock(itemModelBuilder.build(block), block);
         }
 
-        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, List, T> factory, CreativeModeTab tab) {
+        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, Map<String, Object>, T> factory, CreativeModeTab tab) {
             var block = buildBlock(factory);
             final ItemBuilder itemModelBuilder
                     = new ItemBuilder()
@@ -465,13 +462,8 @@ public class AllBlocks {
             return this;
         }
 
-        public BlockBuilder addExtraParam(Object param) {
-            this.extraParam.add(param);
-            return this;
-        }
-
-        public BlockBuilder setExtraParam(Object param, int index) {
-            this.extraParam.set(index, param);
+        public BlockBuilder addExtraParam(String name, Object param) {
+            this.extraParam.put(name, param);
             return this;
         }
 

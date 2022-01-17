@@ -6,18 +6,12 @@ import shagejack.industrimania.content.worldGen.record.OreType;
 import shagejack.industrimania.registers.AllItems;
 
 import java.util.List;
+import java.util.Map;
 
 public class ItemOreChunk extends Item {
 
-    public static String rockName;
-    public static OreType oreType;
-    public static int grade;
-
-    public ItemOreChunk(Properties properties, List extraParam) {
+    public ItemOreChunk(Properties properties) {
         super(properties);
-        rockName = (String) extraParam.get(0);
-        oreType = (OreType) extraParam.get(1);
-        grade = (int) extraParam.get(2);
     }
 
 }
