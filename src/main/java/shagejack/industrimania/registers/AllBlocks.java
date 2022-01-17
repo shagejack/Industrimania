@@ -3,6 +3,7 @@ package shagejack.industrimania.registers;
 import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -33,29 +34,29 @@ public class AllBlocks {
 
     //TODO: ore block auto registry
     public static List<String> ROCKS = Lists.newArrayList(
-            "andesite",
-            "granite",
-            "diorite",
-            "deepslate"
+            "rock_andesite",
+            "rock_granite",
+            "rock_diorite",
+            "rock_deepslate"
     );
 
     public static Map<String, ItemBlock> ORES = new HashMap<>();
 
     //Plant Sign
-    public static final ItemBlock lactuca_raddeana
+    public static final ItemBlock plant_lactuca_raddeana
             = new BlockBuilder()
-            .name("lactuca_raddeana")
+            .name("plant_lactuca_raddeana")
             .crossTextureModel()
             .simpleBlockState()
-            .buildBlockWithItem();
+            .buildBlockWithItem(AllTabs.tabNature);
 
     //Ore Cap
-    public static final ItemBlock silicon_cap
+    public static final ItemBlock rock_silicon_cap
             = new BlockBuilder()
-            .name("silicon_cap")
+            .name("rock_silicon_cap")
             //.specialModel()
             .simpleBlockState()
-            .buildBlockWithItem();
+            .buildBlockWithItem(AllTabs.tabOre);
 
     //Igneous Rocks
     public static final ItemBlock rock_dacite
@@ -280,7 +281,7 @@ public class AllBlocks {
                             .addExtraParam(grade)
                             .oreTextureModel()
                             .simpleBlockState()
-                            .buildBlockWithItem(BlockOre::new);
+                            .buildBlockWithItem(BlockOre::new, AllTabs.tabOre);
 
                     ORES.put(key, oreBlock);
                 }
@@ -334,6 +335,16 @@ public class AllBlocks {
             return new ItemBlock(itemModelBuilder.build(block), block);
         }
 
+        public <T extends Block> ItemBlock buildBlockWithItem(Function<Properties, T> factory, CreativeModeTab tab) {
+            var block = buildBlock(factory);
+            final ItemBuilder itemModelBuilder
+                    = new ItemBuilder()
+                    .name(this.name)
+                    .blockModel("block/" + this.name);
+            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
+            return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
+        }
+
         public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, List, T> factory) {
             var block = buildBlock(factory);
             final ItemBuilder itemModelBuilder
@@ -342,6 +353,16 @@ public class AllBlocks {
                     .blockModel("block/" + this.name);
             Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
             return new ItemBlock(itemModelBuilder.build(block), block);
+        }
+
+        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, List, T> factory, CreativeModeTab tab) {
+            var block = buildBlock(factory);
+            final ItemBuilder itemModelBuilder
+                    = new ItemBuilder()
+                    .name(this.name)
+                    .blockModel("block/" + this.name);
+            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
+            return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
         }
 
         public <T extends Block> ItemBlock buildBlockWithItem() {
@@ -354,6 +375,16 @@ public class AllBlocks {
             return new ItemBlock(itemModelBuilder.build(block), block);
         }
 
+        public <T extends Block> ItemBlock buildBlockWithItem(CreativeModeTab tab) {
+            var block = buildBlock();
+            final ItemBuilder itemModelBuilder
+                    = new ItemBuilder()
+                    .name(this.name)
+                    .blockModel("block/" + this.name);
+            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
+            return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
+        }
+
         public <T extends Block> ItemBlock buildRockWithItem() {
             var block = buildBlock();
             final ItemBuilder itemModelBuilder
@@ -362,7 +393,7 @@ public class AllBlocks {
                     .blockModel("block/" + this.name);
             ROCKS.add(this.name);
             Industrimania.LOGGER.debug("register Rock:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.build(block), block);
+            return new ItemBlock(itemModelBuilder.tab(AllTabs.tabRock).build(block), block);
         }
 
         public <T extends Block> ItemBlock buildBlockWithItem(Consumer<ItemBuilder> consumer, @Nullable Function<Properties, T> factory) {
@@ -500,11 +531,19 @@ public class AllBlocks {
             return this;
         }
 
-        //TODO: cross texture model
         public BlockBuilder crossTextureModel() {
             DataGenHandle.addBlockModelTask(provider -> {
                 try {
-
+                    var category = Objects.requireNonNull(this.name).split("_")[0];
+                    var bName = Objects.requireNonNull(this.name).substring(category.length() + 1);
+                    final var path = "block/"+ Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName) + "/cross";
+                    if (checkTextureFileExist(provider, path)) {
+                        Industrimania.LOGGER.debug("automatically set cross texture model for Block:{}", name);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
+                                .parent(DataGenHandle.blockCrossTexture.get()).texture("cross", path);
+                    } else {
+                        Industrimania.LOGGER.debug("failed to set cross texture model for Block:{}, 'cause its texture doesn't exist.", name);
+                    }
                 } catch (IllegalStateException e){
                     Industrimania.LOGGER.error("failed to set cross texture model for Block:{},reason:{}",name,e.getMessage());
                 }
@@ -537,14 +576,16 @@ public class AllBlocks {
         public BlockBuilder autoFullCubeModel() {
             DataGenHandle.addBlockModelTask(provider -> {
                 try {
-                    final var allSame = "block/"+Objects.requireNonNull(this.name);
-                    if (checkTextureFileExist(provider, allSame)) {
+                    var category = Objects.requireNonNull(this.name).split("_")[0];
+                    var bName = Objects.requireNonNull(this.name).substring(category.length() + 1);
+                    final var path = "block/"+ Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName);
+                    if (checkTextureFileExist(provider, path)) {
                         Industrimania.LOGGER.debug("automatically set cube all model for Block:{}", name);
                         provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
-                                .parent(DataGenHandle.blockCubeAll.get()).texture("all", allSame);
+                                .parent(DataGenHandle.blockCubeAll.get()).texture("all", path);
                         return;
                     }
-                    final var defaultTexture = String.format("block/%s/%s", name, "default");
+                    final var defaultTexture = String.format("%s/%s", path, "default");
                     if (!checkTextureFileExist(provider, defaultTexture)) {
                         throw new IllegalStateException(String.format("can't find all same texture and default texture for Block:%s",name));
                     }
@@ -556,9 +597,9 @@ public class AllBlocks {
                     var down = defaultTexture;
                     var particle = defaultTexture;
 
-                    var xyTexture = String.format("block/%s/xy", name);
-                    var xzTexture = String.format("block/%s/xy", name);
-                    var yzTexture = String.format("block/%s/yz", name);
+                    var xyTexture = String.format("%s/xy", path);
+                    var xzTexture = String.format("%s/xy", path);
+                    var yzTexture = String.format("%s/yz", path);
                     boolean xyExist = checkTextureFileExist(provider, xyTexture);
                     boolean xzExist = checkTextureFileExist(provider, xzTexture);
                     boolean yzExist = checkTextureFileExist(provider, yzTexture);
@@ -585,9 +626,9 @@ public class AllBlocks {
                         down = yzTexture;
                     }
 
-                    var xTexture = String.format("block/%s/x", name);
-                    var yTexture = String.format("block/%s/y", name);
-                    var zTexture = String.format("block/%s/z", name);
+                    var xTexture = String.format("%s/x", path);
+                    var yTexture = String.format("%s/y", path);
+                    var zTexture = String.format("%s/z", path);
                     boolean xExist = checkTextureFileExist(provider, xTexture);
                     boolean yExist = checkTextureFileExist(provider, yTexture);
                     boolean zExist = checkTextureFileExist(provider, zTexture);
@@ -610,12 +651,12 @@ public class AllBlocks {
                         down = zTexture;
                     }
 
-                    var frontTexture = String.format("block/%s/front", name);
-                    var backTexture = String.format("block/%s/back", name);
-                    var leftTexture = String.format("block/%s/left", name);
-                    var rightTexture = String.format("block/%s/right", name);
-                    var upTexture = String.format("block/%s/up", name);
-                    var downTexture = String.format("block/%s/down", name);
+                    var frontTexture = String.format("%s/front", path);
+                    var backTexture = String.format("%s/back", path);
+                    var leftTexture = String.format("%s/left", path);
+                    var rightTexture = String.format("%s/right", path);
+                    var upTexture = String.format("%s/up", path);
+                    var downTexture = String.format("%s/down", path);
                     var frontExist = checkTextureFileExist(provider, frontTexture);
                     var backExist = checkTextureFileExist(provider, backTexture);
                     var leftExist = checkTextureFileExist(provider, leftTexture);
@@ -651,7 +692,7 @@ public class AllBlocks {
                         down = downTexture;
                     }
 
-                    var particleTexture = String.format("block/%s/particle", name);
+                    var particleTexture = String.format("%s/particle", path);
                     var particleExist = checkTextureFileExist(provider, particleTexture);
                     checkThrow(particleExist, "particle");
 

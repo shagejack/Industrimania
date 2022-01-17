@@ -2,6 +2,7 @@ package shagejack.industrimania.registers;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.block.Block;
@@ -84,6 +85,7 @@ public class AllItems {
                     RegistryObject<Item> oreChunk
                             = new ItemBuilder()
                             .name("chunk_" + key)
+                            .tab(AllTabs.tabOre)
                             .simpleModel("chunk_" + key)
                             .build(ItemOreChunk::new);
 
@@ -112,6 +114,15 @@ public class AllItems {
 
         public ItemBuilder setExtraParam(Object param, int index) {
             this.extraParam.set(index, param);
+            return this;
+        }
+
+        public ItemBuilder tab(CreativeModeTab tab) {
+            if (property == null) {
+                this.property = new Properties().tab(tab);
+            } else {
+                property.tab(tab);
+            }
             return this;
         }
 
