@@ -4,10 +4,12 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import shagejack.industrimania.Industrimania;
 
 import static shagejack.industrimania.Industrimania.MOD_ID;
 
@@ -17,10 +19,12 @@ public class RegisterHandle {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENU_TYPE_REGISTER = DeferredRegister.create(ForgeRegistries.CONTAINERS, MOD_ID);
     public static final DeferredRegister<Fluid> FLUID_REGISTER = DeferredRegister.create(ForgeRegistries.FLUIDS, MOD_ID);
+    public static final DeferredRegister<Feature<?>> FEATURE_REGISTER = DeferredRegister.create(ForgeRegistries.FEATURES, Industrimania.MOD_ID);
 
     public static void init() {
         new AllBlocks();
         new AllItems();
+        new AllFeatures();
         AllBlocks.initOres();
         AllItems.initOres();
         new AllTileEntities();
@@ -33,5 +37,6 @@ public class RegisterHandle {
         BLOCK_ENTITY_TYPE_REGISTER.register(bus);
         MENU_TYPE_REGISTER.register(bus);
         FLUID_REGISTER.register(bus);
+        FEATURE_REGISTER.register(bus);
     }
 }

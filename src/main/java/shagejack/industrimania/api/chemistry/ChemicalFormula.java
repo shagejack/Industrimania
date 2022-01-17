@@ -7,8 +7,8 @@ import java.util.TreeMap;
 
 public class ChemicalFormula {
 
-    public static String formula;
-    public static Map<String, Integer> elements;
+    public  String formula;
+    public  Map<String, Integer> elements;
 
     private int i = 0;
 

@@ -9,8 +9,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import shagejack.industrimania.content.worldGen.GenerationRegistry;
-import shagejack.industrimania.content.worldGen.IndustrimaniaFeatures;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.setup.ModSetup;
 
@@ -47,7 +45,6 @@ public class Industrimania {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
-        IndustrimaniaFeatures.createRegistry().register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }
