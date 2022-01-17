@@ -2,20 +2,24 @@ package shagejack.industrimania.content.contraptions.ore;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.common.TierSortingRegistry;
 import shagejack.industrimania.content.worldGen.record.OreType;
 import shagejack.industrimania.registers.AllItems;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockOre extends Block {
@@ -31,13 +35,20 @@ public class BlockOre extends Block {
         grade = (int) extraParam.get(2);
     }
 
-    @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        //TODO: drop ore chunk item
+    public Item getOreChunk() {
         String key = rockName + "_" + oreType.name() + "_" + grade;
-        int count = 1;
-        ItemEntity oreChunk = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(AllItems.ORE_CHUNKS.get(key).get(), count));
-        oreChunk.spawnAtLocation(AllItems.ORE_CHUNKS.get(key).get());
-        return true;
+        return AllItems.ORE_CHUNKS.get(key).get();
+    }
+
+
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack itemStack) {
+        player.awardStat(Stats.BLOCK_MINED.get(this));
+        player.causeFoodExhaustion(0.005F);
+        if (itemStack.getItem() instanceof PickaxeItem) {
+            if (((PickaxeItem) itemStack.getItem()).getTier().getLevel() >= oreType.harvestLevel()) {
+                popResource(level, blockPos, new ItemStack(getOreChunk()));
+            }
+        }
     }
 }

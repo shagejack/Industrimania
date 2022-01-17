@@ -1,8 +1,10 @@
 package shagejack.industrimania.registers.dataGen;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.tags.BlockTags;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -19,6 +21,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.foundation.utility.Wrapper;
+import shagejack.industrimania.registers.AllBlocks;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -38,6 +41,7 @@ public class DataGenHandle {
     private static final Wrapper<ItemModelProvider> itemModelPro = new Wrapper();
     private static final Wrapper<BlockModelProvider> blockModelPro = new Wrapper();
     private static final Wrapper<BlockStateProvider> blockStatePro = new Wrapper();
+    private static final Wrapper<BlockTagsProvider> blockTagsPro = new Wrapper<>();
     public static Lazy<ExistingModelFile> itemGeneratedModel = () -> existingModel(itemModelPro.get(), "item/generated");
     public static Lazy<ExistingModelFile> itemHeldModel = () -> existingModel(itemModelPro.get(), "item/handheld");
     public static Lazy<UncheckedModelFile> blockBuiltinEntity = () -> uncheckedModel( "builtin/entity");
@@ -138,6 +142,16 @@ public class DataGenHandle {
             }
         };
 
+        BlockTagsProvider blockTagsProvider = new BlockTagsProvider(generator, MOD_ID, existingFileHelper) {
+            @Override
+            protected void addTags() {
+                AllBlocks.BLOCK_TAGS.forEach((block, tags) -> tags.forEach(
+                                (t) -> tag(BlockTags.bind(t)).add(block.get())
+                        )
+                );
+            }
+        };
+
 //        LanguageProvider languageProvider = new LanguageProvider(generator,MOD_ID,) {
 //            @Override
 //            protected void addTranslations() {
@@ -148,10 +162,14 @@ public class DataGenHandle {
         itemModelPro.set(() -> itemModelProvider);
         blockModelPro.set(() -> blockModelProvider);
         blockStatePro.set(() -> blockStateProvider);
+        blockTagsPro.set(() -> blockTagsProvider);
+
 
         generator.addProvider(itemModelProvider);
         generator.addProvider(blockModelProvider);
         generator.addProvider(blockStateProvider);
+        generator.addProvider(blockTagsProvider);
+
 //        generator.addProvider(languageProvider);
     }
 }

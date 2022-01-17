@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
-    "particle": "industrimania:block/gravity_dust/default",
-    "up": "industrimania:block/gravity_dust/default",
-    "down": "industrimania:block/gravity_dust/default",
-    "north": "industrimania:block/gravity_dust/default",
-    "south": "industrimania:block/gravity_dust/default",
-    "west": "industrimania:block/gravity_dust/default",
-    "east": "industrimania:block/gravity_dust/default"
+    "particle": "industrimania:block/gravity/dust/default",
+    "up": "industrimania:block/gravity/dust/default",
+    "down": "industrimania:block/gravity/dust/default",
+    "north": "industrimania:block/gravity/dust/default",
+    "south": "industrimania:block/gravity/dust/default",
+    "west": "industrimania:block/gravity/dust/default",
+    "east": "industrimania:block/gravity/dust/default"
   }
 }

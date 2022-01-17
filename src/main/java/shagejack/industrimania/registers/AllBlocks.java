@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -32,6 +33,8 @@ import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkTextu
 
 public class AllBlocks {
 
+    public static Map<RegistryObject<Block>, List<String>> BLOCK_TAGS = new HashMap<>();
+
     //TODO: ore block auto registry
     public static List<String> ROCKS = Lists.newArrayList(
             "rock_andesite",
@@ -40,12 +43,27 @@ public class AllBlocks {
             "rock_deepslate"
     );
 
+    public static Map<String, Float> ROCKS_HARDNESS = new HashMap<>();
+    public static Map<String, Float> ROCKS_EXPLOSION_RESISTANCE = new HashMap<>();
+
+    static {
+        ROCKS_HARDNESS.put("rock_andesite", 1.5F);
+        ROCKS_HARDNESS.put("rock_granite", 1.5F);
+        ROCKS_HARDNESS.put("rock_diorite", 1.5F);
+        ROCKS_HARDNESS.put("rock_deepslate", 3.0F);
+        ROCKS_EXPLOSION_RESISTANCE.put("rock_andesite", 6.0F);
+        ROCKS_EXPLOSION_RESISTANCE.put("rock_granite", 6.0F);
+        ROCKS_EXPLOSION_RESISTANCE.put("rock_diorite", 6.0F);
+        ROCKS_EXPLOSION_RESISTANCE.put("rock_deepslate", 6.0F);
+    }
+
     public static Map<String, ItemBlock> ORES = new HashMap<>();
 
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana
             = new BlockBuilder()
             .name("plant_lactuca_raddeana")
+            .material(Material.GRASS)
             .crossTextureModel()
             .simpleBlockState()
             .buildBlockWithItem(AllTabs.tabNature);
@@ -54,6 +72,9 @@ public class AllBlocks {
     public static final ItemBlock rock_silicon_cap
             = new BlockBuilder()
             .name("rock_silicon_cap")
+            .material(Material.STONE)
+            .strength(0.5F, 0.5F)
+            .tag("mineable/pickaxe")
             //.specialModel()
             .simpleBlockState()
             .buildBlockWithItem(AllTabs.tabOre);
@@ -276,6 +297,9 @@ public class AllBlocks {
                     ItemBlock oreBlock
                             = new BlockBuilder()
                             .name(key)
+                            .material(Material.STONE)
+                            .strength(ROCKS_HARDNESS.get(rockName), ROCKS_EXPLOSION_RESISTANCE.get(rockName))
+                            .tag("mineable/pickaxe")
                             .addExtraParam(rockName)
                             .addExtraParam(oreType)
                             .addExtraParam(grade)
@@ -295,33 +319,37 @@ public class AllBlocks {
         private String name;
         private RegistryObject<Block> block;
         private Properties property;
+        private List<String> tags = new ArrayList<>();
 
         private List extraParam = new ArrayList<>();
 
         public <T extends Block> RegistryObject<Block> buildBlock(Function<Properties, T> factory) {
             Objects.requireNonNull(name);
-            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
+            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 6.0F);
 
             block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property));
             Industrimania.LOGGER.debug("register Block:{}", name);
+            if (!tags.isEmpty()) BLOCK_TAGS.put(block, tags);
             return block;
         }
 
         public <T extends Block> RegistryObject<Block> buildBlock(BiFunction<Properties, List, T> factory) {
             Objects.requireNonNull(name);
-            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
+            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 6.0F);
 
             block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property, extraParam));
             Industrimania.LOGGER.debug("register Block:{}", name);
+            if (!tags.isEmpty()) BLOCK_TAGS.put(block, tags);
             return block;
         }
 
         public <T extends Block> RegistryObject<Block> buildBlock() {
             Objects.requireNonNull(name);
-            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE);
+            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 6.0F);
 
             block = RegisterHandle.BLOCK_REGISTER.register(name, () -> new Block(property));
             Industrimania.LOGGER.debug("register Block:{}", name);
+            if (!tags.isEmpty()) BLOCK_TAGS.put(block, tags);
             return block;
         }
 
@@ -385,15 +413,25 @@ public class AllBlocks {
             return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
         }
 
-        public <T extends Block> ItemBlock buildRockWithItem() {
+        public <T extends Block> ItemBlock buildRockWithItem(float hardness, float explosionResistance) {
+            this.property = Properties.of(Material.STONE)
+                    .requiresCorrectToolForDrops()
+                    .strength(hardness, explosionResistance);
+            tags.add("mineable/pickaxe");
             var block = buildBlock();
             final ItemBuilder itemModelBuilder
                     = new ItemBuilder()
                     .name(this.name)
                     .blockModel("block/" + this.name);
             ROCKS.add(this.name);
+            ROCKS_HARDNESS.put(this.name, hardness);
+            ROCKS_EXPLOSION_RESISTANCE.put(this.name, explosionResistance);
             Industrimania.LOGGER.debug("register Rock:{} with Item:{}", name, name);
             return new ItemBlock(itemModelBuilder.tab(AllTabs.tabRock).build(block), block);
+        }
+
+        public <T extends Block> ItemBlock buildRockWithItem() {
+            return this.buildRockWithItem(1.5F, 6.0F);
         }
 
         public <T extends Block> ItemBlock buildBlockWithItem(Consumer<ItemBuilder> consumer, @Nullable Function<Properties, T> factory) {
@@ -405,6 +443,26 @@ public class AllBlocks {
             consumer.accept(itemBuilder);
             Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemBuilder);
             return new ItemBlock(itemBuilder.build(block), block);
+        }
+
+        public BlockBuilder tag(String tag) {
+            this.tags.add(tag);
+            return this;
+        }
+
+        public BlockBuilder material(Material material) {
+            this.property = BlockBehaviour.Properties.of(material);
+            return this;
+        }
+
+        public BlockBuilder strength(float hardness, float explosionResistence) {
+            this.property.strength(hardness, explosionResistence);
+            return this;
+        }
+
+        public BlockBuilder requiresCorrectToolForDrops() {
+            this.property.requiresCorrectToolForDrops();
+            return this;
         }
 
         public BlockBuilder addExtraParam(Object param) {

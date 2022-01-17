@@ -6,5 +6,5 @@ import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.List;
 
-public record OreType(String name, ChemicalFormula elements, @Nullable Color color) {
+public record OreType(String name, ChemicalFormula elements, int harvestLevel, @Nullable Color color) {
 }

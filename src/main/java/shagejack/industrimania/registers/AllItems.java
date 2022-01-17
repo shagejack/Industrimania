@@ -86,6 +86,9 @@ public class AllItems {
                             = new ItemBuilder()
                             .name("chunk_" + key)
                             .tab(AllTabs.tabOre)
+                            .addExtraParam(rockName)
+                            .addExtraParam(oreType)
+                            .addExtraParam(grade)
                             .simpleModel("chunk_" + key)
                             .build(ItemOreChunk::new);
 

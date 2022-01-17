@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
-    "particle": "industrimania:block/mechanic_iron_ore_slag/default",
-    "up": "industrimania:block/mechanic_iron_ore_slag/default",
-    "down": "industrimania:block/mechanic_iron_ore_slag/default",
-    "north": "industrimania:block/mechanic_iron_ore_slag/default",
-    "south": "industrimania:block/mechanic_iron_ore_slag/default",
-    "west": "industrimania:block/mechanic_iron_ore_slag/default",
-    "east": "industrimania:block/mechanic_iron_ore_slag/default"
+    "particle": "industrimania:block/mechanic/iron_ore_slag/default",
+    "up": "industrimania:block/mechanic/iron_ore_slag/default",
+    "down": "industrimania:block/mechanic/iron_ore_slag/default",
+    "north": "industrimania:block/mechanic/iron_ore_slag/default",
+    "south": "industrimania:block/mechanic/iron_ore_slag/default",
+    "west": "industrimania:block/mechanic/iron_ore_slag/default",
+    "east": "industrimania:block/mechanic/iron_ore_slag/default"
   }
 }

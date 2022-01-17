@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "shagejack.industrimania.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "industrimania.refmap.json",
+  "mixins": [
+    "NetherPortalBlockMixin"
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}

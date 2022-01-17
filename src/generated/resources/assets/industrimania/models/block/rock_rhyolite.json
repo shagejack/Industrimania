@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/rhyolite/default",
+    "up": "industrimania:block/rock/rhyolite/default",
+    "down": "industrimania:block/rock/rhyolite/default",
+    "north": "industrimania:block/rock/rhyolite/default",
+    "south": "industrimania:block/rock/rhyolite/default",
+    "west": "industrimania:block/rock/rhyolite/default",
+    "east": "industrimania:block/rock/rhyolite/default"
+  }
+}

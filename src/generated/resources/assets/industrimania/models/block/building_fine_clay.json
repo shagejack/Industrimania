@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
-    "particle": "industrimania:block/building_fine_clay/default",
-    "up": "industrimania:block/building_fine_clay/z",
-    "down": "industrimania:block/building_fine_clay/z",
-    "north": "industrimania:block/building_fine_clay/default",
-    "south": "industrimania:block/building_fine_clay/default",
-    "west": "industrimania:block/building_fine_clay/default",
-    "east": "industrimania:block/building_fine_clay/default"
+    "particle": "industrimania:block/building/fine_clay/default",
+    "up": "industrimania:block/building/fine_clay/z",
+    "down": "industrimania:block/building/fine_clay/z",
+    "north": "industrimania:block/building/fine_clay/default",
+    "south": "industrimania:block/building/fine_clay/default",
+    "west": "industrimania:block/building/fine_clay/default",
+    "east": "industrimania:block/building/fine_clay/default"
   }
 }
