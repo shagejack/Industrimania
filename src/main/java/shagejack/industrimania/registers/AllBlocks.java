@@ -484,6 +484,7 @@ public class AllBlocks {
         }
 
         public BlockBuilder blockState(Consumer<BlockStateProvider> blockStateProviderConsumer){
+            Objects.requireNonNull(block);
             DataGenHandle.addBlockStateTask(blockStateProviderConsumer);
             return this;
         }

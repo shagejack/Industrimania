@@ -1,15 +1,18 @@
 package shagejack.industrimania.registers;
 
 import cpw.mods.modlauncher.api.INameMappingService;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.contraptions.ore.ItemOreChunk;
@@ -108,6 +111,7 @@ public class AllItems {
         private CreativeModeTab tab;
         private Properties property;
         RegistryObject<Item> registryObject;
+        private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
 
         private final Map<String, Object> extraParam = new HashMap();
 
@@ -116,6 +120,14 @@ public class AllItems {
                 this.property= new Properties();
             }
             property = function.apply(this.property);
+            return this;
+        }
+
+        /**
+         * also call {@link ItemBuilder#builtInEntityModel}
+         */
+        public ItemBuilder setBlockEntityWithoutLevelRender(Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render){
+            this.render=render;
             return this;
         }
 
@@ -169,18 +181,47 @@ public class AllItems {
             return this;
         }
 
-        public RegistryObject<Item> build() {
-            return build(()->new Item(property));
+        public ItemBuilder builtInEntityModel(String model){
+            return model((provider -> {
+                var item = this.registryObject.get();
+                provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
+                        .parent(DataGenHandle.blockBuiltinEntity.get());
+            }));
         }
 
+        public RegistryObject<Item> build() {
+            return build(()->new Item(property){
+                @Override
+                public void initializeClient(@NotNull Consumer<IItemRenderProperties> consumer) {
+                    if (render!=null){
+                        consumer.accept(new IItemRenderProperties() {
+                            @Override
+                            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                                return render.get().get();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        /**
+         * don't support set BEWLR
+         */
         public <T extends Item> RegistryObject<Item> build(Function<Properties, T> factory) {
             return build(()->factory.apply(property));
         }
 
+        /**
+         * don't support set BEWLR
+         */
         public <T extends Item> RegistryObject<Item> build(BiFunction<Properties, Map<String, Object>, T> factory) {
             return build(()->factory.apply(property,extraParam));
         }
 
+        /**
+         * don't support set BEWLR
+         */
         public RegistryObject<Item> build(Supplier<Item> itemSupplier){
             checkProperty();
             registryObject = RegisterHandle.ITEM_REGISTER.register(name,itemSupplier);
@@ -190,7 +231,19 @@ public class AllItems {
 
         public RegistryObject<Item> build(RegistryObject<Block> block) {
             checkProperty();
-            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), property));
+            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), property){
+                @Override
+                public void initializeClient(@NotNull Consumer<IItemRenderProperties> consumer) {
+                    if (render!=null){
+                        consumer.accept(new IItemRenderProperties() {
+                            @Override
+                            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                                return render.get().get();
+                            }
+                        });
+                    }
+                }
+            });
             return registryObject;
         }
 

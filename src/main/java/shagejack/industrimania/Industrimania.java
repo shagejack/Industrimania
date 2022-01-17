@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import shagejack.industrimania.registers.AllTileEntities;
@@ -20,8 +21,7 @@ public class Industrimania {
     public static final String MOD_ID = "industrimania";
     public static final String MOD_NAME = "Industrimania";
     public static final Logger LOGGER = LogManager.getFormatterLogger(Industrimania.MOD_NAME);
-    public static final boolean isDataGen = Launcher.INSTANCE.environment()
-            .getProperty(LAUNCHTARGET.get()).orElseThrow().equals("forgedatauserdev");
+    public static final boolean isDataGen = FMLLoader.getLaunchHandler().isData();
 
     public Industrimania() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
