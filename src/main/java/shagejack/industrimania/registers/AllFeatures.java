@@ -6,7 +6,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.worldGen.feature.OreGenFeature;
 import shagejack.industrimania.content.worldGen.feature.OreRemovalFeature;
 import shagejack.industrimania.content.worldGen.feature.RockLayersFeature;
@@ -57,7 +57,12 @@ public class AllFeatures {
         }
 
         T build() {
-            return FEATURE_REGISTER.register(name, () -> feature).get();
+            FEATURE_REGISTER.register(name, () -> feature);
+            return feature;
         }
+    }
+
+    private static class ConfiguredBuilder{
+
     }
 }

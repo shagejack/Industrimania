@@ -23,9 +23,10 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.AllBlocks;
-import shagejack.industrimania.registers.AllItems;
+import shagejack.industrimania.registers.RegisterHandle;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -37,18 +38,18 @@ public class DataGenHandle {
     public static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
     public static final ExistingFileHelper.ResourceType MODEL = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");
 
-    private static final ArrayList<Consumer<ItemModelProvider>> itemModelTasks = new ArrayList();
-    private static final ArrayList<Consumer<BlockModelProvider>> blockModelTasks = new ArrayList();
-    private static final ArrayList<Consumer<BlockStateProvider>> blockStateTasks = new ArrayList();
+    private static final ArrayList<Consumer<ItemModelProvider>> itemModelTasks = new ArrayList<>();
+    private static final ArrayList<Consumer<BlockModelProvider>> blockModelTasks = new ArrayList<>();
+    private static final ArrayList<Consumer<BlockStateProvider>> blockStateTasks = new ArrayList<>();
     private static final ArrayList<Consumer<LanguageProvider>> languageTasks = new ArrayList<>();
-    private static final Wrapper<ItemModelProvider> itemModelPro = new Wrapper();
-    private static final Wrapper<BlockModelProvider> blockModelPro = new Wrapper();
-    private static final Wrapper<BlockStateProvider> blockStatePro = new Wrapper();
+    private static final Wrapper<ItemModelProvider> itemModelPro = new Wrapper<>();
+    private static final Wrapper<BlockModelProvider> blockModelPro = new Wrapper<>();
+    private static final Wrapper<BlockStateProvider> blockStatePro = new Wrapper<>();
     private static final Wrapper<BlockTagsProvider> blockTagsPro = new Wrapper<>();
     private static final Wrapper<LanguageProvider> languagePro = new Wrapper<>();
     public static Lazy<ExistingModelFile> itemGeneratedModel = () -> existingModel(itemModelPro.get(), "item/generated");
     public static Lazy<ExistingModelFile> itemHeldModel = () -> existingModel(itemModelPro.get(), "item/handheld");
-    public static Lazy<UncheckedModelFile> blockBuiltinEntity = () -> uncheckedModel( "builtin/entity");
+    public static Lazy<UncheckedModelFile> blockBuiltinEntity = () -> uncheckedModel("builtin/entity");
     public static Lazy<ExistingModelFile> blockCubeAll = () -> existingModel(itemModelPro.get(), "block/cube_all");
     public static Lazy<ExistingModelFile> blockCube = () -> existingModel(itemModelPro.get(), "block/cube");
     public static Lazy<ExistingModelFile> blockCubeRotatable = () -> existingModel(itemModelPro.get(), "");
@@ -78,16 +79,16 @@ public class DataGenHandle {
         }
     }
 
-    public static boolean checkTextureFileExist(ModelProvider<?> provider, String texturePath){
-        return provider.existingFileHelper.exists(new ResourceLocation(MOD_ID,texturePath), DataGenHandle.TEXTURE);
+    public static boolean checkTextureFileExist(ModelProvider<?> provider, String texturePath) {
+        return provider.existingFileHelper.exists(new ResourceLocation(MOD_ID, texturePath), DataGenHandle.TEXTURE);
     }
 
-    public static boolean checkItemTextureFileExist(ModelProvider<?> provider, String texturePath){
+    public static boolean checkItemTextureFileExist(ModelProvider<?> provider, String texturePath) {
         return checkTextureFileExist(provider, String.format("item/%s", texturePath));
     }
 
-    public static boolean checkBlockTextureFileExist(ModelProvider<?> provider, String texturePath){
-        return  checkTextureFileExist(provider,String.format("block/%s",texturePath ));
+    public static boolean checkBlockTextureFileExist(ModelProvider<?> provider, String texturePath) {
+        return checkTextureFileExist(provider, String.format("block/%s", texturePath));
     }
 
     static ExistingModelFile existingModel(ModelProvider<?> provider, String path) {
@@ -156,18 +157,23 @@ public class DataGenHandle {
             }
         };
 
-        LanguageProvider languageProviderEN = new LanguageProvider(generator,MOD_ID, "en_US") {
+        //only use for generate template lang file,keys are lang and values are registryName's path or display name
+        LanguageProvider languageProvider = new LanguageProvider(generator, MOD_ID, "template") {
             @Override
             protected void addTranslations() {
 
+                RegisterHandle.ITEM_REGISTER.getEntries().forEach((item ->
+                        this.addItem(item, Objects.requireNonNull(item.get().getRegistryName()).getPath())));
+                RegisterHandle.BLOCK_REGISTER.getEntries().forEach((block ->
+                        this.addBlock(block, Objects.requireNonNull(block.get().getRegistryName()).getPath())));
+                RegisterHandle.MOB_EFFECT_REGISTER.getEntries().forEach((effect)->
+                        this.addEffect(effect,effect.get().getDisplayName().getString()));
+                RegisterHandle.ENCHANTMENT_REGISTER.getEntries().forEach((enchantment->
+                        this.addEnchantment(enchantment, Objects.requireNonNull(enchantment.get().getRegistryName()).getPath())));
+                RegisterHandle.ENTITY_TYPE_REGISTER.getEntries().forEach((entityType)->
+                        this.addEntityType(entityType, Objects.requireNonNull(entityType.get().getRegistryName()).getPath()));
             }
-        };
 
-       LanguageProvider languageProviderCN = new LanguageProvider(generator,MOD_ID, "zh_CN") {
-            @Override
-            protected void addTranslations() {
-
-            }
         };
 
         itemModelPro.set(() -> itemModelProvider);
@@ -180,6 +186,7 @@ public class DataGenHandle {
         generator.addProvider(blockModelProvider);
         generator.addProvider(blockStateProvider);
         generator.addProvider(blockTagsProvider);
+        generator.addProvider(languageProvider);
 
 //        generator.addProvider(languageProvider);
     }

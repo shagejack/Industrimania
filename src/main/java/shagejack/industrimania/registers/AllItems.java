@@ -123,7 +123,6 @@ public class AllItems {
         }
 
         public ItemBuilder simpleModel(String texture) {
-//            DataGenHandle.runOnDataGen( () -> () ->
             DataGenHandle.addItemModelTask((provider) -> {
                 var item = this.registryObject.get();
                 Industrimania.LOGGER.debug("set itemHeldModel for Item:{}", name);
@@ -131,12 +130,9 @@ public class AllItems {
                     provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
                             .parent(DataGenHandle.itemHeldModel.get()).texture("layer0", "item/" + name + "/" + texture);
                 } else {
-                    System.out.println("texture:item/" + name + "/" + texture + " not exists for Item:" + name);
-//                    Industrimania.LOGGER.error("texture:{} not exists for Item:{}",texture,name);
+                    Industrimania.LOGGER.error("texture:{} not exists for Item:{}",texture,name);
                 }
-            })
-//                    )
-            ;
+            });
             return this;
         }
 

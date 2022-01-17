@@ -9,6 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shagejack.industrimania.registers.AllTileEntities;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.setup.ModSetup;
 
@@ -33,11 +34,11 @@ public class Industrimania {
 
             bus.addListener(this::setup);
             bus.addListener(this::clientSetup);
-
             MinecraftForge.EVENT_BUS.register(this);
 
         } catch (Exception e) {
             LOGGER.error(e);
+            throw new RuntimeException();
         }
     }
 

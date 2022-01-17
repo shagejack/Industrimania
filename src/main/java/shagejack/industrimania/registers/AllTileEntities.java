@@ -22,7 +22,6 @@ import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceabl
 
 import java.util.*;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AllTileEntities {
 
     public static final RegistryObject<BlockEntityType<?>> item_placeable
@@ -60,7 +59,7 @@ public class AllTileEntities {
             .build();
 
 
-    static class TileEntityBuilder<T extends BlockEntity> {
+    public static class TileEntityBuilder<T extends BlockEntity> {
 
         private RegistryObject<BlockEntityType<?>> blockEntityType;
         private static final List<Binder<?>> tasks = new ArrayList<>();
@@ -110,7 +109,6 @@ public class AllTileEntities {
             return this;
         }
 
-        @SubscribeEvent
         public static void bind(final FMLClientSetupEvent event) {
             DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> tasks.forEach(Binder::register));
         }
