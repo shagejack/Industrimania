@@ -78,24 +78,22 @@ public class AllItems {
     public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").build(IronCluster::new);
 
     public static void initOres() {
-        for(OreType oreType : OreTypeRegistry.oreTypeList) {
-            for(String rockName : AllBlocks.ROCKS) {
-                for (int grade = 0; grade <= 2; grade ++) {
-                    String key = rockName + "_" + oreType.name() + "_" + grade;
-                    RegistryObject<Item> oreChunk
-                            = new ItemBuilder()
-                            .name("chunk_" + key)
-                            .tab(AllTabs.tabOre)
-                            .addExtraParam(rockName)
-                            .addExtraParam(oreType)
-                            .addExtraParam(grade)
-                            .simpleModel("chunk_" + key)
-                            .build(ItemOreChunk::new);
+        OreTypeRegistry.oreTypeMap.forEach( (oreTypeName, oreType) -> {
+               for(String rockName : AllBlocks.ROCKS) {
+                    for (int grade = 0; grade <= 2; grade ++) {
+                        String key = rockName + "_" + oreType.name() + "_" + grade;
+                        RegistryObject<Item> oreChunk
+                                = new ItemBuilder()
+                                .name("chunk_" + key)
+                                .tab(AllTabs.tabOre)
+                                .simpleModel("chunk_" + key)
+                                .build(ItemOreChunk::new);
 
-                    ORE_CHUNKS.put(key, oreChunk);
-                }
+                        ORE_CHUNKS.put(key, oreChunk);
+                    }
+               }
             }
-        }
+        );
     }
 
     public static final class ItemBuilder {
@@ -103,20 +101,15 @@ public class AllItems {
         private Properties property;
         RegistryObject<Item> registryObject;
 
-        private List extraParam = new ArrayList<>();
+        private Map<String, Object> extraParam = new HashMap();
 
         public ItemBuilder set(Function<Properties, Properties> function) {
             property = function.apply(new Properties());
             return this;
         }
 
-        public ItemBuilder addExtraParam(Object param) {
-            this.extraParam.add(param);
-            return this;
-        }
-
-        public ItemBuilder setExtraParam(Object param, int index) {
-            this.extraParam.set(index, param);
+        public ItemBuilder addExtraParam(String name, Object param) {
+            this.extraParam.put(name, param);
             return this;
         }
 
@@ -190,7 +183,7 @@ public class AllItems {
             return registryObject;
         }
 
-        public <T extends Item> RegistryObject<Item> build(BiFunction<Properties, List, T> factory) {
+        public <T extends Item> RegistryObject<Item> build(BiFunction<Properties, Map<String, Object>, T> factory) {
             Objects.requireNonNull(name);
             if (property == null) property = new Properties().tab(AllTabs.tab);
             registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> factory.apply(property, extraParam));

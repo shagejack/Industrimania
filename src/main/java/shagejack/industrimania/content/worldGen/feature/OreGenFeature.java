@@ -99,18 +99,6 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
         super(p_65786_);
     }
 
-    public void forceSetBlock(WorldGenLevel level, BlockPos pos, BlockState state) {
-        if (!level.hasChunk(pos.getX(), pos.getZ())) {
-            ChunkPos chunkPos = level.getChunk(pos).getPos();
-            ServerLevel world = Objects.requireNonNull(level.getServer()).overworld();
-            ForgeChunkManager.forceChunk(world, Industrimania.MOD_ID, pos, chunkPos.x, chunkPos.z, true, false);
-            level.setBlock(pos, state, 2 | 16);
-            ForgeChunkManager.forceChunk(world, Industrimania.MOD_ID, pos, chunkPos.x, chunkPos.z, false, false);
-        } else {
-            level.setBlock(pos, state, 2 | 16);
-        }
-    }
-
     /*
     Ore Grade:
     0: Poor
@@ -230,7 +218,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                                     BlockPos blockPos = new BlockPos(dx, dy, dz);
                                     Block block = level.getBlockState(blockPos).getBlock();
                                     if (isReplaceable(block)) {
-                                        forceSetBlock(level, blockPos, depositRock.defaultBlockState());
+                                        setBlock(level, blockPos, depositRock.defaultBlockState());
                                         deposit.add(blockPos);
                                     }
                                 }
@@ -254,7 +242,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                                     BlockPos blockPos = new BlockPos(dx, dy, dz);
                                     Block block = level.getBlockState(blockPos).getBlock();
                                     if (isReplaceable(block)) {
-                                        forceSetBlock(level, blockPos, depositRock.defaultBlockState());
+                                        setBlock(level, blockPos, depositRock.defaultBlockState());
                                         deposit.add(blockPos);
                                     }
                                 }
@@ -319,7 +307,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                             if (isInEllipsoid(dx, dy, dz, oreBodyCenter, (int) (rxb2 * mRich2), (int) (ryb2 * mRich2), (int) (rzb2 * mRich2))) {
                                 BlockPos pos = new BlockPos(dx, dy, dz);
                                 if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
-                                    forceSetBlock(level, pos, getOreBlock(bodyOre, depositRock, 2).defaultBlockState());
+                                    setBlock(level, pos, getOreBlock(bodyOre, depositRock, 2).defaultBlockState());
 
                                     continue;
                                 }
@@ -328,7 +316,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                             if (isInEllipsoid(dx, dy, dz, oreBodyCenter, (int) (rxb2 * mNormal2), (int) (ryb2 * mNormal2), (int) (rzb2 * mNormal2))) {
                                 BlockPos pos = new BlockPos(dx, dy, dz);
                                 if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
-                                    forceSetBlock(level, pos, getOreBlock(bodyOre, depositRock, 1).defaultBlockState());
+                                    setBlock(level, pos, getOreBlock(bodyOre, depositRock, 1).defaultBlockState());
                                     continue;
                                 }
                             }
@@ -336,7 +324,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                             if (isInEllipsoid(dx, dy, dz, oreBodyCenter, rxb2, ryb2, rzb2)) {
                                 BlockPos pos = new BlockPos(dx, dy, dz);
                                 if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
-                                    forceSetBlock(level, pos, getOreBlock(bodyOre, depositRock, 0).defaultBlockState());
+                                    setBlock(level, pos, getOreBlock(bodyOre, depositRock, 0).defaultBlockState());
                                 }
                             }
                         }
@@ -364,21 +352,21 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                     //Plant Decay
                     if (PLANT_TO_DECAY.contains(level.getBlockState(pos).getBlock())) {
                         if (Math.random() < PLANT_DECAY_PROBABILITY) {
-                            forceSetBlock(level, pos, Blocks.AIR.defaultBlockState());
+                            setBlock(level, pos, Blocks.AIR.defaultBlockState());
                         }
                     }
 
                     //Plant Sign Generation
                     if (depositOre.plantSign() != null) {
                         if (Math.random() < PLANT_SIGN_GEN_PROBABILITY) {
-                            forceSetBlock(level, pos, depositOre.plantSign().defaultBlockState());
+                            setBlock(level, pos, depositOre.plantSign().defaultBlockState());
                         }
                     }
 
                     //Ore Cap Generation
                     if (depositOre.oreCap() != null) {
                         if (Math.random() < ORE_CAP_GEN_PROBABILITY) {
-                            forceSetBlock(level, pos, depositOre.oreCap().defaultBlockState());
+                            setBlock(level, pos, depositOre.oreCap().defaultBlockState());
                         }
                     }
                 }

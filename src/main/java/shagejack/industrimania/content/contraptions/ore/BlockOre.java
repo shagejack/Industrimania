@@ -2,6 +2,8 @@ package shagejack.industrimania.content.contraptions.ore;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,28 +18,50 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.TierSortingRegistry;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistry;
+import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.content.worldGen.OreTypeRegistry;
 import shagejack.industrimania.content.worldGen.record.OreType;
+import shagejack.industrimania.registers.AllBlocks;
 import shagejack.industrimania.registers.AllItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 public class BlockOre extends Block {
 
-    public static String rockName;
-    public static OreType oreType;
-    public static int grade;
-
-    public BlockOre(Properties properties, List extraParam) {
+    public BlockOre(Properties properties) {
         super(properties);
-        rockName = (String) extraParam.get(0);
-        oreType = (OreType) extraParam.get(1);
-        grade = (int) extraParam.get(2);
     }
 
-    public Item getOreChunk() {
-        String key = rockName + "_" + oreType.name() + "_" + grade;
-        return AllItems.ORE_CHUNKS.get(key).get();
+    public ItemStack getOreChunk(Block block, int count) {
+        if (block instanceof BlockOre) {
+            String key = block.getRegistryName().toString().split(":")[1];
+            return new ItemStack(AllItems.ORE_CHUNKS.get(key).get(), count);
+        } else {
+            return ItemStack.EMPTY;
+        }
+    }
+
+    public OreType getOreType(Block block) {
+        if (block instanceof BlockOre) {
+            String key = block.getRegistryName().toString().split(":")[1].split("_")[2];
+            return OreTypeRegistry.oreTypeMap.get(key);
+        } else {
+            return null;
+        }
+    }
+
+    public Block getRock(Block block) {
+        if (block instanceof BlockOre) {
+            String name = "rock_" + block.getRegistryName().toString().split(":")[1].split("_")[1];
+            ResourceLocation registryName = new ResourceLocation(Industrimania.MOD_ID, name);
+            return ForgeRegistries.BLOCKS.getValue(registryName);
+        } else {
+            return null;
+        }
     }
 
 
@@ -46,8 +70,14 @@ public class BlockOre extends Block {
         player.awardStat(Stats.BLOCK_MINED.get(this));
         player.causeFoodExhaustion(0.005F);
         if (itemStack.getItem() instanceof PickaxeItem) {
-            if (((PickaxeItem) itemStack.getItem()).getTier().getLevel() >= oreType.harvestLevel()) {
-                popResource(level, blockPos, new ItemStack(getOreChunk()));
+            Block block = blockState.getBlock();
+            Tier toolTier = ((PickaxeItem) itemStack.getItem()).getTier();
+            if (toolTier.getLevel() >= getOreType(block).harvestLevel()) {
+                popResource(level, blockPos, getOreChunk(block, 1));
+            } else {
+                if (TierSortingRegistry.isCorrectTierForDrops(toolTier, getRock(block).defaultBlockState())) {
+                    popResource(level, blockPos, new ItemStack(getRock(block)));
+                }
             }
         }
     }
