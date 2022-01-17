@@ -55,6 +55,42 @@ public class DataGenHandle {
     public static Lazy<ExistingModelFile> blockCubeRotatable = () -> existingModel(itemModelPro.get(), "");
     public static Lazy<ExistingModelFile> blockCrossTexture = () -> existingModel(itemModelPro.get(), "block/cross");
 
+    public static boolean checkFileExist(ItemModelProvider provider, ResourceLocation resourceLocation, ExistingFileHelper.IResourceType packType){
+        final var exists = provider.existingFileHelper.exists(resourceLocation, packType);
+        if (!exists){
+            Industrimania.LOGGER.info("{} not exist for block/item in path:{}}",packType.getPrefix(),resourceLocation.toString());
+        }
+        return exists;
+    }
+
+    public static boolean checkFileExist(ItemModelProvider provider, String path, ExistingFileHelper.IResourceType packType){
+        return provider.existingFileHelper.exists(new ResourceLocation(MOD_ID,path), packType);
+    }
+
+    public static boolean checkItemTextureExist(ItemModelProvider provider, String name, String texture) {
+        return checkFileExist(provider,
+                 "item/" + name + "/" + texture,
+                DataGenHandle.TEXTURE);
+    }
+
+    public static boolean checkItemModelExist(ItemModelProvider provider, String name, String texture) {
+        return checkFileExist(provider,
+                 "item/" + name + "/" + texture,
+                DataGenHandle.MODEL);
+    }
+
+    public static boolean checkBlockTextureExist(ItemModelProvider provider, String name, String texture) {
+        return checkFileExist(provider,
+                "block/" + name + "/" + texture,
+                DataGenHandle.TEXTURE);
+    }
+
+    public static boolean checkBlockModelExist(ItemModelProvider provider, String name, String texture) {
+        return checkFileExist(provider,
+                "block/" + name + "/" + texture,
+                DataGenHandle.MODEL);
+    }
+
     public static void addItemModelTask(Consumer<ItemModelProvider> task) {
         runOnDataGen(() -> () -> {
             itemModelTasks.add(task);
@@ -166,11 +202,11 @@ public class DataGenHandle {
                         this.addItem(item, Objects.requireNonNull(item.get().getRegistryName()).getPath())));
                 RegisterHandle.BLOCK_REGISTER.getEntries().forEach((block ->
                         this.addBlock(block, Objects.requireNonNull(block.get().getRegistryName()).getPath())));
-                RegisterHandle.MOB_EFFECT_REGISTER.getEntries().forEach((effect)->
-                        this.addEffect(effect,effect.get().getDisplayName().getString()));
-                RegisterHandle.ENCHANTMENT_REGISTER.getEntries().forEach((enchantment->
+                RegisterHandle.MOB_EFFECT_REGISTER.getEntries().forEach((effect) ->
+                        this.addEffect(effect, effect.get().getDisplayName().getString()));
+                RegisterHandle.ENCHANTMENT_REGISTER.getEntries().forEach((enchantment ->
                         this.addEnchantment(enchantment, Objects.requireNonNull(enchantment.get().getRegistryName()).getPath())));
-                RegisterHandle.ENTITY_TYPE_REGISTER.getEntries().forEach((entityType)->
+                RegisterHandle.ENTITY_TYPE_REGISTER.getEntries().forEach((entityType) ->
                         this.addEntityType(entityType, Objects.requireNonNull(entityType.get().getRegistryName()).getPath()));
             }
 

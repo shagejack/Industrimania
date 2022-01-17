@@ -5,12 +5,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
@@ -19,7 +20,6 @@ import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
-import shagejack.industrimania.content.worldGen.record.OreType;
 import shagejack.industrimania.registers.AllItems.ItemBuilder;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
@@ -28,6 +28,7 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkTextureFileExist;
 
@@ -65,7 +66,8 @@ public class AllBlocks {
             .material(Material.GRASS)
             .crossTextureModel()
             .simpleBlockState()
-            .buildBlockWithItem(AllTabs.tabNature);
+            .buildBlock()
+            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
 
     //Ore Cap
     public static final ItemBlock rock_silicon_cap
@@ -73,10 +75,11 @@ public class AllBlocks {
             .name("rock_silicon_cap")
             .material(Material.STONE)
             .strength(0.5F, 0.5F)
-            .tag("mineable/pickaxe")
+            .tags("mineable/pickaxe")
             //.specialModel()
             .simpleBlockState()
-            .buildBlockWithItem(AllTabs.tabOre);
+            .buildBlock()
+            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabOre)));
 
     //Igneous Rocks
     public static final ItemBlock rock_dacite
@@ -84,42 +87,59 @@ public class AllBlocks {
             .name("rock_dacite")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_rhyolite
             = new BlockBuilder()
             .name("rock_rhyolite")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_trachyte
             = new BlockBuilder()
             .name("rock_trachyte")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_basalt
             = new BlockBuilder()
             .name("rock_basalt")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_gabbro
             = new BlockBuilder()
             .name("rock_gabbro")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_porphyry
             = new BlockBuilder()
             .name("rock_porphyry")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     //Sedimentary Rocks
     public static final ItemBlock rock_chalk
@@ -127,56 +147,80 @@ public class AllBlocks {
             .name("rock_chalk")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_limestone
             = new BlockBuilder()
             .name("rock_limestone")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_shale
             = new BlockBuilder()
             .name("rock_shale")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_conglomeratee
             = new BlockBuilder()
             .name("rock_conglomerate")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_dolomite
             = new BlockBuilder()
             .name("rock_dolomite")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_mudstone
             = new BlockBuilder()
             .name("rock_mudstone")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_coal
             = new BlockBuilder()
             .name("rock_coal")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_oilshale
             = new BlockBuilder()
             .name("rock_oilshale")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     //Metamorphic rocks
     public static final ItemBlock rock_quartzite
@@ -184,42 +228,60 @@ public class AllBlocks {
             .name("rock_quartzite")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_greisen
             = new BlockBuilder()
             .name("rock_greisen")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_phyllite
             = new BlockBuilder()
             .name("rock_phyllite")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_marble
             = new BlockBuilder()
             .name("rock_marble")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_gneiss
             = new BlockBuilder()
             .name("rock_gneiss")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_granulite
             = new BlockBuilder()
             .name("rock_granulite")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildRockWithItem();
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     //Common Blocks
 
@@ -228,68 +290,75 @@ public class AllBlocks {
             .name("building_fine_clay")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem();
+            .buildItem();
 
     public static final ItemBlock building_scorched_clay
             = new BlockBuilder()
             .name("building_scorched_clay")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem();
+            .buildItem();
 
     public static final ItemBlock gravity_calcite
             = new BlockBuilder()
             .name("gravity_calcite")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(GravelBlock::new);
+            .buildBlock(GravelBlock::new)
+            .buildItem();
 
     public static final ItemBlock gravity_charcoal
             = new BlockBuilder()
             .name("gravity_charcoal")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(GravelBlock::new);
+            .buildBlock(GravelBlock::new)
+            .buildItem();
 
     public static final ItemBlock gravity_dust
             = new BlockBuilder()
             .name("gravity_dust")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(GravelBlock::new);
+            .buildBlock(GravelBlock::new)
+            .buildItem();
 
     public static final ItemBlock gravity_iron_oxide
             = new BlockBuilder()
             .name("gravity_iron_oxide")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(GravelBlock::new);
+            .buildBlock(GravelBlock::new)
+            .buildItem();
 
     public static final ItemBlock mechanic_clay_furnace_bottom
             = new BlockBuilder()
             .name("mechanic_clay_furnace_bottom")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(ClayFurnaceBottomBlock::new);
+            .buildBlock(ClayFurnaceBottomBlock::new)
+            .buildItem();
 
     public static final ItemBlock mechanic_iron_ore_slag
             = new BlockBuilder()
             .name("mechanic_iron_ore_slag")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlockWithItem(IronOreSlagBlock::new);
+            .buildBlock(IronOreSlagBlock::new)
+            .buildItem();
 
     public static final ItemBlock mechanic_bronze_tube_block
             = new BlockBuilder()
             .name("mechanic_bronze_tube")
             .autoFullCubeModel()
             .rotatableBlockState()
-            .buildBlockWithItem(BlockDirectionalBase::new);
+            .buildBlock(BlockDirectionalBase::new)
+            .buildItem();
 
     //Register Ores
 
     public static void initOres() {
-        OreTypeRegistry.oreTypeMap.forEach( (oreTypeName, oreType) -> {
+        OreTypeRegistry.oreTypeMap.forEach((oreTypeName, oreType) -> {
                     for (String rockName : ROCKS) {
                         for (int grade = 0; grade <= 2; grade++) {
                             String key = rockName + "_" + oreType.name() + "_" + grade;
@@ -298,16 +367,17 @@ public class AllBlocks {
                                     .name(key)
                                     .material(Material.STONE)
                                     .strength(ROCKS_HARDNESS.get(rockName), ROCKS_EXPLOSION_RESISTANCE.get(rockName))
-                                    .tag("mineable/pickaxe")
+                                    .tags("mineable/pickaxe")
                                     .oreTextureModel()
                                     .simpleBlockState()
-                                    .buildBlockWithItem(BlockOre::new, AllTabs.tabOre);
+                                    .buildBlock(BlockOre::new)
+                                    .buildItem((ItemBuilder) -> ItemBuilder.tab(AllTabs.tabOre));
 
                             ORES.put(key, oreBlock);
                         }
                     }
                 }
-            );
+        );
     }
 
 
@@ -317,148 +387,94 @@ public class AllBlocks {
         private RegistryObject<Block> block;
         private Properties property;
         private List<String> tags = new ArrayList<>();
-
+        private float hardness;
+        private float explosionResistance;
+        private Material material;
+        private boolean requiresCorrectToolForDrops = false;
         private Map<String, Object> extraParam = new HashMap();
 
-        public <T extends Block> RegistryObject<Block> buildBlock(Function<Properties, T> factory) {
+        private void checkProperty() {
             Objects.requireNonNull(name);
-            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 6.0F);
+            if (property == null) {
+                if (material == null) {
+                    this.material = Material.STONE;
+                }
+                property = BlockBehaviour.Properties.of(material).strength(1.5f, 6.0f);
+            }
+            if (hardness != 0 && explosionResistance != 0) {
+                property.strength(hardness, explosionResistance);
+            }
+            if (requiresCorrectToolForDrops) {
+                property.requiresCorrectToolForDrops();
+            }
+        }
 
-            block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property));
-            Industrimania.LOGGER.debug("register Block:{}", name);
-            if (!tags.isEmpty()) BLOCK_TAGS.put(block, tags);
+        public RegistryObject<Block> getBlock() {
             return block;
         }
 
-        public <T extends Block> RegistryObject<Block> buildBlock(BiFunction<Properties, Map<String, Object>, T> factory) {
-            Objects.requireNonNull(name);
-            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 6.0F);
-
-            block = RegisterHandle.BLOCK_REGISTER.register(name, () -> factory.apply(property, extraParam));
+        public BlockBuilder buildBlock(Supplier<Block> blockSupplier) {
+            checkProperty();
+            block = RegisterHandle.BLOCK_REGISTER.register(name, blockSupplier);
             Industrimania.LOGGER.debug("register Block:{}", name);
-            if (!tags.isEmpty()) BLOCK_TAGS.put(block, tags);
-            return block;
+            if (!tags.isEmpty()) {
+                BLOCK_TAGS.put(block, tags);
+                Industrimania.LOGGER.debug("for block:{} add tags:{}", name, tags.toString());
+            }
+            return this;
         }
 
-        public <T extends Block> RegistryObject<Block> buildBlock() {
-            Objects.requireNonNull(name);
-            if (property == null) property = BlockBehaviour.Properties.of(Material.STONE).strength(1.5F, 6.0F);
-
-            block = RegisterHandle.BLOCK_REGISTER.register(name, () -> new Block(property));
-            Industrimania.LOGGER.debug("register Block:{}", name);
-            if (!tags.isEmpty()) BLOCK_TAGS.put(block, tags);
-            return block;
+        public <T extends Block> BlockBuilder buildBlock(Function<Properties, T> factory) {
+            return buildBlock(() -> factory.apply(property));
         }
 
-        public <T extends Block> ItemBlock buildBlockWithItem(Function<Properties, T> factory) {
-            var block = buildBlock(factory);
-            final ItemBuilder itemModelBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.build(block), block);
+        public <T extends Block> BlockBuilder buildBlock(BiFunction<Properties, Map<String, Object>, T> factory) {
+            return buildBlock(() -> factory.apply(property, extraParam));
         }
 
-        public <T extends Block> ItemBlock buildBlockWithItem(Function<Properties, T> factory, CreativeModeTab tab) {
-            var block = buildBlock(factory);
-            final ItemBuilder itemModelBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
+        public BlockBuilder buildBlock() {
+            return buildBlock(() -> new Block(property));
         }
 
-        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, Map<String, Object>, T> factory) {
-            var block = buildBlock(factory);
-            final ItemBuilder itemModelBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.build(block), block);
+        RegistryObject<Block> checkAlreadyBuild() {
+            return Objects.requireNonNull(block, "can't build ItemBlock before block is built");
         }
 
-        public <T extends Block> ItemBlock buildBlockWithItem(BiFunction<Properties, Map<String, Object>, T> factory, CreativeModeTab tab) {
-            var block = buildBlock(factory);
-            final ItemBuilder itemModelBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
-        }
-
-        public <T extends Block> ItemBlock buildBlockWithItem() {
-            var block = buildBlock();
-            final ItemBuilder itemModelBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.build(block), block);
-        }
-
-        public <T extends Block> ItemBlock buildBlockWithItem(CreativeModeTab tab) {
-            var block = buildBlock();
-            final ItemBuilder itemModelBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.tab(tab).build(block), block);
-        }
-
-        public <T extends Block> ItemBlock buildRockWithItem(float hardness, float explosionResistance) {
-            this.property = Properties.of(Material.STONE)
-                    .requiresCorrectToolForDrops()
-                    .strength(hardness, explosionResistance);
-            tags.add("mineable/pickaxe");
-            var block = buildBlock();
-            final ItemBuilder itemModelBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            ROCKS.add(this.name);
-            ROCKS_HARDNESS.put(this.name, hardness);
-            ROCKS_EXPLOSION_RESISTANCE.put(this.name, explosionResistance);
-            Industrimania.LOGGER.debug("register Rock:{} with Item:{}", name, name);
-            return new ItemBlock(itemModelBuilder.tab(AllTabs.tabRock).build(block), block);
-        }
-
-        public <T extends Block> ItemBlock buildRockWithItem() {
-            return this.buildRockWithItem(1.5F, 6.0F);
-        }
-
-        public <T extends Block> ItemBlock buildBlockWithItem(Consumer<ItemBuilder> consumer, @Nullable Function<Properties, T> factory) {
-            var block = buildBlock(factory);
-            final ItemBuilder itemBuilder
-                    = new ItemBuilder()
-                    .name(this.name)
-                    .blockModel("block/" + this.name);
-            consumer.accept(itemBuilder);
-            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemBuilder);
+        public ItemBlock buildItem(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
+            final var block = checkAlreadyBuild();
+            final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).blockModel("block/" + this.name);
+            factory.apply(itemBuilder);
+            Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
             return new ItemBlock(itemBuilder.build(block), block);
         }
 
-        public BlockBuilder tag(String tag) {
-            this.tags.add(tag);
+        public ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory) {
+            return buildItem(name, factory);
+        }
+
+        public ItemBlock buildItem() {
+            return buildItem(name, (itemBuilder) -> itemBuilder);
+        }
+
+        public BlockBuilder tags(String... tags) {
+            this.tags.clear();
+            this.tags.addAll(Arrays.stream(tags).toList());
             return this;
         }
 
         public BlockBuilder material(Material material) {
-            this.property = BlockBehaviour.Properties.of(material);
+            this.material = material;
             return this;
         }
 
-        public BlockBuilder strength(float hardness, float explosionResistence) {
-            this.property.strength(hardness, explosionResistence);
+        public BlockBuilder strength(float hardness, float explosionResistance) {
+            this.hardness = hardness;
+            this.explosionResistance = explosionResistance;
             return this;
         }
 
         public BlockBuilder requiresCorrectToolForDrops() {
-            this.property.requiresCorrectToolForDrops();
+            this.requiresCorrectToolForDrops = true;
             return this;
         }
 
@@ -467,10 +483,21 @@ public class AllBlocks {
             return this;
         }
 
+        public BlockBuilder blockState(Consumer<BlockStateProvider> blockStateProviderConsumer){
+            DataGenHandle.addBlockStateTask(blockStateProviderConsumer);
+            return this;
+        }
+
+        public BlockBuilder complexBlockState(Consumer<BlockStateProvider> blockStateProviderConsumer){
+            return blockState((provider)->{
+                
+            });
+        }
+
         public BlockBuilder simpleBlockState() {
-            DataGenHandle.addBlockStateTask((provider) -> {
+            blockState((provider) -> {
                 var block = this.block;
-                Industrimania.LOGGER.debug("set block state for Block:{}", name);
+                Industrimania.LOGGER.debug("set block state file for Block:{}", name);
                 provider.getVariantBuilder(Objects.requireNonNull(block.get()))
                         .forAllStates(state -> ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, "block/" + this.name))).build());
             });
@@ -482,55 +509,55 @@ public class AllBlocks {
                 var block = this.block;
                 var modelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, "block/" + this.name));
 
-                    Industrimania.LOGGER.debug("set rotatable block state for Block:{}", name);
+                Industrimania.LOGGER.debug("set rotatable block state for Block:{}", name);
 
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.NORTH)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(0)
-                            .addModel();
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(BlockDirectionalBase.FACING, Direction.NORTH)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .rotationY(0)
+                        .addModel();
 
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.SOUTH)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(180)
-                            .addModel();
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(BlockDirectionalBase.FACING, Direction.SOUTH)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .rotationY(180)
+                        .addModel();
 
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.WEST)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(90)
-                            .addModel();
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(BlockDirectionalBase.FACING, Direction.WEST)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .rotationY(90)
+                        .addModel();
 
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.EAST)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationY(270)
-                            .addModel();
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(BlockDirectionalBase.FACING, Direction.EAST)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .rotationY(270)
+                        .addModel();
 
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.UP)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationX(270)
-                            .addModel();
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(BlockDirectionalBase.FACING, Direction.UP)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .rotationX(270)
+                        .addModel();
 
-                    provider.getVariantBuilder(Objects.requireNonNull(block.get()))
-                            .partialState()
-                            .with(BlockDirectionalBase.FACING, Direction.DOWN)
-                            .modelForState()
-                            .modelFile(modelFile)
-                            .rotationX(90)
-                            .addModel();
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(BlockDirectionalBase.FACING, Direction.DOWN)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .rotationX(90)
+                        .addModel();
             });
             return this;
         }
@@ -574,8 +601,8 @@ public class AllBlocks {
             DataGenHandle.addBlockModelTask(provider -> {
                 try {
 
-                } catch (IllegalStateException e){
-                    Industrimania.LOGGER.error("failed to set cross texture model for Ore:{},reason:{}",name,e.getMessage());
+                } catch (IllegalStateException e) {
+                    Industrimania.LOGGER.error("failed to set cross texture model for Ore:{},reason:{}", name, e.getMessage());
                 }
             });
             return this;
@@ -586,7 +613,7 @@ public class AllBlocks {
                 try {
                     var category = Objects.requireNonNull(this.name).split("_")[0];
                     var bName = Objects.requireNonNull(this.name).substring(category.length() + 1);
-                    final var path = "block/"+ Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName) + "/cross";
+                    final var path = "block/" + Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName) + "/cross";
                     if (checkTextureFileExist(provider, path)) {
                         Industrimania.LOGGER.debug("automatically set cross texture model for Block:{}", name);
                         provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
@@ -594,8 +621,8 @@ public class AllBlocks {
                     } else {
                         Industrimania.LOGGER.debug("failed to set cross texture model for Block:{}, 'cause its texture doesn't exist.", name);
                     }
-                } catch (IllegalStateException e){
-                    Industrimania.LOGGER.error("failed to set cross texture model for Block:{},reason:{}",name,e.getMessage());
+                } catch (IllegalStateException e) {
+                    Industrimania.LOGGER.error("failed to set cross texture model for Block:{},reason:{}", name, e.getMessage());
                 }
             });
             return this;
@@ -628,7 +655,7 @@ public class AllBlocks {
                 try {
                     var category = Objects.requireNonNull(this.name).split("_")[0];
                     var bName = Objects.requireNonNull(this.name).substring(category.length() + 1);
-                    final var path = "block/"+ Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName);
+                    final var path = "block/" + Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName);
                     if (checkTextureFileExist(provider, path)) {
                         Industrimania.LOGGER.debug("automatically set cube all model for Block:{}", name);
                         provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
@@ -637,7 +664,7 @@ public class AllBlocks {
                     }
                     final var defaultTexture = String.format("%s/%s", path, "default");
                     if (!checkTextureFileExist(provider, defaultTexture)) {
-                        throw new IllegalStateException(String.format("can't find all same texture and default texture for Block:%s",name));
+                        throw new IllegalStateException(String.format("can't find all same texture and default texture for Block:%s", name));
                     }
                     var front = defaultTexture;
                     var back = defaultTexture;
@@ -751,14 +778,14 @@ public class AllBlocks {
                     }
 
                     Industrimania.LOGGER.debug("""
-                        automatically set full cube block model for Block:{} with
-                        particle:{}
-                        up:{}
-                        down:{}
-                        front/north:{}
-                        back/south:{}
-                        left/west:{}
-                        right/east:{}""", name, particle, up, down, front, back, left, right);
+                            automatically set full cube block model for Block:{} with
+                            particle:{}
+                            up:{}
+                            down:{}
+                            front/north:{}
+                            back/south:{}
+                            left/west:{}
+                            right/east:{}""", name, particle, up, down, front, back, left, right);
                     provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
                             .parent(DataGenHandle.blockCube.get())
                             .texture("particle", particle)
@@ -769,8 +796,8 @@ public class AllBlocks {
                             .texture("west", left)
                             .texture("east", right);
 
-                }catch (IllegalStateException e){
-                    Industrimania.LOGGER.error("failed to set autoFullCubeModel for Block:{},reason:{}",name,e.getMessage());
+                } catch (IllegalStateException e) {
+                    Industrimania.LOGGER.error("failed to set autoFullCubeModel for Block:{},reason:{}", name, e.getMessage());
                 }
             });
             return this;

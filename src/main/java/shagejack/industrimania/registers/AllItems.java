@@ -1,11 +1,13 @@
 package shagejack.industrimania.registers;
 
+import cpw.mods.modlauncher.api.INameMappingService;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
@@ -19,7 +21,12 @@ import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
+
+import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkItemModelExist;
+import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkItemTextureExist;
 
 public class AllItems {
 
@@ -98,13 +105,17 @@ public class AllItems {
 
     public static final class ItemBuilder {
         private String name;
+        private CreativeModeTab tab;
         private Properties property;
         RegistryObject<Item> registryObject;
 
-        private Map<String, Object> extraParam = new HashMap();
+        private final Map<String, Object> extraParam = new HashMap();
 
         public ItemBuilder set(Function<Properties, Properties> function) {
-            property = function.apply(new Properties());
+            if (property==null){
+                this.property= new Properties();
+            }
+            property = function.apply(this.property);
             return this;
         }
 
@@ -114,84 +125,81 @@ public class AllItems {
         }
 
         public ItemBuilder tab(CreativeModeTab tab) {
-            if (property == null) {
-                this.property = new Properties().tab(tab);
-            } else {
-                property.tab(tab);
-            }
+            this.tab = tab;
+            return this;
+        }
+
+        public ItemBuilder model(Consumer<ItemModelProvider> task){
+            DataGenHandle.addItemModelTask(task);
             return this;
         }
 
         public ItemBuilder simpleModel(String texture) {
-            DataGenHandle.addItemModelTask((provider) -> {
+           model((provider) -> {
                 var item = this.registryObject.get();
-                Industrimania.LOGGER.debug("set itemHeldModel for Item:{}", name);
-                if (provider.existingFileHelper.exists(new ResourceLocation(Industrimania.MOD_ID, "item/" + name + "/" + texture), DataGenHandle.TEXTURE)) {
+                if (checkItemTextureExist(provider,name,texture)) {
                     provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
-                            .parent(DataGenHandle.itemHeldModel.get()).texture("layer0", "item/" + name + "/" + texture);
-                } else {
-                    Industrimania.LOGGER.error("texture:{} not exists for Item:{}",texture,name);
+                            .parent(DataGenHandle.itemHeldModel.get())
+                            .texture("layer0", "item/" + name + "/" + texture);
+                }
+               Industrimania.LOGGER.debug("set itemHeldModel for Item:{}", name);
+           });
+            return this;
+        }
+
+        public ItemBuilder blockModel(String model) {
+            model((provider) -> {
+                var item = this.registryObject.get();
+                provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
+                        .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, model)));
+                Industrimania.LOGGER.debug("set itemHeldModel for ItemBlock:{}", name);
+            });
+            return this;
+        }
+
+        public ItemBuilder specificModel(String model) {
+            model((provider) -> {
+                var item = this.registryObject.get();
+                if (checkItemModelExist(provider,name,model)) {
+                    provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
+                            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, model)));
+                    Industrimania.LOGGER.debug("set itemHeldModel for Item:{}", name);
                 }
             });
             return this;
         }
 
-        public ItemBuilder blockModel(String model) {
-            DataGenHandle.addItemModelTask((provider) -> {
-                var item = this.registryObject.get();
-                Industrimania.LOGGER.debug("set itemHeldModel for ItemBlock:{}", name);
-                    provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
-                            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, model)));
-            })
-            ;
-            return this;
-        }
-
-        public ItemBuilder specificModel(String model) {
-            DataGenHandle.addItemModelTask((provider) -> {
-                var item = this.registryObject.get();
-                Industrimania.LOGGER.debug("set itemHeldModel for Item:{}", name);
-                if (provider.existingFileHelper.exists(new ResourceLocation(Industrimania.MOD_ID, model), DataGenHandle.MODEL)) {
-                    provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
-                            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, model)));
-                } else {
-                    System.out.println("model:" + model + " not exists for Item:" + name);
-                }
-            })
-            ;
-            return this;
-        }
-
-
         public RegistryObject<Item> build() {
-            Objects.requireNonNull(name);
-            if (property == null) property = new Properties().tab(AllTabs.tab);
-            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new Item(property));
-            Industrimania.LOGGER.debug("register Item {}", name);
-            return registryObject;
+            return build(()->new Item(property));
         }
 
         public <T extends Item> RegistryObject<Item> build(Function<Properties, T> factory) {
-            Objects.requireNonNull(name);
-            if (property == null) property = new Properties().tab(AllTabs.tab);
-            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> factory.apply(property));
-            Industrimania.LOGGER.debug("register Item {}", name);
-            return registryObject;
+            return build(()->factory.apply(property));
         }
 
         public <T extends Item> RegistryObject<Item> build(BiFunction<Properties, Map<String, Object>, T> factory) {
-            Objects.requireNonNull(name);
-            if (property == null) property = new Properties().tab(AllTabs.tab);
-            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> factory.apply(property, extraParam));
+            return build(()->factory.apply(property,extraParam));
+        }
+
+        public RegistryObject<Item> build(Supplier<Item> itemSupplier){
+            checkProperty();
+            registryObject = RegisterHandle.ITEM_REGISTER.register(name,itemSupplier);
             Industrimania.LOGGER.debug("register Item {}", name);
             return registryObject;
         }
 
         public RegistryObject<Item> build(RegistryObject<Block> block) {
-            Objects.requireNonNull(name);
-            if (property == null) property = new Properties().tab(AllTabs.tab);
+            checkProperty();
             registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), property));
             return registryObject;
+        }
+
+        private void checkProperty(){
+            Objects.requireNonNull(name);
+            if (property==null){
+                this.property = new Properties();
+            }
+            property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
         }
 
         public ItemBuilder name(String name) {
