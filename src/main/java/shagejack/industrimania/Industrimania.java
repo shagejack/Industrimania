@@ -2,6 +2,7 @@ package shagejack.industrimania;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
@@ -25,10 +26,17 @@ public class Industrimania {
 
             ModSetup.setup();
 
+            bus.addListener(this::setup);
+
         } catch (Exception e) {
             LOGGER.error(e);
             throw new RuntimeException();
         }
+
+    }
+
+    public void setup(final FMLCommonSetupEvent event) {
+        RegisterHandle.FEATURE_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }

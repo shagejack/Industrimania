@@ -48,7 +48,6 @@ public class RegisterHandle {
         BLOCK_ENTITY_TYPE_REGISTER.register(bus);
         MENU_TYPE_REGISTER.register(bus);
         FLUID_REGISTER.register(bus);
-        FEATURE_REGISTER.register(bus);
         MOB_EFFECT_REGISTER.register(bus);
         ENCHANTMENT_REGISTER.register(bus);
         ENTITY_TYPE_REGISTER.register(bus);

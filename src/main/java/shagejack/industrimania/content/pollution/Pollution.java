@@ -5,7 +5,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -15,6 +18,7 @@ import shagejack.industrimania.content.worldGen.RockRegistry;
 import shagejack.industrimania.registers.AllBlocks;
 import shagejack.industrimania.registers.AllTags;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,9 +130,29 @@ public class Pollution {
     }
 
     //Effects
+    public Color getFogColor() {
+        return new Color((200F - Math.min(200F, (float) this.amount / 500000F)) / 255F, (200F - Math.min(200F, (float) this.amount / 500000F)) / 255F, (255F - Math.min(255F, (float) this.amount / 10000F)) / 255F);
+    }
+
+    public float getFogDensity() {
+        return Math.max(5F, 50000000F / (float) this.amount);
+    }
+
     public void damageEntity(LivingEntity entity) {
-        if (this.amount > 1000000) {
-            entity.hurt(DamageSource.WITHER, (float) (0.5 * Math.floor((double) this.amount / 1000000)));
+        entity.hurt(DamageSource.WITHER, (float) (0.5 * Math.floor((double) this.amount / 1000000)));
+    }
+
+    public void giveEffect(Level level, LivingEntity entity) {
+            int duration = Math.min(600, (int) this.amount / 75000) * 20;
+            int amplifier = Math.min(64, (int) this.amount / 3000000);
+        entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, duration, amplifier, false, true));
+        switch (level.getRandom().nextInt(4)) {
+            case 0 -> entity.addEffect(new MobEffectInstance(MobEffects.POISON, duration, amplifier, false, true));
+            case 1 -> entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, amplifier, false, true));
+            case 2 -> entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, duration, amplifier, false, true));
+            case 3 -> {}
+            default -> {
+            }
         }
     }
 
@@ -163,4 +187,16 @@ public class Pollution {
     }
 
 
+    public void giveFogEffect(Level level, LivingEntity entity) {
+        int duration = Math.min(600, (int) this.amount / 75000) * 20;
+        int amplifier = Math.min(64, (int) this.amount / 1500000);
+        entity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, duration, amplifier, false, true));
+        switch (level.getRandom().nextInt(3)) {
+            case 0 -> entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, amplifier, false, true));
+            case 1 -> entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, amplifier, false, true));
+            case 2 -> {}
+            default -> {
+            }
+        }
+    }
 }

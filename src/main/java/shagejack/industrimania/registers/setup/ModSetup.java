@@ -20,6 +20,8 @@ public class ModSetup {
         bus.addListener(PollutionEventHandler::chunkLoad);
         bus.addListener(PollutionEventHandler::chunkSave);
         bus.addListener(PollutionEventHandler::chunkUnload);
+        bus.addListener(PollutionEventHandler::onFogColorRender);
+        bus.addListener(PollutionEventHandler::onFogDensityRender);
     }
 
 }
