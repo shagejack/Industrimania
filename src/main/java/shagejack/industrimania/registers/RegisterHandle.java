@@ -9,16 +9,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import shagejack.industrimania.Industrimania;
 
 import static net.minecraftforge.registries.ForgeRegistries.*;
-import static shagejack.industrimania.Industrimania.*;
 import static shagejack.industrimania.Industrimania.MOD_ID;
 
 public class RegisterHandle {
@@ -29,18 +25,19 @@ public class RegisterHandle {
     public static final DeferredRegister<Fluid> FLUID_REGISTER = DeferredRegister.create(FLUIDS, MOD_ID);
     public static final DeferredRegister<Feature<?>> FEATURE_REGISTER = DeferredRegister.create(FEATURES, MOD_ID);
     public static final DeferredRegister<MobEffect> MOB_EFFECT_REGISTER = DeferredRegister.create(MOB_EFFECTS, MOD_ID);
-    public static final DeferredRegister<Enchantment> ENCHANTMENT_REGISTER = DeferredRegister.create(ENCHANTMENTS,MOD_ID);
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPE_REGISTER = DeferredRegister.create(ENTITIES,MOD_ID);
+    public static final DeferredRegister<Enchantment> ENCHANTMENT_REGISTER = DeferredRegister.create(ENCHANTMENTS, MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPE_REGISTER = DeferredRegister.create(ENTITIES, MOD_ID);
 
 
     public static void init() {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         new AllItems();
         new AllBlocks();
+        bus.addListener((FMLClientSetupEvent event) -> AllBlocks.BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
         AllBlocks.initOres();
         AllItems.initOres();
         new AllTileEntities();
-        bus.addListener((FMLCommonSetupEvent event)-> new AllFeatures());
+        bus.addListener((FMLCommonSetupEvent event) -> new AllFeatures());
     }
 
     public static void RegRegisters() {
@@ -51,6 +48,7 @@ public class RegisterHandle {
         BLOCK_ENTITY_TYPE_REGISTER.register(bus);
         MENU_TYPE_REGISTER.register(bus);
         FLUID_REGISTER.register(bus);
+        FEATURE_REGISTER.register(bus);
         MOB_EFFECT_REGISTER.register(bus);
         ENCHANTMENT_REGISTER.register(bus);
         ENTITY_TYPE_REGISTER.register(bus);

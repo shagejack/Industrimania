@@ -1,6 +1,8 @@
 package shagejack.industrimania.registers;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -367,6 +369,7 @@ public class AllBlocks {
                                     .asOre(oreType.name())
                                     .oreTextureModel()
                                     .simpleBlockState()
+                                    .renderLayer(()-> RenderType::cutoutMipped)
                                     .buildBlock(BlockOre::new)
                                     .buildItem((ItemBuilder) -> ItemBuilder.tab(AllTabs.tabOre));
 
@@ -390,6 +393,8 @@ public class AllBlocks {
         private Material material;
         private boolean requiresCorrectToolForDrops = false;
         private Map<String, Object> extraParam = new HashMap();
+
+        static final List<Supplier<Runnable>> setupRenderLayerTasks= new ArrayList<>();
 
         private void checkProperty() {
             Objects.requireNonNull(name);
@@ -467,6 +472,12 @@ public class AllBlocks {
 
         public ItemBlock buildItem() {
             return buildItem(name, (itemBuilder) -> itemBuilder);
+        }
+
+
+        public BlockBuilder renderLayer(Supplier<Supplier<RenderType>> renderType){
+            setupRenderLayerTasks.add(()->()-> ItemBlockRenderTypes.setRenderLayer(block.get(), renderType.get().get()));
+            return this;
         }
 
         public BlockBuilder tags(String... tags) {
