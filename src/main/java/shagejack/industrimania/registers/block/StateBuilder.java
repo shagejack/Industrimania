@@ -7,14 +7,13 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
+import shagejack.industrimania.registers.block.grouped.AsBase;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public interface StateBuilder {
-
-    BlockBuilder asBase();
+public interface StateBuilder extends AsBase {
 
     default BlockBuilder blockState(Consumer<BlockStateProvider> blockStateProviderConsumer) {
         //Objects.requireNonNull(block);

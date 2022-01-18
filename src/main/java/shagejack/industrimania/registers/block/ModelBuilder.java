@@ -1,14 +1,14 @@
 package shagejack.industrimania.registers.block;
 
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.registers.block.grouped.AsBase;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
 import java.util.Objects;
 
 import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkTextureFileExist;
 
-interface ModelBuilder {
-    BlockBuilder asBase();
+interface ModelBuilder extends AsBase{
 
     default BlockBuilder allSameModel(String path) {
         DataGenHandle.addBlockModelTask((provider) -> {

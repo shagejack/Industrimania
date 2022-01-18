@@ -1,33 +1,26 @@
 package shagejack.industrimania.registers.item;
 
-import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.RegistryObject;
-import shagejack.industrimania.content.contraptions.ore.ItemOreChunk;
-import shagejack.industrimania.content.worldGen.OreTypeRegistry;
-import shagejack.industrimania.registers.AllTabs;
-import shagejack.industrimania.registers.block.grouped.AllOres;
+import shagejack.industrimania.registers.block.grouped.AsBase;
+import shagejack.industrimania.registers.item.grouped.AllOre;
 
-public class AllGroupedItems {
-    public static void initAll(){
-        initOres();
+public interface AllGroupedItems extends AsBase {
+
+    static void initAll(){
+        AllOre.initOres();
+
+        //auto-detects and executes
+//        var methods = Arrays.stream(AllGroupedItems.class.getInterfaces())
+//                .filter((clzz) -> clzz.getName().contains("All"))
+//                .map((clzz) -> Arrays.stream(clzz.getDeclaredMethods())
+//                        .filter((method -> method.getName().contains("init")))
+//                        .collect(Collectors.toList())).toList();
+//        methods.forEach(outer -> outer.forEach(method -> {
+//            try {
+//                method.invoke(null);
+//            } catch (IllegalAccessException | InvocationTargetException ignored) {
+//
+//            }
+//        }));
     }
 
-    public static void initOres() {
-        OreTypeRegistry.oreTypeMap.forEach( (oreTypeName, oreType) -> {
-               for(String rockName : AllOres.ROCKS) {
-                    for (int grade = 0; grade <= 2; grade ++) {
-                        String key = rockName + "_" + oreType.name() + "_" + grade;
-                        RegistryObject<Item> oreChunk
-                                = new ItemBuilder()
-                                .name("chunk_" + key)
-                                .tab(AllTabs.tabOre)
-                                .simpleModel("chunk_" + key)
-                                .build(ItemOreChunk::new);
-
-                        AllItems.ORE_CHUNKS.put(key, oreChunk);
-                    }
-               }
-            }
-        );
-    }
 }

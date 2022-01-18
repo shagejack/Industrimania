@@ -10,17 +10,14 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
-import shagejack.industrimania.registers.block.grouped.AllRocks;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AllBlocks {
 
     public static Map<RegistryObject<Block>, List<String>> BLOCK_TAGS = new HashMap<>();
-
-    static {
-
-    }
 
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana
@@ -53,7 +50,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_rhyolite
             = new BlockBuilder()
@@ -62,7 +59,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_trachyte
             = new BlockBuilder()
@@ -71,7 +68,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_basalt
             = new BlockBuilder()
@@ -80,7 +77,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_gabbro
             = new BlockBuilder()
@@ -89,7 +86,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_porphyry
             = new BlockBuilder()
@@ -98,7 +95,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     //Sedimentary Rocks
     public static final ItemBlock rock_sandstone
@@ -108,7 +105,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_chalk
             = new BlockBuilder()
@@ -117,7 +114,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_limestone
             = new BlockBuilder()
@@ -126,7 +123,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_shale
             = new BlockBuilder()
@@ -135,7 +132,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_conglomeratee
             = new BlockBuilder()
@@ -144,7 +141,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_dolomite
             = new BlockBuilder()
@@ -153,7 +150,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_mudstone
             = new BlockBuilder()
@@ -162,7 +159,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_coal
             = new BlockBuilder()
@@ -171,7 +168,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_oilshale
             = new BlockBuilder()
@@ -180,7 +177,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     //Metamorphic rocks
     public static final ItemBlock rock_slate
@@ -190,7 +187,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_quartzite
             = new BlockBuilder()
@@ -199,7 +196,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_greisen
             = new BlockBuilder()
@@ -208,7 +205,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_phyllite
             = new BlockBuilder()
@@ -217,7 +214,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_marble
             = new BlockBuilder()
@@ -226,7 +223,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_gneiss
             = new BlockBuilder()
@@ -235,7 +232,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_granulite
             = new BlockBuilder()
@@ -244,7 +241,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem(builder->builder.tab(AllTabs.tabRock));
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
 
     //Common Blocks
 
