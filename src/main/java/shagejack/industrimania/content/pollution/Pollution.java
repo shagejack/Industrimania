@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.pollution.record.DecayReference;
+import shagejack.industrimania.content.worldGen.RockRegistry;
+import shagejack.industrimania.registers.AllBlocks;
 import shagejack.industrimania.registers.AllTags;
 
 import java.util.HashMap;
@@ -37,37 +39,39 @@ public class Pollution {
             DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, true));
         }
 
-        for (Block block : BlockTags.MOSS_REPLACEABLE.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, true));
-        }
-
         DAMAGE_BLOCK_MAP.put(Blocks.MOSS_BLOCK, new DecayReference(Blocks.AIR, false));
         DAMAGE_BLOCK_MAP.put(Blocks.MOSSY_COBBLESTONE, new DecayReference(Blocks.COBBLESTONE, false));
-        DAMAGE_BLOCK_MAP.put(Blocks.GRASS, new DecayReference(Blocks.COARSE_DIRT, false));
+        DAMAGE_BLOCK_MAP.put(Blocks.GRASS_BLOCK, new DecayReference(Blocks.DIRT, false));
+        DAMAGE_BLOCK_MAP.put(Blocks.PODZOL, new DecayReference(Blocks.DIRT, false));
+        DAMAGE_BLOCK_MAP.put(Blocks.DIRT, new DecayReference(Blocks.COARSE_DIRT, false));
         DAMAGE_BLOCK_MAP.put(Blocks.FARMLAND, new DecayReference(Blocks.SAND, false));
 
 
         //ACID RAIN
 
-        for (Block block: BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues()) {
+        for (Block block: RockRegistry.igneousStones) {
             ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
         }
 
-        for (Block block: BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues()) {
+        for (Block block: RockRegistry.metamorphicStones) {
             ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
         }
 
-        for (Block block: BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues()) {
+        for (Block block: RockRegistry.sedimentaryStones) {
             ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
         }
 
-        for (Block block: BlockTags.bind(AllTags.IndustrimaniaTags.ore).getValues()) {
+        for (Block block: BlockTags.LOGS.getValues()) {
             ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
         }
 
-        ACID_RAIN_MAP.put(Blocks.COBBLESTONE, new DecayReference(Blocks.GRAVEL, false));
+
+        AllBlocks.ORES.forEach((key, block) -> ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false)));
+
+        ACID_RAIN_MAP.put(Blocks.COARSE_DIRT, new DecayReference(Blocks.SAND, false));
         ACID_RAIN_MAP.put(Blocks.GRAVEL, new DecayReference(Blocks.SAND, false));
         ACID_RAIN_MAP.put(Blocks.SAND, new DecayReference(Blocks.AIR, false));
+
     }
 
     public long amount;
@@ -111,10 +115,6 @@ public class Pollution {
         return tag;
     }
 
-    public static Pollution getPollution(CompoundTag tag) {
-        return new Pollution(tag.getLong("amount"));
-    }
-
     //Spread
     public void spread(Pollution nearbyPollution) {
         if (nearbyPollution.getAmount() * 6 < this.amount * 5) {
@@ -127,8 +127,8 @@ public class Pollution {
 
     //Effects
     public void damageEntity(LivingEntity entity) {
-        if (amount > 1000000) {
-            entity.hurt(DamageSource.WITHER, (float) amount / 1000000);
+        if (this.amount > 1000000) {
+            entity.hurt(DamageSource.WITHER, (float) (0.5 * Math.floor((double) this.amount / 1000000)));
         }
     }
 

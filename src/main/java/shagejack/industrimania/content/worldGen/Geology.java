@@ -2,7 +2,6 @@ package shagejack.industrimania.content.worldGen;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
@@ -12,7 +11,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import shagejack.industrimania.api.worldGen.PerlinNoise2D;
-import shagejack.industrimania.registers.AllTags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,13 +93,13 @@ public class Geology {
 		int rv = (int) rockNoiseLayer.valueAt(x, z) + y;
 		if (geome < -64) {
 			// RockType.IGNEOUS;
-			return pickBlockFromList(rv, BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues());
+			return pickBlockFromList(rv, RockRegistry.igneousStones);
 		} else if (geome < 64) {
 			// RockType.METAMORPHIC;
-			return pickBlockFromList(rv, BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues());
+			return pickBlockFromList(rv, RockRegistry.metamorphicStones);
 		} else {
 			// RockType.SEDIMENTARY;
-			return pickBlockFromList(rv, BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues());
+			return pickBlockFromList(rv, RockRegistry.sedimentaryStones);
 		}
 	}
 
@@ -131,15 +129,15 @@ public class Geology {
 						if (geome < -32) {
 							// RockType.IGNEOUS;
 							chunk.setBlockState(coord,
-									pickBlockFromList(baseRockVal + y, BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues()).defaultBlockState(), true);
+									pickBlockFromList(baseRockVal + y, RockRegistry.igneousStones).defaultBlockState(), true);
 						} else if (geome < 32) {
 							// RockType.METAMORPHIC;
 							chunk.setBlockState(coord,
-									pickBlockFromList(baseRockVal + y, BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues()).defaultBlockState(), true);
+									pickBlockFromList(baseRockVal + y, RockRegistry.metamorphicStones).defaultBlockState(), true);
 						} else {
 							// RockType.SEDIMENTARY;
 							chunk.setBlockState(coord,
-									pickBlockFromList(baseRockVal + y, BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues()).defaultBlockState(), true);
+									pickBlockFromList(baseRockVal + y, RockRegistry.sedimentaryStones).defaultBlockState(), true);
 						}
 					}
 				}
@@ -156,13 +154,13 @@ public class Geology {
 			double geome = gbase + y;
 			if (geome < -32) {
 				// RockType.IGNEOUS;
-				col[y] = pickBlockFromList(baseRockVal + y, BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues());
+				col[y] = pickBlockFromList(baseRockVal + y, RockRegistry.igneousStones);
 			} else if (geome < 32) {
 				// RockType.METAMORPHIC;
-				col[y] = pickBlockFromList(baseRockVal + y + 3, BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues());
+				col[y] = pickBlockFromList(baseRockVal + y + 3, RockRegistry.metamorphicStones);
 			} else {
 				// RockType.SEDIMENTARY;
-				col[y] = pickBlockFromList(baseRockVal + y + 5, BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues());
+				col[y] = pickBlockFromList(baseRockVal + y + 5, RockRegistry.sedimentaryStones);
 			}
 		}
 		return col;

@@ -32,11 +32,7 @@ public class CommandSetChunkPollution {
             DimensionType dim = level.dimensionType();
             ChunkPos chunkPos = level.getChunk(playerPos).getPos();
 
-            if (PollutionDataHooks.getPollution(dim, chunkPos) == null) {
-                PollutionDataHooks.putPollution(dim, chunkPos, new Pollution(amount));
-            } else {
-                PollutionDataHooks.getPollution(dim, chunkPos).setAmount(amount);
-            }
+            PollutionDataHooks.getPollution(dim, chunkPos).setAmount(amount);
 
             context.getSource().sendSuccess(new TextComponent("successfully set chunk pollution amount to " + amount), true);
             return 1;

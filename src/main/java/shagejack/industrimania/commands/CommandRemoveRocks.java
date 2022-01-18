@@ -12,6 +12,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import shagejack.industrimania.content.worldGen.RockRegistry;
 import shagejack.industrimania.registers.AllTags;
 
 public class CommandRemoveRocks {
@@ -38,7 +39,7 @@ public class CommandRemoveRocks {
                         for (int z = -range; z < range; z++) {
                             BlockPos nPos = playerPos.offset(x, y, z);
                             Block block = level.getBlockState(nPos).getBlock();
-                            if (BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues().contains(block)) {
+                            if (RockRegistry.igneousStones.contains(block) || RockRegistry.metamorphicStones.contains(block) || RockRegistry.sedimentaryStones.contains(block)) {
                                 level.removeBlock(nPos, true);
                                 counter++;
                             }

@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import shagejack.industrimania.content.worldGen.RockRegistry;
 import shagejack.industrimania.registers.AllTags;
 
 import java.util.List;
@@ -165,7 +166,7 @@ public class NetherPortalBlockMixin {
 
                 Block block = serverLevel.getBlockState(nPos).getBlock();
 
-                if (BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues().contains(block)) {
+                if (RockRegistry.igneousStones.contains(block) || RockRegistry.metamorphicStones.contains(block) || RockRegistry.sedimentaryStones.contains(block)) {
                     serverLevel.setBlock(nPos, netherInvasionBlocks.get(serverLevel.getRandom().nextInt(netherInvasionBlocks.size())).defaultBlockState(), 2 | 16);
                 }
 

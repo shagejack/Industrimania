@@ -18,6 +18,7 @@ import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
+import shagejack.industrimania.content.worldGen.RockRegistry;
 import shagejack.industrimania.registers.AllItems.ItemBuilder;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 

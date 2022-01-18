@@ -18,6 +18,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.worldGen.OreRegistry;
+import shagejack.industrimania.content.worldGen.RockRegistry;
 import shagejack.industrimania.content.worldGen.record.Ore;
 import shagejack.industrimania.registers.AllBlocks;
 import shagejack.industrimania.registers.AllTags;
@@ -108,7 +109,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     public boolean isReplaceable(Block block) {
-        if (BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues().contains(block)) {
+        if (RockRegistry.igneousStones.contains(block) || RockRegistry.metamorphicStones.contains(block) || RockRegistry.sedimentaryStones.contains(block)) {
             return true;
         }
 

@@ -31,9 +31,7 @@ public class CommandGetChunkPollution {
 
             long amount = 0;
 
-            if (pollution != null) {
-                amount = pollution.getAmount();
-            }
+            amount = pollution.getAmount();
 
             context.getSource().sendSuccess(new TextComponent("Pollution in this chunk is " + amount), true);
             return 1;
