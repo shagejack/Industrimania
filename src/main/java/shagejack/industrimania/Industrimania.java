@@ -26,17 +26,11 @@ public class Industrimania {
 
             ModSetup.setup();
 
-            bus.addListener(this::setup);
-
         } catch (Exception e) {
             LOGGER.error(e);
             throw new RuntimeException();
         }
 
-    }
-
-    public void setup(final FMLCommonSetupEvent event) {
-        RegisterHandle.FEATURE_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }

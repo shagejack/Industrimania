@@ -9,8 +9,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import shagejack.industrimania.registers.block.AllBlocks;
@@ -42,7 +42,7 @@ public class RegisterHandle {
         AllGroupedBlocks.initAll();
         AllGroupedItems.initAll();
         new AllTileEntities();
-        bus.addListener((FMLCommonSetupEvent event) -> new AllFeatures());
+        bus.addGenericListener(Block.class,(RegistryEvent<Block> event) -> new AllFeatures());
     }
 
     public static void RegRegisters() {
@@ -53,6 +53,7 @@ public class RegisterHandle {
         BLOCK_ENTITY_TYPE_REGISTER.register(bus);
         MENU_TYPE_REGISTER.register(bus);
         FLUID_REGISTER.register(bus);
+        FEATURE_REGISTER.register(bus);
         MOB_EFFECT_REGISTER.register(bus);
         ENCHANTMENT_REGISTER.register(bus);
         ENTITY_TYPE_REGISTER.register(bus);
