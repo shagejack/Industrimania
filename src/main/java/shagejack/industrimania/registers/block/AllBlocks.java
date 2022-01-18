@@ -1,20 +1,16 @@
 package shagejack.industrimania.registers.block;
 
-import com.google.common.collect.Lists;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
-import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
-import shagejack.industrimania.content.worldGen.OreTypeRegistry;
-import shagejack.industrimania.content.worldGen.RockRegistry;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import java.util.*;
 
@@ -22,26 +18,9 @@ public class AllBlocks {
 
     public static Map<RegistryObject<Block>, List<String>> BLOCK_TAGS = new HashMap<>();
 
-    //TODO: ore block auto registry
-    public static List<String> ROCKS = Lists.newArrayList(
-            "rock_andesite",
-            "rock_granite",
-            "rock_diorite"
-    );
-
-    public static Map<String, Float> ROCKS_HARDNESS = new HashMap<>();
-    public static Map<String, Float> ROCKS_EXPLOSION_RESISTANCE = new HashMap<>();
-
     static {
-        ROCKS_HARDNESS.put("rock_andesite", 1.5F);
-        ROCKS_HARDNESS.put("rock_granite", 1.5F);
-        ROCKS_HARDNESS.put("rock_diorite", 1.5F);
-        ROCKS_EXPLOSION_RESISTANCE.put("rock_andesite", 6.0F);
-        ROCKS_EXPLOSION_RESISTANCE.put("rock_granite", 6.0F);
-        ROCKS_EXPLOSION_RESISTANCE.put("rock_diorite", 6.0F);
-    }
 
-    public static Map<String, ItemBlock> ORES = new HashMap<>();
+    }
 
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana
@@ -340,32 +319,6 @@ public class AllBlocks {
             .rotatableBlockState()
             .buildBlock(BlockDirectionalBase::new)
             .buildItem();
-
-    //Register Ores
-
-    public static void initOres() {
-        OreTypeRegistry.oreTypeMap.forEach((oreTypeName, oreType) -> {
-                    for (String rockName : ROCKS) {
-                        for (int grade = 0; grade <= 2; grade++) {
-                            String key = rockName + "_" + oreType.name() + "_" + grade;
-                            ItemBlock oreBlock
-                                    = new BlockBuilder()
-                                    .name(key)
-                                    .material(Material.STONE)
-                                    .strength(ROCKS_HARDNESS.get(rockName), ROCKS_EXPLOSION_RESISTANCE.get(rockName))
-                                    .asOre(oreType.name())
-                                    .oreTextureModel()
-                                    .simpleBlockState()
-                                    .renderLayer(()-> RenderType::cutoutMipped)
-                                    .buildBlock(BlockOre::new)
-                                    .buildItem((ItemBuilder) -> ItemBuilder.tab(AllTabs.tabOre));
-
-                            ORES.put(key, oreBlock);
-                        }
-                    }
-                }
-        );
-    }
 
 }
 

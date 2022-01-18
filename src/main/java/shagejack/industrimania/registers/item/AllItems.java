@@ -2,12 +2,8 @@ package shagejack.industrimania.registers.item;
 
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.RegistryObject;
-import shagejack.industrimania.content.contraptions.ore.ItemOreChunk;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
-import shagejack.industrimania.content.worldGen.OreTypeRegistry;
-import shagejack.industrimania.registers.AllTabs;
-import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.*;
 
@@ -66,24 +62,5 @@ public class AllItems {
     public static final RegistryObject<Item> wroughtIronSmallPlate = new ItemBuilder().name("wrought_iron_small_plate").simpleModel("wrought_iron_small_plate").build();
 
     public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").build(IronCluster::new);
-
-    public static void initOres() {
-        OreTypeRegistry.oreTypeMap.forEach( (oreTypeName, oreType) -> {
-               for(String rockName : AllBlocks.ROCKS) {
-                    for (int grade = 0; grade <= 2; grade ++) {
-                        String key = rockName + "_" + oreType.name() + "_" + grade;
-                        RegistryObject<Item> oreChunk
-                                = new ItemBuilder()
-                                .name("chunk_" + key)
-                                .tab(AllTabs.tabOre)
-                                .simpleModel("chunk_" + key)
-                                .build(ItemOreChunk::new);
-
-                        ORE_CHUNKS.put(key, oreChunk);
-                    }
-               }
-            }
-        );
-    }
 
 }

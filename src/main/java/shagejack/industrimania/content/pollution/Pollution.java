@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.pollution.record.DecayReference;
 import shagejack.industrimania.content.worldGen.RockRegistry;
-import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +63,7 @@ public class Pollution {
         }
 
 
-        AllBlocks.ORES.forEach((key, block) -> ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false)));
+        AllRocks.ORES.forEach((key, block) -> ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false)));
 
         ACID_RAIN_MAP.put(Blocks.COARSE_DIRT, new DecayReference(Blocks.SAND, false));
         ACID_RAIN_MAP.put(Blocks.GRAVEL, new DecayReference(Blocks.SAND, false));

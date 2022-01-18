@@ -10,6 +10,8 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.block.grouped.AllOres;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
 import java.util.*;
@@ -17,7 +19,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class BlockBuilder implements ModelBuilder, StateBuilder {
+public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBlocks {
 
     protected String name;
     protected RegistryObject<Block> block;
@@ -37,7 +39,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder {
         return this;
     }
 
-    private void checkProperty() {
+    public void checkProperty() {
         Objects.requireNonNull(name);
         if (property == null) {
             if (material == null) {
@@ -82,18 +84,14 @@ public class BlockBuilder implements ModelBuilder, StateBuilder {
 
     public BlockBuilder asRock(float hardness, float explosionResistance, String rockTag) {
         checkProperty();
-        AllBlocks.ROCKS.add(name);
-        AllBlocks.ROCKS_HARDNESS.put(name, hardness);
-        AllBlocks.ROCKS_EXPLOSION_RESISTANCE.put(name, explosionResistance);
+        AllOres.ROCKS.add(name);
+        AllRocks.ROCKS_HARDNESS.put(name, hardness);
+        AllRocks.ROCKS_EXPLOSION_RESISTANCE.put(name, explosionResistance);
         this.tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.rock, rockTag);
         return this;
     }
 
-    public BlockBuilder asOre(String oreType) {
-        checkProperty();
-        this.tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.ore, AllTags.IndustrimaniaTags.oreTypeEntry + oreType);
-        return this;
-    }
+
 
     RegistryObject<Block> checkAlreadyBuild() {
         return Objects.requireNonNull(block, "can't build ItemBlock before block is built");

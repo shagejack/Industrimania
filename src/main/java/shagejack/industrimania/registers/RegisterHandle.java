@@ -14,7 +14,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.block.AllGroupedBlocks;
 import shagejack.industrimania.registers.block.BlockBuilder;
+import shagejack.industrimania.registers.item.AllGroupedItems;
 import shagejack.industrimania.registers.item.AllItems;
 
 import static net.minecraftforge.registries.ForgeRegistries.*;
@@ -37,8 +39,8 @@ public class RegisterHandle {
         new AllItems();
         new AllBlocks();
         bus.addListener((FMLClientSetupEvent event) -> BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
-        AllBlocks.initOres();
-        AllItems.initOres();
+        AllGroupedBlocks.initAll();
+        AllGroupedItems.initAll();
         new AllTileEntities();
         bus.addListener((FMLCommonSetupEvent event) -> new AllFeatures());
     }
