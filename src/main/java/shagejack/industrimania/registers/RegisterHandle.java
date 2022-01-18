@@ -13,6 +13,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
+import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.block.BlockBuilder;
 
 import static net.minecraftforge.registries.ForgeRegistries.*;
 import static shagejack.industrimania.Industrimania.MOD_ID;
@@ -33,7 +35,7 @@ public class RegisterHandle {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         new AllItems();
         new AllBlocks();
-        bus.addListener((FMLClientSetupEvent event) -> AllBlocks.BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
+        bus.addListener((FMLClientSetupEvent event) -> BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
         AllBlocks.initOres();
         AllItems.initOres();
         new AllTileEntities();

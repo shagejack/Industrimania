@@ -1,6 +1,5 @@
 package shagejack.industrimania.registers;
 
-import cpw.mods.modlauncher.api.INameMappingService;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -14,12 +13,11 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.contraptions.ore.ItemOreChunk;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
-import shagejack.industrimania.content.worldGen.record.OreType;
+import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
 import java.util.*;

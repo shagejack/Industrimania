@@ -1,21 +1,18 @@
 package shagejack.industrimania.content.worldGen.feature;
 
-import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import shagejack.industrimania.registers.AllBlocks;
+import shagejack.industrimania.registers.block.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
 
 //Code from Geolosy
 

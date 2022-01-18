@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.ArrayList;
 import java.util.List;

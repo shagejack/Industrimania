@@ -1,6 +1,5 @@
 package shagejack.industrimania.content.pollution;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
@@ -12,11 +11,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.pollution.record.DecayReference;
 import shagejack.industrimania.content.worldGen.RockRegistry;
-import shagejack.industrimania.registers.AllBlocks;
-import shagejack.industrimania.registers.AllTags;
+import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Pollution {

@@ -20,7 +20,7 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.worldGen.OreRegistry;
 import shagejack.industrimania.content.worldGen.RockRegistry;
 import shagejack.industrimania.content.worldGen.record.Ore;
-import shagejack.industrimania.registers.AllBlocks;
+import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.AllTags;
 
 import javax.annotation.ParametersAreNonnullByDefault;

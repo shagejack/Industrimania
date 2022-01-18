@@ -1,34 +1,22 @@
 package shagejack.industrimania.content.contraptions.ore;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistry;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
 import shagejack.industrimania.content.worldGen.record.OreType;
-import shagejack.industrimania.registers.AllBlocks;
 import shagejack.industrimania.registers.AllItems;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
 
 public class BlockOre extends Block {
 
