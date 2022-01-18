@@ -7,22 +7,14 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.registries.ForgeRegistries;
-import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagTileEntity;
 import shagejack.industrimania.foundation.block.ITE;
-import shagejack.industrimania.foundation.state.ContainItems;
-import shagejack.industrimania.foundation.state.IMBlockStateProperties;
-import shagejack.industrimania.registers.AllItems;
 import shagejack.industrimania.registers.AllTileEntities;
 
 public class BlockItemPlaceableBase extends Block implements ITE<ItemPlaceableBaseTileEntity> {

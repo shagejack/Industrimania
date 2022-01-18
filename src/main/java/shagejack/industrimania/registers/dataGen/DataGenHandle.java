@@ -24,7 +24,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.foundation.utility.Wrapper;
-import shagejack.industrimania.registers.AllBlocks;
+import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
 

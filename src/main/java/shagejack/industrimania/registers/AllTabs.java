@@ -6,6 +6,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
+import shagejack.industrimania.registers.item.AllItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,7 @@ public class AllTabs {
 
     public static final CreativeModeTab tabRock = tab(Industrimania.MOD_NAME + "_ROCK", () -> AllBlocks.rock_rhyolite::item);
 
-    public static final CreativeModeTab tabOre = tab(Industrimania.MOD_NAME + "_ORE", () -> () -> AllBlocks.ORES.get("rock_rhyolite_hematite_1").item());
+    public static final CreativeModeTab tabOre = tab(Industrimania.MOD_NAME + "_ORE", () -> () -> AllRocks.ORES.get("rock_rhyolite_hematite_1").item());
 
     static private CreativeModeTab tab(String name, Supplier<Supplier<RegistryObject<Item>>> itemStack) {
         var tab = new CreativeModeTab(name) {
