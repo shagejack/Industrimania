@@ -40,7 +40,7 @@ public class RegisterHandle {
         AllBlocks.initOres();
         AllItems.initOres();
         new AllTileEntities();
-        bus.addListener((FMLCommonSetupEvent event)-> new AllFeatures());
+        bus.addListener((FMLCommonSetupEvent event) -> new AllFeatures());
     }
 
     public static void RegRegisters() {

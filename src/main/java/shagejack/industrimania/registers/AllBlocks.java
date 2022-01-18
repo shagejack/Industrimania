@@ -3,7 +3,6 @@ package shagejack.industrimania.registers;
 import com.google.common.collect.Lists;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -11,7 +10,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
@@ -23,7 +21,6 @@ import shagejack.industrimania.content.worldGen.OreTypeRegistry;
 import shagejack.industrimania.registers.AllItems.ItemBuilder;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -64,6 +61,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("plant_lactuca_raddeana")
             .material(Material.GRASS)
+            .strength(0.1F, 0.5F)
             .crossTextureModel()
             .simpleBlockState()
             .buildBlock()
@@ -85,6 +83,7 @@ public class AllBlocks {
     public static final ItemBlock rock_dacite
             = new BlockBuilder()
             .name("rock_dacite")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
@@ -94,8 +93,8 @@ public class AllBlocks {
     public static final ItemBlock rock_rhyolite
             = new BlockBuilder()
             .name("rock_rhyolite")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -104,8 +103,8 @@ public class AllBlocks {
     public static final ItemBlock rock_trachyte
             = new BlockBuilder()
             .name("rock_trachyte")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -114,8 +113,8 @@ public class AllBlocks {
     public static final ItemBlock rock_basalt
             = new BlockBuilder()
             .name("rock_basalt")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -124,8 +123,8 @@ public class AllBlocks {
     public static final ItemBlock rock_gabbro
             = new BlockBuilder()
             .name("rock_gabbro")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -134,8 +133,8 @@ public class AllBlocks {
     public static final ItemBlock rock_porphyry
             = new BlockBuilder()
             .name("rock_porphyry")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -145,8 +144,8 @@ public class AllBlocks {
     public static final ItemBlock rock_chalk
             = new BlockBuilder()
             .name("rock_chalk")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -155,8 +154,8 @@ public class AllBlocks {
     public static final ItemBlock rock_limestone
             = new BlockBuilder()
             .name("rock_limestone")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -165,8 +164,8 @@ public class AllBlocks {
     public static final ItemBlock rock_shale
             = new BlockBuilder()
             .name("rock_shale")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -175,8 +174,8 @@ public class AllBlocks {
     public static final ItemBlock rock_conglomeratee
             = new BlockBuilder()
             .name("rock_conglomerate")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -185,8 +184,8 @@ public class AllBlocks {
     public static final ItemBlock rock_dolomite
             = new BlockBuilder()
             .name("rock_dolomite")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -195,8 +194,8 @@ public class AllBlocks {
     public static final ItemBlock rock_mudstone
             = new BlockBuilder()
             .name("rock_mudstone")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -205,8 +204,8 @@ public class AllBlocks {
     public static final ItemBlock rock_coal
             = new BlockBuilder()
             .name("rock_coal")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -215,8 +214,8 @@ public class AllBlocks {
     public static final ItemBlock rock_oilshale
             = new BlockBuilder()
             .name("rock_oilshale")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -226,8 +225,8 @@ public class AllBlocks {
     public static final ItemBlock rock_quartzite
             = new BlockBuilder()
             .name("rock_quartzite")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -236,8 +235,8 @@ public class AllBlocks {
     public static final ItemBlock rock_greisen
             = new BlockBuilder()
             .name("rock_greisen")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -246,8 +245,8 @@ public class AllBlocks {
     public static final ItemBlock rock_phyllite
             = new BlockBuilder()
             .name("rock_phyllite")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -256,8 +255,8 @@ public class AllBlocks {
     public static final ItemBlock rock_marble
             = new BlockBuilder()
             .name("rock_marble")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -266,8 +265,8 @@ public class AllBlocks {
     public static final ItemBlock rock_gneiss
             = new BlockBuilder()
             .name("rock_gneiss")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -276,8 +275,8 @@ public class AllBlocks {
     public static final ItemBlock rock_granulite
             = new BlockBuilder()
             .name("rock_granulite")
+            .asRock(1.5F, 6.0F)
             .autoFullCubeModel()
-            .simpleBlockState()
             .simpleBlockState()
             .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
@@ -290,6 +289,7 @@ public class AllBlocks {
             .name("building_fine_clay")
             .autoFullCubeModel()
             .simpleBlockState()
+            .buildBlock()
             .buildItem();
 
     public static final ItemBlock building_scorched_clay
@@ -297,6 +297,7 @@ public class AllBlocks {
             .name("building_scorched_clay")
             .autoFullCubeModel()
             .simpleBlockState()
+            .buildBlock()
             .buildItem();
 
     public static final ItemBlock gravity_calcite
@@ -367,7 +368,7 @@ public class AllBlocks {
                                     .name(key)
                                     .material(Material.STONE)
                                     .strength(ROCKS_HARDNESS.get(rockName), ROCKS_EXPLOSION_RESISTANCE.get(rockName))
-                                    .tags("mineable/pickaxe")
+                                    .tags(AllTags.ToolType.pickaxe)
                                     .oreTextureModel()
                                     .simpleBlockState()
                                     .buildBlock(BlockOre::new)
@@ -436,6 +437,15 @@ public class AllBlocks {
             return buildBlock(() -> new Block(property));
         }
 
+        public BlockBuilder asRock(float hardness, float explosionResistance) {
+            Objects.requireNonNull(name);
+            checkProperty();
+            ROCKS.add(name);
+            ROCKS_HARDNESS.put(name, hardness);
+            ROCKS_EXPLOSION_RESISTANCE.put(name, explosionResistance);
+            return this;
+        }
+
         RegistryObject<Block> checkAlreadyBuild() {
             return Objects.requireNonNull(block, "can't build ItemBlock before block is built");
         }
@@ -484,7 +494,7 @@ public class AllBlocks {
         }
 
         public BlockBuilder blockState(Consumer<BlockStateProvider> blockStateProviderConsumer){
-            Objects.requireNonNull(block);
+            //Objects.requireNonNull(block);
             DataGenHandle.addBlockStateTask(blockStateProviderConsumer);
             return this;
         }
@@ -601,9 +611,27 @@ public class AllBlocks {
         public BlockBuilder oreTextureModel() {
             DataGenHandle.addBlockModelTask(provider -> {
                 try {
+                    var temp = Objects.requireNonNull(this.name).split("_");
+                    var rock = temp[1];
+                    var oreType = temp[2];
+                    var grade = temp[3];
+                    final var rockLayerPath = "block/rock/" + rock + "/default";
+                    final var oreLayerPath = "block/ore/layer/" + oreType + "/" + grade;
+
+
+                    if (checkTextureFileExist(provider, rockLayerPath) && checkTextureFileExist(provider, oreLayerPath)) {
+                        Industrimania.LOGGER.debug("automatically set ore texture model for Block:{}", name);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
+                                .parent(DataGenHandle.blockOre.get())
+                                .texture("rock", rockLayerPath)
+                                .texture("ore", oreLayerPath);
+                    } else {
+                        Industrimania.LOGGER.debug("failed to set ore texture model for Block:{}, 'cause its texture doesn't exist.", name);
+                    }
+
 
                 } catch (IllegalStateException e) {
-                    Industrimania.LOGGER.error("failed to set cross texture model for Ore:{},reason:{}", name, e.getMessage());
+                    Industrimania.LOGGER.error("failed to set ore texture model for Ore:{},reason:{}", name, e.getMessage());
                 }
             });
             return this;

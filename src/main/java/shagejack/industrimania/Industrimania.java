@@ -1,6 +1,8 @@
 package shagejack.industrimania;
 
 import cpw.mods.modlauncher.Launcher;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -10,6 +12,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shagejack.industrimania.registers.AllBlocks;
 import shagejack.industrimania.registers.AllTileEntities;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.setup.ModSetup;
@@ -43,6 +46,7 @@ public class Industrimania {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
+        AllBlocks.ORES.forEach( (key, block) -> ItemBlockRenderTypes.setRenderLayer(block.block().get(), RenderType.cutoutMipped()));
     }
 
     public void setup(final FMLCommonSetupEvent event) {

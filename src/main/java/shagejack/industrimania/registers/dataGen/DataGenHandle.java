@@ -54,6 +54,7 @@ public class DataGenHandle {
     public static Lazy<ExistingModelFile> blockCube = () -> existingModel(itemModelPro.get(), "block/cube");
     public static Lazy<ExistingModelFile> blockCubeRotatable = () -> existingModel(itemModelPro.get(), "");
     public static Lazy<ExistingModelFile> blockCrossTexture = () -> existingModel(itemModelPro.get(), "block/cross");
+    public static Lazy<ExistingModelFile> blockOre = () -> modExistingModel(itemModelPro.get(), "block/ore");
 
     public static boolean checkFileExist(ItemModelProvider provider, ResourceLocation resourceLocation, ExistingFileHelper.IResourceType packType){
         final var exists = provider.existingFileHelper.exists(resourceLocation, packType);
@@ -129,6 +130,10 @@ public class DataGenHandle {
 
     static ExistingModelFile existingModel(ModelProvider<?> provider, String path) {
         return provider.getExistingFile(provider.mcLoc(path));
+    }
+
+    static ExistingModelFile modExistingModel(ModelProvider<?> provider, String path) {
+        return provider.getExistingFile(provider.modLoc(path));
     }
 
     static UncheckedModelFile uncheckedModel(String path) {

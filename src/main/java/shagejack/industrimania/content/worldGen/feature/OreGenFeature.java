@@ -35,8 +35,8 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
     //TODO: FIX CROSS-CHUNK GENERATION ERROR
 
     private final double DEPOSIT_GEN_PROBABILITY = 0.05;
-    private final double PLANT_DECAY_PROBABILITY = 0.6;
-    private final double PLANT_SIGN_GEN_PROBABILITY = 0.01;
+    private final double PLANT_DECAY_PROBABILITY = 0.75;
+    private final double PLANT_SIGN_GEN_PROBABILITY = 0.15;
     private final double ORE_CAP_GEN_PROBABILITY = 0.01;
     private final int MAX_DEPOSIT_SIZE = 16;
     private final int MIN_DEPOSIT_SIZE = 4;

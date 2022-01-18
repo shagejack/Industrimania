@@ -64,7 +64,6 @@ public class BlockOre extends Block {
         }
     }
 
-
     @Override
     public void playerDestroy(Level level, Player player, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack itemStack) {
         player.awardStat(Stats.BLOCK_MINED.get(this));
