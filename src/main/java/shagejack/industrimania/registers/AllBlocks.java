@@ -455,7 +455,6 @@ public class AllBlocks {
         }
 
         public BlockBuilder asRock(float hardness, float explosionResistance) {
-            Objects.requireNonNull(name);
             checkProperty();
             ROCKS.add(name);
             ROCKS_HARDNESS.put(name, hardness);
@@ -843,7 +842,7 @@ public class AllBlocks {
                             .texture("east", right);
 
                 } catch (IllegalStateException e) {
-                    Industrimania.LOGGER.error("failed to set autoFullCubeModel for Block:{},reason:{}", name, e.getMessage());
+                    Industrimania.LOGGER.error("failed to set autoFullCubeModel for Block: {},reason: {}", name, e.getMessage());
                 }
             });
             return this;

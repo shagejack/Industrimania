@@ -5,6 +5,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.commands.CommandRemoveRocks;
+import shagejack.industrimania.content.pollution.PollutionEventHandler;
 import shagejack.industrimania.content.worldGen.GenerationRegistry;
 import shagejack.industrimania.registers.AllCommands;
 
@@ -15,7 +16,10 @@ public class ModSetup {
         IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(GenerationRegistry::onBiomesLoaded);
         bus.addListener(AllCommands::registerCommand);
-
+        bus.addListener(PollutionEventHandler::tickPollution);
+        bus.addListener(PollutionEventHandler::chunkLoad);
+        bus.addListener(PollutionEventHandler::chunkSave);
+        bus.addListener(PollutionEventHandler::chunkUnload);
     }
 
 }
