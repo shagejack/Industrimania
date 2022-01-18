@@ -5,6 +5,7 @@ import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -56,27 +57,27 @@ public class DataGenHandle {
     public static Lazy<ExistingModelFile> blockCrossTexture = () -> existingModel(itemModelPro.get(), "block/cross");
     public static Lazy<ExistingModelFile> blockOre = () -> modExistingModel(itemModelPro.get(), "block/ore");
 
-    public static boolean checkFileExist(ItemModelProvider provider, ResourceLocation resourceLocation, ExistingFileHelper.IResourceType packType){
+    public static boolean checkFileExist(ItemModelProvider provider, ResourceLocation resourceLocation, ExistingFileHelper.IResourceType packType) {
         final var exists = provider.existingFileHelper.exists(resourceLocation, packType);
-        if (!exists){
-            Industrimania.LOGGER.info("{} not exist for block/item in path:{}}",packType.getPrefix(),resourceLocation.toString());
+        if (!exists) {
+            Industrimania.LOGGER.info("{} not exist for block/item in path:{}}", packType.getPrefix(), resourceLocation.toString());
         }
         return exists;
     }
 
-    public static boolean checkFileExist(ItemModelProvider provider, String path, ExistingFileHelper.IResourceType packType){
-        return provider.existingFileHelper.exists(new ResourceLocation(MOD_ID,path), packType);
+    public static boolean checkFileExist(ItemModelProvider provider, String path, ExistingFileHelper.IResourceType packType) {
+        return provider.existingFileHelper.exists(new ResourceLocation(MOD_ID, path), packType);
     }
 
     public static boolean checkItemTextureExist(ItemModelProvider provider, String name, String texture) {
         return checkFileExist(provider,
-                 "item/" + name + "/" + texture,
+                "item/" + name + "/" + texture,
                 DataGenHandle.TEXTURE);
     }
 
     public static boolean checkItemModelExist(ItemModelProvider provider, String name, String texture) {
         return checkFileExist(provider,
-                 "item/" + name + "/" + texture,
+                "item/" + name + "/" + texture,
                 DataGenHandle.MODEL);
     }
 
@@ -203,10 +204,13 @@ public class DataGenHandle {
             @Override
             protected void addTranslations() {
 
-                RegisterHandle.ITEM_REGISTER.getEntries().forEach((item ->
-                        this.addItem(item, Objects.requireNonNull(item.get().getRegistryName()).getPath())));
+                RegisterHandle.ITEM_REGISTER.getEntries()
+                        .stream().sequential()
+                        .filter(item -> !(item.get() instanceof BlockItem))
+                        .forEach((item ->
+                                this.addItem(item, Objects.requireNonNull(item.get().getRegistryName()).getPath())));
                 RegisterHandle.BLOCK_REGISTER.getEntries().forEach((block ->
-                        this.addBlock(block, Objects.requireNonNull(block.get().getRegistryName()).getPath())));
+                        this.addBlock(block, Objects.requireNonNull(Objects.requireNonNull(block.get().getRegistryName()).getPath()))));
                 RegisterHandle.MOB_EFFECT_REGISTER.getEntries().forEach((effect) ->
                         this.addEffect(effect, effect.get().getDisplayName().getString()));
                 RegisterHandle.ENCHANTMENT_REGISTER.getEntries().forEach((enchantment ->
