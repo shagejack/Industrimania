@@ -2,6 +2,7 @@ package shagejack.industrimania.registers.dataGen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
@@ -24,6 +25,7 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.AllBlocks;
+import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
 
 import java.util.ArrayList;
@@ -217,6 +219,7 @@ public class DataGenHandle {
                         this.addEnchantment(enchantment, Objects.requireNonNull(enchantment.get().getRegistryName()).getPath())));
                 RegisterHandle.ENTITY_TYPE_REGISTER.getEntries().forEach((entityType) ->
                         this.addEntityType(entityType, Objects.requireNonNull(entityType.get().getRegistryName()).getPath()));
+                AllTabs.tabs.forEach((tab)->this.add(((TranslatableComponent)(tab.getDisplayName())).getKey(), ""));
             }
 
         };
@@ -232,7 +235,5 @@ public class DataGenHandle {
         generator.addProvider(blockStateProvider);
         generator.addProvider(blockTagsProvider);
         generator.addProvider(languageProvider);
-
-//        generator.addProvider(languageProvider);
     }
 }

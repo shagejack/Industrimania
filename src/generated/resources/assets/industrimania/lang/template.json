@@ -510,5 +510,9 @@
   "item.industrimania.slag": "slag",
   "item.industrimania.wind_flag": "wind_flag",
   "item.industrimania.wrought_iron_ingot": "wrought_iron_ingot",
-  "item.industrimania.wrought_iron_small_plate": "wrought_iron_small_plate"
+  "item.industrimania.wrought_iron_small_plate": "wrought_iron_small_plate",
+  "itemGroup.Industrimania": "",
+  "itemGroup.Industrimania_NATURE": "",
+  "itemGroup.Industrimania_ORE": "",
+  "itemGroup.Industrimania_ROCK": ""
 }
