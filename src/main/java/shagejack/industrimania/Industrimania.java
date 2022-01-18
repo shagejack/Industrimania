@@ -50,6 +50,7 @@ public class Industrimania {
     }
 
     public void setup(final FMLCommonSetupEvent event) {
+        RegisterHandle.FEATURE_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
 }

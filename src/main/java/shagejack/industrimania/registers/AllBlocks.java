@@ -37,8 +37,7 @@ public class AllBlocks {
     public static List<String> ROCKS = Lists.newArrayList(
             "rock_andesite",
             "rock_granite",
-            "rock_diorite",
-            "rock_deepslate"
+            "rock_diorite"
     );
     public static Map<String, Float> ROCKS_HARDNESS = new HashMap<>();
     public static Map<String, Float> ROCKS_EXPLOSION_RESISTANCE = new HashMap<>();
@@ -47,11 +46,9 @@ public class AllBlocks {
         ROCKS_HARDNESS.put("rock_andesite", 1.5F);
         ROCKS_HARDNESS.put("rock_granite", 1.5F);
         ROCKS_HARDNESS.put("rock_diorite", 1.5F);
-        ROCKS_HARDNESS.put("rock_deepslate", 3.0F);
         ROCKS_EXPLOSION_RESISTANCE.put("rock_andesite", 6.0F);
         ROCKS_EXPLOSION_RESISTANCE.put("rock_granite", 6.0F);
         ROCKS_EXPLOSION_RESISTANCE.put("rock_diorite", 6.0F);
-        ROCKS_EXPLOSION_RESISTANCE.put("rock_deepslate", 6.0F);
     }
 
     public static Map<String, ItemBlock> ORES = new HashMap<>();
@@ -141,6 +138,16 @@ public class AllBlocks {
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     //Sedimentary Rocks
+    public static final ItemBlock rock_sandstone
+            = new BlockBuilder()
+            .name("rock_sandstone")
+            .asRock(1.5F, 6.0F)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
+
     public static final ItemBlock rock_chalk
             = new BlockBuilder()
             .name("rock_chalk")
@@ -222,6 +229,16 @@ public class AllBlocks {
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     //Metamorphic rocks
+    public static final ItemBlock rock_slate
+            = new BlockBuilder()
+            .name("rock_slate")
+            .asRock(1.5F, 6.0F)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .tags(AllTags.ToolType.pickaxe)
+            .buildBlock()
+            .buildItem(builder->builder.tab(AllTabs.tabRock));
+
     public static final ItemBlock rock_quartzite
             = new BlockBuilder()
             .name("rock_quartzite")

@@ -20,7 +20,7 @@ public class RockRegistry {
     );
     // stone block replacements that are Metamorphic
     public static final List<Block> metamorphicStones = Lists.newArrayList(
-            Blocks.DEEPSLATE,
+            AllBlocks.rock_slate.block().get(),
             AllBlocks.rock_marble.block().get(),
             AllBlocks.rock_gneiss.block().get(),
             AllBlocks.rock_phyllite.block().get(),

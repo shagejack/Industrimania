@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/porphyry/default",
+    "up": "industrimania:block/rock/porphyry/default",
+    "down": "industrimania:block/rock/porphyry/default",
+    "north": "industrimania:block/rock/porphyry/default",
+    "south": "industrimania:block/rock/porphyry/default",
+    "west": "industrimania:block/rock/porphyry/default",
+    "east": "industrimania:block/rock/porphyry/default"
+  }
+}

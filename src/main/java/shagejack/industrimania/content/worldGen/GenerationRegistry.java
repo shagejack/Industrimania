@@ -1,5 +1,6 @@
 package shagejack.industrimania.content.worldGen;
 
+import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -35,6 +36,7 @@ public class GenerationRegistry {
         if (event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
             gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ORE_REMOVAL_ALL_PLACED);
             gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ROCK_LAYERS_ALL_PLACED);
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.SAND_STONE_REPLACE_PLACED);
             gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ORE_GEN_ALL_PLACED);
         }
     }

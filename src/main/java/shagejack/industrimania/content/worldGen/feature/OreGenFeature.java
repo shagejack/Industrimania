@@ -23,6 +23,7 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.worldGen.OreRegistry;
 import shagejack.industrimania.content.worldGen.record.Ore;
 import shagejack.industrimania.content.worldGen.RockRegistry;
+import shagejack.industrimania.registers.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -113,6 +114,10 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
     public boolean isReplaceable(Block block) {
         if (RockRegistry.igneousStones.contains(block) || RockRegistry.metamorphicStones.contains(block) || RockRegistry.sedimentaryStones.contains(block)) {
+            return true;
+        }
+
+        if (block == AllBlocks.rock_sandstone.block().get()) {
             return true;
         }
 
