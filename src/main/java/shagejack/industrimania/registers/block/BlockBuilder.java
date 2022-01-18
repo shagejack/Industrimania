@@ -7,10 +7,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.registers.AllItems;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.item.ItemBuilder;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -99,15 +99,15 @@ public class BlockBuilder implements ModelBuilder, StateBuilder {
         return Objects.requireNonNull(block, "can't build ItemBlock before block is built");
     }
 
-    public ItemBlock buildItem(String itemName, Function<AllItems.ItemBuilder, AllItems.ItemBuilder> factory) {
+    public ItemBlock buildItem(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
         final var block = checkAlreadyBuild();
-        final AllItems.ItemBuilder itemBuilder = new AllItems.ItemBuilder().name(itemName).blockModel("block/" + this.name);
+        final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).blockModel("block/" + this.name);
         factory.apply(itemBuilder);
         Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
         return new ItemBlock(itemBuilder.build(block), block);
     }
 
-    public ItemBlock buildItem(Function<AllItems.ItemBuilder, AllItems.ItemBuilder> factory) {
+    public ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory) {
         return buildItem(name, factory);
     }
 

@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
 import shagejack.industrimania.content.worldGen.record.OreType;
-import shagejack.industrimania.registers.AllItems;
+import shagejack.industrimania.registers.item.AllItems;
 
 import javax.annotation.Nullable;
 

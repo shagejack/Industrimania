@@ -7,6 +7,7 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.item.AllItems;
 
 import java.util.ArrayList;
 import java.util.List;

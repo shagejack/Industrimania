@@ -15,6 +15,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.BlockBuilder;
+import shagejack.industrimania.registers.item.AllItems;
 
 import static net.minecraftforge.registries.ForgeRegistries.*;
 import static shagejack.industrimania.Industrimania.MOD_ID;

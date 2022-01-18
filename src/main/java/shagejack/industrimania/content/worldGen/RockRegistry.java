@@ -3,7 +3,7 @@ package shagejack.industrimania.content.worldGen;
 import com.google.common.collect.Lists;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import shagejack.industrimania.registers.AllBlocks;
+import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.List;
 
