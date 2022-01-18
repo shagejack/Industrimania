@@ -8,16 +8,16 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import shagejack.industrimania.content.worldGen.RockRegistry;
+import shagejack.industrimania.registers.AllTags;
 
 public class CommandRemoveRocks {
 
     public CommandRemoveRocks(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("removeRocks").then(Commands.argument("range", IntegerArgumentType.integer()).executes(this::removeRocks)));
+        dispatcher.register(Commands.literal("removerocks").then(Commands.argument("range", IntegerArgumentType.integer()).executes(this::removeRocks)));
     }
 
     private int removeRocks(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -38,7 +38,7 @@ public class CommandRemoveRocks {
                         for (int z = -range; z < range; z++) {
                             BlockPos nPos = playerPos.offset(x, y, z);
                             Block block = level.getBlockState(nPos).getBlock();
-                            if (RockRegistry.metamorphicStones.contains(block) || RockRegistry.igneousStones.contains(block) || RockRegistry.sedimentaryStones.contains(block)) {
+                            if (BlockTags.bind(AllTags.IndustrimaniaTags.igneousStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.metamorphicStones).getValues().contains(block) || BlockTags.bind(AllTags.IndustrimaniaTags.sedimentaryStones).getValues().contains(block)) {
                                 level.removeBlock(nPos, true);
                                 counter++;
                             }

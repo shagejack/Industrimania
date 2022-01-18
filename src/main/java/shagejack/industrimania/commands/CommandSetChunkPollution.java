@@ -1,7 +1,6 @@
 package shagejack.industrimania.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -10,17 +9,16 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.dimension.DimensionType;
 import shagejack.industrimania.content.pollution.Pollution;
 import shagejack.industrimania.content.pollution.PollutionDataHooks;
-import shagejack.industrimania.content.worldGen.RockRegistry;
 
 public class CommandSetChunkPollution {
 
     public CommandSetChunkPollution(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("setChunkPollution").then(Commands.argument("amount", LongArgumentType.longArg()).executes(this::setChunkPollution)));
+        dispatcher.register(Commands.literal("chunkpollution").then(Commands.literal("set").then(Commands.argument("amount", LongArgumentType.longArg()).executes(this::setChunkPollution))));
     }
 
     private int setChunkPollution(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -31,11 +29,13 @@ public class CommandSetChunkPollution {
         if (context.getSource().hasPermission(2)) {
 
             long amount = LongArgumentType.getLong(context, "amount");
+            DimensionType dim = level.dimensionType();
+            ChunkPos chunkPos = level.getChunk(playerPos).getPos();
 
-            if (PollutionDataHooks.pollutionMap.get((LevelChunk) level.getChunk(playerPos)) == null) {
-                PollutionDataHooks.pollutionMap.put((LevelChunk) level.getChunk(playerPos), new Pollution(amount));
+            if (PollutionDataHooks.getPollution(dim, chunkPos) == null) {
+                PollutionDataHooks.putPollution(dim, chunkPos, new Pollution(amount));
             } else {
-                PollutionDataHooks.pollutionMap.get((LevelChunk) level.getChunk(playerPos)).setAmount(amount);
+                PollutionDataHooks.getPollution(dim, chunkPos).setAmount(amount);
             }
 
             context.getSource().sendSuccess(new TextComponent("successfully set chunk pollution amount to " + amount), true);

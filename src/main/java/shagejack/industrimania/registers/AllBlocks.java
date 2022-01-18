@@ -39,6 +39,7 @@ public class AllBlocks {
             "rock_granite",
             "rock_diorite"
     );
+
     public static Map<String, Float> ROCKS_HARDNESS = new HashMap<>();
     public static Map<String, Float> ROCKS_EXPLOSION_RESISTANCE = new HashMap<>();
 
@@ -80,60 +81,54 @@ public class AllBlocks {
     public static final ItemBlock rock_dacite
             = new BlockBuilder()
             .name("rock_dacite")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_rhyolite
             = new BlockBuilder()
             .name("rock_rhyolite")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_trachyte
             = new BlockBuilder()
             .name("rock_trachyte")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_basalt
             = new BlockBuilder()
             .name("rock_basalt")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_gabbro
             = new BlockBuilder()
             .name("rock_gabbro")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_porphyry
             = new BlockBuilder()
             .name("rock_porphyry")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
@@ -141,90 +136,81 @@ public class AllBlocks {
     public static final ItemBlock rock_sandstone
             = new BlockBuilder()
             .name("rock_sandstone")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones + "NoGen")
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_chalk
             = new BlockBuilder()
             .name("rock_chalk")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_limestone
             = new BlockBuilder()
             .name("rock_limestone")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_shale
             = new BlockBuilder()
             .name("rock_shale")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_conglomeratee
             = new BlockBuilder()
             .name("rock_conglomerate")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_dolomite
             = new BlockBuilder()
             .name("rock_dolomite")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_mudstone
             = new BlockBuilder()
             .name("rock_mudstone")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_coal
             = new BlockBuilder()
             .name("rock_coal")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_oilshale
             = new BlockBuilder()
             .name("rock_oilshale")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
@@ -232,70 +218,63 @@ public class AllBlocks {
     public static final ItemBlock rock_slate
             = new BlockBuilder()
             .name("rock_slate")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.metamorphicStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_quartzite
             = new BlockBuilder()
             .name("rock_quartzite")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.metamorphicStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_greisen
             = new BlockBuilder()
             .name("rock_greisen")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.metamorphicStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_phyllite
             = new BlockBuilder()
             .name("rock_phyllite")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.metamorphicStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_marble
             = new BlockBuilder()
             .name("rock_marble")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.metamorphicStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_gneiss
             = new BlockBuilder()
             .name("rock_gneiss")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.metamorphicStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
     public static final ItemBlock rock_granulite
             = new BlockBuilder()
             .name("rock_granulite")
-            .asRock(1.5F, 6.0F)
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.metamorphicStones)
             .autoFullCubeModel()
             .simpleBlockState()
-            .tags(AllTags.ToolType.pickaxe)
             .buildBlock()
             .buildItem(builder->builder.tab(AllTabs.tabRock));
 
@@ -385,7 +364,7 @@ public class AllBlocks {
                                     .name(key)
                                     .material(Material.STONE)
                                     .strength(ROCKS_HARDNESS.get(rockName), ROCKS_EXPLOSION_RESISTANCE.get(rockName))
-                                    .tags(AllTags.ToolType.pickaxe)
+                                    .asOre(oreType.name())
                                     .oreTextureModel()
                                     .simpleBlockState()
                                     .buildBlock(BlockOre::new)
@@ -405,6 +384,7 @@ public class AllBlocks {
         private RegistryObject<Block> block;
         private Properties property;
         private List<String> tags = new ArrayList<>();
+        private List<String> modTags = new ArrayList<>();
         private float hardness;
         private float explosionResistance;
         private Material material;
@@ -454,11 +434,18 @@ public class AllBlocks {
             return buildBlock(() -> new Block(property));
         }
 
-        public BlockBuilder asRock(float hardness, float explosionResistance) {
+        public BlockBuilder asRock(float hardness, float explosionResistance, String rockTag) {
             checkProperty();
             ROCKS.add(name);
             ROCKS_HARDNESS.put(name, hardness);
             ROCKS_EXPLOSION_RESISTANCE.put(name, explosionResistance);
+            this.tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.rock, rockTag);
+            return this;
+        }
+
+        public BlockBuilder asOre(String oreType) {
+            checkProperty();
+            this.tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.ore, AllTags.IndustrimaniaTags.oreTypeEntry + oreType);
             return this;
         }
 
