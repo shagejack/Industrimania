@@ -19,13 +19,13 @@ public class AllTabs {
 
     public static final List<CreativeModeTab> tabs = new ArrayList<>();
 
-    public static final CreativeModeTab tab = tab(Industrimania.MOD_NAME, () -> () -> AllItems.omniMultimeter);
+    public static final CreativeModeTab tab = tab(Industrimania.MOD_ID, () -> () -> AllItems.omniMultimeter);
 
-    public static final CreativeModeTab tabNature = tab(Industrimania.MOD_NAME + "_NATURE", () -> AllBlocks.plant_lactuca_raddeana::item);
+    public static final CreativeModeTab tabNature = tab(Industrimania.MOD_ID + "_nature", () -> AllBlocks.plant_lactuca_raddeana::item);
 
-    public static final CreativeModeTab tabRock = tab(Industrimania.MOD_NAME + "_ROCK", () -> AllBlocks.rock_rhyolite::item);
+    public static final CreativeModeTab tabRock = tab(Industrimania.MOD_ID + "_rock", () -> AllBlocks.rock_rhyolite::item);
 
-    public static final CreativeModeTab tabOre = tab(Industrimania.MOD_NAME + "_ORE", () -> () -> AllOres.ORES.get("rock_rhyolite_hematite_1").item());
+    public static final CreativeModeTab tabOre = tab(Industrimania.MOD_ID + "_ore", () -> () -> AllOres.ORES.get("rock_rhyolite_hematite_1").item());
 
     static private CreativeModeTab tab(String name, Supplier<Supplier<RegistryObject<Item>>> itemStack) {
         var tab = new CreativeModeTab(name) {

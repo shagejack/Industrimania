@@ -15,7 +15,7 @@ public interface AllOreChunks extends AsBase{
 
     Map<String, RegistryObject<Item>> ORE_CHUNKS = new HashMap<>();
 
-    static void initOres() {
+    static void initOreChunks() {
         OreTypeRegistry.oreTypeMap.forEach( (oreTypeName, oreType) -> {
                for(String rockName : AllRocks.ROCKS) {
                     for (int grade = 0; grade <= 2; grade ++) {

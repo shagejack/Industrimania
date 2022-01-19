@@ -60,7 +60,9 @@ public class BlockItemPlaceableBase extends Block implements ITE<ItemPlaceableBa
                 BlockEntity te = level.getBlockEntity(blockPos);
                 if (te instanceof ItemPlaceableBaseTileEntity) {
                     if (((ItemPlaceableBaseTileEntity) te).addItem(Objects.requireNonNull(stack.getItem().getRegistryName()).toString())) {
-                        stack.shrink(1);
+                        if (!player.isCreative()) {
+                            stack.shrink(1);
+                        }
                         return InteractionResult.sidedSuccess(level.isClientSide());
                     }
                 }

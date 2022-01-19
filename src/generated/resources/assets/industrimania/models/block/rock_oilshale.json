@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/oilshale/default",
+    "up": "industrimania:block/rock/oilshale/z",
+    "down": "industrimania:block/rock/oilshale/z",
+    "north": "industrimania:block/rock/oilshale/default",
+    "south": "industrimania:block/rock/oilshale/default",
+    "west": "industrimania:block/rock/oilshale/default",
+    "east": "industrimania:block/rock/oilshale/default"
+  }
+}

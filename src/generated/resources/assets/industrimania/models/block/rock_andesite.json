@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/andesite/default",
+    "up": "industrimania:block/rock/andesite/default",
+    "down": "industrimania:block/rock/andesite/default",
+    "north": "industrimania:block/rock/andesite/default",
+    "south": "industrimania:block/rock/andesite/default",
+    "west": "industrimania:block/rock/andesite/default",
+    "east": "industrimania:block/rock/andesite/default"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/gabbro/default",
+    "up": "industrimania:block/rock/gabbro/default",
+    "down": "industrimania:block/rock/gabbro/default",
+    "north": "industrimania:block/rock/gabbro/default",
+    "south": "industrimania:block/rock/gabbro/default",
+    "west": "industrimania:block/rock/gabbro/default",
+    "east": "industrimania:block/rock/gabbro/default"
+  }
+}

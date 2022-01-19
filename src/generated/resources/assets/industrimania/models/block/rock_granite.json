@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/granite/default",
+    "up": "industrimania:block/rock/granite/default",
+    "down": "industrimania:block/rock/granite/default",
+    "north": "industrimania:block/rock/granite/default",
+    "south": "industrimania:block/rock/granite/default",
+    "west": "industrimania:block/rock/granite/default",
+    "east": "industrimania:block/rock/granite/default"
+  }
+}

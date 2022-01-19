@@ -75,7 +75,9 @@ public class BlockWoodPlaceableBase extends Block implements ITE<WoodPlaceableTi
                 BlockEntity te = level.getBlockEntity(blockPos);
                 if (te instanceof WoodPlaceableTileEntity) {
                     if (((WoodPlaceableTileEntity) te).addItem(Objects.requireNonNull(stack.getItem().getRegistryName()).toString())) {
-                        stack.shrink(1);
+                        if (!player.isCreative()) {
+                            stack.shrink(1);
+                        }
                         return InteractionResult.sidedSuccess(level.isClientSide());
                     }
                 }
