@@ -1,9 +1,9 @@
 package shagejack.industrimania.mixin;
 
 import com.google.common.collect.Lists;
+import com.ibm.icu.text.Replaceable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -18,8 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import shagejack.industrimania.content.worldGen.RockRegistry;
-import shagejack.industrimania.registers.AllTags;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import java.util.List;
 import java.util.Random;
@@ -100,6 +99,10 @@ public class NetherPortalBlockMixin {
                     Blocks.BAMBOO
             );
 
+            final List<Block> igneousStones = AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).toList();
+            final List<Block> metamorphicStones = AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).toList();
+            final List<Block> sedimentaryStones = AllRocks.sedimentaryStones.stream().map((rock) -> rock.block().get()).toList();
+
             BlockPos nPos = blockPos;
             while(serverLevel.getBlockState(nPos).is(Blocks.NETHER_PORTAL)) {
                 nPos = nPos.below();
@@ -166,7 +169,7 @@ public class NetherPortalBlockMixin {
 
                 Block block = serverLevel.getBlockState(nPos).getBlock();
 
-                if (RockRegistry.igneousStones.contains(block) || RockRegistry.metamorphicStones.contains(block) || RockRegistry.sedimentaryStones.contains(block)) {
+                if (replaceableBlocks.contains(block) || igneousStones.contains(block) || metamorphicStones.contains(block) || sedimentaryStones.contains(block)) {
                     serverLevel.setBlock(nPos, netherInvasionBlocks.get(serverLevel.getRandom().nextInt(netherInvasionBlocks.size())).defaultBlockState(), 2 | 16);
                 }
 

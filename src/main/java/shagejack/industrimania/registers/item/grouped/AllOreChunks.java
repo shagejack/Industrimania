@@ -5,15 +5,19 @@ import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.ore.ItemOreChunk;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
 import shagejack.industrimania.registers.AllTabs;
-import shagejack.industrimania.registers.block.grouped.AllOres;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
-public interface AllOre extends AsBase{
+import java.util.HashMap;
+import java.util.Map;
+
+public interface AllOreChunks extends AsBase{
+
+    Map<String, RegistryObject<Item>> ORE_CHUNKS = new HashMap<>();
 
     static void initOres() {
         OreTypeRegistry.oreTypeMap.forEach( (oreTypeName, oreType) -> {
-               for(String rockName : AllOres.ROCKS) {
+               for(String rockName : AllRocks.ROCKS) {
                     for (int grade = 0; grade <= 2; grade ++) {
                         String key = rockName + "_" + oreType.name() + "_" + grade;
                         RegistryObject<Item> oreChunk
@@ -23,7 +27,7 @@ public interface AllOre extends AsBase{
                                 .simpleModel("chunk_" + key)
                                 .build(ItemOreChunk::new);
 
-                        AllItems.ORE_CHUNKS.put(key, oreChunk);
+                        ORE_CHUNKS.put(key, oreChunk);
                     }
                }
             }

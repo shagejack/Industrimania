@@ -84,7 +84,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public BlockBuilder asRock(float hardness, float explosionResistance, String rockTag) {
         checkProperty();
-        AllOres.ROCKS.add(name);
+        AllRocks.ROCKS.add(name);
         AllRocks.ROCKS_HARDNESS.put(name, hardness);
         AllRocks.ROCKS_EXPLOSION_RESISTANCE.put(name, explosionResistance);
         this.tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.rock, rockTag);
@@ -102,12 +102,15 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
         final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).blockModel("block/" + this.name);
         factory.apply(itemBuilder);
         Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
-        return new ItemBlock(itemBuilder.build(block), block);
+        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
+        checkTags(itemBlock, tags);
+        return itemBlock;
     }
 
     public ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory) {
         return buildItem(name, factory);
     }
+
 
     public ItemBlock buildItem() {
         return buildItem(name, (itemBuilder) -> itemBuilder);
@@ -117,6 +120,12 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
     public BlockBuilder renderLayer(Supplier<Supplier<RenderType>> renderType) {
         setupRenderLayerTasks.add(() -> () -> ItemBlockRenderTypes.setRenderLayer(block.get(), renderType.get().get()));
         return this;
+    }
+
+    public void checkTags(ItemBlock itemBlock, List<String> tags) {
+        if (tags.contains(AllTags.IndustrimaniaTags.igneousStones)) AllRocks.igneousStones.add(itemBlock);
+        if (tags.contains(AllTags.IndustrimaniaTags.metamorphicStones)) AllRocks.metamorphicStones.add(itemBlock);
+        if (tags.contains(AllTags.IndustrimaniaTags.sedimentaryStones)) AllRocks.sedimentaryStones.add(itemBlock);
     }
 
     public BlockBuilder tags(String... tags) {

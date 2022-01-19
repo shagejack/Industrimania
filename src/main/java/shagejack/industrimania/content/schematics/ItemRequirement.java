@@ -29,15 +29,7 @@ public class ItemRequirement {
 		CONSUME, DAMAGE
 	}
 
-	public static class StackRequirement {
-		public final ItemStack item;
-		public final ItemUseType usage;
-
-		public StackRequirement(ItemUseType usage, ItemStack item) {
-			this.item = item;
-			this.usage = usage;
-		}
-	}
+	public record StackRequirement(ItemUseType usage, ItemStack item) {}
 
 	List<StackRequirement> requiredItems;
 

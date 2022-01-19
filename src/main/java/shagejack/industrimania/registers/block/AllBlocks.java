@@ -7,6 +7,8 @@ import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.BlockWoodPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
@@ -18,6 +20,99 @@ import java.util.Map;
 public class AllBlocks {
 
     public static Map<RegistryObject<Block>, List<String>> BLOCK_TAGS = new HashMap<>();
+
+    //Common Plant
+
+    //Common Blocks
+
+    //Primal Age
+    public static final ItemBlock mechanic_item_placeable
+            = new BlockBuilder()
+            .name("mechanic_item_placeable")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(BlockItemPlaceableBase::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_wood_placeable
+            = new BlockBuilder()
+            .name("mechanic_wood_placeable")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(BlockWoodPlaceableBase::new)
+            .buildItem();
+
+    public static final ItemBlock building_fine_clay
+            = new BlockBuilder()
+            .name("building_fine_clay")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem();
+
+    public static final ItemBlock building_scorched_clay
+            = new BlockBuilder()
+            .name("building_scorched_clay")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem();
+
+    public static final ItemBlock gravity_calcite
+            = new BlockBuilder()
+            .name("gravity_calcite")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(GravelBlock::new)
+            .buildItem();
+
+    public static final ItemBlock gravity_charcoal
+            = new BlockBuilder()
+            .name("gravity_charcoal")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(GravelBlock::new)
+            .buildItem();
+
+    public static final ItemBlock gravity_dust
+            = new BlockBuilder()
+            .name("gravity_dust")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(GravelBlock::new)
+            .buildItem();
+
+    public static final ItemBlock gravity_iron_oxide
+            = new BlockBuilder()
+            .name("gravity_iron_oxide")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(GravelBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_clay_furnace_bottom
+            = new BlockBuilder()
+            .name("mechanic_clay_furnace_bottom")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(ClayFurnaceBottomBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_iron_ore_slag
+            = new BlockBuilder()
+            .name("mechanic_iron_ore_slag")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(IronOreSlagBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_bronze_tube_block
+            = new BlockBuilder()
+            .name("mechanic_bronze_tube")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .buildBlock(BlockDirectionalBase::new)
+            .buildItem();
 
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana
@@ -43,6 +138,33 @@ public class AllBlocks {
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabOre)));
 
     //Igneous Rocks
+    public static final ItemBlock rock_andesite
+            = new BlockBuilder()
+            .name("rock_andesite")
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
+    public static final ItemBlock rock_granite
+
+            = new BlockBuilder()
+            .name("rock_granite")
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
+
+    public static final ItemBlock rock_diorite
+            = new BlockBuilder()
+            .name("rock_diorite")
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabRock));
+
     public static final ItemBlock rock_dacite
             = new BlockBuilder()
             .name("rock_dacite")
@@ -242,80 +364,6 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlock()
             .buildItem(builder -> builder.tab(AllTabs.tabRock));
-
-    //Common Blocks
-
-    public static final ItemBlock building_fine_clay
-            = new BlockBuilder()
-            .name("building_fine_clay")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock()
-            .buildItem();
-
-    public static final ItemBlock building_scorched_clay
-            = new BlockBuilder()
-            .name("building_scorched_clay")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock()
-            .buildItem();
-
-    public static final ItemBlock gravity_calcite
-            = new BlockBuilder()
-            .name("gravity_calcite")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(GravelBlock::new)
-            .buildItem();
-
-    public static final ItemBlock gravity_charcoal
-            = new BlockBuilder()
-            .name("gravity_charcoal")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(GravelBlock::new)
-            .buildItem();
-
-    public static final ItemBlock gravity_dust
-            = new BlockBuilder()
-            .name("gravity_dust")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(GravelBlock::new)
-            .buildItem();
-
-    public static final ItemBlock gravity_iron_oxide
-            = new BlockBuilder()
-            .name("gravity_iron_oxide")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(GravelBlock::new)
-            .buildItem();
-
-    public static final ItemBlock mechanic_clay_furnace_bottom
-            = new BlockBuilder()
-            .name("mechanic_clay_furnace_bottom")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(ClayFurnaceBottomBlock::new)
-            .buildItem();
-
-    public static final ItemBlock mechanic_iron_ore_slag
-            = new BlockBuilder()
-            .name("mechanic_iron_ore_slag")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(IronOreSlagBlock::new)
-            .buildItem();
-
-    public static final ItemBlock mechanic_bronze_tube_block
-            = new BlockBuilder()
-            .name("mechanic_bronze_tube")
-            .autoFullCubeModel()
-            .rotatableBlockState()
-            .buildBlock(BlockDirectionalBase::new)
-            .buildItem();
 
 }
 

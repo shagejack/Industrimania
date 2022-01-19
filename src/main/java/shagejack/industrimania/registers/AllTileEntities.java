@@ -27,12 +27,14 @@ public class AllTileEntities {
             = new TileEntityBuilder<ItemPlaceableBaseTileEntity>()
             .name("item_placeable")
             .tileEntity(ItemPlaceableBaseTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_item_placeable)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> wood_placeable
             = new TileEntityBuilder<WoodPlaceableTileEntity>()
             .name("wood_placeable")
             .tileEntity(WoodPlaceableTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_wood_placeable)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> clay_furnace_bottom

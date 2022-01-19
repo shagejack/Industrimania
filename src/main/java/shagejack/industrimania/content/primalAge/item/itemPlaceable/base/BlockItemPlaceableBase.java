@@ -14,8 +14,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.registries.ForgeRegistries;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.registers.AllTileEntities;
+
+import java.util.Objects;
 
 public class BlockItemPlaceableBase extends Block implements ITE<ItemPlaceableBaseTileEntity> {
 
@@ -43,13 +46,22 @@ public class BlockItemPlaceableBase extends Block implements ITE<ItemPlaceableBa
     }
 
     public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
-        if (level.isClientSide) {
-            if (player.getItemInHand(hand).isEmpty() || player.isShiftKeyDown()) {
+        if (!level.isClientSide) {
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.isEmpty() || player.isShiftKeyDown()) {
                 BlockEntity te = level.getBlockEntity(blockPos);
                 if (te instanceof ItemPlaceableBaseTileEntity) {
                     String name = ((ItemPlaceableBaseTileEntity) te).removeItem();
                     if (!name.isEmpty()) {
                         player.addItem(getItemStackFromRegistryName(name));
+                    }
+                }
+            } else if (stack.getItem() instanceof ItemPlaceableBase) {
+                BlockEntity te = level.getBlockEntity(blockPos);
+                if (te instanceof ItemPlaceableBaseTileEntity) {
+                    if (((ItemPlaceableBaseTileEntity) te).addItem(Objects.requireNonNull(stack.getItem().getRegistryName()).toString())) {
+                        stack.shrink(1);
+                        return InteractionResult.sidedSuccess(level.isClientSide());
                     }
                 }
             }
@@ -60,18 +72,20 @@ public class BlockItemPlaceableBase extends Block implements ITE<ItemPlaceableBa
     }
 
     public ItemStack getItemStackFromRegistryName(String name) {
-        String[] temp = name.split(":");
+        if (name != null && !name.isEmpty()) {
+            String[] temp = name.split(":");
 
-        //Normally, this case will never not happen
-        if (temp.length > 2) {
-            for (int i = 2; i < temp.length; i++) {
-                temp[1] += temp[i];
+            //Normally, this case will never not happen
+            if (temp.length > 2) {
+                for (int i = 2; i < temp.length; i++) {
+                    temp[1] += temp[i];
+                }
             }
-        }
 
-        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(temp[0], temp[1]));
-        ItemStack stack = new ItemStack(item);
-        return stack;
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(temp[0], temp[1]));
+            return new ItemStack(item);
+        }
+        return null;
     }
 
 }

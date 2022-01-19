@@ -20,8 +20,8 @@ public interface AllGroupedBlocks extends AsBase, AllOres, AllRocks {
     BlockBuilder asBase();
 
     static void initAll() {
-        AllOres.initOres();
         AllRocks.initRocks();
+        AllOres.initOres();
 
 //        auto-detects and executes
 //        var methods = Arrays.stream(AllGroupedBlocks.class.getInterfaces())

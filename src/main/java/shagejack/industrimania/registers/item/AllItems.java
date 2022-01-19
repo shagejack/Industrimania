@@ -9,8 +9,6 @@ import java.util.*;
 
 public class AllItems {
 
-    public static Map<String, RegistryObject<Item>> ORE_CHUNKS = new HashMap<>();
-
     /*
     * =============
     *  Primal Age
@@ -19,7 +17,9 @@ public class AllItems {
     //Material
     public static final RegistryObject<Item> mud = new ItemBuilder().name("mud").simpleModel("mud").build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> rock = new ItemBuilder().name("rock").simpleModel("rock").build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> rock_adhesive = new ItemBuilder().name("rock_adhesive").simpleModel("rock_adhesive").build(ItemPlaceableBase::new);
+
+    public static final RegistryObject<Item> silica = new ItemBuilder().name("silica").simpleModel("silica").build();
     //Natural Resource
 
     //Tool

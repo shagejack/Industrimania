@@ -2,19 +2,18 @@ package shagejack.industrimania.content.worldGen;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import shagejack.industrimania.api.worldGen.PerlinNoise2D;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @author SkyBlade1978
@@ -93,13 +92,13 @@ public class Geology {
 		int rv = (int) rockNoiseLayer.valueAt(x, z) + y;
 		if (geome < -64) {
 			// RockType.IGNEOUS;
-			return pickBlockFromList(rv, RockRegistry.igneousStones);
+			return pickBlockFromList(rv, AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList()));
 		} else if (geome < 64) {
 			// RockType.METAMORPHIC;
-			return pickBlockFromList(rv, RockRegistry.metamorphicStones);
+			return pickBlockFromList(rv, AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList()));
 		} else {
 			// RockType.SEDIMENTARY;
-			return pickBlockFromList(rv, RockRegistry.sedimentaryStones);
+			return pickBlockFromList(rv, AllRocks.sedimentaryStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList()));
 		}
 	}
 
@@ -129,15 +128,15 @@ public class Geology {
 						if (geome < -32) {
 							// RockType.IGNEOUS;
 							chunk.setBlockState(coord,
-									pickBlockFromList(baseRockVal + y, RockRegistry.igneousStones).defaultBlockState(), true);
+									pickBlockFromList(baseRockVal + y, AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList())).defaultBlockState(), true);
 						} else if (geome < 32) {
 							// RockType.METAMORPHIC;
 							chunk.setBlockState(coord,
-									pickBlockFromList(baseRockVal + y, RockRegistry.metamorphicStones).defaultBlockState(), true);
+									pickBlockFromList(baseRockVal + y, AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList())).defaultBlockState(), true);
 						} else {
 							// RockType.SEDIMENTARY;
 							chunk.setBlockState(coord,
-									pickBlockFromList(baseRockVal + y, RockRegistry.sedimentaryStones).defaultBlockState(), true);
+									pickBlockFromList(baseRockVal + y, AllRocks.sedimentaryStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList())).defaultBlockState(), true);
 						}
 					}
 				}
@@ -145,6 +144,9 @@ public class Geology {
 		}
 		//chunk.setModified(true);
 	}
+
+	/*
+	TODO: This function is not used, but needs to be fixed
 
 	public Block[] getStoneColumn(int x, int z, int height) {
 		Block[] col = new Block[height];
@@ -154,17 +156,19 @@ public class Geology {
 			double geome = gbase + y;
 			if (geome < -32) {
 				// RockType.IGNEOUS;
-				col[y] = pickBlockFromList(baseRockVal + y, RockRegistry.igneousStones);
+				col[y] = pickBlockFromList(baseRockVal + y, AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList()));
 			} else if (geome < 32) {
 				// RockType.METAMORPHIC;
-				col[y] = pickBlockFromList(baseRockVal + y + 3, RockRegistry.metamorphicStones);
+				col[y] = pickBlockFromList(baseRockVal + y + 3, AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList()));
 			} else {
 				// RockType.SEDIMENTARY;
-				col[y] = pickBlockFromList(baseRockVal + y + 5, RockRegistry.sedimentaryStones);
+				col[y] = pickBlockFromList(baseRockVal + y + 5, AllRocks.sedimentaryStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList()));
 			}
 		}
 		return col;
 	}
+
+	 */
 
 	/**
 	 * given any number, this method grabs a block from the list based on that

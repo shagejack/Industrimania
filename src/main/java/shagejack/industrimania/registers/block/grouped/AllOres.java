@@ -10,20 +10,17 @@ import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.block.BlockBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface AllOres extends AsBase{
 
-    //TODO: ore block auto registry
-    List<String> ROCKS = Lists.newArrayList(
-            "rock_andesite",
-            "rock_granite",
-            "rock_diorite"
-    );
+    Map<String, ItemBlock> ORES = new HashMap<>();
 
     static void initOres() {
         OreTypeRegistry.oreTypeMap.forEach((oreTypeName, oreType) -> {
-                    for (String rockName : ROCKS) {
+                    for (String rockName : AllRocks.ROCKS) {
                         for (int grade = 0; grade <= 2; grade++) {
                             String key = rockName + "_" + oreType.name() + "_" + grade;
                             ItemBlock oreBlock
@@ -38,7 +35,7 @@ public interface AllOres extends AsBase{
                                     .buildBlock(BlockOre::new)
                                     .buildItem((ItemBuilder) -> ItemBuilder.tab(AllTabs.tabOre));
 
-                            AllRocks.ORES.put(key, oreBlock);
+                            ORES.put(key, oreBlock);
                         }
                     }
                 }

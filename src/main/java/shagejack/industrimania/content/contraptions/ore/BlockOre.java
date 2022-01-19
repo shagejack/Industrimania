@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.worldGen.OreTypeRegistry;
 import shagejack.industrimania.content.worldGen.record.OreType;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registers.item.grouped.AllOreChunks;
 
 import javax.annotation.Nullable;
 
@@ -27,7 +27,7 @@ public class BlockOre extends Block {
     public ItemStack getOreChunk(Block block, int count) {
         if (block instanceof BlockOre) {
             String key = block.getRegistryName().toString().split(":")[1];
-            return new ItemStack(AllItems.ORE_CHUNKS.get(key).get(), count);
+            return new ItemStack(AllOreChunks.ORE_CHUNKS.get(key).get(), count);
         } else {
             return ItemStack.EMPTY;
         }

@@ -2,6 +2,7 @@ package shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceab
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
@@ -19,10 +20,9 @@ public class WoodPlaceableTileEntity extends ItemPlaceableBaseTileEntity {
     @Override
     public void addBehaviours(List<TileEntityBehaviour> behaviours) {}
 
-    public void onBreak(Level level) {
+    //TODO: burn
+    public void burn() {
 
     }
-
-    //TODO: burn
 
 }

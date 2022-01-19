@@ -8,12 +8,12 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import shagejack.industrimania.content.worldGen.RockRegistry;
-import shagejack.industrimania.registers.AllTags;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
+
+import java.util.List;
 
 public class CommandRemoveRocks {
 
@@ -25,6 +25,10 @@ public class CommandRemoveRocks {
         Player player = context.getSource().getPlayerOrException();
         Level level = context.getSource().getLevel();
         BlockPos playerPos = player.getOnPos();
+
+        final List<Block> igneousStones = AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).toList();
+        final List<Block> metamorphicStones = AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).toList();
+        final List<Block> sedimentaryStones = AllRocks.sedimentaryStones.stream().map((rock) -> rock.block().get()).toList();
 
         if (context.getSource().hasPermission(2)) {
 
@@ -39,7 +43,7 @@ public class CommandRemoveRocks {
                         for (int z = -range; z < range; z++) {
                             BlockPos nPos = playerPos.offset(x, y, z);
                             Block block = level.getBlockState(nPos).getBlock();
-                            if (RockRegistry.igneousStones.contains(block) || RockRegistry.metamorphicStones.contains(block) || RockRegistry.sedimentaryStones.contains(block)) {
+                            if (igneousStones.contains(block) || metamorphicStones.contains(block) || sedimentaryStones.contains(block)) {
                                 level.removeBlock(nPos, true);
                                 counter++;
                             }

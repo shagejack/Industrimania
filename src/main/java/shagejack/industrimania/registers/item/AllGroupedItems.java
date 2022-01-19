@@ -1,12 +1,12 @@
 package shagejack.industrimania.registers.item;
 
 import shagejack.industrimania.registers.block.grouped.AsBase;
-import shagejack.industrimania.registers.item.grouped.AllOre;
+import shagejack.industrimania.registers.item.grouped.AllOreChunks;
 
 public interface AllGroupedItems extends AsBase {
 
     static void initAll(){
-        AllOre.initOres();
+        AllOreChunks.initOres();
 
         //auto-detects and executes
 //        var methods = Arrays.stream(AllGroupedItems.class.getInterfaces())

@@ -7,13 +7,13 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.pollution.record.DecayReference;
-import shagejack.industrimania.content.worldGen.RockRegistry;
+import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import java.awt.*;
@@ -50,16 +50,16 @@ public class Pollution {
 
         //ACID RAIN
 
-        for (Block block: RockRegistry.igneousStones) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
+        for (ItemBlock block: AllRocks.igneousStones) {
+            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false));
         }
 
-        for (Block block: RockRegistry.metamorphicStones) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
+        for (ItemBlock block: AllRocks.metamorphicStones) {
+            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false));
         }
 
-        for (Block block: RockRegistry.sedimentaryStones) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
+        for (ItemBlock block: AllRocks.sedimentaryStones) {
+            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false));
         }
 
         for (Block block: BlockTags.LOGS.getValues()) {
@@ -67,7 +67,7 @@ public class Pollution {
         }
 
 
-        AllRocks.ORES.forEach((key, block) -> ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false)));
+        AllOres.ORES.forEach((key, block) -> ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false)));
 
         ACID_RAIN_MAP.put(Blocks.COARSE_DIRT, new DecayReference(Blocks.SAND, false));
         ACID_RAIN_MAP.put(Blocks.GRAVEL, new DecayReference(Blocks.SAND, false));
