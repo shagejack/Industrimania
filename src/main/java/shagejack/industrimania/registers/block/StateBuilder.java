@@ -2,11 +2,12 @@ package shagejack.industrimania.registers.block;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
+import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
 import shagejack.industrimania.registers.block.grouped.AsBase;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
@@ -24,6 +25,31 @@ public interface StateBuilder extends AsBase {
     default BlockBuilder complexBlockState(Consumer<BlockStateProvider> blockStateProviderConsumer) {
         return blockState((provider) -> {
 
+        });
+    }
+
+    default BlockBuilder snowLikeBlockState() {
+        return blockState((provider) -> {
+            final var base = this.asBase();
+            var block = base.block;
+            Industrimania.LOGGER.debug("set snow like block state file for Block:{}", base.name);
+            for (int i = 0; i < 7; i++) {
+                var modelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, "block/" + base.name + "_height" + (2 + 2 * i)));
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(BlockStateProperties.LAYERS, i + 1)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .addModel();
+            }
+
+            var fullModelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, "block/" + base.name.split("_")[0] + "_" + base.name.split("_")[1] + "_block"));
+            provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                    .partialState()
+                    .with(BlockStateProperties.LAYERS, 8)
+                    .modelForState()
+                    .modelFile(fullModelFile)
+                    .addModel();
         });
     }
 

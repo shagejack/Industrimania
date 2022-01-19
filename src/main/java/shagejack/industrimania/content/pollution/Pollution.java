@@ -2,6 +2,7 @@ package shagejack.industrimania.content.pollution;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.commands.WeatherCommand;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -11,8 +12,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.feature.SnowAndFreezeFeature;
+import net.minecraft.world.level.material.Material;
+import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.pollution.record.DecayReference;
 import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
@@ -29,49 +35,91 @@ public class Pollution {
         //COMMON DECAY
 
         for (Block block : BlockTags.LEAVES.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, false));
+            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, false, 500000, 1));
         }
 
         for (Block block : BlockTags.REPLACEABLE_PLANTS.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, false));
+            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.DEAD_BUSH, false, 500000, 1));
         }
 
         for (Block block : BlockTags.CORAL_PLANTS.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, true));
+            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, true, 800000,0.9));
         }
 
-        DAMAGE_BLOCK_MAP.put(Blocks.MOSS_BLOCK, new DecayReference(Blocks.AIR, false));
-        DAMAGE_BLOCK_MAP.put(Blocks.MOSSY_COBBLESTONE, new DecayReference(Blocks.COBBLESTONE, false));
-        DAMAGE_BLOCK_MAP.put(Blocks.GRASS_BLOCK, new DecayReference(Blocks.DIRT, false));
-        DAMAGE_BLOCK_MAP.put(Blocks.PODZOL, new DecayReference(Blocks.DIRT, false));
-        DAMAGE_BLOCK_MAP.put(Blocks.DIRT, new DecayReference(Blocks.COARSE_DIRT, false));
-        DAMAGE_BLOCK_MAP.put(Blocks.FARMLAND, new DecayReference(Blocks.SAND, false));
+        DAMAGE_BLOCK_MAP.put(Blocks.BEE_NEST, new DecayReference(Blocks.AIR, false, 800000,0.8));
+        DAMAGE_BLOCK_MAP.put(Blocks.DEAD_BUSH, new DecayReference(Blocks.AIR, false, 1500000,0.5));
+        DAMAGE_BLOCK_MAP.put(Blocks.MOSS_BLOCK, new DecayReference(Blocks.AIR, false, 1500000,0.5));
+        DAMAGE_BLOCK_MAP.put(Blocks.MOSSY_COBBLESTONE, new DecayReference(Blocks.COBBLESTONE, false, 1000000,0.8));
+        DAMAGE_BLOCK_MAP.put(Blocks.GRASS_BLOCK, new DecayReference(Blocks.DIRT, false, 1500000,0.3));
+        DAMAGE_BLOCK_MAP.put(Blocks.PODZOL, new DecayReference(Blocks.DIRT, false, 1500000,0.3));
+        DAMAGE_BLOCK_MAP.put(Blocks.DIRT, new DecayReference(Blocks.COARSE_DIRT, false, 2000000,0.5));
+        DAMAGE_BLOCK_MAP.put(Blocks.FARMLAND, new DecayReference(Blocks.SAND, false, 500000, 1));
+        DAMAGE_BLOCK_MAP.put(Blocks.HAY_BLOCK, new DecayReference(Blocks.DIRT, false, 1500000, 0.5));
+        DAMAGE_BLOCK_MAP.put(Blocks.ROOTED_DIRT, new DecayReference(Blocks.DIRT, false, 1200000, 0.8));
+        DAMAGE_BLOCK_MAP.put(Blocks.DIRT_PATH, new DecayReference(Blocks.SAND, false, 500000, 1));
 
 
         //ACID RAIN
 
+        for (Block block : BlockTags.PLANKS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 0.8));
+        }
+
+        for (Block block : BlockTags.WOODEN_BUTTONS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+
+        for (Block block : BlockTags.WOODEN_DOORS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+
+        for (Block block : BlockTags.WOODEN_FENCES.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+
+        for (Block block : BlockTags.WOODEN_SLABS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+
+        for (Block block : BlockTags.WOODEN_STAIRS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+
+        for (Block block : BlockTags.WOODEN_TRAPDOORS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+
+        for (Block block : BlockTags.WOODEN_PRESSURE_PLATES.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+
         for (ItemBlock block: AllRocks.igneousStones) {
-            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false));
+            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false, 5000000, 0.1));
         }
 
         for (ItemBlock block: AllRocks.metamorphicStones) {
-            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false));
+            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false, 5000000, 0.1));
         }
 
         for (ItemBlock block: AllRocks.sedimentaryStones) {
-            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false));
+            ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false, 2000000, 0.8));
         }
 
         for (Block block: BlockTags.LOGS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false));
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false, 2000000, 0.5));
+        }
+
+        for (Block block: BlockTags.BEDS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.GRAVEL, false, 2000000, 1));
         }
 
 
-        AllOres.ORES.forEach((key, block) -> ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false)));
+        AllOres.ORES.forEach((key, block) -> ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false, 5000000, 0.1)));
 
-        ACID_RAIN_MAP.put(Blocks.COARSE_DIRT, new DecayReference(Blocks.SAND, false));
-        ACID_RAIN_MAP.put(Blocks.GRAVEL, new DecayReference(Blocks.SAND, false));
-        ACID_RAIN_MAP.put(Blocks.SAND, new DecayReference(Blocks.AIR, false));
+        ACID_RAIN_MAP.put(Blocks.COBBLESTONE, new DecayReference(Blocks.GRAVEL, false, 5000000, 0.1));
+        ACID_RAIN_MAP.put(Blocks.COARSE_DIRT, new DecayReference(Blocks.SAND, false, 5000000, 0.1));
+        ACID_RAIN_MAP.put(Blocks.GRAVEL, new DecayReference(Blocks.SAND, false, 8000000, 0.1));
+        ACID_RAIN_MAP.put(Blocks.SAND, new DecayReference(Blocks.AIR, false, 15000000, 0.1));
 
     }
 
@@ -136,7 +184,7 @@ public class Pollution {
     }
 
     public void damageEntity(LivingEntity entity) {
-        entity.hurt(DamageSource.WITHER, (float) (0.5 * Math.floor((double) this.amount / 1000000)));
+        entity.hurt(DamageSource.WITHER, (float) (0.5F * Math.floor((double) this.amount / 1000000)));
     }
 
     public void giveEffect(Level level, LivingEntity entity) {
@@ -159,28 +207,69 @@ public class Pollution {
 
         if (DAMAGE_BLOCK_MAP.containsKey(state.getBlock())) {
             DecayReference ref = DAMAGE_BLOCK_MAP.get(state.getBlock());
-            if (ref.block() == Blocks.AIR) {
-                level.destroyBlock(pos, ref.dropItem());
-            } else {
-                level.setBlock(pos, ref.block().defaultBlockState(), 2 | 16);
+            if (getAmount() > ref.minPollution()) {
+                if (level.getRandom().nextDouble() < ref.probability()) {
+                    level.destroyBlock(pos, ref.dropItem());
+                    level.setBlock(pos, ref.block().defaultBlockState(), 2 | 16);
+                }
             }
         }
 
-        if (level.isRaining() && isAcidRain) {
-
-            if (level.getBlockState(pos.above()).isAir() && level.canSeeSky(pos)) {
-                if (level.canSeeSky(pos)) {
-                    if (ACID_RAIN_MAP.containsKey(state.getBlock())) {
-                        DecayReference ref = ACID_RAIN_MAP.get(state.getBlock());
-                        if (ref.block() == Blocks.AIR) {
-                            level.destroyBlock(pos, ref.dropItem());
+        //Ashes
+        if (getAmount() > 20000000) {
+            if (level.getRandom().nextDouble() < Math.min((double) getAmount() / 200000000, 0.5)) {
+                if (level.canSeeSky(pos.above())) {
+                    if ((AllBlocks.pollution_ashes_layers.block().get().defaultBlockState().canSurvive(level, pos.above()))) {
+                        if (!level.getBlockState(pos.above()).is(AllBlocks.pollution_ashes_layers.block().get())) {
+                            if (level.getBlockState(pos.above()).isAir()) {
+                                level.setBlock(pos.above(), AllBlocks.pollution_ashes_layers.block().get().defaultBlockState(), 2 | 16);
+                                addAmount(-50000);
+                            }
                         } else {
+                            int layers = level.getBlockState(pos.above()).getValue(BlockStateProperties.LAYERS);
+                            if (layers < 8) {
+                                level.setBlock(pos.above(), AllBlocks.pollution_ashes_layers.block().get().defaultBlockState().setValue(BlockStateProperties.LAYERS, layers + 1), 2 | 16);
+                                addAmount(-50000);
+                            }
+                        }
+                    }
+                } else if (level.getBlockState(pos.above()).is(AllBlocks.pollution_ashes_layers.block().get()) && level.getBlockState(pos.above()).getValue(BlockStateProperties.LAYERS) == 8) {
+                    level.setBlock(pos.above(), AllBlocks.pollution_ashes_block.block().get().defaultBlockState(), 2 | 16);
+                } else if (level.canSeeSkyFromBelowWater(pos.above()) && level.getBlockState(pos.above()).getMaterial() == Material.WATER && level.getBlockState(pos).getMaterial() != Material.WATER) {
+                    if (level.getRandom().nextDouble() < Math.min((double) getAmount() / 1600000000, 0.125)) {
+                        level.setBlock(pos.above(), AllBlocks.pollution_ashes_block.block().get().defaultBlockState(), 2 | 16);
+                    }
+                }
+            }
+        }
+
+        if (isExposedToAcidRain(level, pos)) {
+            if (level.isRaining() && isAcidRain) {
+                if (ACID_RAIN_MAP.containsKey(state.getBlock())) {
+                    DecayReference ref = ACID_RAIN_MAP.get(state.getBlock());
+                    if (getAmount() > ref.minPollution()) {
+                        if (level.getRandom().nextDouble() < ref.probability()) {
+                            level.destroyBlock(pos, ref.dropItem());
                             level.setBlock(pos, ref.block().defaultBlockState(), 2 | 16);
                         }
                     }
                 }
             }
         }
+
+    }
+
+    public boolean isExposedToAcidRain(Level level, BlockPos pos) {
+        if (level.getBlockState(pos.above()).isAir() && level.canSeeSky(pos.above())) return true;
+
+        boolean flag = true;
+
+        BlockPos nPos = pos.above();
+        while (flag && nPos.getY() < level.getHeight()) {
+            if (!level.getBlockState(nPos).isAir() && !level.getBlockState(pos.above()).is(AllBlocks.pollution_ashes_layers.block().get()) && !level.getBlockState(pos.above()).is(AllBlocks.pollution_ashes_block.block().get())) flag = false;
+            nPos = nPos.above();
+        }
+        return flag;
     }
 
 

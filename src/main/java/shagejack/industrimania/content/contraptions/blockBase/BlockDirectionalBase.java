@@ -1,4 +1,4 @@
-package shagejack.industrimania.content.contraptions.base;
+package shagejack.industrimania.content.contraptions.blockBase;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;

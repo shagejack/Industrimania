@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/pollution/ashes_block/default",
+    "up": "industrimania:block/pollution/ashes_block/default",
+    "down": "industrimania:block/pollution/ashes_block/default",
+    "north": "industrimania:block/pollution/ashes_block/default",
+    "south": "industrimania:block/pollution/ashes_block/default",
+    "west": "industrimania:block/pollution/ashes_block/default",
+    "east": "industrimania:block/pollution/ashes_block/default"
+  }
+}

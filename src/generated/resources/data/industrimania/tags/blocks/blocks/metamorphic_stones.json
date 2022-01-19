@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "industrimania:rock_gneiss",
+    "industrimania:rock_slate",
+    "industrimania:rock_marble",
+    "industrimania:rock_quartzite",
+    "industrimania:rock_greisen",
+    "industrimania:rock_granulite",
+    "industrimania:rock_phyllite"
+  ]
+}

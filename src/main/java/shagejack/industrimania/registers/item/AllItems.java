@@ -1,9 +1,15 @@
 package shagejack.industrimania.registers.item;
 
-import net.minecraft.world.item.Item;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegistryObject;
+import shagejack.industrimania.content.contraptions.itemBase.IMArmorItemBase;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
+import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.ItemWoodPlaceable;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
+import shagejack.industrimania.registers.AllTabs;
 
 import java.util.*;
 
@@ -18,9 +24,15 @@ public class AllItems {
     public static final RegistryObject<Item> mud = new ItemBuilder().name("mud").simpleModel("mud").build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> rock_adhesive = new ItemBuilder().name("rock_adhesive").simpleModel("rock_adhesive").build(ItemPlaceableBase::new);
-
     public static final RegistryObject<Item> silica = new ItemBuilder().name("silica").simpleModel("silica").build();
+
     //Natural Resource
+    public static final RegistryObject<Item> log_acacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
+    public static final RegistryObject<Item> log_birch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
+    public static final RegistryObject<Item> log_jungle = new ItemBuilder().name("log_jungle").simpleModel("log_jungle").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
+    public static final RegistryObject<Item> log_oak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
+    public static final RegistryObject<Item> log_spruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
+    public static final RegistryObject<Item> log_darkoak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
 
     //Tool
 
@@ -62,5 +74,25 @@ public class AllItems {
     public static final RegistryObject<Item> wroughtIronSmallPlate = new ItemBuilder().name("wrought_iron_small_plate").simpleModel("wrought_iron_small_plate").build();
 
     public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").build(IronCluster::new);
+
+    /*
+     * =============
+     *  Steam Age
+     * ============
+     */
+
+    public static final RegistryObject<Item> hazardProtectiveHelmet = new ItemBuilder().name("hazard_protective_helmet").simpleModel("hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveChestplate = new ItemBuilder().name("hazard_protective_chestplate").simpleModel("hazard_protective_chestplate").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.CHEST).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveLeggings = new ItemBuilder().name("hazard_protective_leggings").simpleModel("hazard_protective_leggings").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.LEGS).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveBoots = new ItemBuilder().name("hazard_protective_boots").simpleModel("hazard_protective_boots").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.FEET).build(PollutionProtectiveArmor::new);
+
+
+
+    /*
+     * =========================
+     *  Creative Mode/ Test Item
+     * =========================
+     */
+    public static final RegistryObject<Item> creativeHazardProtectiveHelmet = new ItemBuilder().name("creative_hazard_protective_helmet").simpleModel("creative_hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.NETHERITE).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).build(IMArmorItemBase::new);
 
 }

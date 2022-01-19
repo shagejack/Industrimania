@@ -1,12 +1,15 @@
 package shagejack.industrimania.registers.block;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GravelBlock;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
-import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
+import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
+import shagejack.industrimania.content.pollution.block.BlockAshes;
+import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.BlockWoodPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
@@ -21,7 +24,28 @@ public class AllBlocks {
 
     public static Map<RegistryObject<Block>, List<String>> BLOCK_TAGS = new HashMap<>();
 
-    //Common Plant
+    //Pollution Blocks
+    public static final ItemBlock pollution_ashes_block
+            = new BlockBuilder()
+            .name("pollution_ashes_block")
+            .material(Material.SNOW)
+            .strength(0.2F, 0.0F)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(BlockAshes::new)
+            .buildItem();
+
+    public static final ItemBlock pollution_ashes_layers
+            = new BlockBuilder()
+            .name("pollution_ashes_layers")
+            .material(Material.SNOW)
+            .strength(0.2F, 0.0F)
+            .snowLikeModel()
+            .snowLikeBlockState()
+            .buildBlock(BlockAshesLayers::new)
+            .buildItem();
+
+    //Common Plants
 
     //Common Blocks
 
@@ -223,7 +247,7 @@ public class AllBlocks {
     public static final ItemBlock rock_sandstone
             = new BlockBuilder()
             .name("rock_sandstone")
-            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones + "NoGen")
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones + "nogen")
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()

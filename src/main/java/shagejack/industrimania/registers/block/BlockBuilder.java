@@ -50,6 +50,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
         if (hardness != 0 && explosionResistance != 0) {
             property.strength(hardness, explosionResistance);
         }
+
         if (requiresCorrectToolForDrops) {
             property.requiresCorrectToolForDrops();
         }

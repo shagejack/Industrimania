@@ -101,6 +101,43 @@ interface ModelBuilder extends AsBase{
         return (BlockBuilder) this;
     }
 
+    default BlockBuilder snowLikeModel() {
+            DataGenHandle.addBlockModelTask(provider -> {
+                var base = asBase();
+                var name = base.name;
+                var block = base.block;
+                try {
+                    var category = Objects.requireNonNull(name).split("_")[0];
+                    var bName = Objects.requireNonNull(name).substring(category.length() + 1);
+                    final var path = "block/" + Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName) + "/snowlike";
+                    if (checkTextureFileExist(provider, path)) {
+                        Industrimania.LOGGER.debug("automatically set snow like texture model for Block:{}", name);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_height2")
+                                .parent(DataGenHandle.blockSnowLikeModel0.get()).texture("texture", path);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_height4")
+                                .parent(DataGenHandle.blockSnowLikeModel1.get()).texture("texture", path);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_height6")
+                                .parent(DataGenHandle.blockSnowLikeModel2.get()).texture("texture", path);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_height8")
+                                .parent(DataGenHandle.blockSnowLikeModel3.get()).texture("texture", path);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_height10")
+                                .parent(DataGenHandle.blockSnowLikeModel4.get()).texture("texture", path);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_height12")
+                                .parent(DataGenHandle.blockSnowLikeModel5.get()).texture("texture", path);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_height14")
+                                .parent(DataGenHandle.blockSnowLikeModel6.get()).texture("texture", path);
+                        provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
+                                .parent(DataGenHandle.blockSnowLikeModel0.get()).texture("texture", path);
+                    } else {
+                        Industrimania.LOGGER.debug("failed to set snow like texture model for Block:{}, 'cause its texture doesn't exist.", name);
+                    }
+                } catch (IllegalStateException e) {
+                    Industrimania.LOGGER.error("failed to set snow like texture model for Block:{},reason:{}", name, e.getMessage());
+                }
+            });
+        return (BlockBuilder) this;
+    }
+
     /**
      * The folder is assets/stagecraft/models/block/$BLOCK_NAME$/ <p>
      * while file names (ended with .png) are <p>

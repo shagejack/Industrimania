@@ -1,0 +1,6 @@
+{
+  "parent": "industrimania:block/snow_like_height12",
+  "textures": {
+    "texture": "industrimania:block/pollution/ashes_layers/snowlike"
+  }
+}
