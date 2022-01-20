@@ -21,6 +21,12 @@ public class AllTabs {
 
     public static final CreativeModeTab tab = tab(Industrimania.MOD_ID, () -> () -> AllItems.omniMultimeter);
 
+    public static final CreativeModeTab tabMaterial = tab(Industrimania.MOD_ID + "_material", () -> () -> AllItems.clinker);
+
+    public static final CreativeModeTab tabTool = tab(Industrimania.MOD_ID + "_tool", () -> () -> AllItems.bronzeSaw);
+
+    public static final CreativeModeTab tabEquipment = tab(Industrimania.MOD_ID + "_equipment", () -> () -> AllItems.hazardProtectiveChestplate);
+
     public static final CreativeModeTab tabNature = tab(Industrimania.MOD_ID + "_nature", () -> AllBlocks.plant_lactuca_raddeana::item);
 
     public static final CreativeModeTab tabRock = tab(Industrimania.MOD_ID + "_rock", () -> AllBlocks.rock_rhyolite::item);

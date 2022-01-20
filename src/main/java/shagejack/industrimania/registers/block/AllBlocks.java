@@ -1,8 +1,6 @@
 package shagejack.industrimania.registers.block;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GravelBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
@@ -146,7 +144,7 @@ public class AllBlocks {
             .strength(0.1F, 0.5F)
             .crossTextureModel()
             .simpleBlockState()
-            .buildBlock()
+            .buildBlock(GrassBlock::new)
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
 
     //Ore Cap

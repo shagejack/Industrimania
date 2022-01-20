@@ -38,6 +38,7 @@ public class PollutionEventHandler {
     private static final long ACID_RAIN_LIMIT = 2000000;
     private static final long DECAY_DIVIDEND = 25000;
     private static final long FOG_EFFECT_LIMIT = 500000;
+    private static final int DECAY_MAX_BLOCKS = 100000;
     private static final int DECAY_SUBTRAHEND= 20;
 
     private static int tickCounter;
@@ -52,7 +53,7 @@ public class PollutionEventHandler {
                         DimensionType dim = chunkRef.dimension();
                         int chunkX = chunkRef.pos().x;
                         int chunkZ = chunkRef.pos().z;
-                        AABB chunkRange = new AABB(chunkRef.pos().getMinBlockX(), chunkRef.dimension().minY(), chunkRef.pos().getMinBlockZ(), chunkRef.pos().getMaxBlockX(), chunkRef.dimension().height(), chunkRef.pos().getMaxBlockZ());
+                        AABB chunkRange = new AABB(chunkRef.pos().getMinBlockX(), chunkRef.dimension().minY(), chunkRef.pos().getMinBlockZ(), chunkRef.pos().getMaxBlockX(), chunkRef.dimension().height() + chunkRef.dimension().minY(), chunkRef.pos().getMaxBlockZ());
                         //Reduce Pollution
                         pollution.reducePollution();
                         //Manage Spread
@@ -68,7 +69,8 @@ public class PollutionEventHandler {
                         }
                         //Damage Blocks
                         if (pollution.getAmount() > DECAY_LIMIT) {
-                            for (int i = DECAY_SUBTRAHEND; i < pollution.getAmount() / DECAY_DIVIDEND; i++) {
+                            int max = (int) Math.min(DECAY_MAX_BLOCKS, pollution.getAmount() / DECAY_DIVIDEND);
+                            for (int i = DECAY_SUBTRAHEND; i < max; i++) {
                                 int x = chunkRef.pos().getMinBlockX() + event.world.getRandom().nextInt(16);
                                 int y = chunkRef.dimension().minY() + event.world.getRandom().nextInt(chunkRef.dimension().height());
                                 int z = chunkRef.pos().getMinBlockZ() + event.world.getRandom().nextInt(16);

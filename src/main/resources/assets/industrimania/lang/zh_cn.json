@@ -58,6 +58,9 @@
   "industrimania.oregrade.1": "普通",
   "industrimania.oregrade.2": "富集",
   "itemGroup.industrimania": "工业狂热",
+  "itemGroup.industrimania_material": "工业狂热：材料",
+  "itemGroup.industrimania_tool": "工业狂热：工具",
+  "itemGroup.industrimania_equipment": "工业狂热：装备",
   "itemGroup.industrimania_nature": "工业狂热：自然",
   "itemGroup.industrimania_rock": "工业狂热：岩石",
   "itemGroup.industrimania_ore": "工业狂热：矿物"

@@ -34,6 +34,7 @@ public final class ItemBuilder implements ModelBuilder{
     RegistryObject<Item> registryObject;
     private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
 
+    private int durability;
     private final Map<String, Object> extraParam = new HashMap();
 
     @Override
@@ -130,7 +131,17 @@ public final class ItemBuilder implements ModelBuilder{
         if (property == null) {
             this.property = new Item.Properties();
         }
+
+        if (durability != 0) {
+            this.property.durability(durability);
+        }
+
         property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+    }
+
+    public ItemBuilder durability(int durability) {
+        this.durability = durability;
+        return this;
     }
 
     public ItemBuilder name(String name) {

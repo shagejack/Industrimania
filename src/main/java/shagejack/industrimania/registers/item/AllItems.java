@@ -4,14 +4,14 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.itemBase.IMArmorItemBase;
+import shagejack.industrimania.content.contraptions.itemBase.IMKnifeItemBase;
+import shagejack.industrimania.content.contraptions.materialBase.KnifeMaterials;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
+import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireBow;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.ItemWoodPlaceable;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
 import shagejack.industrimania.registers.AllTabs;
-
-import java.util.*;
 
 public class AllItems {
 
@@ -21,10 +21,12 @@ public class AllItems {
     * ============
     */
     //Material
-    public static final RegistryObject<Item> mud = new ItemBuilder().name("mud").simpleModel("mud").build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> rock_adhesive = new ItemBuilder().name("rock_adhesive").simpleModel("rock_adhesive").build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> silica = new ItemBuilder().name("silica").simpleModel("silica").build();
+    public static final RegistryObject<Item> sharpened_stick = new ItemBuilder().name("sharpened_stick").simpleModel("sharpened_stick").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> weed_fiber = new ItemBuilder().name("weed_fiber").simpleModel("weed_fiber").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> weed_rope = new ItemBuilder().name("weed_rope").simpleModel("weed_rope").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> wood_peg = new ItemBuilder().name("wood_peg").simpleModel("wood_peg").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> mud = new ItemBuilder().name("mud").simpleModel("mud").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
 
     //Natural Resource
     public static final RegistryObject<Item> log_acacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
@@ -35,6 +37,9 @@ public class AllItems {
     public static final RegistryObject<Item> log_darkoak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
 
     //Tool
+    public static final RegistryObject<Item> long_stick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> bone_knife = new ItemBuilder().name("bone_knife").simpleModel("bone_knife").tab(AllTabs.tabTool).addExtraParam("KnifeMaterial", KnifeMaterials.BONE).durability(16).build(IMKnifeItemBase::new);
+    public static final RegistryObject<Item> primitive_fire_starter = new ItemBuilder().name("primitive_fire_starter").simpleModel("primitive_fire_starter").durability(128).tab(AllTabs.tabTool).build(PrimitiveFireBow::new);
 
     /*
      * =============
@@ -42,38 +47,42 @@ public class AllItems {
      * ============
      */
 
+    //Material
+    public static final RegistryObject<Item> rock_adhesive = new ItemBuilder().name("rock_adhesive").simpleModel("rock_adhesive").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> silica = new ItemBuilder().name("silica").simpleModel("silica").tab(AllTabs.tabMaterial).build();
+
     /*
      * =============
      *  Metallurgy Age
      * ============
      */
-    public static final RegistryObject<Item> bronzeHopper = new ItemBuilder().name("bronze_hopper").simpleModel("bronze_hopper").build();
-    public static final RegistryObject<Item> bronzeSaw = new ItemBuilder().name("bronze_saw").simpleModel("bronze_saw").build();
-    public static final RegistryObject<Item> burntStoneSlab = new ItemBuilder().name("burnt_stone_slab").simpleModel("burnt_stone_slab").build();
-    public static final RegistryObject<Item> clinker = new ItemBuilder().name("clinker").simpleModel("clinker").build();
-    public static final RegistryObject<Item> cutIronIngot = new ItemBuilder().name("cut_iron_ingot").simpleModel("cut_iron_ingot").build();
-    public static final RegistryObject<Item> cutIronRubbish = new ItemBuilder().name("cut_iron_rubbish").simpleModel("cut_iron_rubbish").build();
-    public static final RegistryObject<Item> cutPigIronIngot = new ItemBuilder().name("cut_pig_iron_ingot").simpleModel("cut_pig_iron_ingot").build();
-    public static final RegistryObject<Item> cutWroughtIronIngot = new ItemBuilder().name("cut_wrought_iron_ingot").simpleModel("cut_wrought_iron_ingot").build();
-    public static final RegistryObject<Item> dustPotassiumCarbonate = new ItemBuilder().name("dust_potassium_carbonate").simpleModel("dust_potassium_carbonate").build();
-    public static final RegistryObject<Item> dustSodiumCarbonate = new ItemBuilder().name("dust_sodium_carbonate").simpleModel("dust_sodium_carbonate").build();
-    public static final RegistryObject<Item> fireTongs = new ItemBuilder().name("fire_tongs").simpleModel("fire_tongs").build();
-    public static final RegistryObject<Item> flatFile = new ItemBuilder().name("flat_file").simpleModel("flat_file").build();
-    public static final RegistryObject<Item> forgeHammer = new ItemBuilder().name("forge_hammer").simpleModel("forge_hammer").build();
-    public static final RegistryObject<Item> gloves = new ItemBuilder().name("gloves").simpleModel("gloves").build();
-    public static final RegistryObject<Item> ironBigPlate = new ItemBuilder().name("iron_big_plate").simpleModel("iron_big_plate").build();
-    public static final RegistryObject<Item> ironIngot = new ItemBuilder().name("iron_ingot").simpleModel("iron_ingot").build();
-    public static final RegistryObject<Item> ironPipe = new ItemBuilder().name("iron_pipe").simpleModel("iron_pipe").build();
-    public static final RegistryObject<Item> ironRubbish = new ItemBuilder().name("iron_rubbish").simpleModel("iron_rubbish").build();
-    public static final RegistryObject<Item> ironSmallPlate = new ItemBuilder().name("iron_small_plate").simpleModel("iron_small_plate").build();
-    public static final RegistryObject<Item> omniMultimeter = new ItemBuilder().name("omni_multimeter").simpleModel("omni_multimeter").build();
-    public static final RegistryObject<Item> rawGlassMaterial = new ItemBuilder().name("raw_glass_material").simpleModel("raw_glass_material").build();
-    public static final RegistryObject<Item> slag = new ItemBuilder().name("slag").simpleModel("slag").build();
-    public static final RegistryObject<Item> windFlag = new ItemBuilder().name("wind_flag").simpleModel("wind_flag").build();
-    public static final RegistryObject<Item> wroughtIronIngot = new ItemBuilder().name("wrought_iron_ingot").simpleModel("wrought_iron_ingot").build();
-    public static final RegistryObject<Item> wroughtIronSmallPlate = new ItemBuilder().name("wrought_iron_small_plate").simpleModel("wrought_iron_small_plate").build();
+    public static final RegistryObject<Item> bronzeHopper = new ItemBuilder().name("bronze_hopper").simpleModel("bronze_hopper").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> bronzeSaw = new ItemBuilder().name("bronze_saw").simpleModel("bronze_saw").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> burntStoneSlab = new ItemBuilder().name("burnt_stone_slab").simpleModel("burnt_stone_slab").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> clinker = new ItemBuilder().name("clinker").simpleModel("clinker").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> cutIronIngot = new ItemBuilder().name("cut_iron_ingot").simpleModel("cut_iron_ingot").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> cutIronRubbish = new ItemBuilder().name("cut_iron_rubbish").simpleModel("cut_iron_rubbish").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> cutPigIronIngot = new ItemBuilder().name("cut_pig_iron_ingot").simpleModel("cut_pig_iron_ingot").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> cutWroughtIronIngot = new ItemBuilder().name("cut_wrought_iron_ingot").simpleModel("cut_wrought_iron_ingot").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> dustPotassiumCarbonate = new ItemBuilder().name("dust_potassium_carbonate").simpleModel("dust_potassium_carbonate").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> dustSodiumCarbonate = new ItemBuilder().name("dust_sodium_carbonate").simpleModel("dust_sodium_carbonate").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> fireTongs = new ItemBuilder().name("fire_tongs").simpleModel("fire_tongs").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> flatFile = new ItemBuilder().name("flat_file").simpleModel("flat_file").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> forgeHammer = new ItemBuilder().name("forge_hammer").simpleModel("forge_hammer").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> gloves = new ItemBuilder().name("gloves").simpleModel("gloves").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> ironBigPlate = new ItemBuilder().name("iron_big_plate").simpleModel("iron_big_plate").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> ironIngot = new ItemBuilder().name("iron_ingot").simpleModel("iron_ingot").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> ironPipe = new ItemBuilder().name("iron_pipe").simpleModel("iron_pipe").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> ironRubbish = new ItemBuilder().name("iron_rubbish").simpleModel("iron_rubbish").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> ironSmallPlate = new ItemBuilder().name("iron_small_plate").simpleModel("iron_small_plate").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> omniMultimeter = new ItemBuilder().name("omni_multimeter").simpleModel("omni_multimeter").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> rawGlassMaterial = new ItemBuilder().name("raw_glass_material").simpleModel("raw_glass_material").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> slag = new ItemBuilder().name("slag").simpleModel("slag").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> windFlag = new ItemBuilder().name("wind_flag").simpleModel("wind_flag").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> wroughtIronIngot = new ItemBuilder().name("wrought_iron_ingot").simpleModel("wrought_iron_ingot").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> wroughtIronSmallPlate = new ItemBuilder().name("wrought_iron_small_plate").simpleModel("wrought_iron_small_plate").tab(AllTabs.tabMaterial).build();
 
-    public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").build(IronCluster::new);
+    public static final RegistryObject<Item> ironCluster = new ItemBuilder().name("iron_cluster").simpleModel("iron_cluster").tab(AllTabs.tabMaterial).build(IronCluster::new);
 
     /*
      * =============
@@ -81,10 +90,10 @@ public class AllItems {
      * ============
      */
 
-    public static final RegistryObject<Item> hazardProtectiveHelmet = new ItemBuilder().name("hazard_protective_helmet").simpleModel("hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).build(PollutionProtectiveArmor::new);
-    public static final RegistryObject<Item> hazardProtectiveChestplate = new ItemBuilder().name("hazard_protective_chestplate").simpleModel("hazard_protective_chestplate").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.CHEST).build(PollutionProtectiveArmor::new);
-    public static final RegistryObject<Item> hazardProtectiveLeggings = new ItemBuilder().name("hazard_protective_leggings").simpleModel("hazard_protective_leggings").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.LEGS).build(PollutionProtectiveArmor::new);
-    public static final RegistryObject<Item> hazardProtectiveBoots = new ItemBuilder().name("hazard_protective_boots").simpleModel("hazard_protective_boots").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.FEET).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveHelmet = new ItemBuilder().name("hazard_protective_helmet").simpleModel("hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveChestplate = new ItemBuilder().name("hazard_protective_chestplate").simpleModel("hazard_protective_chestplate").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.CHEST).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveLeggings = new ItemBuilder().name("hazard_protective_leggings").simpleModel("hazard_protective_leggings").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.LEGS).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveBoots = new ItemBuilder().name("hazard_protective_boots").simpleModel("hazard_protective_boots").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.FEET).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
 
 
 
@@ -93,6 +102,6 @@ public class AllItems {
      *  Creative Mode/ Test Item
      * =========================
      */
-    public static final RegistryObject<Item> creativeHazardProtectiveHelmet = new ItemBuilder().name("creative_hazard_protective_helmet").simpleModel("creative_hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.NETHERITE).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).build(IMArmorItemBase::new);
+    public static final RegistryObject<Item> creativeHazardProtectiveHelmet = new ItemBuilder().name("creative_hazard_protective_helmet").simpleModel("creative_hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.NETHERITE).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(IMArmorItemBase::new);
 
 }
