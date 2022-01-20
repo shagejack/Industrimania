@@ -5,7 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import shagejack.industrimania.Industrimania;
 
-public class ShageMultiBlockCheckHelper {
+public class IMMultiBlockCheckHelper {
 
     public static int checkComplete(Level world, BlockPos pos, String[] structure, BlockPos[] rPos) {
         boolean[] complete = {true, true, true, true};

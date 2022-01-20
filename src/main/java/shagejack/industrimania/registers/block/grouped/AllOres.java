@@ -1,6 +1,5 @@
 package shagejack.industrimania.registers.block.grouped;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.material.Material;
 import shagejack.industrimania.content.contraptions.ore.BlockOre;
@@ -11,7 +10,6 @@ import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.block.BlockBuilder;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public interface AllOres extends AsBase{
@@ -20,7 +18,7 @@ public interface AllOres extends AsBase{
 
     static void initOres() {
         OreTypeRegistry.oreTypeMap.forEach((oreTypeName, oreType) -> {
-                    for (String rockName : AllRocks.ROCKS) {
+                    for (String rockName : AllRocks.ROCKS_NAME) {
                         for (int grade = 0; grade <= 2; grade++) {
                             String key = rockName + "_" + oreType.name() + "_" + grade;
                             ItemBlock oreBlock

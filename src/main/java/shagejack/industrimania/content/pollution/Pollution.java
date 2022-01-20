@@ -1,12 +1,13 @@
 package shagejack.industrimania.content.pollution;
 
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.commands.WeatherCommand;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,15 +16,11 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.feature.SnowAndFreezeFeature;
 import net.minecraft.world.level.material.Material;
-import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.pollution.record.DecayReference;
+import shagejack.industrimania.foundation.utility.IMDestructionHelper;
 import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.grouped.AllOres;
@@ -32,12 +29,13 @@ import shagejack.industrimania.registers.block.grouped.AllRocks;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.Objects;
 
 public class Pollution {
 
     private static final Map<Block, DecayReference> DAMAGE_BLOCK_MAP = new HashMap<>();
     private static final Map<Block, DecayReference> ACID_RAIN_MAP = new HashMap<>();
+    private boolean HEAVEN_TICKER = false;
 
     static {
         //COMMON DECAY
@@ -319,4 +317,54 @@ public class Pollution {
             }
         }
     }
+
+    public boolean observerFromAboveEvent(Level level, int x, int z) {
+        if (!this.HEAVEN_TICKER) {
+            Objects.requireNonNull(level.getServer()).getPlayerList().getPlayers().forEach((player -> player.displayClientMessage(new TextComponent(I18n.get("industrimania.observer_from_above_event_message", (Object) null)), true)));
+
+            int y = level.getMaxBuildHeight();
+
+            for (;y > level.getMinBuildHeight(); y--) {
+                if (!level.getBlockState(new BlockPos(x, y, z)).isAir()) break;
+            }
+
+            double d0 = (double) x + level.getRandom().nextDouble(1.0D);
+            double d1 = (double) y + 5 + level.getRandom().nextDouble(1.0D);
+            double d2 = (double) z + level.getRandom().nextDouble(1.0D);
+
+            if (level instanceof ServerLevel) {
+                for (ServerPlayer player : Objects.requireNonNull(level.getServer()).getPlayerList().getPlayers()) {
+                    ((ServerLevel) level).sendParticles(player, ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, true, d0, d1, d2, 1000000, 0.0f, 100.0f, 0.0f, 0.0f);
+                }
+            }
+
+            this.HEAVEN_TICKER = true;
+            return false;
+        } else {
+            rageFromHeaven(level, x, z);
+            return true;
+        }
+    }
+
+    public void rageFromHeaven(Level level, int x, int z) {
+
+        BlockPos center = new BlockPos(x, level.getSeaLevel(), z);
+
+        IMDestructionHelper.eraseEllipsoid(level, center, 5, 3, 5, true);
+        IMDestructionHelper.eraseEllipsoid(level, center, 10, 6, 10, true);
+        IMDestructionHelper.eraseEllipsoid(level, center, 20, 18, 20, true);
+        IMDestructionHelper.eraseEllipsoid(level, center, 35, 150, 35, true);
+        IMDestructionHelper.eraseEllipsoid(level, center, 256, 100, 256, true);
+
+        IMDestructionHelper.recoverNature(level, center, 128, 128);
+
+        this.clearPollution();
+
+    }
+
+    public void clearPollution() {
+        this.setAmount(0);
+        this.HEAVEN_TICKER = false;
+    }
+
 }

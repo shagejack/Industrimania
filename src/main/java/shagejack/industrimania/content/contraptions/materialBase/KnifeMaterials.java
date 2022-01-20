@@ -7,8 +7,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum KnifeMaterials implements KnifeMaterial {
-    BONE("iron", 15, 9, 0.5F, null),
-    FLINT("iron", 15, 9, 1.0F, null),
+    BONE("iron", 15, 9, 0.5F, () -> Ingredient.EMPTY),
+    FLINT("iron", 15, 9, 1.0F, () -> Ingredient.EMPTY),
     IRON("iron", 15, 9, 2.0F, () -> Ingredient.of(Items.IRON_INGOT)),
     GOLD("gold", 7, 25, 1.0F, () -> Ingredient.of(Items.GOLD_INGOT)),
     DIAMOND("diamond", 33, 10, 4.0F, () -> Ingredient.of(Items.DIAMOND)),

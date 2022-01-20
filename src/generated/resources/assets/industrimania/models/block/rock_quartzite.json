@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/quartzite/default",
+    "up": "industrimania:block/rock/quartzite/default",
+    "down": "industrimania:block/rock/quartzite/default",
+    "north": "industrimania:block/rock/quartzite/default",
+    "south": "industrimania:block/rock/quartzite/default",
+    "west": "industrimania:block/rock/quartzite/default",
+    "east": "industrimania:block/rock/quartzite/default"
+  }
+}

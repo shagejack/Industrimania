@@ -15,7 +15,7 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagTileEntity;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
-import shagejack.industrimania.foundation.utility.ShageMultiBlockCheckHelper;
+import shagejack.industrimania.foundation.utility.IMMultiBlockCheckHelper;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.AllTileEntities;
 
@@ -534,9 +534,9 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
     public int checkComplete(Level level) {
         int complete = -1;
         int completeState;
-        completeState = ShageMultiBlockCheckHelper.checkComplete(level, getBlockPos(), structure, posArr);
+        completeState = IMMultiBlockCheckHelper.checkComplete(level, getBlockPos(), structure, posArr);
         if (completeState != -1) {
-            BlockState state = level.getBlockState(getBlockPos().offset(ShageMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
+            BlockState state = level.getBlockState(getBlockPos().offset(IMMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
             Direction rotation = state.getValue(BlockStateProperties.FACING);
             switch (completeState) {
                 case -1:
@@ -561,8 +561,8 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
     public int debugCheckComplete(){
         int complete = -1;
         int completeState;
-        completeState = ShageMultiBlockCheckHelper.checkComplete(level, getBlockPos(), structure, posArr, true);
-        BlockState state = level.getBlockState(getBlockPos().offset(ShageMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
+        completeState = IMMultiBlockCheckHelper.checkComplete(level, getBlockPos(), structure, posArr, true);
+        BlockState state = level.getBlockState(getBlockPos().offset(IMMultiBlockCheckHelper.getRotatedPos(new BlockPos(0, 1, 1), completeState)));
         Direction rotation = state.getValue(BlockStateProperties.FACING);
         if (completeState != -1) {
             switch (completeState) {

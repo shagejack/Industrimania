@@ -10,7 +10,6 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.RegisterHandle;
-import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
@@ -85,7 +84,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public BlockBuilder asRock(float hardness, float explosionResistance, String rockTag) {
         checkProperty();
-        AllRocks.ROCKS.add(name);
+        AllRocks.ROCKS_NAME.add(name);
         AllRocks.ROCKS_HARDNESS.put(name, hardness);
         AllRocks.ROCKS_EXPLOSION_RESISTANCE.put(name, explosionResistance);
         this.tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.rock, rockTag);
