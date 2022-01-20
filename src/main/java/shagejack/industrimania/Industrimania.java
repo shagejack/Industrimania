@@ -9,6 +9,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shagejack.industrimania.foundation.network.PacketHandler;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.setup.ModSetup;
 
@@ -27,6 +28,8 @@ public class Industrimania {
             RegisterHandle.init();
 
             ModSetup.setup();
+
+            PacketHandler.init();
 
         } catch (Exception e) {
             LOGGER.error(e);

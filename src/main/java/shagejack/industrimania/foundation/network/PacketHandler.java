@@ -25,19 +25,20 @@ public class PacketHandler {
 
     public static void init() {
         register(PlayerDataSyncPacket.class, PlayerDataSyncPacket::encode, PlayerDataSyncPacket::new, PlayerDataSyncPacket::handle);
+        register(SteamPacket.class, SteamPacket::encode, SteamPacket::new, SteamPacket::handle);
     }
 
-    private static <T> void register(Class<T> cls, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, NetworkEvent.Context> handler)
+    private static <T> void register(Class<T> packetClass, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, NetworkEvent.Context> handler)
     {
-        CHANNEL.registerMessage(ID.getAndIncrement(), cls, encoder, decoder, (packet, context) -> {
+        CHANNEL.registerMessage(ID.getAndIncrement(), packetClass, encoder, decoder, (packet, context) -> {
             context.get().setPacketHandled(true);
             handler.accept(packet, context.get());
         });
     }
 
-    private static <T> void register(Class<T> cls, Supplier<T> factory, BiConsumer<T, NetworkEvent.Context> handler)
+    private static <T> void register(Class<T> packetClass, Supplier<T> factory, BiConsumer<T, NetworkEvent.Context> handler)
     {
-        CHANNEL.registerMessage(ID.getAndIncrement(), cls, (packet, buffer) -> {}, buffer -> factory.get(), (packet, context) -> {
+        CHANNEL.registerMessage(ID.getAndIncrement(), packetClass, (packet, buffer) -> {}, buffer -> factory.get(), (packet, context) -> {
             context.get().setPacketHandled(true);
             handler.accept(packet, context.get());
         });

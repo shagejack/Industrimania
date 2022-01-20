@@ -5,15 +5,13 @@ import net.minecraftforge.network.NetworkEvent;
 
 public class PlayerDataSyncPacket {
 
-    public PlayerDataSyncPacket(String particleOptions, double x, double y, double z, double vx, double vy, double vz) {
+    public PlayerDataSyncPacket() {
     }
 
-    PlayerDataSyncPacket(FriendlyByteBuf buffer)
-    {
+    PlayerDataSyncPacket(FriendlyByteBuf buffer) {
     }
 
-    void encode(FriendlyByteBuf buffer)
-    {
+    void encode(FriendlyByteBuf buffer) {
     }
 
     void handle(NetworkEvent.Context context)
