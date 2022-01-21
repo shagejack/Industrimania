@@ -1,6 +1,5 @@
 {
-  "item.industrimania.mud": "泥巴",
-  "item.industrimania.hay": "干草",
+  "block.industrimania.mechanic_drying_rack": "晾晒架"
   "block.industrimania.rock_andesite": "安山岩",
   "block.industrimania.rock_granite": "花岗岩",
   "block.industrimania.rock_diorite": "闪长岩",
@@ -26,6 +25,8 @@
   "block.industrimania.rock_gneiss": "片麻岩",
   "block.industrimania.rock_granulite": "麻粒岩",
   "block.industrimania.rock_sandstone": "砂岩",
+  "item.industrimania.mud": "泥巴",
+  "item.industrimania.hay": "干草",
   "item.industrimania.piece_rock_andesite": "安山岩",
   "item.industrimania.piece_rock_granite": "花岗岩",
   "item.industrimania.piece_rock_diorite": "闪长岩",

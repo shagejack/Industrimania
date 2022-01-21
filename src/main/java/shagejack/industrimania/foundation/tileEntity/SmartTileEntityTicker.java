@@ -6,6 +6,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 
+/**
+ @author Create Team
+ **/
 public class SmartTileEntityTicker<T extends BlockEntity> implements BlockEntityTicker<T> {
 
 	@Override

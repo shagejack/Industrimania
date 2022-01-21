@@ -8,6 +8,7 @@ import shagejack.industrimania.commands.CommandRemoveRocks;
 import shagejack.industrimania.content.pollution.PollutionEventHandler;
 import shagejack.industrimania.content.worldGen.GenerationRegistry;
 import shagejack.industrimania.registers.AllCommands;
+import shagejack.industrimania.registers.AllTileEntities;
 
 @Mod.EventBusSubscriber(modid = Industrimania.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModSetup {

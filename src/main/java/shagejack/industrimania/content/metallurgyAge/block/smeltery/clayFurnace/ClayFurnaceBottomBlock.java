@@ -29,7 +29,7 @@ public class ClayFurnaceBottomBlock extends Block implements ITE<ClayFurnaceBott
     public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState state, boolean p_48717_) {
         BlockEntity te = level.getBlockEntity(pos);
         if (te instanceof ClayFurnaceBottomTileEntity) {
-            ((ClayFurnaceBottomTileEntity) te).onDestroyed(level, pos, oldState);
+            ((ClayFurnaceBottomTileEntity) te).onRemove(level, pos, oldState);
         }
         super.onRemove(oldState, level, pos, state, p_48717_);
     }

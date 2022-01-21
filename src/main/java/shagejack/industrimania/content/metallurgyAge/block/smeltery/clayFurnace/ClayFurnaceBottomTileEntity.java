@@ -626,7 +626,7 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
         level.removeBlock(getBlockPos(), false);
     }
 
-    public void onDestroyed(Level level, BlockPos pos, BlockState state) {
+    public void onRemove(Level level, BlockPos pos, BlockState state) {
         if (!safe_removed && temperature > 473.15) unsafeRemoved();
     }
 

@@ -15,13 +15,24 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
+import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRenderer;
+import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
 import shagejack.industrimania.registers.block.AllBlocks;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class AllTileEntities {
+
+    public static final RegistryObject<BlockEntityType<?>> drying_rack
+            = new TileEntityBuilder<DryingRackTileEntity>()
+            .name("drying_rack")
+            .tileEntity(DryingRackTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_drying_rack)
+            .renderer(() -> DryingRackRenderer::new)
+            .build();
 
     public static final RegistryObject<BlockEntityType<?>> item_placeable
             = new TileEntityBuilder<ItemPlaceableBaseTileEntity>()
@@ -63,7 +74,7 @@ public class AllTileEntities {
     public static class TileEntityBuilder<T extends BlockEntity> {
 
         private RegistryObject<BlockEntityType<?>> blockEntityType;
-        private static final List<Binder<?>> tasks = new ArrayList<>();
+        public static final List<Binder<?>> tasks = new ArrayList<>();
 
         @FunctionalInterface
         public interface BlockEntityFactory<T extends BlockEntity> {

@@ -13,6 +13,10 @@ import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ @author Create Team
+ **/
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public abstract class SyncedTileEntity extends BlockEntity {

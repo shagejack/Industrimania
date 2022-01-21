@@ -11,6 +11,10 @@ import shagejack.industrimania.foundation.tileEntity.behaviour.BehaviourType;
 
 import java.util.ConcurrentModificationException;
 
+/**
+ @author Create Team
+ **/
+
 public abstract class TileEntityBehaviour {
 
 	public SmartTileEntity tileEntity;

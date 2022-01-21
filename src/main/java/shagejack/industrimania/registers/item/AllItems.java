@@ -3,9 +3,11 @@ package shagejack.industrimania.registers.item;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegistryObject;
+import shagejack.industrimania.content.contraptions.goggles.GogglesItem;
 import shagejack.industrimania.content.contraptions.itemBase.IMArmorItemBase;
 import shagejack.industrimania.content.contraptions.itemBase.IMKnifeItemBase;
 import shagejack.industrimania.content.contraptions.materialBase.KnifeMaterials;
+import shagejack.industrimania.content.logistics.item.filter.FilterItem;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
 import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireBow;
@@ -13,12 +15,14 @@ import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPla
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.ItemWoodPlaceable;
 import shagejack.industrimania.registers.AllTabs;
 
+import java.util.logging.Filter;
+
 public class AllItems {
 
     /*
     * =============
     *  Primal Age
-    * ============
+    * =============
     */
     //Material
     public static final RegistryObject<Item> sharpened_stick = new ItemBuilder().name("sharpened_stick").simpleModel("sharpened_stick").tab(AllTabs.tabMaterial).build();
@@ -27,8 +31,10 @@ public class AllItems {
     public static final RegistryObject<Item> wood_peg = new ItemBuilder().name("wood_peg").simpleModel("wood_peg").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> mud = new ItemBuilder().name("mud").simpleModel("mud").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> rotten_grass = new ItemBuilder().name("rotten_grass").simpleModel("rotten_grass").tab(AllTabs.tabMaterial).build();
 
     //Natural Resource
+    public static final RegistryObject<Item> grass = new ItemBuilder().name("grass").simpleModel("grass").tab(AllTabs.tabNature).build();
     public static final RegistryObject<Item> log_acacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
     public static final RegistryObject<Item> log_birch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
     public static final RegistryObject<Item> log_jungle = new ItemBuilder().name("log_jungle").simpleModel("log_jungle").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
@@ -44,7 +50,7 @@ public class AllItems {
     /*
      * =============
      *  Stone Age
-     * ============
+     * =============
      */
 
     //Material
@@ -52,9 +58,9 @@ public class AllItems {
     public static final RegistryObject<Item> silica = new ItemBuilder().name("silica").simpleModel("silica").tab(AllTabs.tabMaterial).build();
 
     /*
-     * =============
+     * ===============
      *  Metallurgy Age
-     * ============
+     * ===============
      */
     public static final RegistryObject<Item> bronzeHopper = new ItemBuilder().name("bronze_hopper").simpleModel("bronze_hopper").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> bronzeSaw = new ItemBuilder().name("bronze_saw").simpleModel("bronze_saw").tab(AllTabs.tabTool).build();
@@ -87,7 +93,7 @@ public class AllItems {
     /*
      * =============
      *  Steam Age
-     * ============
+     * =============
      */
 
     public static final RegistryObject<Item> hazardProtectiveHelmet = new ItemBuilder().name("hazard_protective_helmet").simpleModel("hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
@@ -95,6 +101,21 @@ public class AllItems {
     public static final RegistryObject<Item> hazardProtectiveLeggings = new ItemBuilder().name("hazard_protective_leggings").simpleModel("hazard_protective_leggings").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.LEGS).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
     public static final RegistryObject<Item> hazardProtectiveBoots = new ItemBuilder().name("hazard_protective_boots").simpleModel("hazard_protective_boots").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.FEET).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
 
+
+    /*
+     * =========================
+     *  Logistics
+     * =========================
+     */
+    public static final RegistryObject<Item> FILTER = new ItemBuilder().name("filter").simpleModel("filter").build(FilterItem::regular);
+    public static final RegistryObject<Item> ATTRIBUTE_FILTER = new ItemBuilder().name("attribute_filter").simpleModel("filter").build(FilterItem::attribute);
+
+    /*
+     * =========================
+     *  Contraptions
+     * =========================
+     */
+    public static final RegistryObject<Item> GOGGLES = new ItemBuilder().name("goggles").simpleModel("goggles").build(GogglesItem::new);
 
 
     /*

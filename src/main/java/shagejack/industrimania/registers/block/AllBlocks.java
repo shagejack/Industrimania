@@ -8,6 +8,7 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
+import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.BlockWoodPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
@@ -47,23 +48,13 @@ public class AllBlocks {
 
     //Common Blocks
 
-    //Primal Age
-    public static final ItemBlock mechanic_item_placeable
-            = new BlockBuilder()
-            .name("mechanic_item_placeable")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(BlockItemPlaceableBase::new)
-            .buildItem();
+    /*
+     * =============
+     *  Primal Age
+     * =============
+     */
 
-    public static final ItemBlock mechanic_wood_placeable
-            = new BlockBuilder()
-            .name("mechanic_wood_placeable")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(BlockWoodPlaceableBase::new)
-            .buildItem();
-
+    //building
     public static final ItemBlock building_fine_clay
             = new BlockBuilder()
             .name("building_fine_clay")
@@ -80,6 +71,8 @@ public class AllBlocks {
             .buildBlock()
             .buildItem();
 
+
+    //gravity
     public static final ItemBlock gravity_calcite
             = new BlockBuilder()
             .name("gravity_calcite")
@@ -110,6 +103,30 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(GravelBlock::new)
+            .buildItem();
+
+    //mechanic
+    public static final ItemBlock mechanic_drying_rack
+            = new BlockBuilder()
+            .name("mechanic_drying_rack")
+            .simpleBlockState()
+            .buildBlock(DryingRackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_item_placeable
+            = new BlockBuilder()
+            .name("mechanic_item_placeable")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(BlockItemPlaceableBase::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_wood_placeable
+            = new BlockBuilder()
+            .name("mechanic_wood_placeable")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(BlockWoodPlaceableBase::new)
             .buildItem();
 
     public static final ItemBlock mechanic_clay_furnace_bottom

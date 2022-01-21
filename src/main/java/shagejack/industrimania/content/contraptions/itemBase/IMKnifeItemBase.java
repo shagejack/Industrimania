@@ -1,7 +1,6 @@
 package shagejack.industrimania.content.contraptions.itemBase;
 
 import net.minecraft.world.item.Item;
-import shagejack.industrimania.content.contraptions.materialBase.Knife;
 import shagejack.industrimania.content.contraptions.materialBase.KnifeMaterial;
 
 import java.util.Map;
