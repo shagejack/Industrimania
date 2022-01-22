@@ -33,24 +33,24 @@ public class DryingRackRenderer extends SafeTileEntityRenderer<DryingRackTileEnt
 	protected void renderItems(DryingRackTileEntity te, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
 		if (!te.inventory.isEmpty()) {
 
-			for (int i = 0; i < te.inventory.getSlots(); i++) {
-				ItemStack stack = te.inventory.getStackInSlot(i);
-				if (stack.isEmpty())
-					continue;
+				ItemStack stack = te.inventory.getStackInSlot(0);
+				if (!stack.isEmpty()) {
 
-				ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-				BakedModel modelWithOverrides = itemRenderer.getModel(stack, te.getLevel(), null, 0);
-				boolean blockItem = modelWithOverrides.isGui3d();
+					ms.pushPose();
 
-				ms.translate(.5, blockItem ? .925f : 13f / 16f, .5);
+					ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+					BakedModel modelWithOverrides = itemRenderer.getModel(stack, te.getLevel(), null, 0);
+					boolean blockItem = modelWithOverrides.isGui3d();
 
-				ms.scale(.5f, .5f, .5f);
-				ms.mulPose(Vector3f.XP.rotationDegrees(90));
-				itemRenderer.renderStatic(stack, ItemTransforms.TransformType.FIXED, light, overlay, ms, buffer, 0);
-				break;
-			}
+					ms.translate(.5, blockItem ? .925f : 13f / 16f, .5);
 
-			ms.popPose();
+					ms.scale(.5f, .5f, .5f);
+					ms.mulPose(Vector3f.XP.rotationDegrees(90));
+					itemRenderer.renderStatic(stack, ItemTransforms.TransformType.FIXED, light, overlay, ms, buffer, 0);
+
+					ms.popPose();
+
+				}
 		}
 	}
 

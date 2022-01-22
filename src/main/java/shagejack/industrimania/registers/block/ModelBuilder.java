@@ -21,6 +21,20 @@ interface ModelBuilder extends AsBase{
         return (BlockBuilder) this;
     }
 
+    default BlockBuilder simplePresetModel() {
+        DataGenHandle.addBlockModelTask(provider -> {
+            var base = asBase();
+            var block = base.block;
+            var category = Objects.requireNonNull(base.name).split("_")[0];
+            var bName = Objects.requireNonNull(base.name).substring(category.length() + 1);
+            final var path = "block/" + Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName);
+            Industrimania.LOGGER.debug("set preset model for Block:{}", base.name);
+            provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
+                    .parent(DataGenHandle.modExistingModel(provider, path));
+        });
+        return (BlockBuilder) this;
+    }
+
     default BlockBuilder allSpecificModel(String up, String down, String north, String south, String west, String east) {
         DataGenHandle.addBlockModelTask(provider -> {
             var base = asBase();
@@ -46,7 +60,6 @@ interface ModelBuilder extends AsBase{
         return (BlockBuilder) this;
     }
 
-    //TODO: ore texture model (IDK how to implement this anyway)
     default BlockBuilder oreTextureModel() {
         DataGenHandle.addBlockModelTask(provider -> {
             var base = asBase();

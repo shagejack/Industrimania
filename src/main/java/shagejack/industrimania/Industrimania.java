@@ -3,12 +3,14 @@ package shagejack.industrimania;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shagejack.industrimania.registers.AllRecipeTypes;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.setup.ModSetup;
 
@@ -29,6 +31,8 @@ public class Industrimania {
             RegisterHandle.init();
 
             ModSetup.setup();
+
+            bus.addGenericListener(RecipeSerializer.class, AllRecipeTypes::register);
 
         } catch (Exception e) {
             LOGGER.error(e);

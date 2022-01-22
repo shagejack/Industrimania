@@ -53,6 +53,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
         if (requiresCorrectToolForDrops) {
             property.requiresCorrectToolForDrops();
         }
+
     }
 
     public RegistryObject<Block> getBlock() {

@@ -30,6 +30,7 @@ import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkItemT
 public final class ItemBuilder implements ModelBuilder{
      String name;
     private CreativeModeTab tab;
+    private boolean hasTab = true;
     private Item.Properties property;
     RegistryObject<Item> registryObject;
     private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
@@ -64,7 +65,13 @@ public final class ItemBuilder implements ModelBuilder{
     }
 
     public ItemBuilder tab(CreativeModeTab tab) {
+        this.hasTab = true;
         this.tab = tab;
+        return this;
+    }
+
+    public ItemBuilder noTab() {
+        this.hasTab = false;
         return this;
     }
 
@@ -136,7 +143,9 @@ public final class ItemBuilder implements ModelBuilder{
             this.property.durability(durability);
         }
 
-        property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+        if(hasTab) {
+            property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+        }
     }
 
     public ItemBuilder durability(int durability) {

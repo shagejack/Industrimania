@@ -1,5 +1,6 @@
 package shagejack.industrimania.registers.block;
 
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
@@ -14,6 +15,7 @@ import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceabl
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.item.ItemBuilder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -109,7 +111,9 @@ public class AllBlocks {
     public static final ItemBlock mechanic_drying_rack
             = new BlockBuilder()
             .name("mechanic_drying_rack")
+            .simplePresetModel()
             .simpleBlockState()
+            .renderLayer(() -> RenderType::cutout)
             .buildBlock(DryingRackBlock::new)
             .buildItem();
 
@@ -119,7 +123,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(BlockItemPlaceableBase::new)
-            .buildItem();
+            .buildItem(ItemBuilder::noTab);
 
     public static final ItemBlock mechanic_wood_placeable
             = new BlockBuilder()
@@ -127,7 +131,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(BlockWoodPlaceableBase::new)
-            .buildItem();
+            .buildItem(ItemBuilder::noTab);
 
     public static final ItemBlock mechanic_clay_furnace_bottom
             = new BlockBuilder()

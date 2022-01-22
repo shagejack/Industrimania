@@ -14,6 +14,7 @@ import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
+import shagejack.industrimania.content.metallurgyAge.block.smeltery.bronzeTube.BronzeTubeTileEntity;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRenderer;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
@@ -23,6 +24,7 @@ import shagejack.industrimania.registers.block.AllBlocks;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Supplier;
 
 public class AllTileEntities {
 
@@ -63,9 +65,9 @@ public class AllTileEntities {
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> bronze_tube
-            = new TileEntityBuilder<ClayFurnaceBottomTileEntity>()
+            = new TileEntityBuilder<BronzeTubeTileEntity>()
             .name("bronze_tube")
-            .tileEntity(ClayFurnaceBottomTileEntity::new)
+            .tileEntity(BronzeTubeTileEntity::new)
             .validBlocks(AllBlocks.mechanic_bronze_tube_block)
 //            .renderer(() -> (context) -> new TestTer()) //workable test ,remove this after test
             .build();
@@ -106,8 +108,8 @@ public class AllTileEntities {
         }
 
         public TileEntityBuilder<T> renderer(NonNullSupplier<NonNullFunction<BlockEntityRendererProvider.Context, BlockEntityRenderer<? super T>>> renderer) {
-            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
-                    tasks.add(new Binder(blockEntityType, context -> renderer.get().apply(context))));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                    tasks.add(new Binder(() -> blockEntityType, context -> renderer.get().apply(context))));
             return this;
         }
 
@@ -122,14 +124,15 @@ public class AllTileEntities {
         }
 
         public static void bind(final FMLClientSetupEvent event) {
-            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> tasks.forEach(Binder::register));
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> tasks.forEach(Binder::register));
         }
 
-        private record Binder<T extends BlockEntity>(RegistryObject<BlockEntityType<? extends T>> blockEntityType,
-                                                     BlockEntityRendererProvider<T> render) {
+        private record Binder<T extends BlockEntity>(
+                Supplier<RegistryObject<BlockEntityType<? extends T>>> blockEntityTypeSupplier,
+                BlockEntityRendererProvider<T> render) {
             private void register() {
-                DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () ->
-                        BlockEntityRenderers.register(blockEntityType.get(), render)
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                        BlockEntityRenderers.register(blockEntityTypeSupplier.get().get(), render)
                 );
             }
         }

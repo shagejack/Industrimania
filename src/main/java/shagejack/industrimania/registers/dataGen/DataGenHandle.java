@@ -28,6 +28,7 @@ import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.recipe.ProcessingRecipeGen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +145,7 @@ public class DataGenHandle {
         return provider.getExistingFile(provider.mcLoc(path));
     }
 
-    static ExistingModelFile modExistingModel(ModelProvider<?> provider, String path) {
+    public static ExistingModelFile modExistingModel(ModelProvider<?> provider, String path) {
         return provider.getExistingFile(provider.modLoc(path));
     }
 
@@ -244,5 +245,6 @@ public class DataGenHandle {
         generator.addProvider(blockStateProvider);
         generator.addProvider(blockTagsProvider);
         generator.addProvider(languageProvider);
+        ProcessingRecipeGen.registerAll(generator);
     }
 }

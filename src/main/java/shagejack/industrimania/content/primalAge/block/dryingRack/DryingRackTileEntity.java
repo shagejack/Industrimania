@@ -1,16 +1,10 @@
 package shagejack.industrimania.content.primalAge.block.dryingRack;
 
-import com.google.common.base.Suppliers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.StonecutterRecipe;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
@@ -38,20 +32,22 @@ public class DryingRackTileEntity extends SmartTileEntity {
     private static final AABB RENDER_BOX = new AABB(0, 0, 0, 1, 1, 1);
 
     private static final Object dryingRackRecipesKey = new Object();
+    private static final Object dryingRackRottenRecipesKey = new Object();
     public ProcessingInventory inventory;
     private final LazyOptional<IItemHandler> invProvider;
     private int recipeIndex;
+    private int recipeIndexRotten;
     private FilteringBehaviour filtering;
     private boolean processingRotten;
 
-    private ItemStack playEvent;
+    private ItemStack lastItem;
 
     public DryingRackTileEntity(BlockPos pos, BlockState state) {
-        super(AllTileEntities.bronze_tube.get(), pos, state);
+        super(AllTileEntities.drying_rack.get(), pos, state);
         inventory = new ProcessingInventory(this::start).withSlotLimit(true);
         inventory.remainingTime = -1;
         invProvider = LazyOptional.of(() -> inventory);
-        playEvent = ItemStack.EMPTY;
+        lastItem = ItemStack.EMPTY;
         processingRotten = false;
     }
 
@@ -65,13 +61,14 @@ public class DryingRackTileEntity extends SmartTileEntity {
     public void write(CompoundTag compound, boolean clientPacket) {
         compound.put("Inventory", inventory.serializeNBT());
         compound.putInt("RecipeIndex", recipeIndex);
+        compound.putInt("RecipeIndexRotten", recipeIndexRotten);
         compound.putBoolean("ProcessingRotten", processingRotten);
         super.write(compound, clientPacket);
 
-        if (!clientPacket || playEvent.isEmpty())
+        if (!clientPacket || lastItem.isEmpty())
             return;
-        compound.put("PlayEvent", playEvent.serializeNBT());
-        playEvent = ItemStack.EMPTY;
+        compound.put("LastItem", lastItem.serializeNBT());
+        lastItem = ItemStack.EMPTY;
     }
 
     @Override
@@ -79,9 +76,10 @@ public class DryingRackTileEntity extends SmartTileEntity {
         super.read(compound, clientPacket);
         inventory.deserializeNBT(compound.getCompound("Inventory"));
         recipeIndex = compound.getInt("RecipeIndex");
+        recipeIndexRotten = compound.getInt("RecipeIndexRotten");
         processingRotten = compound.getBoolean("ProcessingRotten");
-        if (compound.contains("PlayEvent"))
-            playEvent = ItemStack.of(compound.getCompound("PlayEvent"));
+        if (compound.contains("LastItem"))
+            lastItem = ItemStack.of(compound.getCompound("LastItem"));
     }
 
     protected AABB makeRenderBoundingBox() {
@@ -93,36 +91,78 @@ public class DryingRackTileEntity extends SmartTileEntity {
     public void tick() {
         super.tick();
 
-        if (inventory.remainingTime == -1) {
-            if (!inventory.isEmpty() && !inventory.appliedRecipe)
-                start(inventory.getStackInSlot(0));
+        if (inventory.isEmpty()) {
+            inventory.remainingTime = -1;
+            inventory.appliedRecipe = false;
+            sendData();
+            return;
+        }
+
+        if (startRotten(inventory.getStackInSlot(0))) {
+            applyRecipe();
+            inventory.appliedRecipe = true;
+            inventory.recipeDuration = 20;
+            inventory.remainingTime = -1;
+            sendData();
+            return;
+        }
+
+        if (!processingRotten && inventory.remainingTime == -1) {
+            start(inventory.getStackInSlot(0));
+            processingRotten = false;
+            sendData();
             return;
         }
 
         inventory.remainingTime -= 1;
 
-        if (inventory.remainingTime < 5 && !inventory.appliedRecipe) {
+        if (inventory.remainingTime < 5 && !inventory.appliedRecipe && !lastItem.isEmpty()) {
             if (level.isClientSide && !isVirtual())
                 return;
-            playEvent = inventory.getStackInSlot(0);
+
+            if (inventory.getStackInSlot(0).isEmpty())
+                return;
+
+            if (lastItem.equals(inventory.getStackInSlot(0), true)) {
+                inventory.appliedRecipe = false;
+                inventory.recipeDuration = 20;
+                inventory.remainingTime = -1;
+                lastItem = ItemStack.EMPTY;
+                sendData();
+                return;
+            }
+
             applyRecipe();
             inventory.appliedRecipe = true;
             inventory.recipeDuration = 20;
-            inventory.remainingTime = 20;
+            inventory.remainingTime = -1;
+            lastItem = ItemStack.EMPTY;
             sendData();
-            return;
         }
-
     }
 
     private void applyRecipe() {
-        List<? extends Recipe<?>> recipes = getRecipes();
-        if (recipes.isEmpty())
-            return;
-        if (recipeIndex >= recipes.size())
-            recipeIndex = 0;
+        Recipe<?> recipe;
 
-        Recipe<?> recipe = recipes.get(recipeIndex);
+        if (!processingRotten) {
+            List<? extends Recipe<?>> recipes = getRecipes();
+            if (recipes.isEmpty())
+                return;
+
+            if (recipeIndex >= recipes.size())
+                recipeIndex = 0;
+
+            recipe = recipes.get(recipeIndex);
+        } else {
+            List<? extends Recipe<?>> recipes = getRecipesRotten();
+            if (recipes.isEmpty())
+                return;
+
+            if (recipeIndexRotten >= recipes.size())
+                recipeIndexRotten = 0;
+
+            recipe = recipes.get(recipeIndexRotten);
+        }
 
         int rolls = inventory.getStackInSlot(0)
                 .getCount();
@@ -138,8 +178,7 @@ public class DryingRackTileEntity extends SmartTileEntity {
                         .copy());
             }
 
-            for (int i = 0; i < results.size(); i++) {
-                ItemStack stack = results.get(i);
+            for (ItemStack stack : results) {
                 ItemHelper.addToList(stack, list);
             }
         }
@@ -147,9 +186,8 @@ public class DryingRackTileEntity extends SmartTileEntity {
             inventory.setStackInSlot(slot, list.get(slot));
         }
 
-    }
-
-    public void onRemove(Level level, BlockPos pos, BlockState oldState) {
+        processingRotten = false;
+        sendData();
 
     }
 
@@ -161,52 +199,104 @@ public class DryingRackTileEntity extends SmartTileEntity {
     }
 
     public void start(ItemStack inserted) {
-        if (inventory.isEmpty())
+        if (inventory.isEmpty() || (!lastItem.isEmpty() && !lastItem.equals(inserted, true))) {
+            inventory.remainingTime = -1;
+            inventory.appliedRecipe = false;
+            lastItem = ItemStack.EMPTY;
+            sendData();
             return;
+        }
+
         if (level.isClientSide && !isVirtual())
             return;
 
         List<? extends Recipe<?>> recipes = getRecipes();
         boolean valid = !recipes.isEmpty();
-        int time = 1200;
+        int time;
 
-        if (recipes.isEmpty()) {
-            inventory.remainingTime = inventory.recipeDuration = 10;
+        if (!valid) {
+            inventory.remainingTime = -1;
             inventory.appliedRecipe = false;
+            lastItem = ItemStack.EMPTY;
             sendData();
             return;
         }
 
-        if (valid) {
-            recipeIndex++;
-            if (recipeIndex >= recipes.size())
-                recipeIndex = 0;
-        }
+        recipeIndex++;
+        if (recipeIndex >= recipes.size() || recipeIndex < 0)
+            recipeIndex = 0;
+
 
         Recipe<?> recipe = recipes.get(recipeIndex);
 
         if (recipe instanceof DryingRackRecipe) {
             time = ((DryingRackRecipe) recipe).getProcessingDuration();
-        } else if (recipe instanceof DryingRackRottenRecipe) {
-            time = ((DryingRackRottenRecipe) recipe).getProcessingDuration();
+            inventory.remainingTime = time;
+            inventory.recipeDuration = time;
+            inventory.appliedRecipe = false;
+            lastItem = inserted.copy();
         }
 
-        inventory.remainingTime = time;
-        inventory.recipeDuration = inventory.remainingTime;
-        inventory.appliedRecipe = false;
         sendData();
+    }
+
+    public boolean startRotten(ItemStack inserted) {
+        if (inventory.isEmpty()) {
+            processingRotten = false;
+            sendData();
+            return false;
+        }
+
+        if (level.isClientSide && !isVirtual())
+            return false;
+
+        List<? extends Recipe<?>> recipes = getRecipesRotten();
+        boolean valid = !recipes.isEmpty();
+
+        if (!valid) {
+            processingRotten = false;
+            sendData();
+            return false;
+        }
+
+        recipeIndexRotten++;
+        if (recipeIndexRotten >= recipes.size() || recipeIndexRotten < 0)
+            recipeIndexRotten = 0;
+
+
+        Recipe<?> recipe = recipes.get(recipeIndexRotten);
+
+        if (recipe instanceof DryingRackRottenRecipe) {
+            if (level.isRaining() || level.getRandom().nextDouble() < 0.00005) {
+                return true;
+            } else {
+                recipeIndexRotten--;
+            }
+        }
+
+        sendData();
+        return false;
     }
 
     private List<? extends Recipe<?>> getRecipes() {
         Predicate<Recipe<?>> types;
-        if (!level.isRaining() && level.getRandom().nextDouble() > 0.0001 && !processingRotten) {
-            types = RecipeConditions.isOfType(AllRecipeTypes.DRYING_RACK.getType());
-        } else {
-            types = RecipeConditions.isOfType(AllRecipeTypes.DRYING_RACK_ROTTEN.getType());
-            processingRotten = true;
-        }
+
+        types = RecipeConditions.isOfType(AllRecipeTypes.DRYING_RACK.getType());
 
         List<Recipe<?>> startedSearch = RecipeFinder.get(dryingRackRecipesKey, level, types);
+        return startedSearch.stream()
+                .filter(RecipeConditions.outputMatchesFilter(filtering))
+                .filter(RecipeConditions.firstIngredientMatches(inventory.getStackInSlot(0)))
+                .filter(r -> !AllRecipeTypes.isManualRecipe(r))
+                .collect(Collectors.toList());
+    }
+
+    private List<? extends Recipe<?>> getRecipesRotten() {
+        Predicate<Recipe<?>> types;
+
+        types = RecipeConditions.isOfType(AllRecipeTypes.DRYING_RACK_ROTTEN.getType());
+
+        List<Recipe<?>> startedSearch = RecipeFinder.get(dryingRackRottenRecipesKey, level, types);
         return startedSearch.stream()
                 .filter(RecipeConditions.outputMatchesFilter(filtering))
                 .filter(RecipeConditions.firstIngredientMatches(inventory.getStackInSlot(0)))

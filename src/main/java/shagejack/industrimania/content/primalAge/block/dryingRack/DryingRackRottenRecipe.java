@@ -9,7 +9,7 @@ import shagejack.industrimania.registers.AllRecipeTypes;
 public class DryingRackRottenRecipe extends ProcessingRecipe<RecipeWrapper> {
 
     public DryingRackRottenRecipe(ProcessingRecipeParams params) {
-        super(AllRecipeTypes.DRYING_RACK, params);
+        super(AllRecipeTypes.DRYING_RACK_ROTTEN, params);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class DryingRackRottenRecipeGen extends ProcessingRecipeGen {
     GRASS_ROT = rot(AllItems.grass.get(), AllItems.rotten_grass.get()),
     HAY_ROT = rot(AllItems.hay.get(), AllItems.rotten_grass.get())
 
-                    ;
+    ;
 
     GeneratedRecipe rot(Item input, Item rot) {
         return create(() -> input, b -> b.duration(50)
@@ -25,7 +25,7 @@ public class DryingRackRottenRecipeGen extends ProcessingRecipeGen {
 
     @Override
     protected AllRecipeTypes getRecipeType() {
-        return AllRecipeTypes.DRYING_RACK;
+        return AllRecipeTypes.DRYING_RACK_ROTTEN;
     }
 
 }
