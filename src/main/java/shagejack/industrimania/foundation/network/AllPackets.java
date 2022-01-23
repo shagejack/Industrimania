@@ -12,6 +12,7 @@ import net.minecraftforge.network.PacketDistributor.TargetPoint;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.content.steamAge.steam.SteamUpdatePacket;
 import shagejack.industrimania.foundation.network.packet.FilteringCountUpdatePacket;
 import shagejack.industrimania.foundation.network.packet.SimplePacketBase;
 
@@ -20,6 +21,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static net.minecraftforge.network.NetworkDirection.PLAY_TO_CLIENT;
 import static net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER;
 
 /**
@@ -27,9 +29,11 @@ import static net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER;
  */
 public enum AllPackets {
     //Client to Server
-    CONFIGURE_FILTERING_AMOUNT(FilteringCountUpdatePacket.class, FilteringCountUpdatePacket::new, PLAY_TO_SERVER)
+    CONFIGURE_FILTERING_AMOUNT(FilteringCountUpdatePacket.class, FilteringCountUpdatePacket::new, PLAY_TO_SERVER),
+
 
     //Server to Client
+    STEAM_UPDATE(SteamUpdatePacket.class, SteamUpdatePacket::new, PLAY_TO_CLIENT)
 
     ;
 
