@@ -13,7 +13,6 @@ import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeB
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeSerializer;
 import shagejack.industrimania.foundation.utility.recipe.IRecipeTypeInfo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -37,7 +36,7 @@ public abstract class ProcessingRecipeGen extends IndustrimaniaRecipeProvider {
 			}
 
 			@Override
-			public void run(HashCache dc) throws IOException {
+			public void run(HashCache dc) {
 				GENERATORS.forEach(g -> {
 					try {
 						g.run(dc);

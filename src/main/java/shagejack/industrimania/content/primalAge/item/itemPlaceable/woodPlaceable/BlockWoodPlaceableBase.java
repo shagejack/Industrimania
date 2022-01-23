@@ -16,9 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.registries.ForgeRegistries;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.registers.AllTileEntities;
 

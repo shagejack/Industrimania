@@ -30,7 +30,6 @@ import shagejack.industrimania.content.contraptions.goggles.IHaveGoggleInformati
 import shagejack.industrimania.foundation.utility.Couple;
 import shagejack.industrimania.foundation.utility.FontHelper;
 import shagejack.industrimania.foundation.utility.Lang;
-import shagejack.industrimania.registers.item.AllItems;
 
 public class TooltipHelper {
 

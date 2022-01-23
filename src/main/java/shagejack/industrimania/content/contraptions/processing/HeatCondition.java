@@ -11,7 +11,7 @@ public enum HeatCondition {
 
 	private int color;
 
-	private HeatCondition(int color) {
+	HeatCondition(int color) {
 		this.color = color;
 	}
 

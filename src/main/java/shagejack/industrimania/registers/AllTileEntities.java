@@ -22,7 +22,6 @@ import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPla
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
 import shagejack.industrimania.registers.block.AllBlocks;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -80,7 +79,7 @@ public class AllTileEntities {
 
         @FunctionalInterface
         public interface BlockEntityFactory<T extends BlockEntity> {
-            public T create(BlockPos pos, BlockState state);
+            T create(BlockPos pos, BlockState state);
         }
 
         public TileEntityBuilder<T> tileEntity(BlockEntityFactory<T> factory) {
@@ -95,8 +94,7 @@ public class AllTileEntities {
         public RegistryObject<BlockEntityType<?>> build() {
             BlockEntityFactory<T> factory = this.factory;
             blockEntityType = RegisterHandle.BLOCK_ENTITY_TYPE_REGISTER.register(name, ()
-                    -> BlockEntityType.Builder.of((pos, state)
-                            -> factory.create(pos, state),
+                    -> BlockEntityType.Builder.of(factory::create,
                             validBlocks.stream().map(RegistryObject::get).toArray(Block[]::new))
                     .build(null));
             return blockEntityType;

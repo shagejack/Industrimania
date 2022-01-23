@@ -21,7 +21,7 @@ public enum KnifeMaterials implements KnifeMaterial {
     private final float sharpness;
     private final LazyLoadedValue<Ingredient> repairIngredient;
 
-    private KnifeMaterials(String name, int durability, int enchantmentValue, float sharpness, Supplier<Ingredient> repairIngredient) {
+    KnifeMaterials(String name, int durability, int enchantmentValue, float sharpness, Supplier<Ingredient> repairIngredient) {
         this.name = name;
         this.durability = durability;
         this.enchantmentValue = enchantmentValue;

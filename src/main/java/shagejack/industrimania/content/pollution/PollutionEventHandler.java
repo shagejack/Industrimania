@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +23,6 @@ import shagejack.industrimania.registers.item.AllItems;
 
 import java.awt.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class PollutionEventHandler {

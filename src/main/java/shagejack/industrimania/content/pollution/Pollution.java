@@ -285,7 +285,7 @@ public class Pollution {
 
     public static void makeFall(Level level, BlockPos pos) {
         if (isFree(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight()) {
-            FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(level, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, level.getBlockState(pos));
+            FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(level, (double)pos.getX() + 0.5D, pos.getY(), (double)pos.getZ() + 0.5D, level.getBlockState(pos));
             level.removeBlock(pos, true);
             level.addFreshEntity(fallingBlockEntity);
         }

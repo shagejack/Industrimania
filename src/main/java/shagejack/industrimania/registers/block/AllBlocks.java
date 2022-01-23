@@ -10,6 +10,10 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.
 import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
+import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
+import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
+import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
+import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.BlockWoodPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
@@ -45,8 +49,6 @@ public class AllBlocks {
             .snowLikeBlockState()
             .buildBlock(BlockAshesLayers::new)
             .buildItem();
-
-    //Common Plants
 
     //Common Blocks
 
@@ -108,6 +110,41 @@ public class AllBlocks {
             .buildItem();
 
     //mechanic
+    public static final ItemBlock mechanic_grass_stack
+            = new BlockBuilder()
+            .name("mechanic_grass_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .randomTicks()
+            .buildBlock(GrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_hay_stack
+            = new BlockBuilder()
+            .name("mechanic_hay_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .randomTicks()
+            .buildBlock(HayStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_moldy_grass_stack
+            = new BlockBuilder()
+            .name("mechanic_moldy_grass_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .randomTicks()
+            .buildBlock(MoldyGrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_rotten_grass_stack
+            = new BlockBuilder()
+            .name("mechanic_rotten_grass_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(RottenGrassStackBlock::new)
+            .buildItem();
+
     public static final ItemBlock mechanic_drying_rack
             = new BlockBuilder()
             .name("mechanic_drying_rack")
@@ -156,6 +193,14 @@ public class AllBlocks {
             .rotatableBlockState()
             .buildBlock(BlockDirectionalBase::new)
             .buildItem();
+
+    /*
+    * ======================
+    *    World Generation
+    * ======================
+     */
+
+    //Common Plants
 
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana

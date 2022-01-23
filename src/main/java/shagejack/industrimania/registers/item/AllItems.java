@@ -15,8 +15,6 @@ import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPla
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.ItemWoodPlaceable;
 import shagejack.industrimania.registers.AllTabs;
 
-import java.util.logging.Filter;
-
 public class AllItems {
 
     /*

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "industrimania:block/mechanic_hay_stack"
+    },
+    "axis=y": {
+      "model": "industrimania:block/mechanic_hay_stack"
+    },
+    "axis=z": {
+      "model": "industrimania:block/mechanic_hay_stack"
+    }
+  }
+}

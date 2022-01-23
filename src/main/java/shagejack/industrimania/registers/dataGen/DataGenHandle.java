@@ -1,6 +1,5 @@
 package shagejack.industrimania.registers.dataGen;
 
-import com.google.common.collect.Lists;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -31,7 +30,6 @@ import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.recipe.ProcessingRecipeGen;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;

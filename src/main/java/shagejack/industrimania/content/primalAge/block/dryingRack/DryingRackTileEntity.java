@@ -170,7 +170,7 @@ public class DryingRackTileEntity extends SmartTileEntity {
 
         List<ItemStack> list = new ArrayList<>();
         for (int roll = 0; roll < rolls; roll++) {
-            List<ItemStack> results = new LinkedList<ItemStack>();
+            List<ItemStack> results = new LinkedList<>();
             if (recipe instanceof DryingRackRecipe) {
                 results = ((DryingRackRecipe) recipe).rollResults();
             } else if (recipe instanceof DryingRackRottenRecipe) {
@@ -267,7 +267,7 @@ public class DryingRackTileEntity extends SmartTileEntity {
         Recipe<?> recipe = recipes.get(recipeIndexRotten);
 
         if (recipe instanceof DryingRackRottenRecipe) {
-            if (level.isRaining() || level.getRandom().nextDouble() < 0.00005) {
+            if (level.isRainingAt(getBlockPos().above()) || level.getRandom().nextDouble() < 0.00005) {
                 return true;
             } else {
                 recipeIndexRotten--;

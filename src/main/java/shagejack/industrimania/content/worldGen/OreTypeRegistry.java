@@ -1,12 +1,9 @@
 package shagejack.industrimania.content.worldGen;
 
-import com.google.common.collect.Lists;
 import shagejack.industrimania.api.chemistry.ChemicalFormula;
-import shagejack.industrimania.content.worldGen.record.Ore;
 import shagejack.industrimania.content.worldGen.record.OreType;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class OreTypeRegistry {

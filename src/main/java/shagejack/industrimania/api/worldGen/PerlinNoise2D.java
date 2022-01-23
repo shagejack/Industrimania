@@ -23,8 +23,8 @@ public class PerlinNoise2D {
 
 	public float valueAt(double x, double y) {
 		float sum = 0;
-		for (int i = 0; i < layers.length; i++) {
-			sum += layers[i].getValueAt(x, y);
+		for (NoiseLayer2D layer : layers) {
+			sum += layer.getValueAt(x, y);
 		}
 		return sum;
 	}

@@ -21,7 +21,7 @@ public enum AllKeys {
     private int key;
     private boolean modifiable;
 
-    private AllKeys(String description, int defaultKey) {
+    AllKeys(String description, int defaultKey) {
         this.description = Industrimania.MOD_ID + ".keyinfo." + description;
         this.key = defaultKey;
         this.modifiable = !description.isEmpty();

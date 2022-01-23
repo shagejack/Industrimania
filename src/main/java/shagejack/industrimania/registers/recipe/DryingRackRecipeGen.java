@@ -2,8 +2,6 @@ package shagejack.industrimania.registers.recipe;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import shagejack.industrimania.registers.AllRecipeTypes;
 import shagejack.industrimania.registers.item.AllItems;
 
@@ -11,7 +9,7 @@ public class DryingRackRecipeGen extends ProcessingRecipeGen {
 
     GeneratedRecipe
 
-    GRASS_DRY = dry(AllItems.grass.get(), AllItems.hay.get(), 3600);
+    GRASS_DRY = dry(AllItems.grass.get(), AllItems.hay.get(), 3600)
 
                     ;
 

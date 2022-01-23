@@ -125,7 +125,7 @@ public class ItemHelper {
 		return false;
 	}
 
-	public static enum ExtractionCountMode {
+	public enum ExtractionCountMode {
 		EXACTLY, UPTO
 	}
 

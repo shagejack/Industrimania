@@ -5,10 +5,6 @@ import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.block.grouped.AsBase;
 import shagejack.industrimania.registers.item.AllGroupedItems;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 /**
  * way to add new grouped block
  * add an interface under {@link shagejack.industrimania.registers.block.grouped} and extends AsBase

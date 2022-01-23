@@ -7,32 +7,24 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
-import shagejack.industrimania.foundation.utility.Pair;
 
 import javax.annotation.Nullable;
 
 public class FluidHelper {
 
-	public static enum FluidExchange {
-		ITEM_TO_TANK, TANK_TO_ITEM;
+	public enum FluidExchange {
+		ITEM_TO_TANK, TANK_TO_ITEM
 	}
 
 	public static boolean isWater(Fluid fluid) {

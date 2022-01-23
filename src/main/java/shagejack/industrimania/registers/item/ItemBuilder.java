@@ -1,20 +1,16 @@
 package shagejack.industrimania.registers.item;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.IItemRenderProperties;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
-import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,9 +19,6 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkItemModelExist;
-import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkItemTextureExist;
 
 public final class ItemBuilder implements ModelBuilder{
      String name;

@@ -3,7 +3,6 @@ package shagejack.industrimania.content.primalAge.block.dryingRack;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import shagejack.industrimania.api.util.TransformStack;
 import shagejack.industrimania.foundation.tileEntity.behaviour.ValueBoxTransform;
 import shagejack.industrimania.foundation.utility.VecHelper;
 

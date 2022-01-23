@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import shagejack.industrimania.registers.ItemBlock;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public interface AllRocks extends AsBase{
 

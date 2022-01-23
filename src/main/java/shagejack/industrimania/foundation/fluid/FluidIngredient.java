@@ -2,7 +2,6 @@ package shagejack.industrimania.foundation.fluid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -123,7 +122,7 @@ public abstract class FluidIngredient implements Predicate<FluidStack> {
 
 	public static FluidIngredient deserialize(@Nullable JsonElement je) {
 		if (!isFluidIngredient(je))
-			throw new JsonSyntaxException("Invalid fluid ingredient: " + Objects.toString(je));
+			throw new JsonSyntaxException("Invalid fluid ingredient: " + je);
 
 		JsonObject json = je.getAsJsonObject();
 		FluidIngredient ingredient = json.has("fluidTag") ? new FluidTagIngredient() : new FluidStackIngredient();

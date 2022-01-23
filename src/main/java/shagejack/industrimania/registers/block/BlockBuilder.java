@@ -28,6 +28,8 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
     protected float hardness;
     protected float explosionResistance;
     protected Material material;
+    protected boolean isRandomlyTicking;
+    protected boolean dynamicShape;
     protected boolean requiresCorrectToolForDrops = false;
     protected final Map<String, Object> extraParam = new HashMap();
 
@@ -52,6 +54,14 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
         if (requiresCorrectToolForDrops) {
             property.requiresCorrectToolForDrops();
+        }
+
+        if(isRandomlyTicking) {
+            property.randomTicks();
+        }
+
+        if(dynamicShape) {
+            property.dynamicShape();
         }
 
     }
@@ -148,6 +158,16 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public BlockBuilder requiresCorrectToolForDrops() {
         this.requiresCorrectToolForDrops = true;
+        return this;
+    }
+
+    public BlockBuilder randomTicks() {
+        this.isRandomlyTicking = true;
+        return this;
+    }
+
+    public BlockBuilder dynamicShape() {
+        this.dynamicShape = true;
         return this;
     }
 

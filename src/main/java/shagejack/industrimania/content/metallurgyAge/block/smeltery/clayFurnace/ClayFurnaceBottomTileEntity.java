@@ -398,37 +398,40 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
         [5]4Fe + 3O2 ~ 2Fe2O3
          */
 
-        switch(reaction){
-            case 0:
+        switch (reaction) {
+            case 0 -> {
                 amount = 0.0005 * temperature / 800 - mol_CarbonOxide * 0.0002 * temperature / 800;
                 if (amount > mol_Charcoal) amount = mol_Charcoal;
                 if (amount < 0) amount = 0;
-                break;
-            case 1:
+            }
+            case 1 -> {
                 amount = 0.00005 * temperature / 800 - mol_CarbonOxide * 0.00001 * temperature / 800;
-                if (amount > mol_CalciumOxide || amount * 3 > mol_Charcoal) amount = Math.min(mol_CalciumOxide, mol_Charcoal / 3 );
+                if (amount > mol_CalciumOxide || amount * 3 > mol_Charcoal)
+                    amount = Math.min(mol_CalciumOxide, mol_Charcoal / 3);
                 if (amount < 0) amount = 0;
-                break;
-            case 2:
+            }
+            case 2 -> {
                 amount = mol_CarbonOxide * 0.00025 * temperature / 800;
-                if (amount > mol_IronOxide || amount * 3 > mol_CarbonOxide) amount = Math.min(mol_IronOxide, mol_CarbonOxide/ 3 );
+                if (amount > mol_IronOxide || amount * 3 > mol_CarbonOxide)
+                    amount = Math.min(mol_IronOxide, mol_CarbonOxide / 3);
                 if (amount < 0) amount = 0;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 amount = 0.00005 * temperature / 500;
-                if (amount > mol_CalciumOxide || amount > mol_Impurities) amount = Math.min(mol_CalciumOxide, mol_Impurities);
+                if (amount > mol_CalciumOxide || amount > mol_Impurities)
+                    amount = Math.min(mol_CalciumOxide, mol_Impurities);
                 if (amount < 0) amount = 0;
-                break;
-            case 4:
+            }
+            case 4 -> {
                 amount = mol_CarbonOxide * mol_OxygenFlow * 0.000005 * temperature / 800;
                 if (amount * 2 > mol_CarbonOxide) amount = mol_CarbonOxide / 2;
                 if (amount < 0) amount = 0;
-                break;
-            case 5:
+            }
+            case 5 -> {
                 amount = mol_OxygenFlow * 0.000005 * temperature / 800;
                 if (amount * 4 > mol_Iron) amount = mol_Iron / 4;
                 if (amount < 0) amount = 0;
-                break;
+            }
         }
 
         return amount;
@@ -566,26 +569,26 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
         Direction rotation = state.getValue(BlockStateProperties.FACING);
         if (completeState != -1) {
             switch (completeState) {
-                case 0:
+                case 0 -> {
                     complete = (rotation == Direction.NORTH || rotation == Direction.SOUTH) ? 0 : -1;
                     if (complete == -1)
                         Industrimania.LOGGER.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     complete = (rotation == Direction.WEST || rotation == Direction.EAST) ? 1 : -1;
                     if (complete == -1)
                         Industrimania.LOGGER.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     complete = (rotation == Direction.NORTH || rotation == Direction.SOUTH) ? 2 : -1;
                     if (complete == -1)
                         Industrimania.LOGGER.debug("Incomplete! Tube Rotation Tab should be WEST or EAST but actually " + rotation);
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     complete = (rotation == Direction.WEST || rotation == Direction.EAST) ? 3 : -1;
                     if (complete == -1)
                         Industrimania.LOGGER.debug("Incomplete! Tube Rotation Tab should be NORTH or SOUTH but actually " + rotation);
-                    break;
+                }
             }
         }
         Industrimania.LOGGER.debug("Result: " + complete);

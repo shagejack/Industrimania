@@ -22,12 +22,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.block.Block;
 import shagejack.industrimania.foundation.utility.Lang;
 
@@ -47,7 +45,7 @@ public class ItemDescription {
 
         ;
 
-        private Palette(ChatFormatting primary, ChatFormatting highlight) {
+        Palette(ChatFormatting primary, ChatFormatting highlight) {
             color = primary;
             hColor = highlight;
         }
@@ -74,12 +72,10 @@ public class ItemDescription {
     }
 
     public static String makeProgressBar(int length, int filledLength) {
-        String bar = " ";
+        StringBuilder bar = new StringBuilder(" ");
         int emptySpaces = length - 1 - filledLength;
-        for (int i = 0; i <= filledLength; i++)
-            bar += "\u2588";
-        for (int i = 0; i < emptySpaces; i++)
-            bar += "\u2592";
+        bar.append("\u2588".repeat(Math.max(0, filledLength + 1)));
+        bar.append("\u2592".repeat(Math.max(0, emptySpaces)));
         return bar + " ";
     }
 

@@ -22,7 +22,7 @@ public enum AllSections {
 
     private Palette tooltipPalette;
 
-    private AllSections(Palette tooltipPalette) {
+    AllSections(Palette tooltipPalette) {
         this.tooltipPalette = tooltipPalette;
     }
 

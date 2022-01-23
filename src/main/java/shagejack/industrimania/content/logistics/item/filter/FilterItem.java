@@ -8,8 +8,6 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -42,7 +40,7 @@ public class FilterItem extends Item implements MenuProvider {
     private FilterType type;
 
     private enum FilterType {
-        REGULAR, ATTRIBUTE;
+        REGULAR, ATTRIBUTE
     }
 
     public static FilterItem regular(Properties properties) {

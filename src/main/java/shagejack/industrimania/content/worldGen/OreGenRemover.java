@@ -48,7 +48,7 @@ public class OreGenRemover {
     // Validates and removes each feature
     private static List<ConfiguredFeature<?, ?>> featureRemover(Block targetBlock,
                                                                 ConfiguredFeature<?, ?> targetFeature) {
-        List<ConfiguredFeature<?, ?>> removed = new LinkedList<ConfiguredFeature<?, ?>>();
+        List<ConfiguredFeature<?, ?>> removed = new LinkedList<>();
 
         if (targetBlock != null) {
             if (toRm.contains(targetBlock)) {
@@ -60,7 +60,7 @@ public class OreGenRemover {
 
     // Filters the features before sending em to the featureRemover()
     public static List<Supplier<PlacedFeature>> filterFeatures(List<Supplier<PlacedFeature>> features) {
-        List<Supplier<PlacedFeature>> removed = new LinkedList<Supplier<PlacedFeature>>();
+        List<Supplier<PlacedFeature>> removed = new LinkedList<>();
         for (Supplier<PlacedFeature> feature : features) {
             feature.get().getFeatures().forEach((confFeat) -> {
                 List<OreConfiguration.TargetBlockState> targets = null;
@@ -72,10 +72,10 @@ public class OreGenRemover {
 
                 if (targets != null) {
                     List<Boolean> mapped = targets.parallelStream()
-                            .map(t -> Boolean.valueOf(featureRemover(t.state.getBlock(), confFeat).size() > 0))
+                            .map(t -> featureRemover(t.state.getBlock(), confFeat).size() > 0)
                             .collect(Collectors.toList());
 
-                    if (mapped.contains(Boolean.valueOf(true))) {
+                    if (mapped.contains(Boolean.TRUE)) {
                         removed.add(feature);
                     }
                 }
