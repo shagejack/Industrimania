@@ -183,7 +183,7 @@ public class SteamStack {
         return code;
     }
 
-    public double getSteamPressure() {
+    public double getPressure() {
         if (isEmpty())
             return 0;
 
@@ -213,7 +213,7 @@ public class SteamStack {
         double a = 0.16946;
         double b = 3.8232;
         double c = 1.1946;
-        double p = getSteamPressure();
+        double p = getPressure();
         return a * p * p + b * p + c;
     }
 
@@ -228,11 +228,11 @@ public class SteamStack {
         if (isEmpty())
             return 0;
 
-        return getVolume() * getSteamPressure();
+        return getVolume() * getPressure();
     }
 
     public double getMoistureContent() {
-        return isEmpty() || isSuperheated() ? 0 : 220 * getSteamPressure() * getMass() / (getTemperature() * getDensity());
+        return isEmpty() || isSuperheated() ? 0 : 220 * getPressure() * getMass() / (getTemperature() * getDensity());
     }
 
     public double getLatentHeat() {
@@ -304,7 +304,7 @@ public class SteamStack {
     }
 
     public double getPower(double efficiency) {
-        return efficiency * getMass() * getSteamPressure();
+        return efficiency * getMass() * getPressure();
     }
 
     public double getWork(double efficiency) {
@@ -315,7 +315,7 @@ public class SteamStack {
         if (isEmpty())
             return 0;
 
-        return getSteamPressure() * getTemperature() / 40;
+        return getPressure() * getTemperature() / 40;
     }
 
     public SteamStack manageSteamFromConsume(double consume) {
