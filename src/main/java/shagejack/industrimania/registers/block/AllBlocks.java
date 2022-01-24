@@ -15,7 +15,6 @@ import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.BlockWoodPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
@@ -160,14 +159,6 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(BlockItemPlaceableBase::new)
-            .buildItem(ItemBuilder::noTab);
-
-    public static final ItemBlock mechanic_wood_placeable
-            = new BlockBuilder()
-            .name("mechanic_wood_placeable")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(BlockWoodPlaceableBase::new)
             .buildItem(ItemBuilder::noTab);
 
     public static final ItemBlock mechanic_clay_furnace_bottom

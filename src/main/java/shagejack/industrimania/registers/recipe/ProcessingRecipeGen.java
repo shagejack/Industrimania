@@ -27,6 +27,7 @@ public abstract class ProcessingRecipeGen extends IndustrimaniaRecipeProvider {
 	public static void registerAll(DataGenerator gen) {
 		GENERATORS.add(new DryingRackRecipeGen(gen));
 		GENERATORS.add(new DryingRackRottenRecipeGen(gen));
+		GENERATORS.add(new ItemPlaceableBurnRecipeGen(gen));
 
 		gen.addProvider(new DataProvider() {
 

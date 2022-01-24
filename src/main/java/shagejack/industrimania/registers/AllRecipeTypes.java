@@ -14,6 +14,7 @@ import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeB
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeSerializer;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRecipe;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRottenRecipe;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBurnRecipe;
 import shagejack.industrimania.foundation.utility.Lang;
 import shagejack.industrimania.foundation.utility.recipe.IRecipeTypeInfo;
 
@@ -23,7 +24,8 @@ import java.util.function.Supplier;
 public enum AllRecipeTypes implements IRecipeTypeInfo {
 
     DRYING_RACK(DryingRackRecipe::new),
-    DRYING_RACK_ROTTEN(DryingRackRottenRecipe::new)
+    DRYING_RACK_ROTTEN(DryingRackRottenRecipe::new),
+    ITEM_PLACEABLE_BURN(ItemPlaceableBurnRecipe::new)
 
     ;
 

@@ -19,7 +19,6 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRenderer;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
 import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.*;
@@ -40,13 +39,6 @@ public class AllTileEntities {
             .name("item_placeable")
             .tileEntity(ItemPlaceableBaseTileEntity::new)
             .validBlocks(AllBlocks.mechanic_item_placeable)
-            .build();
-
-    public static final RegistryObject<BlockEntityType<?>> wood_placeable
-            = new TileEntityBuilder<WoodPlaceableTileEntity>()
-            .name("wood_placeable")
-            .tileEntity(WoodPlaceableTileEntity::new)
-            .validBlocks(AllBlocks.mechanic_wood_placeable)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> clay_furnace_bottom

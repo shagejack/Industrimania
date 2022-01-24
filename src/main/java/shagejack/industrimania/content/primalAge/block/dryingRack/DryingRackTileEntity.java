@@ -153,6 +153,7 @@ public class DryingRackTileEntity extends SmartTileEntity {
                 recipeIndex = 0;
 
             recipe = recipes.get(recipeIndex);
+
         } else {
             List<? extends Recipe<?>> recipes = getRecipesRotten();
             if (recipes.isEmpty())
@@ -173,6 +174,18 @@ public class DryingRackTileEntity extends SmartTileEntity {
             List<ItemStack> results = new LinkedList<>();
             if (recipe instanceof DryingRackRecipe) {
                 results = ((DryingRackRecipe) recipe).rollResults();
+
+                if (results.isEmpty()) {
+                    List<? extends Recipe<?>> recipesRotten = getRecipesRotten();
+                    if (recipesRotten.isEmpty())
+                        return;
+
+                    if (recipeIndexRotten >= recipesRotten.size())
+                        recipeIndexRotten = 0;
+
+                    results.add(recipesRotten.get(recipeIndexRotten).getResultItem().copy());
+                }
+
             } else if (recipe instanceof DryingRackRottenRecipe) {
                 results.add(recipe.getResultItem()
                         .copy());
@@ -199,6 +212,10 @@ public class DryingRackTileEntity extends SmartTileEntity {
     }
 
     public void start(ItemStack inserted) {
+        assert level != null;
+        if (level.isClientSide && !isVirtual())
+            return;
+
         if (inventory.isEmpty() || (!lastItem.isEmpty() && !lastItem.equals(inserted, true))) {
             inventory.remainingTime = -1;
             inventory.appliedRecipe = false;
@@ -206,9 +223,6 @@ public class DryingRackTileEntity extends SmartTileEntity {
             sendData();
             return;
         }
-
-        if (level.isClientSide && !isVirtual())
-            return;
 
         List<? extends Recipe<?>> recipes = getRecipes();
         boolean valid = !recipes.isEmpty();
@@ -267,7 +281,7 @@ public class DryingRackTileEntity extends SmartTileEntity {
         Recipe<?> recipe = recipes.get(recipeIndexRotten);
 
         if (recipe instanceof DryingRackRottenRecipe) {
-            if (level.isRainingAt(getBlockPos().above()) || level.getRandom().nextDouble() < 0.00005) {
+            if (level.isRainingAt(getBlockPos().above())) {
                 return true;
             } else {
                 recipeIndexRotten--;

@@ -9,13 +9,13 @@ public class DryingRackRecipeGen extends ProcessingRecipeGen {
 
     GeneratedRecipe
 
-    GRASS_DRY = dry(AllItems.grass.get(), AllItems.hay.get(), 3600)
+    GRASS_DRY = dry(AllItems.grass.get(), AllItems.hay.get(), 0.8f, 3600)
 
                     ;
 
-    GeneratedRecipe dry(Item input, Item dry, int time) {
+    GeneratedRecipe dry(Item input, Item dry, float chance, int time) {
         return create(() -> input, b -> b.duration(time)
-                .output(dry));
+                .output(chance, dry));
     }
 
     public DryingRackRecipeGen(DataGenerator p_i48262_1_) {

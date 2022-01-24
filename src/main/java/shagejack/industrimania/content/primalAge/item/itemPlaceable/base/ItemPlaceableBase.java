@@ -31,8 +31,7 @@ public class ItemPlaceableBase extends Item {
                     level.setBlock(clickPos, AllBlocks.mechanic_item_placeable.block().get().defaultBlockState(), 2 | 16);
                     BlockEntity posTe = level.getBlockEntity(clickPos);
                     if (posTe instanceof ItemPlaceableBaseTileEntity) {
-                        if (((ItemPlaceableBaseTileEntity) posTe).addItem(Objects.requireNonNull(player.getItemInHand(useOnContext.getHand()).getItem().getRegistryName()).toString())) {
-                            player.getItemInHand(useOnContext.getHand()).shrink(1);
+                        if (((ItemPlaceableBaseTileEntity) posTe).addItem(useOnContext.getItemInHand().split(1))) {
                             return InteractionResult.sidedSuccess(level.isClientSide());
                         }
                     }

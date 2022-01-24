@@ -12,7 +12,6 @@ import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronC
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
 import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireBow;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.ItemWoodPlaceable;
 import shagejack.industrimania.registers.AllTabs;
 
 public class AllItems {
@@ -33,12 +32,12 @@ public class AllItems {
 
     //Natural Resource
     public static final RegistryObject<Item> grass = new ItemBuilder().name("grass").simpleModel("grass").tab(AllTabs.tabNature).build();
-    public static final RegistryObject<Item> log_acacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
-    public static final RegistryObject<Item> log_birch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
-    public static final RegistryObject<Item> log_jungle = new ItemBuilder().name("log_jungle").simpleModel("log_jungle").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
-    public static final RegistryObject<Item> log_oak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
-    public static final RegistryObject<Item> log_spruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
-    public static final RegistryObject<Item> log_darkoak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemWoodPlaceable::new);
+    public static final RegistryObject<Item> log_acacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> log_birch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> log_jungle = new ItemBuilder().name("log_jungle").simpleModel("log_jungle").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> log_oak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> log_spruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> log_darkoak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
 
     //Tool
     public static final RegistryObject<Item> long_stick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();
