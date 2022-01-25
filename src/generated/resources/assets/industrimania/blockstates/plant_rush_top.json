@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "industrimania:block/plant_rush_top"
+    },
+    "half=lower": {
+      "model": "industrimania:block/plant_rush_top"
+    }
+  }
+}

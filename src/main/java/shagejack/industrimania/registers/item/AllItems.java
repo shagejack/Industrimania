@@ -22,27 +22,28 @@ public class AllItems {
     * =============
     */
     //Material
-    public static final RegistryObject<Item> sharpened_stick = new ItemBuilder().name("sharpened_stick").simpleModel("sharpened_stick").tab(AllTabs.tabMaterial).build();
-    public static final RegistryObject<Item> weed_fiber = new ItemBuilder().name("weed_fiber").simpleModel("weed_fiber").tab(AllTabs.tabMaterial).build();
-    public static final RegistryObject<Item> weed_rope = new ItemBuilder().name("weed_rope").simpleModel("weed_rope").tab(AllTabs.tabMaterial).build();
-    public static final RegistryObject<Item> wood_peg = new ItemBuilder().name("wood_peg").simpleModel("wood_peg").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> sharpenedStick = new ItemBuilder().name("sharpened_stick").simpleModel("sharpened_stick").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> weedFiber = new ItemBuilder().name("weed_fiber").simpleModel("weed_fiber").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> weedRope = new ItemBuilder().name("weed_rope").simpleModel("weed_rope").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> woodPeg = new ItemBuilder().name("wood_peg").simpleModel("wood_peg").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> mud = new ItemBuilder().name("mud").simpleModel("mud").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> rotten_grass = new ItemBuilder().name("rotten_grass").simpleModel("rotten_grass").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> rottenGrass = new ItemBuilder().name("rotten_grass").simpleModel("rotten_grass").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> boneFragment = new ItemBuilder().name("bone_fragment").simpleModel("bone_fragment").tab(AllTabs.tabMaterial).build();
 
     //Natural Resource
     public static final RegistryObject<Item> grass = new ItemBuilder().name("grass").simpleModel("grass").tab(AllTabs.tabNature).build();
-    public static final RegistryObject<Item> log_acacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> log_birch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> log_jungle = new ItemBuilder().name("log_jungle").simpleModel("log_jungle").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> log_oak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> log_spruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> log_darkoak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> logAcacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> logBirch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> logJungle = new ItemBuilder().name("log_jungle").simpleModel("log_jungle").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> logOak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> logSpruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> logDarkOak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
 
     //Tool
-    public static final RegistryObject<Item> long_stick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();
-    public static final RegistryObject<Item> bone_knife = new ItemBuilder().name("bone_knife").simpleModel("bone_knife").tab(AllTabs.tabTool).addExtraParam("KnifeMaterial", KnifeMaterials.BONE).durability(16).build(IMKnifeItemBase::new);
-    public static final RegistryObject<Item> primitive_fire_starter = new ItemBuilder().name("primitive_fire_starter").simpleModel("primitive_fire_starter").durability(128).tab(AllTabs.tabTool).build(PrimitiveFireBow::new);
+    public static final RegistryObject<Item> longStick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> simpleBoneKnife = new ItemBuilder().name("simple_bone_knife").simpleModel("simple_bone_knife").tab(AllTabs.tabTool).addExtraParam("KnifeMaterial", KnifeMaterials.BONE).durability(16).build(IMKnifeItemBase::new);
+    public static final RegistryObject<Item> primitiveFireBow = new ItemBuilder().name("primitive_fire_bow").simpleModel("primitive_fire_bow").durability(128).tab(AllTabs.tabTool).build(PrimitiveFireBow::new);
 
     /*
      * =============
@@ -51,7 +52,7 @@ public class AllItems {
      */
 
     //Material
-    public static final RegistryObject<Item> rock_adhesive = new ItemBuilder().name("rock_adhesive").simpleModel("rock_adhesive").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> rockAdhesive = new ItemBuilder().name("rock_adhesive").simpleModel("rock_adhesive").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> silica = new ItemBuilder().name("silica").simpleModel("silica").tab(AllTabs.tabMaterial).build();
 
     /*

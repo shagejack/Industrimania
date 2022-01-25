@@ -3,6 +3,7 @@ package shagejack.industrimania.registers.block;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -50,6 +51,40 @@ public interface StateBuilder extends AsBase {
                     .modelForState()
                     .modelFile(fullModelFile)
                     .addModel();
+        });
+    }
+
+    default BlockBuilder cropBlockState(int maxAge) {
+        return blockState((provider) -> {
+            final var base = this.asBase();
+            var block = base.block;
+            Industrimania.LOGGER.debug("set block state file for Block:{}", base.name);
+
+            IntegerProperty property;
+
+            switch (maxAge) {
+                case 1 -> property = BlockStateProperties.AGE_1;
+                case 2 -> property = BlockStateProperties.AGE_2;
+                case 3 -> property = BlockStateProperties.AGE_3;
+                case 5 -> property = BlockStateProperties.AGE_5;
+                case 7 -> property = BlockStateProperties.AGE_7;
+                case 15 -> property = BlockStateProperties.AGE_15;
+                default -> property = BlockStateProperties.AGE_25;
+            }
+
+
+            for (int i = 0; i <= maxAge; i++) {
+                var modelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, "block/" + base.name + "_stage" + i));
+
+                provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                        .partialState()
+                        .with(property, i)
+                        .modelForState()
+                        .modelFile(modelFile)
+                        .rotationY(180)
+                        .addModel();
+            }
+
         });
     }
 

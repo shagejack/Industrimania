@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrimania:item/simple_bone_knife/simple_bone_knife"
+  }
+}

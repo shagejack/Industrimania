@@ -9,8 +9,8 @@ public class DryingRackRottenRecipeGen extends ProcessingRecipeGen {
 
     GeneratedRecipe
 
-    GRASS_ROT = rot(AllItems.grass.get(), AllItems.rotten_grass.get()),
-    HAY_ROT = rot(AllItems.hay.get(), AllItems.rotten_grass.get())
+    GRASS_ROT = rot(AllItems.grass.get(), AllItems.rottenGrass.get()),
+    HAY_ROT = rot(AllItems.hay.get(), AllItems.rottenGrass.get())
 
     ;
 

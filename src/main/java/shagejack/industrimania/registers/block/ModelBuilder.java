@@ -21,6 +21,22 @@ interface ModelBuilder extends AsBase{
         return (BlockBuilder) this;
     }
 
+    default BlockBuilder presetCropModel(int maxAge) {
+        DataGenHandle.addBlockModelTask(provider -> {
+            var base = asBase();
+            var block = base.block;
+            var category = Objects.requireNonNull(base.name).split("_")[0];
+            var bName = Objects.requireNonNull(base.name).substring(category.length() + 1);
+            for (int i = 0; i <= maxAge; i++) {
+                final var path = "block/" + Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName) + "_stage" + i;
+                Industrimania.LOGGER.debug("set preset model for Block:{}", base.name);
+                provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_stage" + i)
+                        .parent(DataGenHandle.modExistingModel(provider, path));
+            }
+        });
+        return (BlockBuilder) this;
+    }
+
     default BlockBuilder simplePresetModel() {
         DataGenHandle.addBlockModelTask(provider -> {
             var base = asBase();

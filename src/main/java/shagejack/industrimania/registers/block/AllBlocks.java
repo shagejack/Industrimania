@@ -10,6 +10,8 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.
 import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
+import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockBottom;
+import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockTop;
 import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
@@ -192,13 +194,38 @@ public class AllBlocks {
      */
 
     //Common Plants
+    public static final ItemBlock plant_rush_top
+            = new BlockBuilder()
+            .name("plant_rush_top")
+            .material(Material.GRASS)
+            .strength(0.5F, 0.1F)
+            .dynamicShape()
+            .noCollission()
+            .simplePresetModel()
+            .simpleBlockState()
+            .buildBlock(RushBlockTop::new)
+            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
+
+    public static final ItemBlock plant_rush_bottom
+            = new BlockBuilder()
+            .name("plant_rush_bottom")
+            .material(Material.GRASS)
+            .strength(0.5F, 0.1F)
+            .dynamicShape()
+            .randomTicks()
+            .noCollission()
+            .renderLayer(() -> RenderType::cutout)
+            .presetCropModel(3)
+            .cropBlockState(3)
+            .buildBlock(RushBlockBottom::new)
+            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
 
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana
             = new BlockBuilder()
             .name("plant_lactuca_raddeana")
             .material(Material.GRASS)
-            .strength(0.1F, 0.5F)
+            .strength(0.1F, 0.1F)
             .crossTextureModel()
             .simpleBlockState()
             .buildBlock(GrassBlock::new)

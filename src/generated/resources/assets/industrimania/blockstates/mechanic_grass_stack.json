@@ -1,9 +1,6 @@
 {
   "variants": {
-    "snowy=false": {
-      "model": "industrimania:block/mechanic_grass_stack"
-    },
-    "snowy=true": {
+    "": {
       "model": "industrimania:block/mechanic_grass_stack"
     }
   }

@@ -7,7 +7,8 @@
   ],
   "results": [
     {
-      "item": "industrimania:hay"
+      "item": "industrimania:hay",
+      "chance": 0.8
     }
   ],
   "processingTime": 3600
