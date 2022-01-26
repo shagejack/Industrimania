@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "industrimania:block/mechanic_simple_crafting_table",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "industrimania:block/mechanic_simple_crafting_table",
+      "x": 270
+    },
+    "facing=north": {
+      "model": "industrimania:block/mechanic_simple_crafting_table"
+    },
+    "facing=south": {
+      "model": "industrimania:block/mechanic_simple_crafting_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "industrimania:block/mechanic_simple_crafting_table",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "industrimania:block/mechanic_simple_crafting_table",
+      "y": 270
+    }
+  }
+}

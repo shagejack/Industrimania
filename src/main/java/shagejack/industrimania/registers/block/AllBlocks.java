@@ -12,11 +12,12 @@ import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
 import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockBottom;
 import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockTop;
+import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableBlock;
 import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
@@ -111,6 +112,14 @@ public class AllBlocks {
             .buildItem();
 
     //mechanic
+    public static final ItemBlock mechanic_simple_crafting_table
+            = new BlockBuilder()
+            .name("mechanic_simple_crafting_table")
+            .simplePresetModel()
+            .rotatableBlockState()
+            .buildBlock(SimpleCraftingTableBlock::new)
+            .buildItem();
+
     public static final ItemBlock mechanic_grass_stack
             = new BlockBuilder()
             .name("mechanic_grass_stack")
@@ -160,7 +169,7 @@ public class AllBlocks {
             .name("mechanic_item_placeable")
             .autoFullCubeModel()
             .simpleBlockState()
-            .buildBlock(BlockItemPlaceableBase::new)
+            .buildBlock(ItemPlaceableBaseBlock::new)
             .buildItem(ItemBuilder::noTab);
 
     public static final ItemBlock mechanic_clay_furnace_bottom
