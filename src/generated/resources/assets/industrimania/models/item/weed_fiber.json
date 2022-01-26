@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrimania:item/weed_fiber/weed_fiber"
+  }
+}

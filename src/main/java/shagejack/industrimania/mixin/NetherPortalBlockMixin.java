@@ -1,7 +1,6 @@
 package shagejack.industrimania.mixin;
 
 import com.google.common.collect.Lists;
-import com.ibm.icu.text.Replaceable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -142,7 +141,7 @@ public class NetherPortalBlockMixin {
                                     }
                                 }
                             }
-                        };
+                        }
                         break;
                     case 1:
                         if (!serverLevel.getBlockState(nPos.below()).isAir() && !netherInvasionDecorative.contains(serverLevel.getBlockState(nPos.below()).getBlock())) nPos = nPos.below();

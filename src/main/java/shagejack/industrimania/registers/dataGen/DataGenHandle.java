@@ -27,6 +27,7 @@ import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.recipe.ProcessingRecipeGen;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -58,6 +59,13 @@ public class DataGenHandle {
     public static Lazy<ExistingModelFile> blockCubeRotatable = () -> existingModel(itemModelPro.get(), "");
     public static Lazy<ExistingModelFile> blockCrossTexture = () -> existingModel(itemModelPro.get(), "block/cross");
     public static Lazy<ExistingModelFile> blockOre = () -> modExistingModel(itemModelPro.get(), "block/ore");
+    public static Lazy<ExistingModelFile> blockSnowLikeModel0 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height2");
+    public static Lazy<ExistingModelFile> blockSnowLikeModel1 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height4");
+    public static Lazy<ExistingModelFile> blockSnowLikeModel2 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height6");
+    public static Lazy<ExistingModelFile> blockSnowLikeModel3 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height8");
+    public static Lazy<ExistingModelFile> blockSnowLikeModel4 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height10");
+    public static Lazy<ExistingModelFile> blockSnowLikeModel5 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height12");
+    public static Lazy<ExistingModelFile> blockSnowLikeModel6 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height14");
 
     public static boolean checkFileExist(ItemModelProvider provider, ResourceLocation resourceLocation, ExistingFileHelper.IResourceType packType) {
         final var exists = provider.existingFileHelper.exists(resourceLocation, packType);
@@ -135,7 +143,7 @@ public class DataGenHandle {
         return provider.getExistingFile(provider.mcLoc(path));
     }
 
-    static ExistingModelFile modExistingModel(ModelProvider<?> provider, String path) {
+    public static ExistingModelFile modExistingModel(ModelProvider<?> provider, String path) {
         return provider.getExistingFile(provider.modLoc(path));
     }
 
@@ -235,5 +243,6 @@ public class DataGenHandle {
         generator.addProvider(blockStateProvider);
         generator.addProvider(blockTagsProvider);
         generator.addProvider(languageProvider);
+        ProcessingRecipeGen.registerAll(generator);
     }
 }

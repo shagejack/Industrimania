@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.registries.ForgeRegistries;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.WoodPlaceableTileEntity;
 import shagejack.industrimania.foundation.block.ITE;
+import shagejack.industrimania.foundation.item.ItemHelper;
 import shagejack.industrimania.registers.AllTileEntities;
 
 import java.util.Objects;
@@ -37,29 +37,29 @@ public class BlockItemPlaceableBase extends Block implements ITE<ItemPlaceableBa
     }
 
     @Override
-    public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState state, boolean p_48717_) {
-        BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof ItemPlaceableBaseTileEntity) {
-            ((ItemPlaceableBaseTileEntity) te).onBreak(level);
+    public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean p_48717_) {
+        if (oldState.hasBlockEntity() && oldState.getBlock() != newState.getBlock()) {
+            withTileEntityDo(level, pos, te -> ItemHelper.dropContents(level, pos, te.inventory));
+            level.removeBlockEntity(pos);
         }
-        super.onRemove(oldState, level, pos, state, p_48717_);
     }
 
+    @Override
     public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
         if (!level.isClientSide) {
             ItemStack stack = player.getItemInHand(hand);
-            if (stack.isEmpty() || player.isShiftKeyDown()) {
+            if (stack.isEmpty()) {
                 BlockEntity te = level.getBlockEntity(blockPos);
                 if (te instanceof ItemPlaceableBaseTileEntity) {
-                    String name = ((ItemPlaceableBaseTileEntity) te).removeItem();
-                    if (!name.isEmpty()) {
-                        player.addItem(getItemStackFromRegistryName(name));
+                    ItemStack removeStack = ((ItemPlaceableBaseTileEntity) te).removeItem();
+                    if (!removeStack.isEmpty()) {
+                        player.addItem(removeStack);
                     }
                 }
             } else if (stack.getItem() instanceof ItemPlaceableBase) {
                 BlockEntity te = level.getBlockEntity(blockPos);
                 if (te instanceof ItemPlaceableBaseTileEntity) {
-                    if (((ItemPlaceableBaseTileEntity) te).addItem(Objects.requireNonNull(stack.getItem().getRegistryName()).toString())) {
+                    if (((ItemPlaceableBaseTileEntity) te).addItem(stack)) {
                         if (!player.isCreative()) {
                             stack.shrink(1);
                         }
@@ -73,21 +73,17 @@ public class BlockItemPlaceableBase extends Block implements ITE<ItemPlaceableBa
         }
     }
 
-    public ItemStack getItemStackFromRegistryName(String name) {
-        if (name != null && !name.isEmpty()) {
-            String[] temp = name.split(":");
-
-            //Normally, this case will never not happen
-            if (temp.length > 2) {
-                for (int i = 2; i < temp.length; i++) {
-                    temp[1] += temp[i];
+    @Override
+    public void attack(BlockState state, Level level, BlockPos pos, Player player) {
+        if (!level.isClientSide) {
+            BlockEntity te = level.getBlockEntity(pos);
+            if (te instanceof ItemPlaceableBaseTileEntity) {
+                ItemStack removeStack = ((ItemPlaceableBaseTileEntity) te).removeItem();
+                if (!removeStack.isEmpty()) {
+                    player.addItem(removeStack);
                 }
             }
-
-            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(temp[0], temp[1]));
-            return new ItemStack(item);
         }
-        return null;
     }
 
 }

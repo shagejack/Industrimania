@@ -1,0 +1,14 @@
+{
+  "type": "industrimania:drying_rack_rotten",
+  "ingredients": [
+    {
+      "item": "industrimania:grass"
+    }
+  ],
+  "results": [
+    {
+      "item": "industrimania:rotten_grass"
+    }
+  ],
+  "processingTime": 50
+}

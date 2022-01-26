@@ -10,7 +10,6 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.RegisterHandle;
-import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
@@ -29,6 +28,9 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
     protected float hardness;
     protected float explosionResistance;
     protected Material material;
+    protected boolean isRandomlyTicking;
+    protected boolean dynamicShape;
+    protected boolean noCollission;
     protected boolean requiresCorrectToolForDrops = false;
     protected final Map<String, Object> extraParam = new HashMap();
 
@@ -50,9 +52,23 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
         if (hardness != 0 && explosionResistance != 0) {
             property.strength(hardness, explosionResistance);
         }
+
         if (requiresCorrectToolForDrops) {
             property.requiresCorrectToolForDrops();
         }
+
+        if(isRandomlyTicking) {
+            property.randomTicks();
+        }
+
+        if(dynamicShape) {
+            property.dynamicShape();
+        }
+
+        if(noCollission) {
+            property.noCollission();
+        }
+
     }
 
     public RegistryObject<Block> getBlock() {
@@ -84,7 +100,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public BlockBuilder asRock(float hardness, float explosionResistance, String rockTag) {
         checkProperty();
-        AllRocks.ROCKS.add(name);
+        AllRocks.ROCKS_NAME.add(name);
         AllRocks.ROCKS_HARDNESS.put(name, hardness);
         AllRocks.ROCKS_EXPLOSION_RESISTANCE.put(name, explosionResistance);
         this.tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.rock, rockTag);
@@ -147,6 +163,21 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public BlockBuilder requiresCorrectToolForDrops() {
         this.requiresCorrectToolForDrops = true;
+        return this;
+    }
+
+    public BlockBuilder noCollission() {
+        this.noCollission = true;
+        return this;
+    }
+
+    public BlockBuilder randomTicks() {
+        this.isRandomlyTicking = true;
+        return this;
+    }
+
+    public BlockBuilder dynamicShape() {
+        this.dynamicShape = true;
         return this;
     }
 

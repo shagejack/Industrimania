@@ -1,0 +1,15 @@
+{
+  "type": "industrimania:drying_rack",
+  "ingredients": [
+    {
+      "item": "industrimania:grass"
+    }
+  ],
+  "results": [
+    {
+      "item": "industrimania:hay",
+      "chance": 0.8
+    }
+  ],
+  "processingTime": 3600
+}

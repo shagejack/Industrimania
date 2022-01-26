@@ -10,7 +10,7 @@ public enum ContainItems implements StringRepresentable {
 
     private final String name;
 
-    private ContainItems(String p_61339_) {
+    ContainItems(String p_61339_) {
         this.name = p_61339_;
     }
 

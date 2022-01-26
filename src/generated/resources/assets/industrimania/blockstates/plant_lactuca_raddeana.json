@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "snowy=false": {
+      "model": "industrimania:block/plant_lactuca_raddeana"
+    },
+    "snowy=true": {
       "model": "industrimania:block/plant_lactuca_raddeana"
     }
   }

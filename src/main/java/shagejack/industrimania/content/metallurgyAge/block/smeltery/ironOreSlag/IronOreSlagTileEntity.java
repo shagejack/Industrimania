@@ -110,7 +110,7 @@ public class IronOreSlagTileEntity extends SmartTileEntity {
         return mol_Iron / (mol_Iron + mol_IronOxide * 2 + mol_Impurities);
     }
 
-    public void onBreak(Level level){
+    public void onRemove(Level level){
         if (temperature < 373.15) {
             ItemStack ironStack = getRealIronDrop();
             ItemStack slagStack = getRealSlagDrop();

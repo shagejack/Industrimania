@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/greisen/default",
+    "up": "industrimania:block/rock/greisen/default",
+    "down": "industrimania:block/rock/greisen/default",
+    "north": "industrimania:block/rock/greisen/default",
+    "south": "industrimania:block/rock/greisen/default",
+    "west": "industrimania:block/rock/greisen/default",
+    "east": "industrimania:block/rock/greisen/default"
+  }
+}

@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.grouped.AllOres;
-import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.AllItems;
 
 import java.util.ArrayList;
@@ -20,6 +19,12 @@ public class AllTabs {
     public static final List<CreativeModeTab> tabs = new ArrayList<>();
 
     public static final CreativeModeTab tab = tab(Industrimania.MOD_ID, () -> () -> AllItems.omniMultimeter);
+
+    public static final CreativeModeTab tabMaterial = tab(Industrimania.MOD_ID + "_material", () -> () -> AllItems.clinker);
+
+    public static final CreativeModeTab tabTool = tab(Industrimania.MOD_ID + "_tool", () -> () -> AllItems.bronzeSaw);
+
+    public static final CreativeModeTab tabEquipment = tab(Industrimania.MOD_ID + "_equipment", () -> () -> AllItems.hazardProtectiveChestplate);
 
     public static final CreativeModeTab tabNature = tab(Industrimania.MOD_ID + "_nature", () -> AllBlocks.plant_lactuca_raddeana::item);
 

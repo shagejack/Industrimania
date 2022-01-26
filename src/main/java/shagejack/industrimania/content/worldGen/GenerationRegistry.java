@@ -1,6 +1,5 @@
 package shagejack.industrimania.content.worldGen;
 
-import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;

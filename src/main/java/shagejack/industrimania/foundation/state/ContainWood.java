@@ -13,7 +13,7 @@ public enum ContainWood implements StringRepresentable {
 
     private final String name;
 
-    private ContainWood(String p_61339_) {
+    ContainWood(String p_61339_) {
         this.name = p_61339_;
     }
 

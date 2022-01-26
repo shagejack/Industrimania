@@ -1,7 +1,5 @@
 package shagejack.industrimania.api.chemistry;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -47,8 +45,7 @@ public class ChemicalFormula {
             while (i < N && Character.isDigit(formula.charAt(i))) i++;
             if (start < i) {
                 int num = Integer.parseInt(formula.substring(start, i));
-                for (String key : count.keySet())
-                    count.put(key, count.get(key) * num);
+                count.replaceAll((k, v) -> count.get(k) * num);
             }
             return count;
     }

@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -20,14 +19,12 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.worldGen.OreRegistry;
 import shagejack.industrimania.content.worldGen.record.Ore;
 import shagejack.industrimania.registers.block.AllBlocks;
-import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 

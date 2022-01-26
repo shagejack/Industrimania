@@ -1,20 +1,16 @@
 package shagejack.industrimania.registers.item;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.IItemRenderProperties;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
-import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,16 +20,15 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkItemModelExist;
-import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkItemTextureExist;
-
 public final class ItemBuilder implements ModelBuilder{
      String name;
     private CreativeModeTab tab;
+    private boolean hasTab = true;
     private Item.Properties property;
     RegistryObject<Item> registryObject;
     private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
 
+    private int durability;
     private final Map<String, Object> extraParam = new HashMap();
 
     @Override
@@ -63,7 +58,13 @@ public final class ItemBuilder implements ModelBuilder{
     }
 
     public ItemBuilder tab(CreativeModeTab tab) {
+        this.hasTab = true;
         this.tab = tab;
+        return this;
+    }
+
+    public ItemBuilder noTab() {
+        this.hasTab = false;
         return this;
     }
 
@@ -130,7 +131,19 @@ public final class ItemBuilder implements ModelBuilder{
         if (property == null) {
             this.property = new Item.Properties();
         }
-        property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+
+        if (durability != 0) {
+            this.property.durability(durability);
+        }
+
+        if(hasTab) {
+            property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+        }
+    }
+
+    public ItemBuilder durability(int durability) {
+        this.durability = durability;
+        return this;
     }
 
     public ItemBuilder name(String name) {

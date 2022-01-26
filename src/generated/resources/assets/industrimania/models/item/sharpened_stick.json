@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrimania:item/sharpened_stick/sharpened_stick"
+  }
+}

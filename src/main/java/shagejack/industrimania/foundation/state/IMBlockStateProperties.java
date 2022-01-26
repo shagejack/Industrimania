@@ -1,6 +1,5 @@
 package shagejack.industrimania.foundation.state;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 

@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "industrimania:rock_andesite",
+    "industrimania:rock_dacite",
+    "industrimania:rock_rhyolite",
+    "industrimania:rock_gabbro",
+    "industrimania:rock_diorite",
+    "industrimania:rock_trachyte",
+    "industrimania:rock_porphyry",
+    "industrimania:rock_granite",
+    "industrimania:rock_basalt"
+  ]
+}

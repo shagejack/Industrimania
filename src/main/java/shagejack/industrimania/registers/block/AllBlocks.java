@@ -1,17 +1,26 @@
 package shagejack.industrimania.registers.block;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.GravelBlock;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
-import shagejack.industrimania.content.contraptions.base.BlockDirectionalBase;
+import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
+import shagejack.industrimania.content.pollution.block.BlockAshes;
+import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
+import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
+import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockBottom;
+import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockTop;
+import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
+import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
+import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
+import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.woodPlaceable.BlockWoodPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.item.ItemBuilder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,27 +30,36 @@ public class AllBlocks {
 
     public static Map<RegistryObject<Block>, List<String>> BLOCK_TAGS = new HashMap<>();
 
-    //Common Plant
+    //Pollution Blocks
+    public static final ItemBlock pollution_ashes_block
+            = new BlockBuilder()
+            .name("pollution_ashes_block")
+            .material(Material.SNOW)
+            .strength(0.2F, 0.0F)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(BlockAshes::new)
+            .buildItem();
+
+    public static final ItemBlock pollution_ashes_layers
+            = new BlockBuilder()
+            .name("pollution_ashes_layers")
+            .material(Material.SNOW)
+            .strength(0.2F, 0.0F)
+            .snowLikeModel()
+            .snowLikeBlockState()
+            .buildBlock(BlockAshesLayers::new)
+            .buildItem();
 
     //Common Blocks
 
-    //Primal Age
-    public static final ItemBlock mechanic_item_placeable
-            = new BlockBuilder()
-            .name("mechanic_item_placeable")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(BlockItemPlaceableBase::new)
-            .buildItem();
+    /*
+     * =============
+     *  Primal Age
+     * =============
+     */
 
-    public static final ItemBlock mechanic_wood_placeable
-            = new BlockBuilder()
-            .name("mechanic_wood_placeable")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(BlockWoodPlaceableBase::new)
-            .buildItem();
-
+    //building
     public static final ItemBlock building_fine_clay
             = new BlockBuilder()
             .name("building_fine_clay")
@@ -58,6 +76,8 @@ public class AllBlocks {
             .buildBlock()
             .buildItem();
 
+
+    //gravity
     public static final ItemBlock gravity_calcite
             = new BlockBuilder()
             .name("gravity_calcite")
@@ -90,6 +110,59 @@ public class AllBlocks {
             .buildBlock(GravelBlock::new)
             .buildItem();
 
+    //mechanic
+    public static final ItemBlock mechanic_grass_stack
+            = new BlockBuilder()
+            .name("mechanic_grass_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .randomTicks()
+            .buildBlock(GrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_hay_stack
+            = new BlockBuilder()
+            .name("mechanic_hay_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .randomTicks()
+            .buildBlock(HayStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_moldy_grass_stack
+            = new BlockBuilder()
+            .name("mechanic_moldy_grass_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .randomTicks()
+            .buildBlock(MoldyGrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_rotten_grass_stack
+            = new BlockBuilder()
+            .name("mechanic_rotten_grass_stack")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(RottenGrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_drying_rack
+            = new BlockBuilder()
+            .name("mechanic_drying_rack")
+            .simplePresetModel()
+            .simpleBlockState()
+            .renderLayer(() -> RenderType::cutout)
+            .buildBlock(DryingRackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_item_placeable
+            = new BlockBuilder()
+            .name("mechanic_item_placeable")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(BlockItemPlaceableBase::new)
+            .buildItem(ItemBuilder::noTab);
+
     public static final ItemBlock mechanic_clay_furnace_bottom
             = new BlockBuilder()
             .name("mechanic_clay_furnace_bottom")
@@ -114,15 +187,48 @@ public class AllBlocks {
             .buildBlock(BlockDirectionalBase::new)
             .buildItem();
 
+    /*
+    * ======================
+    *    World Generation
+    * ======================
+     */
+
+    //Common Plants
+    public static final ItemBlock plant_rush_top
+            = new BlockBuilder()
+            .name("plant_rush_top")
+            .material(Material.GRASS)
+            .strength(0.5F, 0.1F)
+            .dynamicShape()
+            .noCollission()
+            .simplePresetModel()
+            .simpleBlockState()
+            .buildBlock(RushBlockTop::new)
+            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
+
+    public static final ItemBlock plant_rush_bottom
+            = new BlockBuilder()
+            .name("plant_rush_bottom")
+            .material(Material.GRASS)
+            .strength(0.5F, 0.1F)
+            .dynamicShape()
+            .randomTicks()
+            .noCollission()
+            .renderLayer(() -> RenderType::cutout)
+            .presetCropModel(3)
+            .cropBlockState(3)
+            .buildBlock(RushBlockBottom::new)
+            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
+
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana
             = new BlockBuilder()
             .name("plant_lactuca_raddeana")
             .material(Material.GRASS)
-            .strength(0.1F, 0.5F)
+            .strength(0.1F, 0.1F)
             .crossTextureModel()
             .simpleBlockState()
-            .buildBlock()
+            .buildBlock(GrassBlock::new)
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
 
     //Ore Cap
@@ -223,7 +329,7 @@ public class AllBlocks {
     public static final ItemBlock rock_sandstone
             = new BlockBuilder()
             .name("rock_sandstone")
-            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones + "NoGen")
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones + "nogen")
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()

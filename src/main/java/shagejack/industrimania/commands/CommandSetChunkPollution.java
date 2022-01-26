@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
-import shagejack.industrimania.content.pollution.Pollution;
 import shagejack.industrimania.content.pollution.PollutionDataHooks;
 
 public class CommandSetChunkPollution {

@@ -120,13 +120,11 @@ public class ItemRequirement {
 			return new ItemRequirement(ItemUseType.CONSUME, requirements);
 		}
 
-		if (entity instanceof AbstractMinecart) {
-			AbstractMinecart minecartEntity = (AbstractMinecart) entity;
+		if (entity instanceof AbstractMinecart minecartEntity) {
 			return new ItemRequirement(ItemUseType.CONSUME, minecartEntity.getCartItem().getItem());
 		}
 
-		if (entity instanceof Boat) {
-			Boat boatEntity = (Boat) entity;
+		if (entity instanceof Boat boatEntity) {
 			return new ItemRequirement(ItemUseType.CONSUME, boatEntity.getDropItem());
 		}
 

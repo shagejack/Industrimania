@@ -105,13 +105,9 @@ public class IronCluster extends Item {
         tooltip.add("Temp: " + getTemp(itemStack));
         int[] shape = getShape(itemStack);
         tooltip.add("=====Shape=====");
-        if (shape != null && shape[0] > 0 && shape[1] > 0) {
+        if (shape[0] > 0 && shape[1] > 0) {
             for (int i = 0; i < shape[1]; i++) {
-                String temp = "";
-                for (int j = 0; j < shape[0]; j++) {
-                    temp += "\u2b1b";
-                }
-                tooltip.add(temp);
+                tooltip.add("\u2b1b".repeat(shape[0]));
             }
         }
     }

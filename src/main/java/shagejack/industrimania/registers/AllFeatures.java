@@ -6,7 +6,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.worldGen.feature.OreGenFeature;
 import shagejack.industrimania.content.worldGen.feature.OreRemovalFeature;
 import shagejack.industrimania.content.worldGen.feature.RockLayersFeature;

@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+@author Create Team
+ **/
 public abstract class SmartTileEntity extends SyncedTileEntity implements IPartialSafeNBT, IInteractionChecker {
 
 	private final Map<BehaviourType<?>, TileEntityBehaviour> behaviours = new HashMap<>();
@@ -147,7 +150,7 @@ public abstract class SmartTileEntity extends SyncedTileEntity implements IParti
 
 	public ItemRequirement getRequiredItems() {
 		return behaviours.values().stream()
-			.reduce(ItemRequirement.NONE, (r, b) -> r.with(b.getRequiredItems()), (r, r1) -> r.with(r1));
+			.reduce(ItemRequirement.NONE, (r, b) -> r.with(b.getRequiredItems()), ItemRequirement::with);
 	}
 
 	protected void removeBehaviour(BehaviourType<?> type) {

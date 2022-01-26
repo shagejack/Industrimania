@@ -29,7 +29,7 @@ public class IronOreSlagBlock extends Block implements ITE<IronOreSlagTileEntity
     public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState state, boolean p_48717_) {
         BlockEntity te = level.getBlockEntity(pos);
         if (te instanceof IronOreSlagTileEntity) {
-            ((IronOreSlagTileEntity) te).onBreak(level);
+            ((IronOreSlagTileEntity) te).onRemove(level);
         }
         super.onRemove(oldState, level, pos, state, p_48717_);
     }
