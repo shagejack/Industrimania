@@ -177,7 +177,7 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
         assert level != null;
         float f = EntityType.ITEM.getHeight() / 2.0F;
         double d0 = (double)((float)getBlockPos().getX() + 0.5F) + Mth.nextDouble(level.random, -0.25D, 0.25D);
-        double d1 = (double)((float)getBlockPos().getY() + 1.5F) + Mth.nextDouble(level.random, -0.25D, 0.25D) - (double)f;
+        double d1 = (double)((float)getBlockPos().getY() + 1.0F) + Mth.nextDouble(level.random, -0.25D, 0.25D) - (double)f;
         double d2 = (double)((float)getBlockPos().getZ() + 0.5F) + Mth.nextDouble(level.random, -0.25D, 0.25D);
         ItemEntity item = new ItemEntity(level, d0, d1, d2, stack);
         item.setDefaultPickUpDelay();

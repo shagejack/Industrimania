@@ -30,6 +30,8 @@ public class AllItems {
     public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> rottenGrass = new ItemBuilder().name("rotten_grass").simpleModel("rotten_grass").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> boneFragment = new ItemBuilder().name("bone_fragment").simpleModel("bone_fragment").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> rushRoot = new ItemBuilder().name("rush_root").simpleModel("rush_root").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> rushStalk = new ItemBuilder().name("rush_stalk").simpleModel("rush_stalk").tab(AllTabs.tabMaterial).build();
 
     //Natural Resource
     public static final RegistryObject<Item> grass = new ItemBuilder().name("grass").simpleModel("grass").tab(AllTabs.tabNature).build();

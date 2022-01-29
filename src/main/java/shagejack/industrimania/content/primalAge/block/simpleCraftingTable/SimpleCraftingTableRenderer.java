@@ -48,7 +48,7 @@ public class SimpleCraftingTableRenderer extends SafeTileEntityRenderer<SimpleCr
                     ms.translate(renderPos.x, blockItem ? 1.05f + jumpUP : 1.0375f + jumpUP, renderPos.y);
 
 
-                    ms.scale(.3f, .3f, .3f);
+                    ms.scale(.25f, .25f, .25f);
 
                     Optional<Direction> direction = Optional.ofNullable(te.getDirection());
 

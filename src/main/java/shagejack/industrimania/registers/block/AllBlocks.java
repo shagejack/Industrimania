@@ -213,7 +213,7 @@ public class AllBlocks {
             .simplePresetModel()
             .simpleBlockState()
             .buildBlock(RushBlockTop::new)
-            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     public static final ItemBlock plant_rush_bottom
             = new BlockBuilder()
@@ -227,7 +227,7 @@ public class AllBlocks {
             .presetCropModel(3)
             .cropBlockState(3)
             .buildBlock(RushBlockBottom::new)
-            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
+            .buildItemWithModel("rush_seed", itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     //Plant Sign
     public static final ItemBlock plant_lactuca_raddeana

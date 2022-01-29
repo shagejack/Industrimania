@@ -2,11 +2,13 @@ package shagejack.industrimania.registers.block;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.ItemBlock;
 import shagejack.industrimania.registers.RegisterHandle;
@@ -123,6 +125,16 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
         return itemBlock;
     }
 
+    public ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
+        final var block = checkAlreadyBuild();
+        final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).simpleModel(itemName);
+        factory.apply(itemBuilder);
+        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
+        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
+        checkTags(itemBlock, tags);
+        return itemBlock;
+    }
+
     public ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory) {
         return buildItem(name, factory);
     }
@@ -130,6 +142,10 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public ItemBlock buildItem() {
         return buildItem(name, (itemBuilder) -> itemBuilder);
+    }
+
+    public ItemBlock buildItem(String itemName) {
+        return buildItemWithModel(itemName, (itemBuilder) -> itemBuilder);
     }
 
 
