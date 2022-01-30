@@ -43,7 +43,7 @@ public class AllFluids {
             STILL = RegistryObject.of(new ResourceLocation(name), ForgeRegistries.FLUIDS);
             FLOWING = RegistryObject.of(new ResourceLocation("flowing_" + name), ForgeRegistries.FLUIDS);
             attributesBuilder = FluidAttributes.builder(new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + name + "/still"), new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + name + "/flowing"));
-            ForgeFlowingFluid.Properties properties = new ForgeFlowingFluid.Properties(STILL, FLOWING, attributesBuilder);
+            properties = new ForgeFlowingFluid.Properties(STILL, FLOWING, attributesBuilder);
         }
 
         public FluidBuilder asBase() {
@@ -62,7 +62,7 @@ public class AllFluids {
             RegistryObject<? extends Fluid> fluidStill = RegisterHandle.FLUID_REGISTER.register(name, () -> new ForgeFlowingFluid.Source(properties).setRegistryName(STILL.getId()));
             RegistryObject<? extends Fluid> fluidFlowing = RegisterHandle.FLUID_REGISTER.register("flowing_" + name, () -> new ForgeFlowingFluid.Flowing(properties).setRegistryName(FLOWING.getId()));
 
-            return new FluidPair(STILL, FLOWING);
+            return new FluidPair(fluidStill, fluidFlowing);
         }
 
         public FluidBuilder bucketItem(Supplier<? extends Item> bucketItem) {
