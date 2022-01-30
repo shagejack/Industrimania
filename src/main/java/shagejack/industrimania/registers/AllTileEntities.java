@@ -18,6 +18,8 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.bronzeTube.B
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRenderer;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
+import shagejack.industrimania.content.primalAge.block.rubberTree.RubberTreeLog;
+import shagejack.industrimania.content.primalAge.block.rubberTree.RubberTreeLogTileEntity;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableRenderer;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
@@ -27,6 +29,13 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public class AllTileEntities {
+
+    public static final RegistryObject<BlockEntityType<?>> rubber_tree_log
+            = new TileEntityBuilder<RubberTreeLogTileEntity>()
+            .name("rubber_tree_log")
+            .tileEntity(RubberTreeLogTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_simple_crafting_table)
+            .build();
 
     public static final RegistryObject<BlockEntityType<?>> simple_crafting_table
             = new TileEntityBuilder<SimpleCraftingTableTileEntity>()

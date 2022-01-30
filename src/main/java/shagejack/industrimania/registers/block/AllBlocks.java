@@ -1,7 +1,12 @@
 package shagejack.industrimania.registers.block;
 
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
@@ -12,6 +17,8 @@ import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
 import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockBottom;
 import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockTop;
+import shagejack.industrimania.content.primalAge.block.rubberTree.RubberTreeLeaves;
+import shagejack.industrimania.content.primalAge.block.rubberTree.RubberTreeLog;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableBlock;
 import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
@@ -197,10 +204,44 @@ public class AllBlocks {
             .buildItem();
 
     /*
+     * ======================
+     *    Liquid Block
+     * ======================
+     */
+
+
+    /*
     * ======================
     *    World Generation
     * ======================
      */
+
+    //Tree
+    public static final ItemBlock plant_rubber_tree_log
+            = new BlockBuilder()
+            .name("plant_rubber_tree_log")
+            .material(Material.WOOD)
+            .strength(1.0F, 0.5F)
+            .tags(BlockTags.LOGS.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(RubberTreeLog::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock plant_rubber_tree_leaves
+            = new BlockBuilder()
+            .name("plant_rubber_tree_leaves")
+            .material(Material.LEAVES)
+            .strength(0.2F, 0.1F)
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .randomTicks()
+            .tags(BlockTags.LEAVES.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(RubberTreeLeaves::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     //Common Plants
     public static final ItemBlock plant_rush_top
@@ -479,6 +520,18 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlock()
             .buildItem(builder -> builder.tab(AllTabs.tabRock));
+
+    private static boolean always(BlockState p_50775_, BlockGetter p_50776_, BlockPos p_50777_) {
+        return true;
+    }
+
+    private static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+        return false;
+    }
+
+    private static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_, EntityType<?> p_50825_) {
+        return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;
+    }
 
 }
 

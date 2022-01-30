@@ -42,6 +42,7 @@ public class RegisterHandle {
         bus.addListener((FMLClientSetupEvent event) -> BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
         AllGroupedBlocks.initAll();
         AllGroupedItems.initAll();
+        new AllFluids();
         new AllTileEntities();
         bus.addListener((FMLClientSetupEvent event) -> AllTileEntities.TileEntityBuilder.bind(event));
         bus.addGenericListener(Block.class,(RegistryEvent<Block> event) -> new AllFeatures());

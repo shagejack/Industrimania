@@ -2,6 +2,7 @@ package shagejack.industrimania.registers.block;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -20,7 +21,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBlocks {
+public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlocks {
 
     protected String name;
     protected RegistryObject<Block> block;
@@ -204,6 +205,26 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public BlockBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public BlockBuilder isViewBlocking(BlockBehaviour.StatePredicate statePredicate) {
+        this.property.isViewBlocking(statePredicate);
+        return this;
+    }
+
+    public BlockBuilder isSuffocating(BlockBehaviour.StatePredicate statePredicate) {
+        this.property.isSuffocating(statePredicate);
+        return this;
+    }
+
+    public BlockBuilder isValidSpawn(BlockBehaviour.StateArgumentPredicate<EntityType<?>> stateArgumentPredicate) {
+        this.property.isValidSpawn(stateArgumentPredicate);
+        return this;
+    }
+
+    public BlockBuilder is(BlockBehaviour.StatePredicate statePredicate) {
+        this.property.isRedstoneConductor(statePredicate);
         return this;
     }
 
