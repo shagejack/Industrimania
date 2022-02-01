@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "stage=0": {
+      "model": "industrimania:block/nature_rubber_tree_sapling"
+    },
+    "stage=1": {
+      "model": "industrimania:block/nature_rubber_tree_sapling"
+    }
+  }
+}

@@ -26,12 +26,15 @@ import java.util.Optional;
 
 public class SimpleCraftingTableTileEntity extends SmartTileEntity {
 
-    private final int REQUIRED_PROGRESSION = 20;
+    public final int REQUIRED_PROGRESSION = 16;
+
+    public final int REQUIRED_CRAFTING_TICK = 80;
 
     public float[] itemRotation = {0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F};
     public int itemJump[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     public int itemJumpPrev[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     public boolean hit;
+    public int craftingTick;
 
     public int idle;
 
@@ -47,6 +50,7 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
         inventory = new SimpleCraftingTableInventory();
         craftingMatrix = new CraftingContainer(new SimpleCraftingTableMenu(), 3, 3);
         idle = 0;
+        craftingTick = -1;
     }
 
     @Override
@@ -79,6 +83,22 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
             }
         }
 
+        if (craftingTick == -1)
+            return;
+
+        ItemStack result = craftResult();
+        if (result.isEmpty() && !level.isClientSide()) {
+            resetProgression();
+            return;
+        }
+
+        if (craftingTick > 0)
+            craftingTick --;
+
+        if (craftingTick == 0) {
+            craft(result);
+        }
+
     }
 
     @Override
@@ -92,6 +112,7 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
         tag.put("Inventory", inventory.serializeNBT());
         tag.putInt("Idle", idle);
         tag.putBoolean("Hit", hit);
+        tag.putInt("CraftingTick", craftingTick);
     }
 
     @Override
@@ -100,15 +121,21 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
         inventory.deserializeNBT(tag.getCompound("Inventory"));
         idle = tag.getInt("Idle");
         hit = tag.getBoolean("Hit");
+        craftingTick = tag.getInt("CraftingTick");
     }
 
     public void resetProgression() {
+        this.craftingTick = -1;
         this.inventory.progression = 0;
         this.idle = 0;
         sendData();
     }
 
     public void addProgression() {
+
+        if (craftingTick != -1)
+            return;
+
         ItemStack result = craftResult();
         if (result.isEmpty()) {
             resetProgression();
@@ -119,7 +146,7 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
             this.inventory.progression += 1;
         } else {
             resetProgression();
-            craft(result);
+            setCrafting();
         }
 
         setIdle(10);
@@ -146,7 +173,13 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
         return ItemStack.EMPTY;
     }
 
+    public void setCrafting() {
+        this.craftingTick = REQUIRED_CRAFTING_TICK;
+        sendData();
+    }
+
     public void craft(ItemStack stack) {
+        resetProgression();
         inventory.clear();
         dropItem(stack);
         sendData();
@@ -162,7 +195,7 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
     }
 
     public void hit() {
-        if (!isIdling()) {
+        if (!isIdling() && craftingTick == -1) {
             this.hit = true;
             addProgression();
             idle = 5;
@@ -177,7 +210,7 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
         assert level != null;
         float f = EntityType.ITEM.getHeight() / 2.0F;
         double d0 = (double)((float)getBlockPos().getX() + 0.5F) + Mth.nextDouble(level.random, -0.25D, 0.25D);
-        double d1 = (double)((float)getBlockPos().getY() + 1.0F) + Mth.nextDouble(level.random, -0.25D, 0.25D) - (double)f;
+        double d1 = (double)((float)getBlockPos().getY() + 1.2F) + Mth.nextDouble(level.random, -0.25D, 0.25D) - (double)f;
         double d2 = (double)((float)getBlockPos().getZ() + 0.5F) + Mth.nextDouble(level.random, -0.25D, 0.25D);
         ItemEntity item = new ItemEntity(level, d0, d1, d2, stack);
         item.setDefaultPickUpDelay();

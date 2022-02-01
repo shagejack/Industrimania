@@ -15,10 +15,12 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.
 import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
-import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockBottom;
-import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockTop;
-import shagejack.industrimania.content.primalAge.block.rubberTree.RubberTreeLeaves;
-import shagejack.industrimania.content.primalAge.block.rubberTree.RubberTreeLog;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.bush.MulberryBush;
+import shagejack.industrimania.content.primalAge.block.nature.rush.RushBlockBottom;
+import shagejack.industrimania.content.primalAge.block.nature.rush.RushBlockTop;
+import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLeaves;
+import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLog;
+import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeSapling;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableBlock;
 import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
@@ -213,15 +215,15 @@ public class AllBlocks {
 
 
     /*
-    * ======================
-    *    World Generation
-    * ======================
+    * ============================================
+    *    World Generation And Natural Resources
+    * ============================================
      */
 
     //Tree
-    public static final ItemBlock plant_rubber_tree_log
+    public static final ItemBlock nature_rubber_tree_log
             = new BlockBuilder()
-            .name("plant_rubber_tree_log")
+            .name("nature_rubber_tree_log")
             .material(Material.WOOD)
             .strength(1.0F, 0.5F)
             .tags(BlockTags.LOGS.getName().toString())
@@ -230,14 +232,26 @@ public class AllBlocks {
             .buildBlock(RubberTreeLog::new)
             .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
-    public static final ItemBlock plant_rubber_tree_leaves
+    public static final ItemBlock nature_rubber_tree_plank
             = new BlockBuilder()
-            .name("plant_rubber_tree_leaves")
+            .name("nature_rubber_tree_plank")
+            .material(Material.WOOD)
+            .strength(1.0F, 0.5F)
+            .tags(BlockTags.PLANKS.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_rubber_tree_leaves
+            = new BlockBuilder()
+            .name("nature_rubber_tree_leaves")
             .material(Material.LEAVES)
             .strength(0.2F, 0.1F)
             .isViewBlocking(AllBlocks::never)
             .isSuffocating(AllBlocks::never)
             .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
             .randomTicks()
             .tags(BlockTags.LEAVES.getName().toString())
             .autoFullCubeModel()
@@ -245,10 +259,40 @@ public class AllBlocks {
             .buildBlock(RubberTreeLeaves::new)
             .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
-    //Common Plants
-    public static final ItemBlock plant_rush_top
+    public static final ItemBlock nature_rubber_tree_sapling
             = new BlockBuilder()
-            .name("plant_rush_top")
+            .name("nature_rubber_tree_sapling")
+            .material(Material.GRASS)
+            .strength(0.1F, 0.1F)
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
+            .randomTicks()
+            .tags(BlockTags.SAPLINGS.getName().toString())
+            .crossTextureModel()
+            .simpleBlockState()
+            .buildBlock(RubberTreeSapling::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    //Bushes
+    public static final ItemBlock nature_mulberry_bush
+            = new BlockBuilder()
+            .name("nature_mulberry_bush")
+            .material(Material.LEAVES)
+            .strength(0.5F, 0.1F)
+            .randomTicks()
+            .dynamicShape()
+            .simplePresetModel()
+            //BlockState for stages
+
+            .buildBlock(MulberryBush::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    //Common Plants
+    public static final ItemBlock nature_rush_top
+            = new BlockBuilder()
+            .name("nature_rush_top")
             .material(Material.GRASS)
             .strength(0.5F, 0.1F)
             .dynamicShape()
@@ -258,9 +302,9 @@ public class AllBlocks {
             .buildBlock(RushBlockTop::new)
             .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
-    public static final ItemBlock plant_rush_bottom
+    public static final ItemBlock nature_rush_bottom
             = new BlockBuilder()
-            .name("plant_rush_bottom")
+            .name("nature_rush_bottom")
             .material(Material.GRASS)
             .strength(0.5F, 0.1F)
             .dynamicShape()
@@ -273,9 +317,9 @@ public class AllBlocks {
             .buildItemWithModel("rush_seed", itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     //Plant Sign
-    public static final ItemBlock plant_lactuca_raddeana
+    public static final ItemBlock nature_lactuca_raddeana
             = new BlockBuilder()
-            .name("plant_lactuca_raddeana")
+            .name("nature_lactuca_raddeana")
             .material(Material.GRASS)
             .strength(0.1F, 0.1F)
             .crossTextureModel()
@@ -295,6 +339,23 @@ public class AllBlocks {
             .buildBlock()
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabOre)));
 
+    //Clay
+    public static final ItemBlock clay_terracotta
+            = new BlockBuilder()
+            .name("clay_terracotta")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock clay_terramelas
+            = new BlockBuilder()
+            .name("clay_terramelas")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabNature));
+
     //Igneous Rocks
     public static final ItemBlock rock_andesite
             = new BlockBuilder()
@@ -304,8 +365,8 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlock()
             .buildItem(builder -> builder.tab(AllTabs.tabRock));
-    public static final ItemBlock rock_granite
 
+    public static final ItemBlock rock_granite
             = new BlockBuilder()
             .name("rock_granite")
             .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)

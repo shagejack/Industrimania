@@ -6,6 +6,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import shagejack.industrimania.registers.AllFeatures;
 
 import java.util.LinkedList;
@@ -38,6 +39,11 @@ public class GenerationRegistry {
             gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.SAND_STONE_REPLACE_PLACED);
             gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ORE_GEN_ALL_PLACED);
         }
+
+        if (event.getCategory() == Biome.BiomeCategory.SAVANNA || event.getCategory() == Biome.BiomeCategory.JUNGLE) {
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, AllFeatures.RUBBER_TREE_PLACED);
+        }
+
     }
 
 }

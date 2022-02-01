@@ -1,5 +1,6 @@
 package shagejack.industrimania.content.primalAge.item.itemPlaceable.base;
 
+import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -10,12 +11,25 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.item.ItemHelper;
 import shagejack.industrimania.registers.AllTileEntities;
 
+import java.util.List;
+
 public class ItemPlaceableBaseBlock extends Block implements ITE<ItemPlaceableBaseTileEntity> {
+
+    //TODO: change shape according to the content.
+    private static final List<VoxelShape> SHAPES = Lists.newArrayList(
+            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D)
+    );
 
     public ItemPlaceableBaseBlock(Properties properties) {
         super(properties);

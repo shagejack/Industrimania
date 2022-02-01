@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -42,7 +43,7 @@ public class SimpleCraftingTableBlock extends BlockDirectionalHorizontalBase imp
                 SimpleCraftingTableTileEntity tile = (SimpleCraftingTableTileEntity) level.getBlockEntity(pos);
                 if (result.getDirection() == Direction.UP) {
                     int slot = getSlotClicked(direction, hitX, hitZ);
-                    if (slot != 10) {
+                    if (slot != 10 && tile.craftingTick == -1) {
                         if (!stack.isEmpty() && tile.inventory.getStackInSlot(slot).isEmpty()) {
                             tile.inventory.setStackInSlot(slot, stack.split(1));
                             //RESET CRAFTING PROGRESSION
@@ -68,7 +69,15 @@ public class SimpleCraftingTableBlock extends BlockDirectionalHorizontalBase imp
     @Override
     public void attack(BlockState state, Level level, BlockPos pos, Player player) {
         if (level.getBlockEntity(pos) instanceof SimpleCraftingTableTileEntity tile) {
-            tile.hit();
+            if (player.getFoodData().getFoodLevel() > 0) {
+                tile.hit();
+                player.getFoodData().addExhaustion(1.0F);
+            } else {
+                if (level.getRandom().nextBoolean())
+                    tile.hit();
+
+                player.hurt(DamageSource.STARVE, 1.0F);
+            }
         }
     }
 

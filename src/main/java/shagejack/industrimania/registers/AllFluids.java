@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 public class AllFluids {
 
     public static final FluidPair rawRubber
-            = new FluidBuilder("rawRubber")
+            = new FluidBuilder("raw_rubber")
             .density(1024)
             .viscosity(1024)
             .build();
@@ -31,10 +31,10 @@ public class AllFluids {
     public static class FluidBuilder {
 
         protected String name;
-        protected RegistryObject<Fluid> STILL;
-        protected RegistryObject<Fluid> FLOWING;
         protected FluidAttributes.Builder attributesBuilder;
         protected ForgeFlowingFluid.Properties properties;
+        protected RegistryObject<Fluid> STILL;
+        protected RegistryObject<Fluid> FLOWING;
         @Nullable
         private Supplier<? extends Item> bucketItem = null;
         @Nullable
@@ -42,8 +42,8 @@ public class AllFluids {
 
         public FluidBuilder(String name) {
             this.name = Objects.requireNonNull(name);
-            STILL = RegistryObject.of(new ResourceLocation(this.name), ForgeRegistries.FLUIDS);
-            FLOWING = RegistryObject.of(new ResourceLocation("flowing_" + this.name), ForgeRegistries.FLUIDS);
+            STILL = RegistryObject.of(new ResourceLocation(Industrimania.MOD_ID, this.name), ForgeRegistries.FLUIDS);
+            FLOWING = RegistryObject.of(new ResourceLocation(Industrimania.MOD_ID, "flowing_" + this.name), ForgeRegistries.FLUIDS);
             attributesBuilder = FluidAttributes.builder(new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + this.name + "/still"), new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + this.name + "/flowing"));
             properties = new ForgeFlowingFluid.Properties(STILL, FLOWING, attributesBuilder);
         }
@@ -61,8 +61,8 @@ public class AllFluids {
                 properties.block(liquidBlock);
             }
 
-            RegistryObject<? extends Fluid> fluidStill = RegisterHandle.FLUID_REGISTER.register(name, () -> new ForgeFlowingFluid.Source(properties).setRegistryName(STILL.getId()));
-            RegistryObject<? extends Fluid> fluidFlowing = RegisterHandle.FLUID_REGISTER.register("flowing_" + name, () -> new ForgeFlowingFluid.Flowing(properties).setRegistryName(FLOWING.getId()));
+            RegistryObject<Fluid> fluidStill = RegisterHandle.FLUID_REGISTER.register(name, () -> new ForgeFlowingFluid.Source(properties));
+            RegistryObject<Fluid> fluidFlowing = RegisterHandle.FLUID_REGISTER.register("flowing_" + name, () -> new ForgeFlowingFluid.Flowing(properties));
 
             return new FluidPair(fluidStill, fluidFlowing);
         }

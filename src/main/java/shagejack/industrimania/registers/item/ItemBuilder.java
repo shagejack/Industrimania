@@ -1,6 +1,7 @@
 package shagejack.industrimania.registers.item;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -29,6 +30,7 @@ public final class ItemBuilder implements ModelBuilder{
     private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
 
     private int durability;
+    private FoodProperties foodProperties;
     private final Map<String, Object> extraParam = new HashMap();
 
     @Override
@@ -65,6 +67,11 @@ public final class ItemBuilder implements ModelBuilder{
 
     public ItemBuilder noTab() {
         this.hasTab = false;
+        return this;
+    }
+
+    public ItemBuilder food(FoodProperties properties) {
+        this.foodProperties = foodProperties;
         return this;
     }
 
@@ -137,7 +144,11 @@ public final class ItemBuilder implements ModelBuilder{
         }
 
         if(hasTab) {
-            property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+            this.property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+        }
+
+        if (foodProperties != null) {
+            this.property.food(foodProperties);
         }
     }
 

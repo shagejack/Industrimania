@@ -35,6 +35,10 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     protected boolean dynamicShape;
     protected boolean noCollission;
     protected boolean requiresCorrectToolForDrops = false;
+    protected BlockBehaviour.StatePredicate isRedstoneConductor;
+    protected BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
+    protected BlockBehaviour.StatePredicate isSuffocating;
+    protected BlockBehaviour.StatePredicate isViewBlocking;
     protected final Map<String, Object> extraParam = new HashMap();
 
     public static final List<Supplier<Runnable>> setupRenderLayerTasks = new ArrayList<>();
@@ -71,6 +75,18 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         if(noCollission) {
             property.noCollission();
         }
+
+        if(isValidSpawn != null)
+            property.isValidSpawn(isValidSpawn);
+
+        if(isViewBlocking != null)
+            property.isViewBlocking(isViewBlocking);
+
+        if(isSuffocating != null)
+            property.isSuffocating(isSuffocating);
+
+        if(isRedstoneConductor != null)
+            property.isRedstoneConductor(isRedstoneConductor);
 
     }
 
@@ -209,22 +225,22 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     }
 
     public BlockBuilder isViewBlocking(BlockBehaviour.StatePredicate statePredicate) {
-        this.property.isViewBlocking(statePredicate);
+        this.isViewBlocking = statePredicate;
         return this;
     }
 
     public BlockBuilder isSuffocating(BlockBehaviour.StatePredicate statePredicate) {
-        this.property.isSuffocating(statePredicate);
+        this.isSuffocating = statePredicate;
         return this;
     }
 
     public BlockBuilder isValidSpawn(BlockBehaviour.StateArgumentPredicate<EntityType<?>> stateArgumentPredicate) {
-        this.property.isValidSpawn(stateArgumentPredicate);
+        this.isValidSpawn = stateArgumentPredicate;
         return this;
     }
 
-    public BlockBuilder is(BlockBehaviour.StatePredicate statePredicate) {
-        this.property.isRedstoneConductor(statePredicate);
+    public BlockBuilder isRedstoneConductor(BlockBehaviour.StatePredicate statePredicate) {
+        this.isRedstoneConductor = statePredicate;
         return this;
     }
 

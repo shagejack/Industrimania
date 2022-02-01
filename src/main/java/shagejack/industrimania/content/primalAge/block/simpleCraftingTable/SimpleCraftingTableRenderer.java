@@ -45,7 +45,18 @@ public class SimpleCraftingTableRenderer extends SafeTileEntityRenderer<SimpleCr
                     BakedModel modelWithOverrides = itemRenderer.getModel(stack, te.getLevel(), null, 0);
                     boolean blockItem = modelWithOverrides.isGui3d();
 
-                    ms.translate(renderPos.x, blockItem ? 1.05f + jumpUP : 1.0375f + jumpUP, renderPos.y);
+                    if (te.craftingTick == -1) {
+                        ms.translate(renderPos.x, blockItem ? 1.05f + jumpUP : 1.0375f + jumpUP, renderPos.y);
+                    } else {
+                        float lambda = (float) (te.REQUIRED_CRAFTING_TICK - te.craftingTick) / (float) te.REQUIRED_CRAFTING_TICK;
+
+                        lambda = (float) Math.pow(lambda, 2);
+
+                        Vec2 centerPos = te.getItemRenderPos(4);
+                        Vec2 nPos = renderPos.scale(1 - lambda).add(centerPos.scale(lambda));
+
+                        ms.translate(nPos.x, blockItem ? 1.05f : 1.0375f, nPos.y);
+                    }
 
 
                     ms.scale(.25f, .25f, .25f);
@@ -71,6 +82,7 @@ public class SimpleCraftingTableRenderer extends SafeTileEntityRenderer<SimpleCr
 
                         if (direction.get() == Direction.WEST) {
                             ms.mulPose(Vector3f.XN.rotationDegrees(90));
+                            ms.mulPose(Vector3f.YP.rotationDegrees(180));
                             ms.mulPose(Vector3f.ZP.rotationDegrees(90 + rotation));
                         }
 
@@ -78,9 +90,7 @@ public class SimpleCraftingTableRenderer extends SafeTileEntityRenderer<SimpleCr
 
                     }
 
-
                     ms.popPose();
-
                 }
             }
         }
