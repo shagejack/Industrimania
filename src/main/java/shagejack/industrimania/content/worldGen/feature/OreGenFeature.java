@@ -127,7 +127,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
         WorldGenLevel level = f.level();
 
-        final double DEPOSIT_GEN_PROBABILITY = 0.05;
+        final double DEPOSIT_GEN_PROBABILITY = 0.06;
         final double PLANT_DECAY_PROBABILITY = 0.75;
         final double PLANT_SIGN_GEN_PROBABILITY = 0.15;
         final double ORE_CAP_GEN_PROBABILITY = 0.01;
