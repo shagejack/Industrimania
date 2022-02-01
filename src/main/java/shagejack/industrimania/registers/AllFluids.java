@@ -15,13 +15,14 @@ import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 
 public class AllFluids {
 
     public static final FluidPair rawRubber
-            = new FluidBuilder()
+            = new FluidBuilder("rawRubber")
             .density(1024)
             .viscosity(1024)
             .build();
@@ -39,10 +40,11 @@ public class AllFluids {
         @Nullable
         private Supplier<? extends LiquidBlock> liquidBlock = null;
 
-        public FluidBuilder() {
-            STILL = RegistryObject.of(new ResourceLocation(name), ForgeRegistries.FLUIDS);
-            FLOWING = RegistryObject.of(new ResourceLocation("flowing_" + name), ForgeRegistries.FLUIDS);
-            attributesBuilder = FluidAttributes.builder(new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + name + "/still"), new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + name + "/flowing"));
+        public FluidBuilder(String name) {
+            this.name = Objects.requireNonNull(name);
+            STILL = RegistryObject.of(new ResourceLocation(this.name), ForgeRegistries.FLUIDS);
+            FLOWING = RegistryObject.of(new ResourceLocation("flowing_" + this.name), ForgeRegistries.FLUIDS);
+            attributesBuilder = FluidAttributes.builder(new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + this.name + "/still"), new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + this.name + "/flowing"));
             properties = new ForgeFlowingFluid.Properties(STILL, FLOWING, attributesBuilder);
         }
 
