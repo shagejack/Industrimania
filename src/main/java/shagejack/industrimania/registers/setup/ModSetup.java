@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.pollution.PollutionEventHandler;
 import shagejack.industrimania.content.worldGen.GenerationRegistry;
+import shagejack.industrimania.foundation.utility.DynamicLights;
 import shagejack.industrimania.registers.AllCommands;
 
 @Mod.EventBusSubscriber(modid = Industrimania.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -21,6 +22,7 @@ public class ModSetup {
         bus.addListener(PollutionEventHandler::chunkUnload);
         bus.addListener(PollutionEventHandler::onFogColorRender);
         bus.addListener(PollutionEventHandler::onFogDensityRender);
+        bus.addListener(DynamicLights::serverWorldTick);
     }
 
 }

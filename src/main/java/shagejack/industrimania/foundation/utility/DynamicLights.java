@@ -2,7 +2,6 @@ package shagejack.industrimania.foundation.utility;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,9 +35,11 @@ public class DynamicLights {
             return;
         }
 
-        levelLights.add(Pair.of(pos, lightLevel));
-
-        levelLightsMap.put(level, levelLights);
+        if ((level.getBlockState(pos).isAir() && !level.getBlockState(pos).is(AllBlocks.mechanic_fake_air_light.block().get())) || (level.getBlockState(pos).is(AllBlocks.mechanic_fake_air_light.block().get()) && level.getBlockState(pos).getValue(BlockStateProperties.LEVEL) < lightLevel)) {
+            level.setBlock(pos, AllBlocks.mechanic_fake_air_light.block().get().defaultBlockState().setValue(BlockStateProperties.LEVEL, lightLevel), 3);
+            levelLights.add(Pair.of(pos, lightLevel));
+            levelLightsMap.put(level, levelLights);
+        }
     }
 
     public static void removeLight(Level level, BlockPos pos) {
@@ -59,7 +60,7 @@ public class DynamicLights {
     }
 
     @SubscribeEvent
-    public void serverWorldTick(TickEvent.WorldTickEvent event) {
+    public static void serverWorldTick(TickEvent.WorldTickEvent event) {
 
         if (event.side != LogicalSide.SERVER) {
             return;
@@ -67,9 +68,12 @@ public class DynamicLights {
 
         ConcurrentLinkedQueue<Pair<BlockPos, Integer>> levelLights = levelLightsMap.get(event.world);
         if (levelLights != null) {
-            for (Pair<BlockPos, Integer> pair : levelLights) {
-                if (event.world.getBlockState(pair.getFirst()).isAir() && (!event.world.getBlockState(pair.getFirst()).is(AllBlocks.mechanic_fake_air_light.block().get()) || event.world.getBlockState(pair.getFirst()).getValue(BlockStateProperties.LEVEL) < pair.getSecond()))
-                    event.world.setBlock(pair.getFirst(), event.world.getBlockState(pair.getFirst()).setValue(BlockStateProperties.LEVEL, pair.getSecond()), 3);
+            Iterator<Pair<BlockPos, Integer>> iter = levelLights.iterator();
+            while (iter.hasNext()) {
+                Pair<BlockPos, Integer> pair = iter.next();
+                iter.remove();
+                if (event.world.getBlockState(pair.getFirst()).is(AllBlocks.mechanic_fake_air_light.block().get()))
+                    event.world.removeBlock(pair.getFirst(), false);
             }
         }
     }

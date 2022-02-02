@@ -27,8 +27,7 @@ public class HandOilLamp extends Item {
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int p_41407_, boolean p_41408_) {
 
         if (isLightUp(stack)) {
-            if (level.isEmptyBlock(entity.getOnPos()) && !getPrevPos(stack).equals(entity.getOnPos())) {
-                level.setBlock(entity.getOnPos(), AllBlocks.mechanic_fake_air_light.block().get().defaultBlockState().setValue(BlockStateProperties.LEVEL, Integer.valueOf(15)).setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)), 3);
+            if (level.isEmptyBlock(entity.getOnPos()) && (!getPrevPos(stack).equals(entity.getOnPos()) || !DynamicLights.isLit(level, entity.getOnPos()))) {
                 DynamicLights.addLight(level, entity.getOnPos(), 5);
                 DynamicLights.removeLight(level, getPrevPos(stack));
                 setPrevPos(stack, getPrevPos(stack));
