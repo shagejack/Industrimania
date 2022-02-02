@@ -34,6 +34,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     protected boolean isRandomlyTicking;
     protected boolean dynamicShape;
     protected boolean noCollission;
+    protected boolean isAir;
     protected boolean requiresCorrectToolForDrops = false;
     protected BlockBehaviour.StatePredicate isRedstoneConductor;
     protected BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
@@ -64,29 +65,32 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
             property.requiresCorrectToolForDrops();
         }
 
-        if(isRandomlyTicking) {
+        if (isRandomlyTicking) {
             property.randomTicks();
         }
 
-        if(dynamicShape) {
+        if (dynamicShape) {
             property.dynamicShape();
         }
 
-        if(noCollission) {
+        if (noCollission) {
             property.noCollission();
         }
 
-        if(isValidSpawn != null)
+        if (isValidSpawn != null)
             property.isValidSpawn(isValidSpawn);
 
-        if(isViewBlocking != null)
+        if (isViewBlocking != null)
             property.isViewBlocking(isViewBlocking);
 
-        if(isSuffocating != null)
+        if (isSuffocating != null)
             property.isSuffocating(isSuffocating);
 
-        if(isRedstoneConductor != null)
+        if (isRedstoneConductor != null)
             property.isRedstoneConductor(isRedstoneConductor);
+
+        if(isAir)
+            property.air();
 
     }
 
@@ -196,6 +200,11 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
 
     public BlockBuilder requiresCorrectToolForDrops() {
         this.requiresCorrectToolForDrops = true;
+        return this;
+    }
+
+    public BlockBuilder isAir() {
+        this.isAir = true;
         return this;
     }
 

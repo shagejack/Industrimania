@@ -10,6 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shagejack.industrimania.foundation.utility.DynamicLights;
 import shagejack.industrimania.registers.AllRecipeTypes;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.setup.ModSetup;

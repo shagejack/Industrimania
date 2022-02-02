@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
 import shagejack.industrimania.foundation.tileEntity.renderer.SafeTileEntityRenderer;
+import shagejack.industrimania.foundation.utility.AngleHelper;
 
 import java.util.Optional;
 
@@ -65,26 +66,9 @@ public class SimpleCraftingTableRenderer extends SafeTileEntityRenderer<SimpleCr
 
                     if (direction.isPresent()) {
 
-                        if (direction.get() == Direction.NORTH) {
-                            ms.mulPose(Vector3f.XP.rotationDegrees(90));
-                            ms.mulPose(Vector3f.YP.rotationDegrees(rotation));
-                        }
+                        ms.mulPose(Vector3f.YP.rotationDegrees(AngleHelper.horizontalAngle(direction.get().getOpposite()) + rotation));
 
-                        if (direction.get() == Direction.EAST) {
-                            ms.mulPose(Vector3f.XP.rotationDegrees(90));
-                            ms.mulPose(Vector3f.ZP.rotationDegrees(90 + rotation));
-                        }
-
-                        if (direction.get() == Direction.SOUTH) {
-                            ms.mulPose(Vector3f.XN.rotationDegrees(90));
-                            ms.mulPose(Vector3f.YP.rotationDegrees(180 + rotation));
-                        }
-
-                        if (direction.get() == Direction.WEST) {
-                            ms.mulPose(Vector3f.XN.rotationDegrees(90));
-                            ms.mulPose(Vector3f.YP.rotationDegrees(180));
-                            ms.mulPose(Vector3f.ZP.rotationDegrees(90 + rotation));
-                        }
+                        ms.mulPose(Vector3f.XP.rotationDegrees(90));
 
                         itemRenderer.renderStatic(stack, ItemTransforms.TransformType.FIXED, 240, overlay, ms, buffer, 0);
 

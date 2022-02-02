@@ -26,6 +26,7 @@ import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
+import shagejack.industrimania.content.primalAge.item.handOilLamp.FakeAirLightBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
@@ -121,6 +122,21 @@ public class AllBlocks {
             .buildItem();
 
     //mechanic
+    public static final ItemBlock mechanic_fake_air_light
+            = new BlockBuilder()
+            .name("mechanic_fake_air_light")
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
+            .randomTicks()
+            .noCollission()
+            .isAir()
+            .simplePresetModel()
+            .simpleBlockState()
+            .buildBlock(FakeAirLightBlock::new)
+            .buildItem();
+
     public static final ItemBlock mechanic_simple_crafting_table
             = new BlockBuilder()
             .name("mechanic_simple_crafting_table")
