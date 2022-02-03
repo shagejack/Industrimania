@@ -23,6 +23,7 @@ import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.Simpl
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.record.ItemBlock;
 
 import java.util.*;
 import java.util.function.Supplier;

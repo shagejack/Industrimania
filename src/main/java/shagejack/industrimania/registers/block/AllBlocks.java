@@ -30,9 +30,10 @@ import shagejack.industrimania.content.primalAge.item.handOilLamp.FakeAirLightBl
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
-import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.record.ItemBlock;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +132,8 @@ public class AllBlocks {
             .renderLayer(() -> RenderType::cutout)
             .randomTicks()
             .noCollission()
+            .noDrops()
+            .lightLevel(FakeAirLightBlock.LIGHT_EMISSION)
             .isAir()
             .simplePresetModel()
             .simpleBlockState()
@@ -599,6 +602,16 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlock()
             .buildItem(builder -> builder.tab(AllTabs.tabRock));
+
+    //Test Stuff
+    public static final ItemBlock test_rgb_grass
+            = new BlockBuilder()
+            .name("test_rgb_grass")
+            .setRGBOverlay(Color.RED)
+            .autoFullCubeModel(true)
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(itemBuilder -> itemBuilder.noTab().setRGBOverlay(Color.RED));
 
     private static boolean always(BlockState p_50775_, BlockGetter p_50776_, BlockPos p_50777_) {
         return true;

@@ -1,8 +1,6 @@
 package shagejack.industrimania.content.primalAge.item.handOilLamp;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -11,11 +9,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.AirBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import shagejack.industrimania.foundation.utility.DynamicLights;
-import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.content.dynamicLights.DynamicLights;
+
+import java.util.stream.StreamSupport;
 
 public class HandOilLamp extends Item {
 
@@ -27,10 +23,17 @@ public class HandOilLamp extends Item {
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int p_41407_, boolean p_41408_) {
 
         if (isLightUp(stack)) {
-            if (level.isEmptyBlock(entity.getOnPos()) && (!getPrevPos(stack).equals(entity.getOnPos()) || !DynamicLights.isLit(level, entity.getOnPos()))) {
-                DynamicLights.addLight(level, entity.getOnPos(), 5);
-                DynamicLights.removeLight(level, getPrevPos(stack));
-                setPrevPos(stack, getPrevPos(stack));
+            if (entity.isAlive() && StreamSupport.stream(entity.getHandSlots().spliterator(), false).anyMatch(itemStack -> itemStack == stack)) {
+                BlockPos pos = entity.getOnPos().above();
+
+                if (!level.isEmptyBlock(pos))
+                    pos = pos.above();
+
+                if (level.isEmptyBlock(pos) && (!getPrevPos(stack).equals(pos) || !DynamicLights.isLit(level, pos))) {
+                    DynamicLights.addLight(level, pos, 7, entity);
+                    DynamicLights.removeLight(level, getPrevPos(stack));
+                    setPrevPos(stack, pos);
+                }
             }
 
             if (level.getRandom().nextDouble() < 0.01) {
@@ -39,6 +42,7 @@ public class HandOilLamp extends Item {
                     DynamicLights.removeLight(level, getPrevPos(stackBackup));
                 });
             }
+
         } else {
             DynamicLights.removeLight(level, getPrevPos(stack));
         }
@@ -50,7 +54,8 @@ public class HandOilLamp extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        setLightUp(stack, !isLightUp(stack));
+        if (player.isShiftKeyDown())
+            setLightUp(stack, !isLightUp(stack));
 
         return super.use(level, player, hand);
     }
@@ -76,6 +81,8 @@ public class HandOilLamp extends Item {
         stack.getOrCreateTag().putInt("PrevPosY", pos.getY());
         stack.getOrCreateTag().putInt("PrevPosZ", pos.getZ());
     }
+
+
 
 
 

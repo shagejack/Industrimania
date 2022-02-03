@@ -1,7 +1,7 @@
 package shagejack.industrimania.registers.block.grouped;
 
 import com.google.common.collect.Lists;
-import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.record.ItemBlock;
 
 import java.util.*;
 

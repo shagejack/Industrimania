@@ -1,25 +1,29 @@
 package shagejack.industrimania.registers.block;
 
+import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.registers.AllTabs;
+import shagejack.industrimania.client.handler.BlockColorHandler;
 import shagejack.industrimania.registers.AllTags;
-import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.record.ItemBlock;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlocks {
 
@@ -34,8 +38,11 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     protected boolean isRandomlyTicking;
     protected boolean dynamicShape;
     protected boolean noCollission;
+    protected boolean noDrops;
     protected boolean isAir;
     protected boolean requiresCorrectToolForDrops = false;
+    protected ToIntFunction<BlockState> lightLevelFun;
+    protected BlockColor blockColor;
     protected BlockBehaviour.StatePredicate isRedstoneConductor;
     protected BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
     protected BlockBehaviour.StatePredicate isSuffocating;
@@ -89,8 +96,14 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         if (isRedstoneConductor != null)
             property.isRedstoneConductor(isRedstoneConductor);
 
-        if(isAir)
+        if (isAir)
             property.air();
+
+        if (noDrops)
+            property.noDrops();
+
+        if (lightLevelFun != null)
+            property.lightLevel(lightLevelFun);
 
     }
 
@@ -106,6 +119,11 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
             AllBlocks.BLOCK_TAGS.put(block, tags);
             Industrimania.LOGGER.debug("for block:{} add tags:{}", name, tags.toString());
         }
+
+        if (blockColor != null) {
+            BlockColorHandler.register(block, blockColor);
+        }
+
         return this;
     }
 
@@ -250,6 +268,26 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
 
     public BlockBuilder isRedstoneConductor(BlockBehaviour.StatePredicate statePredicate) {
         this.isRedstoneConductor = statePredicate;
+        return this;
+    }
+
+    public BlockBuilder setRGBOverlay(Color color) {
+        this.blockColor = (state, blockAndTintGetter, pos, p_92649_) -> color.getRGB();
+        return this;
+    }
+
+    public BlockBuilder setBlockColor(BlockColor blockColor) {
+        this.blockColor = blockColor;
+        return this;
+    }
+
+    public BlockBuilder noDrops() {
+        this.noDrops = true;
+        return this;
+    }
+
+    public BlockBuilder lightLevel(ToIntFunction<BlockState> lightLevelFun) {
+        this.lightLevelFun = lightLevelFun;
         return this;
     }
 

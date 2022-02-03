@@ -8,6 +8,7 @@
     "LeavesBlockMixin"
   ],
   "client": [
+    "MinecraftMixin"
   ],
   "minVersion": "0.8"
 }

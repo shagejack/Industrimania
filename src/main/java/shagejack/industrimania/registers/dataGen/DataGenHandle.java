@@ -59,6 +59,7 @@ public class DataGenHandle {
     public static Lazy<ExistingModelFile> blockCubeRotatable = () -> existingModel(itemModelPro.get(), "");
     public static Lazy<ExistingModelFile> blockCrossTexture = () -> existingModel(itemModelPro.get(), "block/cross");
     public static Lazy<ExistingModelFile> blockOre = () -> modExistingModel(itemModelPro.get(), "block/ore");
+    public static Lazy<ExistingModelFile> blockCubeRGBOverlay = () -> modExistingModel(itemModelPro.get(), "block/cube_rgb_overlay");
     public static Lazy<ExistingModelFile> blockSnowLikeModel0 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height2");
     public static Lazy<ExistingModelFile> blockSnowLikeModel1 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height4");
     public static Lazy<ExistingModelFile> blockSnowLikeModel2 = () -> modExistingModel(itemModelPro.get(), "block/snow_like_height6");

@@ -3,10 +3,10 @@ package shagejack.industrimania.registers.block.grouped;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.material.Material;
 import shagejack.industrimania.content.contraptions.ore.BlockOre;
-import shagejack.industrimania.content.worldGen.OreTypeRegistry;
+import shagejack.industrimania.content.world.gen.OreTypeRegistry;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
-import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.record.ItemBlock;
 import shagejack.industrimania.registers.block.BlockBuilder;
 
 import java.util.HashMap;

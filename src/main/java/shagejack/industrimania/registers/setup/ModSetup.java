@@ -5,8 +5,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.pollution.PollutionEventHandler;
-import shagejack.industrimania.content.worldGen.GenerationRegistry;
-import shagejack.industrimania.foundation.utility.DynamicLights;
+import shagejack.industrimania.content.world.gen.GenerationRegistry;
+import shagejack.industrimania.content.dynamicLights.DynamicLights;
 import shagejack.industrimania.registers.AllCommands;
 
 @Mod.EventBusSubscriber(modid = Industrimania.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)

@@ -45,6 +45,8 @@ public class RegisterHandle {
         AllGroupedItems.initAll();
         new AllFluids();
         new AllTileEntities();
+        new AllBiomes();
+        new AllDimensions();
         bus.addListener((FMLClientSetupEvent event) -> AllTileEntities.TileEntityBuilder.bind(event));
         bus.addGenericListener(Block.class,(RegistryEvent<Block> event) -> new AllFeatures());
         AllPackets.registerPackets();

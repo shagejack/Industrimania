@@ -12,6 +12,7 @@ import shagejack.industrimania.content.logistics.item.filter.FilterItem;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
 import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireBow;
+import shagejack.industrimania.content.primalAge.item.handOilLamp.HandOilLamp;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
 
@@ -48,6 +49,8 @@ public class AllItems {
     public static final RegistryObject<Item> longStick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();
     public static final RegistryObject<Item> simpleBoneKnife = new ItemBuilder().name("simple_bone_knife").simpleModel("simple_bone_knife").tab(AllTabs.tabTool).addExtraParam("KnifeMaterial", KnifeMaterials.BONE).durability(16).build(IMKnifeItemBase::new);
     public static final RegistryObject<Item> primitiveFireBow = new ItemBuilder().name("primitive_fire_bow").simpleModel("primitive_fire_bow").durability(64).tab(AllTabs.tabTool).build(PrimitiveFireBow::new);
+    public static final RegistryObject<Item> handOilLamp = new ItemBuilder().name("hand_oil_lamp").simpleModel("hand_oil_lamp").durability(128).tab(AllTabs.tabTool).build(HandOilLamp::new);
+
 
     /*
      * =============

@@ -3,7 +3,7 @@ package shagejack.industrimania.registers.item.grouped;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.ore.ItemOreChunk;
-import shagejack.industrimania.content.worldGen.OreTypeRegistry;
+import shagejack.industrimania.content.world.gen.OreTypeRegistry;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.ItemBuilder;

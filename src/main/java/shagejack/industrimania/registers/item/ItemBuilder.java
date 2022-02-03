@@ -1,5 +1,7 @@
 package shagejack.industrimania.registers.item;
 
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
@@ -10,9 +12,12 @@ import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.client.handler.ItemColorHandler;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.block.BlockBuilder;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,6 +33,7 @@ public final class ItemBuilder implements ModelBuilder{
     private Item.Properties property;
     RegistryObject<Item> registryObject;
     private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
+    private ItemColor itemColor;
 
     private int durability;
     private FoodProperties foodProperties;
@@ -112,6 +118,10 @@ public final class ItemBuilder implements ModelBuilder{
         checkProperty();
         registryObject = RegisterHandle.ITEM_REGISTER.register(name, itemSupplier);
         Industrimania.LOGGER.debug("register Item {}", name);
+
+        if (itemColor != null)
+            ItemColorHandler.register(registryObject, itemColor);
+
         return registryObject;
     }
 
@@ -130,6 +140,10 @@ public final class ItemBuilder implements ModelBuilder{
                 }
             }
         });
+
+        if (itemColor != null)
+            ItemColorHandler.register(registryObject, itemColor);
+
         return registryObject;
     }
 
@@ -150,6 +164,16 @@ public final class ItemBuilder implements ModelBuilder{
         if (foodProperties != null) {
             this.property.food(foodProperties);
         }
+    }
+
+    public ItemBuilder setRGBOverlay(Color color) {
+        this.itemColor = (stack, p_92673_) -> color.getRGB();
+        return this;
+    }
+
+    public ItemBuilder setItemColor(ItemColor itemColor) {
+        this.itemColor = itemColor;
+        return this;
     }
 
     public ItemBuilder durability(int durability) {

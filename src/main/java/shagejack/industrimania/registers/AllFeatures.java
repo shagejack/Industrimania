@@ -3,9 +3,7 @@ package shagejack.industrimania.registers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.data.worldgen.placement.TreePlacements;
 import net.minecraft.util.valueproviders.ConstantInt;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -18,13 +16,11 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlac
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.*;
-import shagejack.industrimania.content.worldGen.feature.OreGenFeature;
-import shagejack.industrimania.content.worldGen.feature.OreRemovalFeature;
-import shagejack.industrimania.content.worldGen.feature.RockLayersFeature;
-import shagejack.industrimania.content.worldGen.feature.SandStoneReplaceFeature;
+import shagejack.industrimania.content.world.gen.feature.OreGenFeature;
+import shagejack.industrimania.content.world.gen.feature.OreRemovalFeature;
+import shagejack.industrimania.content.world.gen.feature.RockLayersFeature;
+import shagejack.industrimania.content.world.gen.feature.SandStoneReplaceFeature;
 import shagejack.industrimania.registers.block.AllBlocks;
-
-import java.util.Objects;
 
 import static shagejack.industrimania.registers.RegisterHandle.FEATURE_REGISTER;
 
