@@ -2,10 +2,12 @@ package shagejack.industrimania.registers.dataGen;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
@@ -27,6 +29,7 @@ import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.item.AllItems;
 import shagejack.industrimania.registers.recipe.ProcessingRecipeGen;
 
 import java.util.ArrayList;
@@ -50,6 +53,7 @@ public class DataGenHandle {
     private static final Wrapper<BlockModelProvider> blockModelPro = new Wrapper<>();
     private static final Wrapper<BlockStateProvider> blockStatePro = new Wrapper<>();
     private static final Wrapper<BlockTagsProvider> blockTagsPro = new Wrapper<>();
+    private static final Wrapper<ItemTagsProvider> itemTagsPro = new Wrapper<>();
     private static final Wrapper<LanguageProvider> languagePro = new Wrapper<>();
     public static Lazy<ExistingModelFile> itemGeneratedModel = () -> existingModel(itemModelPro.get(), "item/generated");
     public static Lazy<ExistingModelFile> itemHeldModel = () -> existingModel(itemModelPro.get(), "item/handheld");
@@ -210,6 +214,16 @@ public class DataGenHandle {
             }
         };
 
+        ItemTagsProvider itemTagsProvider = new ItemTagsProvider(generator, blockTagsProvider, MOD_ID, existingFileHelper) {
+            @Override
+            protected void addTags() {
+                AllItems.ITEM_TAGS.forEach((item, tags) -> tags.forEach(
+                                (t) -> tag(ItemTags.bind(t)).add(item.get())
+                        )
+                );
+            }
+        };
+
         //only use for generate template lang file,keys are lang and values are registryName's path or display name
         LanguageProvider languageProvider = new LanguageProvider(generator, MOD_ID, "template") {
             @Override
@@ -237,12 +251,14 @@ public class DataGenHandle {
         blockModelPro.set(() -> blockModelProvider);
         blockStatePro.set(() -> blockStateProvider);
         blockTagsPro.set(() -> blockTagsProvider);
+        itemTagsPro.set(() -> itemTagsProvider);
 
 
         generator.addProvider(itemModelProvider);
         generator.addProvider(blockModelProvider);
         generator.addProvider(blockStateProvider);
         generator.addProvider(blockTagsProvider);
+        generator.addProvider(itemTagsProvider);
         generator.addProvider(languageProvider);
         ProcessingRecipeGen.registerAll(generator);
     }

@@ -14,13 +14,16 @@ import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.client.handler.ItemColorHandler;
 import shagejack.industrimania.registers.AllTabs;
+import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.BlockBuilder;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
+import shagejack.industrimania.registers.record.ItemBlock;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -34,6 +37,8 @@ public final class ItemBuilder implements ModelBuilder{
     RegistryObject<Item> registryObject;
     private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
     private ItemColor itemColor;
+    private final java.util.List<String> tags = new ArrayList<>();
+    private final List<String> modTags = new ArrayList<>();
 
     private int durability;
     private FoodProperties foodProperties;
@@ -116,8 +121,17 @@ public final class ItemBuilder implements ModelBuilder{
      */
     public RegistryObject<Item> build(Supplier<Item> itemSupplier) {
         checkProperty();
+
         registryObject = RegisterHandle.ITEM_REGISTER.register(name, itemSupplier);
         Industrimania.LOGGER.debug("register Item {}", name);
+
+        if (itemColor != null)
+            ItemColorHandler.register(registryObject, itemColor);
+
+        if (!tags.isEmpty()) {
+            AllItems.ITEM_TAGS.put(registryObject, tags);
+            Industrimania.LOGGER.debug("for item:{} add tags:{}", name, tags.toString());
+        }
 
         if (itemColor != null)
             ItemColorHandler.register(registryObject, itemColor);
@@ -140,6 +154,11 @@ public final class ItemBuilder implements ModelBuilder{
                 }
             }
         });
+
+        if (!tags.isEmpty()) {
+            AllItems.ITEM_TAGS.put(registryObject, tags);
+            Industrimania.LOGGER.debug("for item:{} add tags:{}", name, tags.toString());
+        }
 
         if (itemColor != null)
             ItemColorHandler.register(registryObject, itemColor);
@@ -183,6 +202,12 @@ public final class ItemBuilder implements ModelBuilder{
 
     public ItemBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public ItemBuilder tags(String... tags) {
+        this.tags.clear();
+        this.tags.addAll(Arrays.stream(tags).toList());
         return this;
     }
 }
