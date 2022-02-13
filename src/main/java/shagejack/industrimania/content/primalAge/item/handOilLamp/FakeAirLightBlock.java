@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.LightBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -16,6 +17,10 @@ public class FakeAirLightBlock extends LightBlock {
 
     public FakeAirLightBlock(Properties properties) {
         super(properties);
+    }
+
+    public RenderShape getRenderShape(BlockState p_52986_) {
+        return RenderShape.INVISIBLE;
     }
 
     @Override

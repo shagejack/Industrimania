@@ -6,7 +6,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Supplier;
 
-public enum SawMaterials implements KnifeMaterial {
+public enum SawMaterials implements SawMaterial {
     BONE("iron", 15, 9, 0.5F, () -> Ingredient.EMPTY),
     FLINT("iron", 15, 9, 1.0F, () -> Ingredient.EMPTY),
     IRON("iron", 15, 9, 2.0F, () -> Ingredient.of(Items.IRON_INGOT)),

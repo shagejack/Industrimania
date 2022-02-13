@@ -1,0 +1,88 @@
+{
+  "variants": {
+    "distance=1,persistent=false,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=2,persistent=false,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=3,persistent=false,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=4,persistent=false,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=5,persistent=false,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=6,persistent=false,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=7,persistent=false,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=1,persistent=true,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=2,persistent=true,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=3,persistent=true,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=4,persistent=true,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=5,persistent=true,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=6,persistent=true,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=7,persistent=true,stage=0": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=1,persistent=false,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=2,persistent=false,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=3,persistent=false,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=4,persistent=false,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=5,persistent=false,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=6,persistent=false,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=7,persistent=false,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=1,persistent=true,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=2,persistent=true,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=3,persistent=true,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=4,persistent=true,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=5,persistent=true,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=6,persistent=true,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    },
+    "distance=7,persistent=true,stage=1": {
+      "model": "industrimania:block/nature_mulberry_tree_leaves"
+    }
+  }
+}

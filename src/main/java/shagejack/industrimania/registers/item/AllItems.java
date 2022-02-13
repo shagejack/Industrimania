@@ -65,8 +65,8 @@ public class AllItems {
     public static final RegistryObject<Item> handOilLamp = new ItemBuilder().name("hand_oil_lamp").simpleModel("hand_oil_lamp").durability(128).tab(AllTabs.tabTool).build(HandOilLamp::new);
     public static final RegistryObject<Item> flintKnife = new ItemBuilder().name("flint_knife").simpleModel("flint_knife").tab(AllTabs.tabTool).addExtraParam("KnifeMaterial", KnifeMaterials.FLINT).durability(64).build(IMKnifeItemBase::new);
     public static final RegistryObject<Item> flintSaw = new ItemBuilder().name("flint_saw").simpleModel("flint_saw").tab(AllTabs.tabTool).addExtraParam("SawMaterial", SawMaterials.FLINT).durability(64).build(IMSawItemBase::new);
-    public static final RegistryObject<Item> flintAxe = new ItemBuilder().name("flint_axe").simpleModel("flint_axe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 6.0F).addExtraParam("AttackSpeed", -3.2F).durability(64).tags().build(IMAxeItemBase::new);
-    public static final RegistryObject<Item> flintPickaxe = new ItemBuilder().name("flint_pickaxe").simpleModel("flint_pickaxe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 1).addExtraParam("AttackSpeed", -2.8F).durability(64).build(IMAxeItemBase::new);
+    public static final RegistryObject<Item> flintAxe = new ItemBuilder().name("flint_axe").simpleModel("flint_axe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 6.0f).addExtraParam("AttackSpeed", -3.2f).durability(64).tags().build(IMAxeItemBase::new);
+    public static final RegistryObject<Item> flintPickaxe = new ItemBuilder().name("flint_pickaxe").simpleModel("flint_pickaxe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 1.0f).addExtraParam("AttackSpeed", -2.8f).durability(64).build(IMAxeItemBase::new);
 
 
 
@@ -148,4 +148,10 @@ public class AllItems {
      */
     public static final RegistryObject<Item> creativeHazardProtectiveHelmet = new ItemBuilder().name("creative_hazard_protective_helmet").simpleModel("creative_hazard_protective_helmet").addExtraParam("ArmorMaterial", ArmorMaterials.NETHERITE).addExtraParam("EquipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(IMArmorItemBase::new);
 
+    /*
+     * ==========================
+     *  Model Item for Rendering
+     * ==========================
+     */
+    public static final RegistryObject<Item> modelTest = new ItemBuilder().name("model_test").specificModel("item/model/test").noTab().build();
 }

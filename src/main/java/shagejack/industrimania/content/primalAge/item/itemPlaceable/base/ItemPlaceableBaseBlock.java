@@ -6,13 +6,20 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.item.ItemHelper;
@@ -22,17 +29,38 @@ import java.util.List;
 
 public class ItemPlaceableBaseBlock extends Block implements ITE<ItemPlaceableBaseTileEntity> {
 
+    public static final IntegerProperty AMOUNT = IntegerProperty.create("amount", 0, 16);
+
     //TODO: change shape according to the content.
-    private static final List<VoxelShape> SHAPES = Lists.newArrayList(
+    private static final VoxelShape[] SHAPES = new VoxelShape[]{
             Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D)
-    );
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+    };
 
     public ItemPlaceableBaseBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(AMOUNT, Integer.valueOf(0)));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(AMOUNT);
+    }
+
+    public RenderShape getRenderShape(BlockState p_52986_) {
+        return RenderShape.MODEL;
+    }
+
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext collisionContext) {
+        return SHAPES[(state.getValue(AMOUNT) + 3) / 4];
+    }
+
+    public boolean useShapeForLightOcclusion(BlockState p_52997_) {
+        return true;
     }
 
     @Override

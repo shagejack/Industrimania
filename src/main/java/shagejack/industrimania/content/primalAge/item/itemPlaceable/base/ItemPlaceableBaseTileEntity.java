@@ -49,10 +49,6 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
 
     public ItemPlaceableBaseTileEntity(BlockPos pos, BlockState state) {
         super(AllTileEntities.item_placeable.get(), pos, state);
-    }
-
-    public ItemPlaceableBaseTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
         inventory = new ItemPlaceableInventory(MAX_STORAGE);
         isBurning = false;
         recipeIndex = 0;
@@ -61,8 +57,17 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
 
     @Override
     public void tick() {
+        assert level != null;
+
+        if (getBlockState().getValue(ItemPlaceableBaseBlock.AMOUNT) == 0) {
+            level.setBlock(getBlockPos(), getBlockState().setValue(ItemPlaceableBaseBlock.AMOUNT, inventory.getTotalItemAmount()), 3);
+            if (getBlockState().getValue(ItemPlaceableBaseBlock.AMOUNT) == 0) {
+                level.removeBlock(getBlockPos(), true);
+                this.onBreak(level);
+            }
+        }
+
         if (inventory.isEmpty()) {
-            assert level != null;
             level.removeBlock(getBlockPos(), true);
             this.onBreak(level);
         }
@@ -79,6 +84,7 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
             if (inventory.getStackInSlot(i).isEmpty()) {
                 inventory.insertItem(i, stack, false);
                 resetRecipe();
+                level.setBlock(getBlockPos(), getBlockState().setValue(ItemPlaceableBaseBlock.AMOUNT, inventory.getTotalItemAmount()), 3);
                 sendData();
                 return true;
             }
@@ -92,6 +98,8 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
             if (!stack.isEmpty()) {
                 inventory.setStackInSlot(i, ItemStack.EMPTY);
                 resetRecipe();
+                level.setBlock(getBlockPos(), getBlockState().setValue(ItemPlaceableBaseBlock.AMOUNT, inventory.getTotalItemAmount()), 3);
+                sendData();
                 return stack;
             }
         }

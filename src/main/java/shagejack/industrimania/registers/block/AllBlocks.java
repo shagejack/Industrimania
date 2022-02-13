@@ -16,6 +16,7 @@ import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.bush.MulberryBush;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxBlock;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeLeaves;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeLog;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeSapling;
@@ -92,6 +93,40 @@ public class AllBlocks {
             .buildBlock()
             .buildItem();
 
+    public static final ItemBlock building_grass_stack
+            = new BlockBuilder()
+            .name("building_grass_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .randomTicks()
+            .buildBlock(GrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock building_hay_stack
+            = new BlockBuilder()
+            .name("building_hay_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .randomTicks()
+            .buildBlock(HayStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock building_moldy_grass_stack
+            = new BlockBuilder()
+            .name("building_moldy_grass_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .randomTicks()
+            .buildBlock(MoldyGrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock building_rotten_grass_stack
+            = new BlockBuilder()
+            .name("building_rotten_grass_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .buildBlock(RottenGrassStackBlock::new)
+            .buildItem();
 
     //gravity
     public static final ItemBlock gravity_calcite
@@ -148,8 +183,8 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("mechanic_silkworm_rearing_box")
             .simplePresetModel()
-            .rotatableBlockState()
-            .buildBlock(SimpleCraftingTableBlock::new)
+            .simpleBlockState()
+            .buildBlock(SilkwormRearingBoxBlock::new)
             .buildItem();
 
     public static final ItemBlock mechanic_simple_crafting_table
@@ -158,41 +193,6 @@ public class AllBlocks {
             .simplePresetModel()
             .rotatableBlockState()
             .buildBlock(SimpleCraftingTableBlock::new)
-            .buildItem();
-
-    public static final ItemBlock mechanic_grass_stack
-            = new BlockBuilder()
-            .name("mechanic_grass_stack")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .randomTicks()
-            .buildBlock(GrassStackBlock::new)
-            .buildItem();
-
-    public static final ItemBlock mechanic_hay_stack
-            = new BlockBuilder()
-            .name("mechanic_hay_stack")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .randomTicks()
-            .buildBlock(HayStackBlock::new)
-            .buildItem();
-
-    public static final ItemBlock mechanic_moldy_grass_stack
-            = new BlockBuilder()
-            .name("mechanic_moldy_grass_stack")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .randomTicks()
-            .buildBlock(MoldyGrassStackBlock::new)
-            .buildItem();
-
-    public static final ItemBlock mechanic_rotten_grass_stack
-            = new BlockBuilder()
-            .name("mechanic_rotten_grass_stack")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock(RottenGrassStackBlock::new)
             .buildItem();
 
     public static final ItemBlock mechanic_stone_chopping_block
@@ -215,8 +215,9 @@ public class AllBlocks {
     public static final ItemBlock mechanic_item_placeable
             = new BlockBuilder()
             .name("mechanic_item_placeable")
-            .autoFullCubeModel()
+            .simplePresetModel()
             .simpleBlockState()
+            .renderLayer(() -> RenderType::cutout)
             .buildBlock(ItemPlaceableBaseBlock::new)
             .buildItem(ItemBuilder::noTab);
 
@@ -258,6 +259,16 @@ public class AllBlocks {
     *    World Generation And Natural Resources
     * ============================================
      */
+
+    public static final ItemBlock nature_cobble
+            = new BlockBuilder()
+            .name("nature_cobble")
+            .material(Material.STONE)
+            .strength(1.0F, 0.5F)
+            .simplePresetModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItemWithModel("cobble", itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     //Tree
     public static final ItemBlock nature_rubber_tree_log

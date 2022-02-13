@@ -1,6 +1,54 @@
 {
   "variants": {
-    "": {
+    "amount=0": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=1": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=2": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=3": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=4": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=5": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=6": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=7": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=8": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=9": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=10": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=11": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=12": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=13": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=14": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=15": {
+      "model": "industrimania:block/mechanic_item_placeable"
+    },
+    "amount=16": {
       "model": "industrimania:block/mechanic_item_placeable"
     }
   }

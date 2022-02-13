@@ -25,6 +25,7 @@ import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.Simpl
 import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardRenderer;
 import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableRenderer;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.record.ItemBlock;
 
@@ -76,6 +77,7 @@ public class AllTileEntities {
             .name("item_placeable")
             .tileEntity(ItemPlaceableBaseTileEntity::new)
             .validBlocks(AllBlocks.mechanic_item_placeable)
+            .renderer(() -> ItemPlaceableRenderer::new)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> clay_furnace_bottom
