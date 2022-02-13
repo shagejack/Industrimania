@@ -18,9 +18,12 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.bronzeTube.B
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRenderer;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxTileEntity;
 import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLogTileEntity;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableRenderer;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableTileEntity;
+import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardRenderer;
+import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.record.ItemBlock;
@@ -29,6 +32,13 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public class AllTileEntities {
+
+    public static final RegistryObject<BlockEntityType<?>> silkworm_rearing_box
+            = new TileEntityBuilder<SilkwormRearingBoxTileEntity>()
+            .name("silkworm_rearing_box")
+            .tileEntity(SilkwormRearingBoxTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_silkworm_rearing_box)
+            .build();
 
     public static final RegistryObject<BlockEntityType<?>> rubber_tree_log
             = new TileEntityBuilder<RubberTreeLogTileEntity>()
@@ -43,6 +53,14 @@ public class AllTileEntities {
             .tileEntity(SimpleCraftingTableTileEntity::new)
             .validBlocks(AllBlocks.mechanic_simple_crafting_table)
             .renderer(() -> SimpleCraftingTableRenderer::new)
+            .build();
+
+    public static final RegistryObject<BlockEntityType<?>> stone_chopping_board
+            = new TileEntityBuilder<StoneChoppingBoardTileEntity>()
+            .name("stone_chopping_board")
+            .tileEntity(StoneChoppingBoardTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_stone_chopping_block)
+            .renderer(() -> StoneChoppingBoardRenderer::new)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> drying_rack

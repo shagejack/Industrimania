@@ -71,6 +71,15 @@ public class AllFeatures {
                     new TwoLayersFeatureSize(1, 0, 1)
             ).ignoreVines().build()));
 
+    public static final ConfiguredFeature<TreeConfiguration, ?> MULBERRY_TREE = FeatureUtils.register("mulberry_tree", Feature.TREE.configured(
+            new TreeConfiguration.TreeConfigurationBuilder(
+                    BlockStateProvider.simple(AllBlocks.nature_mulberry_tree_log.block().get()),
+                    new StraightTrunkPlacer(4, 2, 0),
+                    BlockStateProvider.simple(AllBlocks.nature_mulberry_tree_leaves.block().get()),
+                    new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
+                    new TwoLayersFeatureSize(1, 0, 1)
+            ).ignoreVines().build()));
+
     public static final PlacedFeature RUBBER_TREE_PLACED = RUBBER_TREE.placed(
             PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
             InSquarePlacement.spread(),
@@ -78,6 +87,15 @@ public class AllFeatures {
             SurfaceWaterDepthFilter.forMaxDepth(0),
             BiomeFilter.biome(),
             BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(AllBlocks.nature_rubber_tree_sapling.block().get().defaultBlockState(), BlockPos.ZERO))
+    );
+
+    public static final PlacedFeature MULBERRY_TREE_PLACED = MULBERRY_TREE.placed(
+            PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+            InSquarePlacement.spread(),
+            PlacementUtils.countExtra(1, 0.05F, 2),
+            SurfaceWaterDepthFilter.forMaxDepth(0),
+            BiomeFilter.biome(),
+            BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(AllBlocks.nature_mulberry_tree_sapling.block().get().defaultBlockState(), BlockPos.ZERO))
     );
 
     protected static class FeatureBuilder<T extends Feature<?>> {

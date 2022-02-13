@@ -44,6 +44,10 @@ public class AllItems {
     public static final RegistryObject<Item> rushStalk = new ItemBuilder().name("rush_stalk").simpleModel("rush_stalk").tab(AllTabs.tabMaterial).build();
 
     //Natural Resource
+    public static final RegistryObject<Item> silkworm = new ItemBuilder().name("silkworm").simpleModel("silkworm").tab(AllTabs.tabNature).maxStackSize(1).build();
+    public static final RegistryObject<Item> pupa = new ItemBuilder().name("pupa").simpleModel("pupa").tab(AllTabs.tabNature).build();
+    public static final RegistryObject<Item> dryPupa = new ItemBuilder().name("dry_pupa").simpleModel("dry_pupa").tab(AllTabs.tabNature).build();
+
     public static final RegistryObject<Item> grass = new ItemBuilder().name("grass").simpleModel("grass").tab(AllTabs.tabNature).build();
     public static final RegistryObject<Item> logAcacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logBirch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
@@ -52,6 +56,7 @@ public class AllItems {
     public static final RegistryObject<Item> logSpruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logDarkOak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> mulberryFruit = new ItemBuilder().name("mulberry_fruit").simpleModel("mulberry_fruit").tab(AllTabs.tabNature).food((new FoodProperties.Builder()).nutrition(2).saturationMod(0.5F).build()).build();
+    public static final RegistryObject<Item> mulberryLeaf = new ItemBuilder().name("mulberry_leaf").simpleModel("mulberry_leaf").tab(AllTabs.tabNature).durability(16).build();
 
     //Tool
     public static final RegistryObject<Item> longStick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();

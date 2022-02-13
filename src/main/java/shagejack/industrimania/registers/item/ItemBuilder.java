@@ -41,6 +41,7 @@ public final class ItemBuilder implements ModelBuilder{
     private final List<String> modTags = new ArrayList<>();
 
     private int durability;
+    private int maxStackSize;
     private FoodProperties foodProperties;
     private final Map<String, Object> extraParam = new HashMap();
 
@@ -176,6 +177,10 @@ public final class ItemBuilder implements ModelBuilder{
             this.property.durability(durability);
         }
 
+        if (maxStackSize != 0) {
+            this.property.stacksTo(maxStackSize);
+        }
+
         if(hasTab) {
             this.property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
         }
@@ -208,6 +213,11 @@ public final class ItemBuilder implements ModelBuilder{
     public ItemBuilder tags(String... tags) {
         this.tags.clear();
         this.tags.addAll(Arrays.stream(tags).toList());
+        return this;
+    }
+
+    public ItemBuilder maxStackSize(int maxStackSize) {
+        this.maxStackSize = maxStackSize;
         return this;
     }
 }

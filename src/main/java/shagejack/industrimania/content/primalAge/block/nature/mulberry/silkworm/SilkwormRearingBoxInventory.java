@@ -1,15 +1,13 @@
-package shagejack.industrimania.content.primalAge.block.simpleCraftingTable;
+package shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class SimpleCraftingTableInventory extends ItemStackHandler {
+public class SilkwormRearingBoxInventory extends ItemStackHandler {
 
-    public int progression;
-
-    public SimpleCraftingTableInventory() {
-        super(9);
+    public SilkwormRearingBoxInventory() {
+        super(16);
     }
 
     @Override
@@ -21,7 +19,6 @@ public class SimpleCraftingTableInventory extends ItemStackHandler {
     public void clear() {
         for (int i = 0; i < getSlots(); i++)
             setStackInSlot(i, ItemStack.EMPTY);
-        progression = 0;
     }
 
     public boolean isEmpty() {
@@ -39,13 +36,11 @@ public class SimpleCraftingTableInventory extends ItemStackHandler {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = super.serializeNBT();
-        nbt.putInt("Progression", progression);
         return nbt;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        progression = nbt.getInt("Progression");
         super.deserializeNBT(nbt);
     }
 

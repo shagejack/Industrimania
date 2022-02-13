@@ -1,15 +1,15 @@
-package shagejack.industrimania.content.primalAge.block.simpleCraftingTable;
+package shagejack.industrimania.content.primalAge.block.stoneChoppingBoard;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class SimpleCraftingTableInventory extends ItemStackHandler {
+public class StoneChoppingBoardInventory extends ItemStackHandler {
 
     public int progression;
 
-    public SimpleCraftingTableInventory() {
-        super(9);
+    public StoneChoppingBoardInventory() {
+        super(1);
     }
 
     @Override
