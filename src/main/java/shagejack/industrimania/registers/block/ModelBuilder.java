@@ -1,9 +1,14 @@
 package shagejack.industrimania.registers.block;
 
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.client.handler.BlockColorHandler;
 import shagejack.industrimania.registers.block.grouped.AsBase;
 import shagejack.industrimania.registers.dataGen.DataGenHandle;
 
+import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.Objects;
 
 import static shagejack.industrimania.registers.dataGen.DataGenHandle.checkTextureFileExist;
@@ -189,7 +194,7 @@ interface ModelBuilder extends AsBase{
      *
      * @return BlockBuilder
      */
-    default BlockBuilder autoFullCubeModel() {
+    default BlockBuilder autoFullCubeModel(boolean hasRGBOverlay) {
         DataGenHandle.addBlockModelTask(provider -> {
             var base = asBase();
             var block = base.block;
@@ -319,6 +324,14 @@ interface ModelBuilder extends AsBase{
                     particle = particleTexture;
                 }
 
+                ModelFile model;
+
+                if (hasRGBOverlay) {
+                    model = DataGenHandle.blockCubeRGBOverlay.get();
+                } else {
+                    model = DataGenHandle.blockCube.get();
+                }
+
                 Industrimania.LOGGER.debug("""
                         automatically set full cube block model for Block:{} with
                         particle:{}
@@ -327,9 +340,10 @@ interface ModelBuilder extends AsBase{
                         front/north:{}
                         back/south:{}
                         left/west:{}
-                        right/east:{}""", name, particle, up, down, front, back, left, right);
+                        right/east:{}
+                        hasRGBOverlay:{}""", name, particle, up, down, front, back, left, right, hasRGBOverlay);
                 provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
-                        .parent(DataGenHandle.blockCube.get())
+                        .parent(model)
                         .texture("particle", particle)
                         .texture("up", up)
                         .texture("down", down)
@@ -349,6 +363,10 @@ interface ModelBuilder extends AsBase{
         if (condition) {
             throw new IllegalStateException(String.format("%s specified at same at", message));
         }
+    }
+
+    default BlockBuilder autoFullCubeModel() {
+        return this.autoFullCubeModel(false);
     }
 
 

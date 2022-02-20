@@ -1,7 +1,12 @@
 package shagejack.industrimania.registers.block;
 
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
@@ -10,18 +15,30 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.
 import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
-import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockBottom;
-import shagejack.industrimania.content.primalAge.block.plant.rush.RushBlockTop;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.bush.MulberryBush;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxBlock;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeLeaves;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeLog;
+import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeSapling;
+import shagejack.industrimania.content.primalAge.block.nature.rush.RushBlockBottom;
+import shagejack.industrimania.content.primalAge.block.nature.rush.RushBlockTop;
+import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLeaves;
+import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLog;
+import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeSapling;
+import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableBlock;
 import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
-import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.BlockItemPlaceableBase;
+import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardBlock;
+import shagejack.industrimania.content.primalAge.item.handOilLamp.FakeAirLightBlock;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
-import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.record.ItemBlock;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +93,40 @@ public class AllBlocks {
             .buildBlock()
             .buildItem();
 
+    public static final ItemBlock building_grass_stack
+            = new BlockBuilder()
+            .name("building_grass_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .randomTicks()
+            .buildBlock(GrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock building_hay_stack
+            = new BlockBuilder()
+            .name("building_hay_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .randomTicks()
+            .buildBlock(HayStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock building_moldy_grass_stack
+            = new BlockBuilder()
+            .name("building_moldy_grass_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .randomTicks()
+            .buildBlock(MoldyGrassStackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock building_rotten_grass_stack
+            = new BlockBuilder()
+            .name("building_rotten_grass_stack")
+            .autoFullCubeModel()
+            .rotatableBlockState()
+            .buildBlock(RottenGrassStackBlock::new)
+            .buildItem();
 
     //gravity
     public static final ItemBlock gravity_calcite
@@ -111,39 +162,45 @@ public class AllBlocks {
             .buildItem();
 
     //mechanic
-    public static final ItemBlock mechanic_grass_stack
+    public static final ItemBlock mechanic_fake_air_light
             = new BlockBuilder()
-            .name("mechanic_grass_stack")
-            .autoFullCubeModel()
-            .simpleBlockState()
+            .name("mechanic_fake_air_light")
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
             .randomTicks()
-            .buildBlock(GrassStackBlock::new)
+            .noCollission()
+            .noDrops()
+            .lightLevel(FakeAirLightBlock.LIGHT_EMISSION)
+            .isAir()
+            .simplePresetModel()
+            .simpleBlockState()
+            .buildBlock(FakeAirLightBlock::new)
             .buildItem();
 
-    public static final ItemBlock mechanic_hay_stack
+    public static final ItemBlock mechanic_silkworm_rearing_box
             = new BlockBuilder()
-            .name("mechanic_hay_stack")
-            .autoFullCubeModel()
+            .name("mechanic_silkworm_rearing_box")
+            .simplePresetModel()
             .simpleBlockState()
-            .randomTicks()
-            .buildBlock(HayStackBlock::new)
+            .buildBlock(SilkwormRearingBoxBlock::new)
             .buildItem();
 
-    public static final ItemBlock mechanic_moldy_grass_stack
+    public static final ItemBlock mechanic_simple_crafting_table
             = new BlockBuilder()
-            .name("mechanic_moldy_grass_stack")
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .randomTicks()
-            .buildBlock(MoldyGrassStackBlock::new)
+            .name("mechanic_simple_crafting_table")
+            .simplePresetModel()
+            .rotatableBlockState()
+            .buildBlock(SimpleCraftingTableBlock::new)
             .buildItem();
 
-    public static final ItemBlock mechanic_rotten_grass_stack
+    public static final ItemBlock mechanic_stone_chopping_block
             = new BlockBuilder()
-            .name("mechanic_rotten_grass_stack")
-            .autoFullCubeModel()
+            .name("mechanic_stone_chopping_block")
+            .simplePresetModel()
             .simpleBlockState()
-            .buildBlock(RottenGrassStackBlock::new)
+            .buildBlock(StoneChoppingBoardBlock::new)
             .buildItem();
 
     public static final ItemBlock mechanic_drying_rack
@@ -158,9 +215,10 @@ public class AllBlocks {
     public static final ItemBlock mechanic_item_placeable
             = new BlockBuilder()
             .name("mechanic_item_placeable")
-            .autoFullCubeModel()
+            .simplePresetModel()
             .simpleBlockState()
-            .buildBlock(BlockItemPlaceableBase::new)
+            .renderLayer(() -> RenderType::cutout)
+            .buildBlock(ItemPlaceableBaseBlock::new)
             .buildItem(ItemBuilder::noTab);
 
     public static final ItemBlock mechanic_clay_furnace_bottom
@@ -188,15 +246,157 @@ public class AllBlocks {
             .buildItem();
 
     /*
-    * ======================
-    *    World Generation
-    * ======================
+     * ======================
+     *    Liquid Block
+     * ======================
      */
 
-    //Common Plants
-    public static final ItemBlock plant_rush_top
+    //TODO: Liquid Block Model and State Datagen
+
+
+    /*
+    * ============================================
+    *    World Generation And Natural Resources
+    * ============================================
+     */
+
+    public static final ItemBlock nature_cobble
             = new BlockBuilder()
-            .name("plant_rush_top")
+            .name("nature_cobble")
+            .material(Material.STONE)
+            .strength(1.0F, 0.5F)
+            .simplePresetModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItemWithModel("cobble", itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    //Tree
+    public static final ItemBlock nature_rubber_tree_log
+            = new BlockBuilder()
+            .name("nature_rubber_tree_log")
+            .material(Material.WOOD)
+            .strength(1.0F, 0.5F)
+            .tags(BlockTags.LOGS.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(RubberTreeLog::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_rubber_tree_plank
+            = new BlockBuilder()
+            .name("nature_rubber_tree_plank")
+            .material(Material.WOOD)
+            .strength(1.0F, 0.5F)
+            .tags(BlockTags.PLANKS.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_rubber_tree_leaves
+            = new BlockBuilder()
+            .name("nature_rubber_tree_leaves")
+            .material(Material.LEAVES)
+            .strength(0.2F, 0.1F)
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
+            .randomTicks()
+            .tags(BlockTags.LEAVES.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(RubberTreeLeaves::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_rubber_tree_sapling
+            = new BlockBuilder()
+            .name("nature_rubber_tree_sapling")
+            .material(Material.GRASS)
+            .strength(0.1F, 0.1F)
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
+            .randomTicks()
+            .tags(BlockTags.SAPLINGS.getName().toString())
+            .crossTextureModel()
+            .simpleBlockState()
+            .buildBlock(RubberTreeSapling::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_mulberry_tree_log
+            = new BlockBuilder()
+            .name("nature_mulberry_tree_log")
+            .material(Material.WOOD)
+            .strength(1.0F, 0.5F)
+            .tags(BlockTags.LOGS.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(MulberryTreeLog::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_mulberry_tree_plank
+            = new BlockBuilder()
+            .name("nature_mulberry_tree_plank")
+            .material(Material.WOOD)
+            .strength(1.0F, 0.5F)
+            .tags(BlockTags.PLANKS.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_mulberry_tree_leaves
+            = new BlockBuilder()
+            .name("nature_mulberry_tree_leaves")
+            .material(Material.LEAVES)
+            .strength(0.2F, 0.1F)
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
+            .randomTicks()
+            .tags(BlockTags.LEAVES.getName().toString())
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(MulberryTreeLeaves::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_mulberry_tree_sapling
+            = new BlockBuilder()
+            .name("nature_mulberry_tree_sapling")
+            .material(Material.GRASS)
+            .strength(0.1F, 0.1F)
+            .isViewBlocking(AllBlocks::never)
+            .isSuffocating(AllBlocks::never)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .renderLayer(() -> RenderType::cutout)
+            .randomTicks()
+            .tags(BlockTags.SAPLINGS.getName().toString())
+            .crossTextureModel()
+            .simpleBlockState()
+            .buildBlock(MulberryTreeSapling::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    //Bushes
+    public static final ItemBlock nature_mulberry_bush
+            = new BlockBuilder()
+            .name("nature_mulberry_bush")
+            .material(Material.LEAVES)
+            .strength(0.5F, 0.1F)
+            .randomTicks()
+            .dynamicShape()
+            .simplePresetModel()
+            //BlockState for stages
+
+            .buildBlock(MulberryBush::new)
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+
+    //Common Plants
+    public static final ItemBlock nature_rush_top
+            = new BlockBuilder()
+            .name("nature_rush_top")
             .material(Material.GRASS)
             .strength(0.5F, 0.1F)
             .dynamicShape()
@@ -204,11 +404,11 @@ public class AllBlocks {
             .simplePresetModel()
             .simpleBlockState()
             .buildBlock(RushBlockTop::new)
-            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
-    public static final ItemBlock plant_rush_bottom
+    public static final ItemBlock nature_rush_bottom
             = new BlockBuilder()
-            .name("plant_rush_bottom")
+            .name("nature_rush_bottom")
             .material(Material.GRASS)
             .strength(0.5F, 0.1F)
             .dynamicShape()
@@ -218,12 +418,12 @@ public class AllBlocks {
             .presetCropModel(3)
             .cropBlockState(3)
             .buildBlock(RushBlockBottom::new)
-            .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
+            .buildItemWithModel("rush_seed", itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     //Plant Sign
-    public static final ItemBlock plant_lactuca_raddeana
+    public static final ItemBlock nature_lactuca_raddeana
             = new BlockBuilder()
-            .name("plant_lactuca_raddeana")
+            .name("nature_lactuca_raddeana")
             .material(Material.GRASS)
             .strength(0.1F, 0.1F)
             .crossTextureModel()
@@ -243,6 +443,23 @@ public class AllBlocks {
             .buildBlock()
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabOre)));
 
+    //Clay
+    public static final ItemBlock clay_terracotta
+            = new BlockBuilder()
+            .name("clay_terracotta")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock clay_terramelas
+            = new BlockBuilder()
+            .name("clay_terramelas")
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabNature));
+
     //Igneous Rocks
     public static final ItemBlock rock_andesite
             = new BlockBuilder()
@@ -252,8 +469,8 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlock()
             .buildItem(builder -> builder.tab(AllTabs.tabRock));
-    public static final ItemBlock rock_granite
 
+    public static final ItemBlock rock_granite
             = new BlockBuilder()
             .name("rock_granite")
             .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.igneousStones)
@@ -470,6 +687,28 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlock()
             .buildItem(builder -> builder.tab(AllTabs.tabRock));
+
+    //Test Stuff
+    public static final ItemBlock test_rgb_grass
+            = new BlockBuilder()
+            .name("test_rgb_grass")
+            .setRGBOverlay(Color.RED)
+            .autoFullCubeModel(true)
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(itemBuilder -> itemBuilder.noTab().setRGBOverlay(Color.RED));
+
+    private static boolean always(BlockState p_50775_, BlockGetter p_50776_, BlockPos p_50777_) {
+        return true;
+    }
+
+    private static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+        return false;
+    }
+
+    private static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_, EntityType<?> p_50825_) {
+        return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;
+    }
 
 }
 

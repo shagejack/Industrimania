@@ -74,7 +74,7 @@ public class ItemRequirement {
 	}
 
 	private static ItemRequirement ofBlockState(BlockState state, Block block) {
-		if (block == Blocks.AIR)
+		if (state.isAir())
 			return NONE;
 
 		Item item = BlockItem.BY_BLOCK.getOrDefault(state.getBlock(), Items.AIR);

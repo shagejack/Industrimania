@@ -1,6 +1,7 @@
 package shagejack.industrimania.content.primalAge.item.itemPlaceable.base;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackFilterSlot;
@@ -49,10 +52,6 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
 
     public ItemPlaceableBaseTileEntity(BlockPos pos, BlockState state) {
         super(AllTileEntities.item_placeable.get(), pos, state);
-    }
-
-    public ItemPlaceableBaseTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
         inventory = new ItemPlaceableInventory(MAX_STORAGE);
         isBurning = false;
         recipeIndex = 0;
@@ -61,11 +60,24 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
 
     @Override
     public void tick() {
+        assert level != null;
+
+        if (level.isClientSide())
+            return;
+
+        if (getBlockState().getValue(ItemPlaceableBaseBlock.AMOUNT) == 0) {
+            level.setBlock(getBlockPos(), getBlockState().setValue(ItemPlaceableBaseBlock.AMOUNT, inventory.getTotalItemAmount()), 3);
+            if (getBlockState().getValue(ItemPlaceableBaseBlock.AMOUNT) == 0) {
+                level.removeBlock(getBlockPos(), true);
+                this.onBreak(level);
+            }
+        }
+
         if (inventory.isEmpty()) {
-            assert level != null;
             level.removeBlock(getBlockPos(), true);
             this.onBreak(level);
         }
+
         checkBurn();
         if (isBurning) {
             burnTick();
@@ -79,6 +91,7 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
             if (inventory.getStackInSlot(i).isEmpty()) {
                 inventory.insertItem(i, stack, false);
                 resetRecipe();
+                level.setBlock(getBlockPos(), getBlockState().setValue(ItemPlaceableBaseBlock.AMOUNT, inventory.getTotalItemAmount()), 3);
                 sendData();
                 return true;
             }
@@ -92,6 +105,8 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
             if (!stack.isEmpty()) {
                 inventory.setStackInSlot(i, ItemStack.EMPTY);
                 resetRecipe();
+                level.setBlock(getBlockPos(), getBlockState().setValue(ItemPlaceableBaseBlock.AMOUNT, inventory.getTotalItemAmount()), 3);
+                sendData();
                 return stack;
             }
         }
@@ -108,17 +123,14 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
 
     @Override
     public void write(CompoundTag nbt, boolean clientPacket) {
-        if (inventory.isEmpty()) {
-            nbt.put("Inventory", inventory.serializeNBT());
-        }
-
+        nbt.put("Inventory", inventory.serializeNBT());
         nbt.putBoolean("IsBurning", isBurning);
         nbt.putInt("RecipeIndex", recipeIndex);
     }
 
     @Override
     public void read(CompoundTag nbt, boolean clientPacket) {
-        inventory.deserializeNBT(nbt);
+        inventory.deserializeNBT(nbt.getCompound("Inventory"));
 
         isBurning = nbt.getBoolean("IsBurning");
         recipeIndex = nbt.getInt("RecipeIndex");
@@ -265,6 +277,17 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
                 .filter(RecipeConditions.ingredientsMatches(stacks))
                 .filter(r -> !AllRecipeTypes.isManualRecipe(r))
                 .collect(Collectors.toList());
+    }
+
+    public Vec2 getItemRenderPos(int slot) {
+
+        int layer = slot / 4 + 1;
+        int row = slot % 4 + 1;
+
+        float x = row * 0.25f + 0.25f;
+        float y = layer * 0.25f + 0.25f;
+
+        return new Vec2(x, y);
     }
 
 }

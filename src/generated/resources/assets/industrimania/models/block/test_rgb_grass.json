@@ -1,0 +1,12 @@
+{
+  "parent": "industrimania:block/cube_rgb_overlay",
+  "textures": {
+    "particle": "industrimania:block/test/rgb_grass/default",
+    "up": "industrimania:block/test/rgb_grass/default",
+    "down": "industrimania:block/test/rgb_grass/default",
+    "north": "industrimania:block/test/rgb_grass/default",
+    "south": "industrimania:block/test/rgb_grass/default",
+    "west": "industrimania:block/test/rgb_grass/default",
+    "east": "industrimania:block/test/rgb_grass/default"
+  }
+}

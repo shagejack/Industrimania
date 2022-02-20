@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "industrimania:block/nature_lactuca_raddeana"
+    },
+    "snowy=true": {
+      "model": "industrimania:block/nature_lactuca_raddeana"
+    }
+  }
+}

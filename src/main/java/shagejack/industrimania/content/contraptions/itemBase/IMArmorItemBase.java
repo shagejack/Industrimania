@@ -9,7 +9,7 @@ import java.util.Map;
 public class IMArmorItemBase extends ArmorItem {
 
     public IMArmorItemBase(Properties properties, Map<String, Object> extraParam) {
-        super((ArmorMaterial) extraParam.get("armorMaterial"), (EquipmentSlot) extraParam.get("equipmentSlot"), properties);
+        super((ArmorMaterial) extraParam.get("ArmorMaterial"), (EquipmentSlot) extraParam.get("EquipmentSlot"), properties);
     }
 
 }

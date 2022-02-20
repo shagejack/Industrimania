@@ -38,7 +38,7 @@ public class FluidHelper {
 	public static boolean hasBlockState(Fluid fluid) {
 		BlockState blockState = fluid.defaultFluidState()
 			.createLegacyBlock();
-		return blockState != null && blockState != Blocks.AIR.defaultBlockState();
+		return blockState != null && !blockState.isAir();
 	}
 
 	public static FluidStack copyStackWithAmount(FluidStack fs, int amount) {

@@ -1,6 +1,9 @@
 package shagejack.industrimania.registers.item;
 
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -9,12 +12,18 @@ import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.client.handler.ItemColorHandler;
 import shagejack.industrimania.registers.AllTabs;
+import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.block.BlockBuilder;
+import shagejack.industrimania.registers.block.grouped.AllRocks;
+import shagejack.industrimania.registers.record.ItemBlock;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -27,8 +36,13 @@ public final class ItemBuilder implements ModelBuilder{
     private Item.Properties property;
     RegistryObject<Item> registryObject;
     private Supplier<Supplier<BlockEntityWithoutLevelRenderer>> render;
+    private ItemColor itemColor;
+    private final java.util.List<String> tags = new ArrayList<>();
+    private final List<String> modTags = new ArrayList<>();
 
     private int durability;
+    private int maxStackSize;
+    private FoodProperties foodProperties;
     private final Map<String, Object> extraParam = new HashMap();
 
     @Override
@@ -68,6 +82,11 @@ public final class ItemBuilder implements ModelBuilder{
         return this;
     }
 
+    public ItemBuilder food(FoodProperties properties) {
+        this.foodProperties = foodProperties;
+        return this;
+    }
+
     public RegistryObject<Item> build() {
         return build(() -> new Item(property) {
             @Override
@@ -103,8 +122,21 @@ public final class ItemBuilder implements ModelBuilder{
      */
     public RegistryObject<Item> build(Supplier<Item> itemSupplier) {
         checkProperty();
+
         registryObject = RegisterHandle.ITEM_REGISTER.register(name, itemSupplier);
         Industrimania.LOGGER.debug("register Item {}", name);
+
+        if (itemColor != null)
+            ItemColorHandler.register(registryObject, itemColor);
+
+        if (!tags.isEmpty()) {
+            AllItems.ITEM_TAGS.put(registryObject, tags);
+            Industrimania.LOGGER.debug("for item:{} add tags:{}", name, tags.toString());
+        }
+
+        if (itemColor != null)
+            ItemColorHandler.register(registryObject, itemColor);
+
         return registryObject;
     }
 
@@ -123,6 +155,15 @@ public final class ItemBuilder implements ModelBuilder{
                 }
             }
         });
+
+        if (!tags.isEmpty()) {
+            AllItems.ITEM_TAGS.put(registryObject, tags);
+            Industrimania.LOGGER.debug("for item:{} add tags:{}", name, tags.toString());
+        }
+
+        if (itemColor != null)
+            ItemColorHandler.register(registryObject, itemColor);
+
         return registryObject;
     }
 
@@ -136,9 +177,27 @@ public final class ItemBuilder implements ModelBuilder{
             this.property.durability(durability);
         }
 
-        if(hasTab) {
-            property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+        if (maxStackSize != 0) {
+            this.property.stacksTo(maxStackSize);
         }
+
+        if(hasTab) {
+            this.property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+        }
+
+        if (foodProperties != null) {
+            this.property.food(foodProperties);
+        }
+    }
+
+    public ItemBuilder setRGBOverlay(Color color) {
+        this.itemColor = (stack, p_92673_) -> color.getRGB();
+        return this;
+    }
+
+    public ItemBuilder setItemColor(ItemColor itemColor) {
+        this.itemColor = itemColor;
+        return this;
     }
 
     public ItemBuilder durability(int durability) {
@@ -148,6 +207,17 @@ public final class ItemBuilder implements ModelBuilder{
 
     public ItemBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public ItemBuilder tags(String... tags) {
+        this.tags.clear();
+        this.tags.addAll(Arrays.stream(tags).toList());
+        return this;
+    }
+
+    public ItemBuilder maxStackSize(int maxStackSize) {
+        this.maxStackSize = maxStackSize;
         return this;
     }
 }

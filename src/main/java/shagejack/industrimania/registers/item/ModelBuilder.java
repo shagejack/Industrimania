@@ -49,11 +49,11 @@ public interface ModelBuilder {
             var base = asBase();
             var name = base.name;
             var item = base.registryObject.get();
-            if (checkItemModelExist(provider, name, model)) {
+            //if (checkItemModelExist(provider, name, model)) {
                 provider.getBuilder(Objects.requireNonNull(item.getRegistryName()).getPath())
                         .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, model)));
                 Industrimania.LOGGER.debug("set itemHeldModel for Item:{}", name);
-            }
+            //}
         });
     }
 

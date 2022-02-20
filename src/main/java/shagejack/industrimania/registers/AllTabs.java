@@ -26,7 +26,7 @@ public class AllTabs {
 
     public static final CreativeModeTab tabEquipment = tab(Industrimania.MOD_ID + "_equipment", () -> () -> AllItems.hazardProtectiveChestplate);
 
-    public static final CreativeModeTab tabNature = tab(Industrimania.MOD_ID + "_nature", () -> AllBlocks.plant_lactuca_raddeana::item);
+    public static final CreativeModeTab tabNature = tab(Industrimania.MOD_ID + "_nature", () -> AllBlocks.nature_lactuca_raddeana::item);
 
     public static final CreativeModeTab tabRock = tab(Industrimania.MOD_ID + "_rock", () -> AllBlocks.rock_rhyolite::item);
 

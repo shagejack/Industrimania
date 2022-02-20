@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.event.RegistryEvent;
@@ -42,7 +43,10 @@ public class RegisterHandle {
         bus.addListener((FMLClientSetupEvent event) -> BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
         AllGroupedBlocks.initAll();
         AllGroupedItems.initAll();
+        new AllFluids();
         new AllTileEntities();
+        new AllBiomes();
+        new AllDimensions();
         bus.addListener((FMLClientSetupEvent event) -> AllTileEntities.TileEntityBuilder.bind(event));
         bus.addGenericListener(Block.class,(RegistryEvent<Block> event) -> new AllFeatures());
         AllPackets.registerPackets();

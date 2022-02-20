@@ -1,4 +1,4 @@
-# [Industrimania](https://shagejack.github.io)
+# [Industrimania](https://shagejack.github.io/industrimania-doc/#/)
 
 ![](https://img.shields.io/github/workflow/status/ShageJack/Industrimania/CI)
 ![](https://img.shields.io/github/issues/ShageJack/Industrimania)

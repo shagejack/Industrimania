@@ -191,7 +191,7 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
         BlockPos inputUp = getBlockPos().offset(0, 5, 0);
         BlockPos inputDown = getBlockPos().offset(0,4,0);
 
-        if (level.getBlockState(inputDown).getBlock() != Blocks.AIR) {
+        if (level.getBlockState(inputDown).isAir()) {
             if (level.getBlockState(inputDown).getBlock() != Blocks.FIRE) {
                 if (level.getBlockState(inputUp).getBlock() == AllBlocks.gravity_charcoal.block().get() || level.getBlockState(inputUp).getBlock() == AllBlocks.gravity_iron_oxide.block().get() || level.getBlockState(inputUp).getBlock() == AllBlocks.gravity_calcite.block().get()) {
                     consumeBlock(level, inputDown);

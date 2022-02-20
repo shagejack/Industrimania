@@ -1,0 +1,23 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "industrimania:item/model/itemplaceable/log/x",
+		"1": "industrimania:item/model/itemplaceable/log/default",
+		"5": "industrimania:item/model/itemplaceable/log/default_rotated",
+		"particle": "industrimania:item/model/itemplaceable/log/x"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [4, 4, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"east": {"uv": [0, 0, 16, 4], "texture": "#1"},
+				"south": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"west": {"uv": [0, 0, 16, 4], "texture": "#1"},
+				"up": {"uv": [0, 0, 4, 16], "texture": "#5"},
+				"down": {"uv": [0, 0, 4, 16], "texture": "#5"}
+			}
+		}
+	]
+}

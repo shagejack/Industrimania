@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import shagejack.industrimania.content.pollution.record.DecayReference;
 import shagejack.industrimania.foundation.utility.IMDestructionHelper;
-import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.record.ItemBlock;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;

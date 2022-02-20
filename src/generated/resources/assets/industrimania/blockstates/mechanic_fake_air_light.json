@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "level=0,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=1,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=2,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=3,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=4,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=5,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=6,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=7,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=8,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=9,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=10,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=11,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=12,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=13,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=14,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=15,waterlogged=false": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=0,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=1,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=2,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=3,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=4,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=5,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=6,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=7,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=8,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=9,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=10,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=11,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=12,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=13,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=14,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    },
+    "level=15,waterlogged=true": {
+      "model": "industrimania:block/mechanic_fake_air_light"
+    }
+  }
+}

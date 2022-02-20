@@ -18,73 +18,43 @@ public class IronCluster extends Item {
     }
 
     public static double getMass(ItemStack item) {
-        if (item.hasTag()) {
-            return item.getTag().getDouble("mass");
-        }
-        return 0;
+        return item.getOrCreateTag().getDouble("mass");
     }
 
     public static double getCarbon(ItemStack item) {
-        if (item.hasTag()) {
-            return item.getTag().getDouble("carbon");
-        }
-        return 0;
+        return item.getOrCreateTag().getDouble("carbon");
     }
 
     public static double getImpurities(ItemStack item) {
-        if (item.hasTag()) {
-            return item.getTag().getDouble("impurities");
-        }
-        return 0;
+        return item.getOrCreateTag().getDouble("impurities");
     }
 
     public static double getTemp(ItemStack item) {
-        if (item.hasTag()) {
-            return item.getTag().getDouble("temp");
-        }
-        return 0;
+        return item.getOrCreateTag().getDouble("temp");
     }
 
     public static int[] getShape(ItemStack item){
-        if (item.hasTag()) {
-            return item.getTag().getIntArray("shape");
-        }
-        return new int[1];
+        return item.getOrCreateTag().getIntArray("shape");
     }
 
     public static void setMass(ItemStack itemStack, double mass) {
-        TagCompoundCheck(itemStack);
-        itemStack.getTag().putDouble("mass", mass);
+        itemStack.getOrCreateTag().putDouble("mass", mass);
     }
 
     public static void setCarbon(ItemStack itemStack, double carbon) {
-        TagCompoundCheck(itemStack);
-        itemStack.getTag().putDouble("carbon", carbon);
+        itemStack.getOrCreateTag().putDouble("carbon", carbon);
     }
 
     public static void setTemp(ItemStack itemStack, double temp) {
-        TagCompoundCheck(itemStack);
-        itemStack.getTag().putDouble("temp", temp);
+        itemStack.getOrCreateTag().putDouble("temp", temp);
     }
 
     public static void setImpurities(ItemStack itemStack, double impurities) {
-        TagCompoundCheck(itemStack);
-        itemStack.getTag().putDouble("impurities", impurities);
+        itemStack.getOrCreateTag().putDouble("impurities", impurities);
     }
 
     public static void setShape(ItemStack itemStack, int[] shape) {
-        TagCompoundCheck(itemStack);
-        itemStack.getTag().putIntArray("shape", shape);
-    }
-
-    public static void TagCompoundCheck(ItemStack stack) {
-        if (!stack.hasTag()) {
-            InitTagCompound(stack);
-        }
-    }
-
-    public static void InitTagCompound(ItemStack stack) {
-        stack.setTag(new CompoundTag());
+        itemStack.getOrCreateTag().putIntArray("shape", shape);
     }
 
     @Override
@@ -105,6 +75,8 @@ public class IronCluster extends Item {
         tooltip.add("Temp: " + getTemp(itemStack));
         int[] shape = getShape(itemStack);
         tooltip.add("=====Shape=====");
+        if (shape.length < 2)
+            return;
         if (shape[0] > 0 && shape[1] > 0) {
             for (int i = 0; i < shape[1]; i++) {
                 tooltip.add("\u2b1b".repeat(shape[0]));

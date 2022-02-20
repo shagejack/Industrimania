@@ -1,20 +1,30 @@
 package shagejack.industrimania.registers.item;
 
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.goggles.GogglesItem;
-import shagejack.industrimania.content.contraptions.itemBase.IMArmorItemBase;
-import shagejack.industrimania.content.contraptions.itemBase.IMKnifeItemBase;
+import shagejack.industrimania.content.contraptions.itemBase.*;
 import shagejack.industrimania.content.contraptions.materialBase.KnifeMaterials;
+import shagejack.industrimania.content.contraptions.materialBase.SawMaterials;
 import shagejack.industrimania.content.logistics.item.filter.FilterItem;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
 import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireBow;
+import shagejack.industrimania.content.primalAge.item.handOilLamp.HandOilLamp;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
+import shagejack.industrimania.registers.AllTags;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AllItems {
+
+    public static Map<RegistryObject<Item>, List<String>> ITEM_TAGS = new HashMap<>();
 
     /*
     * =============
@@ -30,8 +40,14 @@ public class AllItems {
     public static final RegistryObject<Item> hay = new ItemBuilder().name("hay").simpleModel("hay").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> rottenGrass = new ItemBuilder().name("rotten_grass").simpleModel("rotten_grass").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> boneFragment = new ItemBuilder().name("bone_fragment").simpleModel("bone_fragment").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> rushRoot = new ItemBuilder().name("rush_root").simpleModel("rush_root").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> rushStalk = new ItemBuilder().name("rush_stalk").simpleModel("rush_stalk").tab(AllTabs.tabMaterial).build();
 
     //Natural Resource
+    public static final RegistryObject<Item> silkworm = new ItemBuilder().name("silkworm").simpleModel("silkworm").tab(AllTabs.tabNature).maxStackSize(1).build();
+    public static final RegistryObject<Item> pupa = new ItemBuilder().name("pupa").simpleModel("pupa").tab(AllTabs.tabNature).build();
+    public static final RegistryObject<Item> dryPupa = new ItemBuilder().name("dry_pupa").simpleModel("dry_pupa").tab(AllTabs.tabNature).build();
+
     public static final RegistryObject<Item> grass = new ItemBuilder().name("grass").simpleModel("grass").tab(AllTabs.tabNature).build();
     public static final RegistryObject<Item> logAcacia = new ItemBuilder().name("log_acacia").simpleModel("log_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logBirch = new ItemBuilder().name("log_birch").simpleModel("log_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
@@ -39,11 +55,26 @@ public class AllItems {
     public static final RegistryObject<Item> logOak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logSpruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logDarkOak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankAcacia = new ItemBuilder().name("plank_acacia").simpleModel("plank_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankBirch = new ItemBuilder().name("plank_birch").simpleModel("plank_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankJungle = new ItemBuilder().name("plank_jungle").simpleModel("plank_jungle").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankOak = new ItemBuilder().name("plank_oak").simpleModel("plank_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankSpruce = new ItemBuilder().name("plank_spruce").simpleModel("plank_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankDarkOak = new ItemBuilder().name("plank_darkoak").simpleModel("plank_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> mulberryFruit = new ItemBuilder().name("mulberry_fruit").simpleModel("mulberry_fruit").tab(AllTabs.tabNature).food((new FoodProperties.Builder()).nutrition(2).saturationMod(0.5F).build()).build();
+    public static final RegistryObject<Item> mulberryLeaf = new ItemBuilder().name("mulberry_leaf").simpleModel("mulberry_leaf").tab(AllTabs.tabNature).durability(16).build();
 
     //Tool
     public static final RegistryObject<Item> longStick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();
     public static final RegistryObject<Item> simpleBoneKnife = new ItemBuilder().name("simple_bone_knife").simpleModel("simple_bone_knife").tab(AllTabs.tabTool).addExtraParam("KnifeMaterial", KnifeMaterials.BONE).durability(16).build(IMKnifeItemBase::new);
-    public static final RegistryObject<Item> primitiveFireBow = new ItemBuilder().name("primitive_fire_bow").simpleModel("primitive_fire_bow").durability(128).tab(AllTabs.tabTool).build(PrimitiveFireBow::new);
+    public static final RegistryObject<Item> primitiveFireBow = new ItemBuilder().name("primitive_fire_bow").simpleModel("primitive_fire_bow").durability(64).tab(AllTabs.tabTool).build(PrimitiveFireBow::new);
+    public static final RegistryObject<Item> handOilLamp = new ItemBuilder().name("hand_oil_lamp").simpleModel("hand_oil_lamp").durability(128).tab(AllTabs.tabTool).build(HandOilLamp::new);
+    public static final RegistryObject<Item> flintKnife = new ItemBuilder().name("flint_knife").simpleModel("flint_knife").tab(AllTabs.tabTool).addExtraParam("KnifeMaterial", KnifeMaterials.FLINT).durability(64).build(IMKnifeItemBase::new);
+    public static final RegistryObject<Item> flintSaw = new ItemBuilder().name("flint_saw").simpleModel("flint_saw").tab(AllTabs.tabTool).addExtraParam("SawMaterial", SawMaterials.FLINT).durability(64).build(IMSawItemBase::new);
+    public static final RegistryObject<Item> flintAxe = new ItemBuilder().name("flint_axe").simpleModel("flint_axe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 6.0f).addExtraParam("AttackSpeed", -3.2f).durability(64).tags().build(IMAxeItemBase::new);
+    public static final RegistryObject<Item> flintPickaxe = new ItemBuilder().name("flint_pickaxe").simpleModel("flint_pickaxe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 1.0f).addExtraParam("AttackSpeed", -2.8f).durability(64).build(IMAxeItemBase::new);
+
+
 
     /*
      * =============
@@ -94,10 +125,10 @@ public class AllItems {
      * =============
      */
 
-    public static final RegistryObject<Item> hazardProtectiveHelmet = new ItemBuilder().name("hazard_protective_helmet").simpleModel("hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
-    public static final RegistryObject<Item> hazardProtectiveChestplate = new ItemBuilder().name("hazard_protective_chestplate").simpleModel("hazard_protective_chestplate").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.CHEST).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
-    public static final RegistryObject<Item> hazardProtectiveLeggings = new ItemBuilder().name("hazard_protective_leggings").simpleModel("hazard_protective_leggings").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.LEGS).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
-    public static final RegistryObject<Item> hazardProtectiveBoots = new ItemBuilder().name("hazard_protective_boots").simpleModel("hazard_protective_boots").addExtraParam("armorMaterial", ArmorMaterials.LEATHER).addExtraParam("equipmentSlot",EquipmentSlot.FEET).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveHelmet = new ItemBuilder().name("hazard_protective_helmet").simpleModel("hazard_protective_helmet").addExtraParam("ArmorMaterial", ArmorMaterials.LEATHER).addExtraParam("EquipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveChestplate = new ItemBuilder().name("hazard_protective_chestplate").simpleModel("hazard_protective_chestplate").addExtraParam("ArmorMaterial", ArmorMaterials.LEATHER).addExtraParam("EquipmentSlot",EquipmentSlot.CHEST).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveLeggings = new ItemBuilder().name("hazard_protective_leggings").simpleModel("hazard_protective_leggings").addExtraParam("ArmorMaterial", ArmorMaterials.LEATHER).addExtraParam("EquipmentSlot",EquipmentSlot.LEGS).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
+    public static final RegistryObject<Item> hazardProtectiveBoots = new ItemBuilder().name("hazard_protective_boots").simpleModel("hazard_protective_boots").addExtraParam("ArmorMaterial", ArmorMaterials.LEATHER).addExtraParam("EquipmentSlot",EquipmentSlot.FEET).tab(AllTabs.tabEquipment).build(PollutionProtectiveArmor::new);
 
 
     /*
@@ -121,6 +152,13 @@ public class AllItems {
      *  Creative Mode/ Test Item
      * =========================
      */
-    public static final RegistryObject<Item> creativeHazardProtectiveHelmet = new ItemBuilder().name("creative_hazard_protective_helmet").simpleModel("creative_hazard_protective_helmet").addExtraParam("armorMaterial", ArmorMaterials.NETHERITE).addExtraParam("equipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(IMArmorItemBase::new);
+    public static final RegistryObject<Item> creativeHazardProtectiveHelmet = new ItemBuilder().name("creative_hazard_protective_helmet").simpleModel("creative_hazard_protective_helmet").addExtraParam("ArmorMaterial", ArmorMaterials.NETHERITE).addExtraParam("EquipmentSlot",EquipmentSlot.HEAD).tab(AllTabs.tabEquipment).build(IMArmorItemBase::new);
 
+    /*
+     * ==========================
+     *  Model Item for Rendering
+     * ==========================
+     */
+    public static final RegistryObject<Item> modelLog = new ItemBuilder().name("model_log").specificModel("item/model/log").noTab().build();
+    public static final RegistryObject<Item> modelWood = new ItemBuilder().name("model_wood").specificModel("item/model/wood").noTab().build();
 }

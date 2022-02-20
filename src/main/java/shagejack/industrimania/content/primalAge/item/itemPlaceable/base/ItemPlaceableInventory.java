@@ -35,6 +35,14 @@ public class ItemPlaceableInventory extends ItemStackHandler {
         return true;
     }
 
+    public int getTotalItemAmount() {
+        int amount = 0;
+        for (int i = 0; i < getSlots(); i++)
+            if (!getStackInSlot(i).isEmpty())
+                amount++;
+        return amount;
+    }
+
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = super.serializeNBT();

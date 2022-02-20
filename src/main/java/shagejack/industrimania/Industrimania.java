@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import shagejack.industrimania.client.handler.BlockColorHandler;
+import shagejack.industrimania.client.handler.ItemColorHandler;
 import shagejack.industrimania.registers.AllRecipeTypes;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.setup.ModSetup;
@@ -32,6 +35,8 @@ public class Industrimania {
 
             ModSetup.setup();
 
+            bus.addListener(BlockColorHandler::registerBlockColors);
+            bus.addListener(ItemColorHandler::registerItemColors);
             bus.addGenericListener(RecipeSerializer.class, AllRecipeTypes::register);
 
         } catch (Exception e) {

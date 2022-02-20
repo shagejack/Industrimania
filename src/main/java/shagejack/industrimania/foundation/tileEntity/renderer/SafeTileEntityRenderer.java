@@ -21,7 +21,6 @@ public abstract class SafeTileEntityRenderer<T extends BlockEntity> implements B
 		int overlay);
 
 	public boolean isInvalid(T te) {
-		return !te.hasLevel() || te.getBlockState()
-			.getBlock() == Blocks.AIR;
+		return !te.hasLevel() || te.getBlockState().isAir();
 	}
 }

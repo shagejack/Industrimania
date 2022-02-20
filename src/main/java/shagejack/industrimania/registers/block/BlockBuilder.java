@@ -1,24 +1,31 @@
 package shagejack.industrimania.registers.block;
 
+import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.client.handler.BlockColorHandler;
 import shagejack.industrimania.registers.AllTags;
-import shagejack.industrimania.registers.ItemBlock;
+import shagejack.industrimania.registers.record.ItemBlock;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 import shagejack.industrimania.registers.item.ItemBuilder;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
-public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBlocks {
+public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlocks {
 
     protected String name;
     protected RegistryObject<Block> block;
@@ -31,7 +38,15 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
     protected boolean isRandomlyTicking;
     protected boolean dynamicShape;
     protected boolean noCollission;
+    protected boolean noDrops;
+    protected boolean isAir;
     protected boolean requiresCorrectToolForDrops = false;
+    protected ToIntFunction<BlockState> lightLevelFun;
+    protected BlockColor blockColor;
+    protected BlockBehaviour.StatePredicate isRedstoneConductor;
+    protected BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
+    protected BlockBehaviour.StatePredicate isSuffocating;
+    protected BlockBehaviour.StatePredicate isViewBlocking;
     protected final Map<String, Object> extraParam = new HashMap();
 
     public static final List<Supplier<Runnable>> setupRenderLayerTasks = new ArrayList<>();
@@ -57,17 +72,38 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
             property.requiresCorrectToolForDrops();
         }
 
-        if(isRandomlyTicking) {
+        if (isRandomlyTicking) {
             property.randomTicks();
         }
 
-        if(dynamicShape) {
+        if (dynamicShape) {
             property.dynamicShape();
         }
 
-        if(noCollission) {
+        if (noCollission) {
             property.noCollission();
         }
+
+        if (isValidSpawn != null)
+            property.isValidSpawn(isValidSpawn);
+
+        if (isViewBlocking != null)
+            property.isViewBlocking(isViewBlocking);
+
+        if (isSuffocating != null)
+            property.isSuffocating(isSuffocating);
+
+        if (isRedstoneConductor != null)
+            property.isRedstoneConductor(isRedstoneConductor);
+
+        if (isAir)
+            property.air();
+
+        if (noDrops)
+            property.noDrops();
+
+        if (lightLevelFun != null)
+            property.lightLevel(lightLevelFun);
 
     }
 
@@ -83,6 +119,11 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
             AllBlocks.BLOCK_TAGS.put(block, tags);
             Industrimania.LOGGER.debug("for block:{} add tags:{}", name, tags.toString());
         }
+
+        if (blockColor != null) {
+            BlockColorHandler.register(block, blockColor);
+        }
+
         return this;
     }
 
@@ -123,6 +164,16 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
         return itemBlock;
     }
 
+    public ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
+        final var block = checkAlreadyBuild();
+        final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).simpleModel(itemName);
+        factory.apply(itemBuilder);
+        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
+        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
+        checkTags(itemBlock, tags);
+        return itemBlock;
+    }
+
     public ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory) {
         return buildItem(name, factory);
     }
@@ -130,6 +181,10 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public ItemBlock buildItem() {
         return buildItem(name, (itemBuilder) -> itemBuilder);
+    }
+
+    public ItemBlock buildItem(String itemName) {
+        return buildItemWithModel(itemName, (itemBuilder) -> itemBuilder);
     }
 
 
@@ -166,6 +221,11 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
         return this;
     }
 
+    public BlockBuilder isAir() {
+        this.isAir = true;
+        return this;
+    }
+
     public BlockBuilder noCollission() {
         this.noCollission = true;
         return this;
@@ -188,6 +248,46 @@ public class BlockBuilder implements ModelBuilder, StateBuilder , AllGroupedBloc
 
     public BlockBuilder name(String name) {
         this.name = name;
+        return this;
+    }
+
+    public BlockBuilder isViewBlocking(BlockBehaviour.StatePredicate statePredicate) {
+        this.isViewBlocking = statePredicate;
+        return this;
+    }
+
+    public BlockBuilder isSuffocating(BlockBehaviour.StatePredicate statePredicate) {
+        this.isSuffocating = statePredicate;
+        return this;
+    }
+
+    public BlockBuilder isValidSpawn(BlockBehaviour.StateArgumentPredicate<EntityType<?>> stateArgumentPredicate) {
+        this.isValidSpawn = stateArgumentPredicate;
+        return this;
+    }
+
+    public BlockBuilder isRedstoneConductor(BlockBehaviour.StatePredicate statePredicate) {
+        this.isRedstoneConductor = statePredicate;
+        return this;
+    }
+
+    public BlockBuilder setRGBOverlay(Color color) {
+        this.blockColor = (state, blockAndTintGetter, pos, p_92649_) -> color.getRGB();
+        return this;
+    }
+
+    public BlockBuilder setBlockColor(BlockColor blockColor) {
+        this.blockColor = blockColor;
+        return this;
+    }
+
+    public BlockBuilder noDrops() {
+        this.noDrops = true;
+        return this;
+    }
+
+    public BlockBuilder lightLevel(ToIntFunction<BlockState> lightLevelFun) {
+        this.lightLevelFun = lightLevelFun;
         return this;
     }
 

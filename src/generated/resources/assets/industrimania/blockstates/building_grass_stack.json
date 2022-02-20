@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "industrimania:block/building_grass_stack",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "industrimania:block/building_grass_stack",
+      "x": 270
+    },
+    "facing=north": {
+      "model": "industrimania:block/building_grass_stack"
+    },
+    "facing=south": {
+      "model": "industrimania:block/building_grass_stack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "industrimania:block/building_grass_stack",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "industrimania:block/building_grass_stack",
+      "y": 270
+    }
+  }
+}
