@@ -55,6 +55,12 @@ public class AllItems {
     public static final RegistryObject<Item> logOak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logSpruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logDarkOak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankAcacia = new ItemBuilder().name("plank_acacia").simpleModel("plank_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankBirch = new ItemBuilder().name("plank_birch").simpleModel("plank_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankJungle = new ItemBuilder().name("plank_jungle").simpleModel("plank_jungle").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankOak = new ItemBuilder().name("plank_oak").simpleModel("plank_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankSpruce = new ItemBuilder().name("plank_spruce").simpleModel("plank_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankDarkOak = new ItemBuilder().name("plank_darkoak").simpleModel("plank_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> mulberryFruit = new ItemBuilder().name("mulberry_fruit").simpleModel("mulberry_fruit").tab(AllTabs.tabNature).food((new FoodProperties.Builder()).nutrition(2).saturationMod(0.5F).build()).build();
     public static final RegistryObject<Item> mulberryLeaf = new ItemBuilder().name("mulberry_leaf").simpleModel("mulberry_leaf").tab(AllTabs.tabNature).durability(16).build();
 
@@ -153,5 +159,6 @@ public class AllItems {
      *  Model Item for Rendering
      * ==========================
      */
-    public static final RegistryObject<Item> modelTest = new ItemBuilder().name("model_test").specificModel("item/model/test").noTab().build();
+    public static final RegistryObject<Item> modelLog = new ItemBuilder().name("model_log").specificModel("item/model/log").noTab().build();
+    public static final RegistryObject<Item> modelWood = new ItemBuilder().name("model_wood").specificModel("item/model/wood").noTab().build();
 }

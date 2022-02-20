@@ -1,6 +1,5 @@
 package shagejack.industrimania.content.primalAge.item.itemPlaceable.base;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,9 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -25,20 +22,47 @@ import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.item.ItemHelper;
 import shagejack.industrimania.registers.AllTileEntities;
 
-import java.util.List;
+import java.util.stream.IntStream;
 
 public class ItemPlaceableBaseBlock extends Block implements ITE<ItemPlaceableBaseTileEntity> {
 
     public static final IntegerProperty AMOUNT = IntegerProperty.create("amount", 0, 16);
 
-    //TODO: change shape according to the content.
-    private static final VoxelShape[] SHAPES = new VoxelShape[]{
-            Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
+    private static final VoxelShape[] itemShapes = new VoxelShape[]{
+            Block.box(0.0D, 0.0D, 0.0D, 4.0D, 4.0D, 16.0D),
+            Block.box(4.0D, 0.0D, 0.0D, 8.0D, 4.0D, 16.0D),
+            Block.box(8.0D, 0.0D, 0.0D, 12.0D, 4.0D, 16.0D),
+            Block.box(12.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+            Block.box(0.0D, 4.0D, 0.0D, 4.0D, 8.0D, 16.0D),
+            Block.box(4.0D, 4.0D, 0.0D, 8.0D, 8.0D, 16.0D),
+            Block.box(8.0D, 4.0D, 0.0D, 12.0D, 8.0D, 16.0D),
+            Block.box(12.0D, 4.0D, 0.0D, 16.0D, 8.0D, 16.0D),
+            Block.box(0.0D, 8.0D, 0.0D, 4.0D, 12.0D, 16.0D),
+            Block.box(4.0D, 8.0D, 0.0D, 8.0D, 12.0D, 16.0D),
+            Block.box(8.0D, 8.0D, 0.0D, 12.0D, 12.0D, 16.0D),
+            Block.box(12.0D, 8.0D, 0.0D, 16.0D, 12.0D, 16.0D),
+            Block.box(0.0D, 12.0D, 0.0D, 4.0D, 16.0D, 16.0D),
+            Block.box(4.0D, 12.0D, 0.0D, 8.0D, 16.0D, 16.0D),
+            Block.box(8.0D, 12.0D, 0.0D, 12.0D, 16.0D, 16.0D),
+            Block.box(12.0D, 12.0D, 0.0D, 16.0D, 16.0D, 16.0D),
     };
+
+    //TODO: change shape according to the content.
+    private static final VoxelShape[] SHAPES = makeShapes(itemShapes);
+
+    private static VoxelShape[] makeShapes(VoxelShape[] shapes) {
+        return IntStream.range(0, 17).mapToObj((index) -> makeItemPlaceableShape(index, shapes)).toArray(VoxelShape[]::new);
+    }
+
+    private static VoxelShape makeItemPlaceableShape(int index, VoxelShape[] shapes) {
+        VoxelShape voxelShape = Block.box(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+
+        for (int i = 0; i < index; i++) {
+            voxelShape = Shapes.or(voxelShape, shapes[i]);
+        }
+
+        return voxelShape;
+    }
 
     public ItemPlaceableBaseBlock(Properties properties) {
         super(properties);
@@ -56,7 +80,7 @@ public class ItemPlaceableBaseBlock extends Block implements ITE<ItemPlaceableBa
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext collisionContext) {
-        return SHAPES[(state.getValue(AMOUNT) + 3) / 4];
+        return SHAPES[state.getValue(AMOUNT)];
     }
 
     public boolean useShapeForLightOcclusion(BlockState p_52997_) {
