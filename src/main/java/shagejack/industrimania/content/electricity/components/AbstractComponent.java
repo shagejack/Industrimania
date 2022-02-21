@@ -13,6 +13,10 @@ public abstract class AbstractComponent {
         this.node = new ElectricNode(level, pos, material);
     }
 
+    public AbstractComponent(Level level, BlockPos pos, NodeMaterial material, boolean isPowerSource) {
+        this.node = new ElectricNode(level, pos, material, isPowerSource);
+    }
+
     public abstract void update();
 
 }

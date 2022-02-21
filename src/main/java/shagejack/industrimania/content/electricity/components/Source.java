@@ -6,7 +6,7 @@ import shagejack.industrimania.content.electricity.material.NodeMaterial;
 
 public class Source extends AbstractComponent {
     public Source(Level level, BlockPos pos, NodeMaterial material) {
-        super(level, pos, material);
+        super(level, pos, material, true);
     }
 
     @Override

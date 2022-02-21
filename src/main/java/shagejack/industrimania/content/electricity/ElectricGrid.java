@@ -1,8 +1,10 @@
 package shagejack.industrimania.content.electricity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import shagejack.industrimania.content.electricity.components.AbstractComponent;
 import shagejack.industrimania.content.electricity.components.AbstractCrossGridComponent;
+import shagejack.industrimania.content.electricity.material.NodeMaterial;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -14,9 +16,9 @@ public class ElectricGrid {
     private final long seriesNumber;
     private final Level level;
 
-    public List<AbstractComponent> components = new ArrayList<>();
-    public List<ElectricNode> nodes = new ArrayList<>();
-    public List<ElectricNode> sources = new ArrayList<>();
+    public Set<AbstractComponent> components = new HashSet<>();
+    public Set<ElectricNode> nodes = new HashSet<>();
+    public Set<ElectricNode> sources = new HashSet<>();
 
     public ElectricGrid(Level level) {
         this.seriesNumber = ++counter;
@@ -60,17 +62,38 @@ public class ElectricGrid {
     public boolean addNode(ElectricNode node) {
         if (nodes.contains(node))
             return false;
+
+        if (node.isPowerSource())
+            sources.add(node);
+
         return nodes.add(node);
     }
 
-    /**
-     * add power source to the grid
-     * @return Return true if power source has successfully added. Usually, false return value indicates that the power source already exists in the grid.
-     */
-    public boolean addSource(ElectricNode source) {
-        if (sources.contains(source))
+    public boolean setSourceSeriesConnected(Level level, BlockPos pos, NodeMaterial material, ElectricNode... node) {
+        if (!nodes.containsAll(Arrays.asList(node)))
             return false;
-        return sources.add(source);
+
+        SeriesConnectedPowerSource source = new SeriesConnectedPowerSource(level, pos, material);
+
+        for (ElectricNode n : node) {
+            nodes.remove(n);
+            source.addNode(n);
+        }
+
+        source.setupWires();
+
+        return addNode(source);
+    }
+
+    public void breakSourceSeriesConnection(ElectricNode... node) {
+        for (ElectricNode source : sources) {
+            if (source instanceof SeriesConnectedPowerSource) {
+                if (Arrays.stream(node).anyMatch(n -> ((SeriesConnectedPowerSource) source).nodes.contains(n))) {
+                    sources.addAll(((SeriesConnectedPowerSource) source).nodes);
+                    sources.remove(source);
+                }
+            }
+        }
     }
 
     public Set<ElectricWire> getWires() {
@@ -115,8 +138,8 @@ public class ElectricGrid {
             ElectricNode nextNode = node.wires.get(wire);
 
             if (nextNode != null) {
-                wire.current = nextNode.current;
-                nextNode.voltage = node.voltage - wire.calculateLineLoss();
+                wire.current = nextNode.getCurrent();
+                nextNode.voltage = node.getVoltage() - wire.calculateLineLoss();
                 currentSum += updateNode(wire, nextNode);
             }
 
@@ -131,13 +154,13 @@ public class ElectricGrid {
 
         for (ElectricWire prevWire : node.prevWires.keySet()) {
             ElectricNode prevNode = node.prevWires.get(prevWire);
-            voltageSum += prevNode.voltage;
+            voltageSum += prevNode.getVoltage();
         }
 
         if (voltageSum == 0)
             return 0;
 
-        return (currentSum + node.current) * source.voltage / voltageSum;
+        return (currentSum + node.getCurrent()) * source.getVoltage() / voltageSum;
     }
 
     public void updateWires() {

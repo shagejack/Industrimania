@@ -20,13 +20,14 @@ public class ElectricNode {
 
     public double voltage;
     public double current;
-    public double impedance;
+    public double resistance;
     public double temperature;
 
     public Map<ElectricWire, ElectricNode> wires;
     public Map<ElectricWire, ElectricNode> prevWires;
 
     public double genCurrent;
+    public boolean isPowerSource;
 
     public ElectricNode(Level level, BlockPos pos, NodeMaterial material) {
         this.level = level;
@@ -35,22 +36,24 @@ public class ElectricNode {
         this.pos = pos;
         this.voltage = 0;
         this.current = 0;
-        this.impedance = 0;
+        this.resistance = 0;
         this.wires = new HashMap<>();
         this.genCurrent = 0;
         this.temperature = 297.15;
+        this.isPowerSource = false;
     }
 
-    public ElectricNode(Level level, BlockPos pos, NodeMaterial material, double genCurrent) {
+    public ElectricNode(Level level, BlockPos pos, NodeMaterial material, boolean isPowerSource) {
         this.level = level;
         this.seriesNumber = ++counter;
         this.material = material;
         this.pos = pos;
         this.voltage = 0;
         this.current = 0;
-        this.impedance = 0;
+        this.resistance = 0;
         this.wires = new HashMap<>();
-        this.genCurrent = genCurrent;
+        this.genCurrent = 0;
+        this.isPowerSource = isPowerSource;
         this.temperature = 297.15;
     }
 
@@ -61,13 +64,13 @@ public class ElectricNode {
     }
 
     public boolean exceededGenCurrent(double current) {
-        return Math.abs(current) > this.genCurrent;
+        return Math.abs(current) > this.getGenCurrent();
     }
 
     public void update() {
         if (temperature >= this.material.getMeltTemp()) {
             this.melt();
-        } else if (!material.isSuperConductive() && (current > 0 || voltage > 0)) {
+        } else if (!material.isSuperConductive() && (getCurrent() > 0 || getVoltage() > 0)) {
             //this.temperature +=...
         }
         this.temperature -= 0.005 * (this.temperature - 297.15);
@@ -124,5 +127,61 @@ public class ElectricNode {
     @Override
     public int hashCode() {
         return Objects.hash(seriesNumber);
+    }
+
+    public double getCurrent() {
+        return current;
+    }
+
+    public double getGenCurrent() {
+        return genCurrent;
+    }
+
+    public boolean isPowerSource() {
+        return isPowerSource();
+    }
+
+    public double getResistance() {
+        return resistance;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public double getVoltage() {
+        return voltage;
+    }
+
+    public void setGenCurrent(double genCurrent) {
+        this.genCurrent = genCurrent;
+    }
+
+    public void setPos(BlockPos pos) {
+        this.pos = pos;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setResistance(double resistance) {
+        this.resistance = resistance;
+    }
+
+    public void setCurrent(double current) {
+        this.current = current;
+    }
+
+    public void setVoltage(double voltage) {
+        this.voltage = voltage;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
     }
 }

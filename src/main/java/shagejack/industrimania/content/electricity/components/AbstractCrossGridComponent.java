@@ -11,7 +11,7 @@ public abstract class AbstractCrossGridComponent extends AbstractComponent {
 
     public AbstractCrossGridComponent(Level level, BlockPos pos, NodeMaterial material) {
         super(level, pos, material);
-        this.crossNode = new ElectricNode(level, pos, material);
+        this.crossNode = new ElectricNode(level, pos, material, true);
     }
 
     public abstract void update();

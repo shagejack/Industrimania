@@ -1,8 +1,9 @@
 package shagejack.industrimania.content.electricity;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import shagejack.industrimania.content.electricity.material.WireMaterial;
 import shagejack.industrimania.foundation.utility.Pair;
-import shagejack.industrimania.foundation.utility.math.Complex;
 
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ public class ElectricWire {
 
     public double voltage;
     public double current;
-    public double impedance;
+    public double resistance;
     public double temperature;
 
     public ElectricWire(ElectricNode node1, ElectricNode node2, WireMaterial material, double size) {
@@ -29,7 +30,7 @@ public class ElectricWire {
         this.current = 0;
         this.size = size;
         this.length = ElectricNode.getDirectDistance(node1, node2);
-        this.impedance = material.getLineLoss() * this.length / Math.pow(size, 2);
+        this.resistance = material.getLineLoss() * this.length / Math.pow(size, 2);
         this.temperature = 297.15;
     }
 
@@ -46,7 +47,7 @@ public class ElectricWire {
             this.voltage = 0;
             return 0;
         }
-        this.voltage = this.impedance * current;
+        this.voltage = this.resistance * current;
         return this.voltage;
     }
 
@@ -75,5 +76,37 @@ public class ElectricWire {
     @Override
     public int hashCode() {
         return Objects.hash(seriesNumber, path, material);
+    }
+
+    public double getCurrent() {
+        return current;
+    }
+
+    public double getResistance() {
+        return resistance;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public double getVoltage() {
+        return voltage;
+    }
+
+    public void setResistance(double resistance) {
+        this.resistance = resistance;
+    }
+
+    public void setCurrent(double current) {
+        this.current = current;
+    }
+
+    public void setVoltage(double voltage) {
+        this.voltage = voltage;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
     }
 }

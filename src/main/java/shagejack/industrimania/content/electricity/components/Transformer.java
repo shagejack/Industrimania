@@ -19,15 +19,15 @@ public class Transformer extends AbstractCrossGridComponent {
     public void update() {
         double multiplier = (double) turnsOutput / (double) turnsInput;
 
-        this.crossNode.voltage = this.node.voltage * multiplier;
+        this.crossNode.voltage = this.node.getVoltage() * multiplier;
 
-        if (this.node.voltage == 0) {
+        if (this.node.getVoltage() == 0) {
             this.node.current = 0;
             return;
         }
 
         this.crossNode.genCurrent = Double.POSITIVE_INFINITY;
-        this.node.current = this.crossNode.current / multiplier;
+        this.node.current = this.crossNode.getCurrent() / multiplier;
     }
 
 
