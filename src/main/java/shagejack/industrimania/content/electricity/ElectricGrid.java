@@ -119,16 +119,18 @@ public class ElectricGrid {
 
     public void updateFromSource() {
         for(ElectricNode source : sources) {
-            if (source.exceededGenCurrent(updateNode(null, source))) {
-                source.voltage = 0;
-                source.current = 0;
-                updateNode(null, source);
+            Set<ElectricNode> visited = new HashSet<>();
+            visited.add(source);
+            if (source.exceededGenCurrent(updateNode(null, source, visited, false))) {
+                Set<ElectricNode> visitedShutdown = new HashSet<>();
+                visitedShutdown.add(source);
+                updateNode(null, source, visitedShutdown, true);
             }
         }
 
     }
 
-    public double updateNode(@Nullable ElectricWire source, ElectricNode node) {
+    public double updateNode(@Nullable ElectricWire source, ElectricNode node, Set<ElectricNode> visited, boolean shutdown) {
         if (node == null)
             return 0;
 
@@ -137,13 +139,32 @@ public class ElectricGrid {
         for (ElectricWire wire : node.wires.keySet()) {
             ElectricNode nextNode = node.wires.get(wire);
 
-            if (nextNode != null) {
-                wire.current = nextNode.getCurrent();
-                nextNode.voltage = node.getVoltage() - wire.calculateLineLoss();
-                currentSum += updateNode(wire, nextNode);
+            if (visited.contains(node)) {
+                node.melt();
+                return 0;
             }
 
+            visited.add(node);
+
+            if (nextNode != null) {
+                if (!shutdown) {
+                    wire.current = nextNode.getCurrent();
+                    nextNode.voltage = node.getVoltage() - wire.calculateLineLoss();
+                    currentSum += updateNode(wire, nextNode, visited,false);
+                } else {
+                    wire.current = 0;
+                    wire.voltage = 0;
+                    node.current = 0;
+                    node.voltage = 0;
+                    nextNode.current = 0;
+                    nextNode.voltage = 0;
+                    updateNode(wire, nextNode, visited,true);
+                }
+            }
         }
+
+        if (shutdown)
+            return 0;
 
         if (source == null) {
             node.current = currentSum;

@@ -1,5 +1,14 @@
 package shagejack.industrimania.foundation.environment;
 
-public interface Environment {
+public class Environment implements Humidity, Temperature {
 
+    @Override
+    public double getHumidity() {
+        return 0;
+    }
+
+    @Override
+    public double getTemperature() {
+        return 0;
+    }
 }

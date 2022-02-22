@@ -1,4 +1,7 @@
 package shagejack.industrimania.foundation.environment;
 
-public class Humidity implements Environment {
+public interface Humidity {
+
+    double getHumidity();
+
 }

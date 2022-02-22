@@ -1,5 +1,7 @@
 package shagejack.industrimania.foundation.environment;
 
-public class Temperature implements Environment {
+public interface Temperature {
+
+    double getTemperature();
 
 }
