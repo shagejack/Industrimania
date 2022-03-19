@@ -5,7 +5,6 @@ import net.minecraft.world.level.Level;
 import shagejack.industrimania.content.electricity.material.NodeMaterial;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class SeriesConnectedPowerSource extends ElectricNode {
@@ -47,9 +46,6 @@ public class SeriesConnectedPowerSource extends ElectricNode {
     public void update() {
 
     }
-
-
-    //TODO: calculate series connected nodes data
 
     @Override
     public double getGenCurrent() {

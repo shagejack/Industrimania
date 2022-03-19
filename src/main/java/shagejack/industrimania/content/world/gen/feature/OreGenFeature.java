@@ -18,19 +18,21 @@ import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.world.gen.OreRegistry;
 import shagejack.industrimania.content.world.gen.record.Ore;
+import shagejack.industrimania.foundation.utility.CrossChunkGenerationHelper;
 import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
-    //TODO: FIX CROSS-CHUNK GENERATION ERROR
-
-    private final ArrayList<Block> EXTRA_REPLACEABLE_BLOCK = Lists.newArrayList(
+    private static final ArrayList<Block> EXTRA_REPLACEABLE_BLOCK = Lists.newArrayList(
             Blocks.GRAVEL,
             Blocks.CLAY,
             Blocks.DIORITE,
@@ -43,7 +45,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
             Blocks.COARSE_DIRT
     );
 
-    private final ArrayList<Block> PLANT_TO_DECAY = Lists.newArrayList(
+    private static final ArrayList<Block> PLANT_TO_DECAY = Lists.newArrayList(
             Blocks.GRASS,
             Blocks.FERN,
             Blocks.TALL_GRASS,
@@ -73,14 +75,16 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
 
     //minY and maxY values are used in selecting ore type based on deposit center position
-    public final List<Ore> ORES = Lists.newArrayList(
+    public static final List<Ore> ORES = Lists.newArrayList(
             OreRegistry.hematite,
             OreRegistry.galena
     );
 
-    private final List<Block> igneousStones = AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).toList();
-    private final List<Block> metamorphicStones = AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).toList();
-    private final List<Block> sedimentaryStones = AllRocks.sedimentaryStones.stream().map((rock) -> rock.block().get()).toList();
+    private static final List<Block> igneousStones = AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).toList();
+    private static final List<Block> metamorphicStones = AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).toList();
+    private static final List<Block> sedimentaryStones = AllRocks.sedimentaryStones.stream().map((rock) -> rock.block().get()).toList();
+
+    private static final List<Block> allOres = AllOres.ORES.values().stream().map(ore -> ore.block().get()).toList();
 
     public OreGenFeature(Codec codec) {
         super(codec);
@@ -92,13 +96,13 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
     1: Normal
     2: Rich
      */
-    public Block getOreBlock(Ore ore, Block rock, int grade) {
+    public static Block getOreBlock(Ore ore, Block rock, int grade) {
         String rockName = Objects.requireNonNull(rock.getRegistryName()).toString().split(":")[1];
         ResourceLocation oreBlock = new ResourceLocation(Industrimania.MOD_ID, rockName + "_" + ore.oreType().name() + "_" + grade);
         return ForgeRegistries.BLOCKS.getValue(oreBlock);
     }
 
-    public boolean isReplaceable(Block block) {
+    public static boolean isReplaceable(Block block) {
         if (igneousStones.contains(block) || metamorphicStones.contains(block) || sedimentaryStones.contains(block)) {
             return true;
         }
@@ -110,13 +114,19 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
         return EXTRA_REPLACEABLE_BLOCK.contains(block);
     }
 
-    public boolean isInEllipsoid(int dx, int dy, int dz, BlockPos center, int rx2, int ry2, int rz2) {
+    public static boolean isInEllipsoid(int dx, int dy, int dz, BlockPos center, int rx2, int ry2, int rz2) {
         return Math.pow(dx - center.getX(), 2) / rx2 + Math.pow(dy - center.getY(), 2) / ry2 + Math.pow(dz - center.getZ(), 2) / rz2 <= 1;
     }
 
-    public boolean isInCylinder(int dx, int dy, int dz, BlockPos center, int rx2, int height, int rz2) {
+    public static boolean isInCylinder(int dx, int dy, int dz, BlockPos center, int rx2, int height, int rz2) {
         return Math.pow(dx - center.getX(), 2) / rx2 + Math.pow(dz - center.getZ(), 2) / rz2 <= 1 && dy > center.getY() - height / 2 && dy < center.getY() + height / 2;
     }
+
+
+    public CrossChunkGenerationHelper helper = new CrossChunkGenerationHelper();
+
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> rockGenFun = (level, pos) -> isReplaceable(level.getBlockState(pos).getBlock());
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreGenFun = (level, pos) -> !allOres.contains(level.getBlockState(pos).getBlock());
 
     @Override
     @ParametersAreNonnullByDefault
@@ -126,6 +136,9 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         WorldGenLevel level = f.level();
+        ChunkPos cp = new ChunkPos(f.origin());
+
+        helper.gen(level, cp);
 
         final double DEPOSIT_GEN_PROBABILITY = 0.06;
         final double PLANT_DECAY_PROBABILITY = 0.75;
@@ -143,7 +156,6 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
         if (level.getRandom().nextDouble() < DEPOSIT_GEN_PROBABILITY) {
             //Deposit Gen
-            ChunkPos cp = new ChunkPos(f.origin());
             ChunkAccess chunk = level.getChunk(cp.x, cp.z);
 
             int maxY = level.getMaxBuildHeight();
@@ -212,6 +224,10 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                                         setBlock(level, blockPos, depositRock.defaultBlockState());
                                         deposit.add(blockPos);
                                     }
+
+                                    if (!helper.isInChunk(cp, blockPos)) {
+                                        helper.offer(level, rockGenFun, blockPos, depositRock.defaultBlockState());
+                                    }
                                 }
                             }
                         }
@@ -233,6 +249,10 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                                     if (isReplaceable(block)) {
                                         setBlock(level, blockPos, depositRock.defaultBlockState());
                                         deposit.add(blockPos);
+                                    }
+
+                                    if (!helper.isInChunk(cp, blockPos)) {
+                                        helper.offer(level, rockGenFun, blockPos, depositRock.defaultBlockState());
                                     }
                                 }
                             }
@@ -294,18 +314,29 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                     for (int dx = oreBodyCenter.getX() - rxb; dx < oreBodyCenter.getX() + rxb; dx++) {
                         for (int dy = oreBodyCenter.getY() - ryb; dy < oreBodyCenter.getY() + ryb; dy++) {
                             for (int dz = oreBodyCenter.getZ() - rzb; dz < oreBodyCenter.getZ() + rzb; dz++) {
+                                BlockPos pos;
+
                                 //Rich Ore Generation
                                 if (isInEllipsoid(dx, dy, dz, oreBodyCenter, (int) (rxb2 * mRich2), (int) (ryb2 * mRich2), (int) (rzb2 * mRich2))) {
-                                    BlockPos pos = new BlockPos(dx, dy, dz);
+                                    pos = new BlockPos(dx, dy, dz);
+
+                                    if (!helper.isInChunk(cp, pos)) {
+                                        helper.offer(level, oreGenFun, pos, getOreBlock(bodyOre, depositRock, 2).defaultBlockState());
+                                    }
+
                                     if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
                                         setBlock(level, pos, getOreBlock(bodyOre, depositRock, 2).defaultBlockState());
-
                                         continue;
                                     }
                                 }
                                 //Normal Ore Generation
                                 if (isInEllipsoid(dx, dy, dz, oreBodyCenter, (int) (rxb2 * mNormal2), (int) (ryb2 * mNormal2), (int) (rzb2 * mNormal2))) {
-                                    BlockPos pos = new BlockPos(dx, dy, dz);
+                                    pos = new BlockPos(dx, dy, dz);
+
+                                    if (!helper.isInChunk(cp, pos)) {
+                                        helper.offer(level, oreGenFun, pos, getOreBlock(bodyOre, depositRock, 1).defaultBlockState());
+                                    }
+
                                     if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
                                         setBlock(level, pos, getOreBlock(bodyOre, depositRock, 1).defaultBlockState());
                                         continue;
@@ -313,7 +344,12 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                                 }
                                 //Rich Ore Generation
                                 if (isInEllipsoid(dx, dy, dz, oreBodyCenter, rxb2, ryb2, rzb2)) {
-                                    BlockPos pos = new BlockPos(dx, dy, dz);
+                                    pos = new BlockPos(dx, dy, dz);
+
+                                    if (!helper.isInChunk(cp, pos)) {
+                                        helper.offer(level, oreGenFun, pos, getOreBlock(bodyOre, depositRock, 0).defaultBlockState());
+                                    }
+
                                     if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
                                         setBlock(level, pos, getOreBlock(bodyOre, depositRock, 0).defaultBlockState());
                                     }
@@ -327,6 +363,8 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                     Surface Decoration
                     ==================
                      */
+
+                    //TODO: fix source generation
 
                     List<BlockPos> surface = new ArrayList<>();
 
