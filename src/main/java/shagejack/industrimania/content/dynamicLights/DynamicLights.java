@@ -69,30 +69,30 @@ public class DynamicLights {
             return;
         }
 
-        if (REMOVAL_IDLE <= 0) {
+        if (REMOVAL_IDLE > 0) {
+            REMOVAL_IDLE--;
+            return;
+        }
 
-            ConcurrentLinkedQueue<LightReference> levelLights = levelLightsMap.get(event.world);
-            if (levelLights != null) {
-                Iterator<LightReference> iter = levelLights.iterator();
-                while (iter.hasNext()) {
-                    LightReference light = iter.next();
-                    BlockPos pos = light.pos();
-                    if (!light.entity().getOnPos().above().equals(pos) && !light.entity().getOnPos().above().above().equals(pos)) {
-                        iter.remove();
-                        if (event.world.getBlockState(pos).is(AllBlocks.mechanic_fake_air_light.block().get()))
-                            event.world.removeBlock(pos, false);
+        ConcurrentLinkedQueue<LightReference> levelLights = levelLightsMap.get(event.world);
+        if (levelLights != null) {
+            Iterator<LightReference> iter = levelLights.iterator();
+            while (iter.hasNext()) {
+                LightReference light = iter.next();
+                BlockPos pos = light.pos();
+                if (!light.entity().getOnPos().above().equals(pos) && !light.entity().getOnPos().above().above().equals(pos)) {
+                    iter.remove();
+                    if (event.world.getBlockState(pos).is(AllBlocks.mechanic_fake_air_light.block().get()))
+                        event.world.removeBlock(pos, false);
 
-                        levelLights.removeIf(lightReference -> lightReference.pos().equals(pos));
-                        levelLightsMap.put(event.world, levelLights);
-                    }
+                    levelLights.removeIf(lightReference -> lightReference.pos().equals(pos));
+                    levelLightsMap.put(event.world, levelLights);
                 }
             }
-
-            REMOVAL_IDLE = 6000;
-
-        } else {
-            REMOVAL_IDLE --;
         }
+
+        REMOVAL_IDLE = 6000;
+
     }
 
 }

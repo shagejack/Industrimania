@@ -17,7 +17,7 @@ import java.util.function.BiFunction;
  */
 public class CrossChunkGenerationHelper {
 
-    public ConcurrentHashMap<WorldGenChunkReference, LinkedList<WorldGenBlockReference>> genMap;
+    private final ConcurrentHashMap<WorldGenChunkReference, LinkedList<WorldGenBlockReference>> genMap;
 
     public CrossChunkGenerationHelper() {
         this.genMap = new ConcurrentHashMap<>();
@@ -85,11 +85,14 @@ public class CrossChunkGenerationHelper {
      * @param chunkPos the current chunk pos
      */
     public void gen(WorldGenLevel level, ChunkPos chunkPos) {
+
+        if (genMap.isEmpty())
+            return;
+
         WorldGenChunkReference chunkRef = new WorldGenChunkReference(level, chunkPos);
 
-        if (!genMap.containsKey(chunkRef)) {
+        if (!genMap.containsKey(chunkRef))
             return;
-        }
 
         LinkedList<WorldGenBlockReference> queue = genMap.get(chunkRef);
 
