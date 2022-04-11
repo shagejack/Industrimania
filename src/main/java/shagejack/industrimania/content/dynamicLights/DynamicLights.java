@@ -1,16 +1,22 @@
 package shagejack.industrimania.content.dynamicLights;
 
+import kotlin.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import shagejack.industrimania.foundation.utility.Pair;
 import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registers.item.AllItems;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -93,6 +99,69 @@ public class DynamicLights {
 
         REMOVAL_IDLE = 6000;
 
+    }
+
+    //Pair: if it's necessary to check the item is light up or not & light level
+    public static Map<Item, Pair<Boolean, Integer>> dynamicLightsItems = new HashMap<>();
+
+    public static boolean registerItem(Item item, Boolean needCheck, int lightLevel) {
+        if (!dynamicLightsItems.containsKey(item)) {
+            dynamicLightsItems.put(item, new Pair<>(needCheck, lightLevel));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static {
+        registerItem(Items.GLOWSTONE_DUST, false, 2);
+        registerItem(AllItems.handOilLamp.get(), true, 7);
+    }
+
+    public static int getItemLightLevel(Item item) {
+        return dynamicLightsItems.containsKey(item) ? dynamicLightsItems.get(item).getSecond() : 0;
+    }
+
+    public static int getItemLightLevel(ItemStack stack) {
+        return getItemLightLevel(stack.getItem());
+    }
+
+    public static boolean isDynamicLightsItem(Item item) {
+        return dynamicLightsItems.containsKey(item);
+    }
+
+    public static boolean isDynamicLightsItem(ItemStack stack) {
+        return isDynamicLightsItem(stack.getItem());
+    }
+
+    public static boolean needCheckLight(Item item) {
+        return dynamicLightsItems.containsKey(item) ? dynamicLightsItems.get(item).getFirst() : true;
+    }
+
+    public static boolean needCheckLight(ItemStack stack) {
+        return needCheckLight(stack.getItem());
+    }
+
+    public static boolean isLightUp(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("IsLightUp");
+    }
+
+    public static void setLightUp(ItemStack stack, boolean light) {
+        stack.getOrCreateTag().putBoolean("IsLightUp", light);
+    }
+
+    public static BlockPos getPrevPos(ItemStack stack) {
+        return new BlockPos(
+                stack.getOrCreateTag().getInt("PrevPosX"),
+                stack.getOrCreateTag().getInt("PrevPosY"),
+                stack.getOrCreateTag().getInt("PrevPosZ")
+        );
+    }
+
+    public static void setPrevPos(ItemStack stack, BlockPos pos) {
+        stack.getOrCreateTag().putInt("PrevPosX", pos.getX());
+        stack.getOrCreateTag().putInt("PrevPosY", pos.getY());
+        stack.getOrCreateTag().putInt("PrevPosZ", pos.getZ());
     }
 
 }

@@ -86,6 +86,19 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
     private static final List<Block> allOres = AllOres.ORES.values().stream().map(ore -> ore.block().get()).toList();
 
+    private static final double DEPOSIT_GEN_PROBABILITY = 0.06;
+    private static final double PLANT_DECAY_PROBABILITY = 0.75;
+    private static final double PLANT_SIGN_GEN_PROBABILITY = 0.15;
+    private static final double ORE_CAP_GEN_PROBABILITY = 0.01;
+    private static final int MAX_DEPOSIT_SIZE = 16;
+    private static final int MIN_DEPOSIT_SIZE = 4;
+    private static final int MAX_ORE_BODY_COUNT = 16;
+    private static final int MIN_ORE_BODY_COUNT = 4;
+    private static final int MAX_ORE_BODY_SIZE = 8;
+    private static final int MIN_ORE_BODY_SIZE = 2;
+    private static final double MAX_NORMAL_MULTIPLIER = 0.9;
+    private static final double MAX_RICH_MULTIPLIER = 0.5;
+
     public OreGenFeature(Codec codec) {
         super(codec);
     }
@@ -122,11 +135,13 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
         return Math.pow(dx - center.getX(), 2) / rx2 + Math.pow(dz - center.getZ(), 2) / rz2 <= 1 && dy > center.getY() - height / 2 && dy < center.getY() + height / 2;
     }
 
-
-    public CrossChunkGenerationHelper helper = new CrossChunkGenerationHelper();
-
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> rockGenFun = (level, pos) -> isReplaceable(level.getBlockState(pos).getBlock());
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreGenFun = (level, pos) -> !allOres.contains(level.getBlockState(pos).getBlock());
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantDecayFun = (level, pos) -> Math.random() < PLANT_DECAY_PROBABILITY && !PLANT_TO_DECAY.contains(level.getBlockState(pos).getBlock());
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantSignGenFun = (level, pos) -> Math.random() < PLANT_SIGN_GEN_PROBABILITY && level.isEmptyBlock(pos);
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreCapGenFun = (level, pos) -> Math.random() < ORE_CAP_GEN_PROBABILITY && level.isEmptyBlock(pos);
+
+    public CrossChunkGenerationHelper helper = new CrossChunkGenerationHelper();
 
     @Override
     @ParametersAreNonnullByDefault
@@ -139,19 +154,6 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
         ChunkPos cp = new ChunkPos(f.origin());
 
         helper.gen(level, cp);
-
-        final double DEPOSIT_GEN_PROBABILITY = 0.06;
-        final double PLANT_DECAY_PROBABILITY = 0.75;
-        final double PLANT_SIGN_GEN_PROBABILITY = 0.15;
-        final double ORE_CAP_GEN_PROBABILITY = 0.01;
-        final int MAX_DEPOSIT_SIZE = 16;
-        final int MIN_DEPOSIT_SIZE = 4;
-        final int MAX_ORE_BODY_COUNT = 16;
-        final int MIN_ORE_BODY_COUNT = 4;
-        final int MAX_ORE_BODY_SIZE = 8;
-        final int MIN_ORE_BODY_SIZE = 2;
-        final double MAX_NORMAL_MULTIPLIER = 0.9;
-        final double MAX_RICH_MULTIPLIER = 0.5;
 
 
         if (level.getRandom().nextDouble() < DEPOSIT_GEN_PROBABILITY) {
@@ -371,32 +373,31 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
                     for (int dx = depositCenter.getX() - rx; dx < depositCenter.getX() + rx; dx++) {
                         for (int dz = depositCenter.getZ() - rz; dz < depositCenter.getZ() + rz; dz++) {
                             if (Math.pow(dx, 2) / rx2 + Math.pow(dz, 2) / rz2 <= 1) {
-                                surface.add(new BlockPos(dx, chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, dx, dz), dz));
+                                BlockPos surfacePos = new BlockPos(dx, chunk.getHeight(Heightmap.Types.WORLD_SURFACE_WG, dx, dz) + 1, dz);
+
+                                while (surfacePos.getY() > 0 && level.isEmptyBlock(surfacePos.below())) {
+                                    surfacePos = surfacePos.below();
+                                }
+
+                                surface.add(surfacePos);
                             }
                         }
                     }
 
                     //Surface Plant Modification
                     for (BlockPos pos : surface) {
+
                         //Plant Decay
-                        if (PLANT_TO_DECAY.contains(level.getBlockState(pos).getBlock())) {
-                            if (Math.random() < PLANT_DECAY_PROBABILITY) {
-                                setBlock(level, pos, Blocks.AIR.defaultBlockState());
-                            }
-                        }
+                        helper.offer(level, plantDecayFun, pos, Blocks.AIR.defaultBlockState());
 
                         //Plant Sign Generation
                         if (depositOre.plantSign() != null) {
-                            if (Math.random() < PLANT_SIGN_GEN_PROBABILITY) {
-                                setBlock(level, pos, depositOre.plantSign().defaultBlockState());
-                            }
+                            helper.offer(level, plantSignGenFun, pos, depositOre.plantSign().defaultBlockState());
                         }
 
                         //Ore Cap Generation
                         if (depositOre.oreCap() != null) {
-                            if (Math.random() < ORE_CAP_GEN_PROBABILITY) {
-                                setBlock(level, pos, depositOre.oreCap().defaultBlockState());
-                            }
+                            helper.offer(level, oreCapGenFun, pos, depositOre.oreCap().defaultBlockState());
                         }
                     }
 

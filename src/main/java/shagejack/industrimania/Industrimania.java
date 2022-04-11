@@ -9,6 +9,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import shagejack.industrimania.client.handler.BlockColorHandler;
@@ -30,9 +31,13 @@ public class Industrimania {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         try {
+            LOGGER.info("Registering...");
             RegisterHandle.RegRegisters();
+
+            LOGGER.info("Initializing...");
             RegisterHandle.init();
 
+            LOGGER.info("Setting up event listeners...");
             ModSetup.setup();
 
             bus.addListener(BlockColorHandler::registerBlockColors);

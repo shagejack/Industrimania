@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.entity.Hopper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import shagejack.industrimania.registers.item.AllItems;
 
@@ -37,6 +38,7 @@ public class PrimitiveFireBow extends Item {
         Level level = context.getLevel();
         BlockPos blockPos = context.getClickedPos();
         BlockState blockstate = level.getBlockState(blockPos);
+
         if (player != null) {
             if (!CampfireBlock.canLight(blockstate) && !CandleBlock.canLight(blockstate) && !CandleCakeBlock.canLight(blockstate)) {
                 BlockPos blockPos1 = blockPos.relative(context.getClickedFace());

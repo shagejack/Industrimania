@@ -49,7 +49,7 @@ public class CrossChunkGenerationHelper {
      * @param level the current world gen level
      * @param genFun A double param boolean function that determines if block should generate
      * @param pos actual generation pos
-     * @param state generated block state
+     * @param state block state to generate
      */
     public void offer(WorldGenLevel level, BiFunction<WorldGenLevel, BlockPos, Boolean> genFun, BlockPos pos, BlockState state) {
         WorldGenChunkReference chunkRef = new WorldGenChunkReference(level, getChunkPos(pos));

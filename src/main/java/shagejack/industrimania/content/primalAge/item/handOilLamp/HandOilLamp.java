@@ -13,6 +13,8 @@ import shagejack.industrimania.content.dynamicLights.DynamicLights;
 
 import java.util.stream.StreamSupport;
 
+import static shagejack.industrimania.content.dynamicLights.DynamicLights.*;
+
 public class HandOilLamp extends Item {
 
     public HandOilLamp(Properties properties) {
@@ -60,6 +62,7 @@ public class HandOilLamp extends Item {
         return super.use(level, player, hand);
     }
 
+    /*
     public static boolean isLightUp(ItemStack stack) {
         return stack.getOrCreateTag().getBoolean("IsLightUp");
     }
@@ -81,6 +84,7 @@ public class HandOilLamp extends Item {
         stack.getOrCreateTag().putInt("PrevPosY", pos.getY());
         stack.getOrCreateTag().putInt("PrevPosZ", pos.getZ());
     }
+     */
 
 
 

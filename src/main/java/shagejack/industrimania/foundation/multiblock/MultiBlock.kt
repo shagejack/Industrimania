@@ -3,22 +3,22 @@ package shagejack.industrimania.foundation.multiblock
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Block
-import shagejack.industrimania.foundation.handler.BlockBreakEventHandler
+import net.minecraft.world.level.block.state.BlockState
+import shagejack.industrimania.foundation.handler.MultiBlockBreakEventHandler
 import java.util.*
 
 /**
  * A MultiBlock Object
  * Default Direction of BlockMap is East (X+)
- * Currently only four-way rotation is available
+ * Currently, only four-way rotation is available
  */
-class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Block) {
+class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : BlockState) {
 
-    private val blockMap : HashMap<BlockPos, String> = HashMap()
+    private val blockMap : HashMap<BlockPos, BlockState> = HashMap()
     private val complete : EnumMap<Direction, Boolean> = EnumMap(Direction::class.java)
 
     init {
-        BlockBreakEventHandler.register(this)
+        MultiBlockBreakEventHandler.register(this)
         complete[Direction.EAST] = false
         complete[Direction.SOUTH] = false
         complete[Direction.WEST] = false
@@ -42,7 +42,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
             if (direction == Direction.DOWN || direction == Direction.UP)
                 continue
 
-            complete[direction] = blockMap.all { (blockPos, block) -> coreLevel.getBlockState(pos.offset(blockPos.getRotated(direction))).block.isNamed(block) }
+            complete[direction] = blockMap.all { (blockPos, block) -> coreLevel.getBlockState(pos.offset(blockPos.getRotated(direction))) == block }
         }
     }
 
@@ -54,15 +54,15 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
             if (direction == Direction.DOWN || direction == Direction.UP)
                 continue
 
-            complete[direction] = coreLevel.getBlockState(pos).block.isNamed(blockMap[pos.subtract(corePos).getRotated(direction)])
+            complete[direction] = coreLevel.getBlockState(pos) == blockMap[pos.subtract(corePos).getRotated(direction)]
         }
     }
 
-    fun put(pos : BlockPos, block: String) {
+    fun put(pos : BlockPos, block: BlockState) {
         blockMap[pos] = block
     }
 
-    fun put(posArray: Array<BlockPos>, blockArray: Array<String>) {
+    fun put(posArray: Array<BlockPos>, blockArray: Array<BlockState>) {
         if (posArray.size != blockArray.size)
             throw IllegalArgumentException()
 
@@ -71,7 +71,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
         }
     }
 
-    fun put(array: Array<Pair<BlockPos, String>>) {
+    fun put(array: Array<Pair<BlockPos, BlockState>>) {
         blockMap.putAll(array)
     }
 
@@ -87,7 +87,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
     }
 
     /**
-     * Currently unable to come up with any usage for this method...
+     * can't think of any usage for this method...
      */
     fun remove(pos : BlockPos) {
         blockMap.remove(pos)
@@ -105,14 +105,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
      * This method should be fired when core block break.
      */
     fun unregister() {
-        BlockBreakEventHandler.remove(this)
-    }
-
-    fun Block.isNamed(blockName : String?) : Boolean {
-        if (blockName == null)
-            return false
-
-        return this.registryName.toString().equals(blockName, ignoreCase = true)
+        MultiBlockBreakEventHandler.remove(this)
     }
 
     /**
@@ -126,6 +119,10 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
             Direction.WEST -> BlockPos(-this.x, this.y, -this.z)
             Direction.NORTH -> BlockPos(this.z, this.y, -this.x)
             else -> throw IllegalArgumentException()
+    }
+
+    fun register() {
+        MultiBlockBreakEventHandler.register(this)
     }
 
 }
