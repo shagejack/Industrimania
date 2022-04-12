@@ -8,6 +8,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -27,19 +28,21 @@ import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Pollution {
 
     private static final Map<Block, DecayReference> DAMAGE_BLOCK_MAP = new HashMap<>();
+    private static final Map<TagKey<Block>, DecayReference> DAMAGE_BLOCK_TAG_MAP = new HashMap<>();
     private static final Map<Block, DecayReference> ACID_RAIN_MAP = new HashMap<>();
+    private static final Map<TagKey<Block>, DecayReference> ACID_RAIN_TAG_MAP = new HashMap<>();
     private boolean HEAVEN_TICKER = false;
 
     static {
         //COMMON DECAY
 
+        /*
         for (Block block : BlockTags.LEAVES.getValues()) {
             DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, false, 500000, 1));
         }
@@ -49,8 +52,13 @@ public class Pollution {
         }
 
         for (Block block : BlockTags.CORAL_PLANTS.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, true, 800000,0.9));
+            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, true, 800000, 0.9));
         }
+         */
+
+        DAMAGE_BLOCK_TAG_MAP.put(BlockTags.LEAVES, new DecayReference(Blocks.AIR, false, 500000, 1));
+        DAMAGE_BLOCK_TAG_MAP.put(BlockTags.REPLACEABLE_PLANTS, new DecayReference(Blocks.DEAD_BUSH, false, 500000, 1));
+        DAMAGE_BLOCK_TAG_MAP.put(BlockTags.CORAL_PLANTS, new DecayReference(Blocks.AIR, true, 800000, 0.9));
 
         DAMAGE_BLOCK_MAP.put(Blocks.BEE_NEST, new DecayReference(Blocks.AIR, false, 800000,0.8));
         DAMAGE_BLOCK_MAP.put(Blocks.DEAD_BUSH, new DecayReference(Blocks.AIR, false, 1500000,0.5));
@@ -64,10 +72,21 @@ public class Pollution {
         DAMAGE_BLOCK_MAP.put(Blocks.ROOTED_DIRT, new DecayReference(Blocks.DIRT, false, 1200000, 0.8));
         DAMAGE_BLOCK_MAP.put(Blocks.DIRT_PATH, new DecayReference(Blocks.SAND, false, 500000, 1));
 
-
         //ACID RAIN
 
-        for (Block block : BlockTags.PLANKS.getValues()) {
+        ACID_RAIN_TAG_MAP.put(BlockTags.PLANKS, new DecayReference(Blocks.AIR, false, 2000000, 0.8));
+        ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_BUTTONS, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_DOORS, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_FENCES, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_SLABS, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_STAIRS, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_TRAPDOORS, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_PRESSURE_PLATES, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        ACID_RAIN_TAG_MAP.put(BlockTags.LOGS, new DecayReference(Blocks.AIR, false, 5000000, 0.5));
+        ACID_RAIN_TAG_MAP.put(BlockTags.BEDS, new DecayReference(Blocks.AIR, false, 2000000, 1));
+
+        /*
+        for (Block block : BlockTags.PLANKS) {
             ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 0.8));
         }
 
@@ -99,6 +118,15 @@ public class Pollution {
             ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
         }
 
+        for (Block block: BlockTags.LOGS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 5000000, 0.5));
+        }
+
+        for (Block block: BlockTags.BEDS.getValues()) {
+            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
+        }
+        */
+
         for (ItemBlock block: AllRocks.igneousStones) {
             ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false, 5000000, 0.1));
         }
@@ -109,14 +137,6 @@ public class Pollution {
 
         for (ItemBlock block: AllRocks.sedimentaryStones) {
             ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false, 2000000, 0.8));
-        }
-
-        for (Block block: BlockTags.LOGS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 5000000, 0.5));
-        }
-
-        for (Block block: BlockTags.BEDS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
         }
 
         ACID_RAIN_MAP.put(Blocks.LECTERN, new DecayReference(Blocks.AIR, false, 2500000, 0.5));
@@ -190,8 +210,17 @@ public class Pollution {
         return new Color((200F - Math.min(200F, (float) this.amount / 500000F)) / 255F, (200F - Math.min(200F, (float) this.amount / 500000F)) / 255F, (255F - Math.min(255F, (float) this.amount / 10000F)) / 255F);
     }
 
+    @Deprecated
     public float getFogDensity() {
         return Math.max(5F, 50000000F / (float) this.amount);
+    }
+
+    public float getFarPlaneDistance() {
+        return getNearPlaneDistance() + Math.min(256F, (float) this.amount / 100000F);
+    }
+
+    public float getNearPlaneDistance() {
+        return Math.min(256F, 20000000F / (float) this.amount);
     }
 
     public void damageEntity(LivingEntity entity) {
@@ -218,12 +247,25 @@ public class Pollution {
 
         if (!state.isAir()) {
 
+            //Damage Block
             if (DAMAGE_BLOCK_MAP.containsKey(state.getBlock())) {
                 DecayReference ref = DAMAGE_BLOCK_MAP.get(state.getBlock());
                 if (getAmount() > ref.minPollution()) {
                     if (level.getRandom().nextDouble() < ref.probability()) {
                         level.destroyBlock(pos, ref.dropItem());
                         level.setBlock(pos, ref.block().defaultBlockState(), 2 | 16);
+                    }
+                }
+            } else {
+                Set<TagKey<Block>> intersection = new HashSet<>(DAMAGE_BLOCK_TAG_MAP.keySet());
+                intersection.retainAll(state.getTags().collect(Collectors.toSet()));
+                if (!intersection.isEmpty()) {
+                    DecayReference ref = DAMAGE_BLOCK_TAG_MAP.get(intersection.iterator().next());
+                    if (getAmount() > ref.minPollution()) {
+                        if (level.getRandom().nextDouble() < ref.probability()) {
+                            level.destroyBlock(pos, ref.dropItem());
+                            level.setBlock(pos, ref.block().defaultBlockState(), 2 | 16);
+                        }
                     }
                 }
             }
@@ -269,7 +311,21 @@ public class Pollution {
                                 level.setBlock(pos, ref.block().defaultBlockState(), 2 | 16);
                             }
                         }
-                    } else if (getAmount() > 50000000 && level.getRandom().nextDouble() < Math.min((double) getAmount() / 100000000, 0.1)) {
+                    } else {
+                        Set<TagKey<Block>> intersection = new HashSet<>(ACID_RAIN_TAG_MAP.keySet());
+                        intersection.retainAll(state.getTags().collect(Collectors.toSet()));
+                        if (!intersection.isEmpty()) {
+                            DecayReference ref = ACID_RAIN_TAG_MAP.get(intersection.iterator().next());
+                            if (getAmount() > ref.minPollution()) {
+                                if (level.getRandom().nextDouble() < ref.probability()) {
+                                    level.destroyBlock(pos, ref.dropItem());
+                                    level.setBlock(pos, ref.block().defaultBlockState(), 2 | 16);
+                                }
+                            }
+                        }
+                    }
+
+                    if (getAmount() > 50000000 && level.getRandom().nextDouble() < Math.min((double) getAmount() / 100000000, 0.1)) {
                         makeFall(level, pos);
                     }
                 }
@@ -285,7 +341,7 @@ public class Pollution {
 
     public static void makeFall(Level level, BlockPos pos) {
         if (isFree(level.getBlockState(pos.below())) && pos.getY() >= level.getMinBuildHeight()) {
-            FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(level, (double)pos.getX() + 0.5D, pos.getY(), (double)pos.getZ() + 0.5D, level.getBlockState(pos));
+            FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(level, pos.offset(0.5D, 0.0D, 0.5D), level.getBlockState(pos));
             level.removeBlock(pos, true);
             level.addFreshEntity(fallingBlockEntity);
         }

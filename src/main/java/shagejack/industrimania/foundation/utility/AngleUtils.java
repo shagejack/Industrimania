@@ -3,7 +3,11 @@ package shagejack.industrimania.foundation.utility;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 
-public class AngleHelper {
+public class AngleUtils {
+
+	private AngleUtils() {
+		throw new IllegalStateException(this.getClass().toString() + "should not be instantiated as it's a utility class.");
+	}
 
 	public static float horizontalAngle(Direction facing) {
 		if (facing.getAxis().isVertical())

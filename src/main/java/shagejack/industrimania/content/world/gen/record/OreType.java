@@ -1,6 +1,6 @@
 package shagejack.industrimania.content.world.gen.record;
 
-import shagejack.industrimania.api.chemistry.ChemicalFormula;
+import shagejack.industrimania.foundation.chemistry.ChemicalFormula;
 import shagejack.industrimania.content.world.gen.OreTypeRegistry;
 
 import javax.annotation.Nullable;

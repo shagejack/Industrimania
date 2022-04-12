@@ -1,4 +1,4 @@
-package shagejack.industrimania.api.chemistry;
+package shagejack.industrimania.foundation.chemistry;
 
 import java.util.Map;
 import java.util.TreeMap;

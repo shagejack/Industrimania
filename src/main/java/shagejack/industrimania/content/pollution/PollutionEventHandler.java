@@ -1,5 +1,6 @@
 package shagejack.industrimania.content.pollution;
 
+import com.mojang.blaze3d.shaders.FogShape;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -193,7 +194,7 @@ public class PollutionEventHandler {
     }
 
     @SubscribeEvent
-    public static void onFogDensityRender(EntityViewRenderEvent.FogDensity event) {
+    public static void onFogDensityRender(EntityViewRenderEvent.RenderFogEvent event) {
         Entity entity = event.getCamera().getEntity();
         if (entity instanceof Player) {
             if (getProtectionLevel((Player) entity) < 16) {
@@ -205,7 +206,9 @@ public class PollutionEventHandler {
                                             if (pollution.getAmount() > PARTICLE_LIMIT) {
                                                 entity.getLevel().addParticle(ParticleTypes.ASH, true, entity.getBlockX(), entity.getBlockY(), entity.getBlockZ(), 3.0f, 2.0f, 3.0f);
                                             }
-                                            event.setDensity(pollution.getFogDensity());
+                                            event.setFogShape(FogShape.SPHERE);
+                                            event.setFarPlaneDistance(pollution.getFarPlaneDistance());
+                                            event.setNearPlaneDistance(pollution.getNearPlaneDistance());
                                             event.setCanceled(true);
                                         }
                                     }

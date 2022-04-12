@@ -1,10 +1,7 @@
 package shagejack.industrimania.registers;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
@@ -40,41 +37,41 @@ public class AllTags {
         public static final String igneousStones = "industrimania:blocks/igneous_stones";
     }
 
-    public static <T> Tag.Named<T> tag(Function<ResourceLocation, Tag.Named<T>> wrapperFactory, String namespace,
-                                       String path) {
+    public static <T> TagKey<T> tag(Function<ResourceLocation, TagKey<T>> wrapperFactory, String namespace,
+                                    String path) {
         return wrapperFactory.apply(new ResourceLocation(namespace, path));
     }
 
-    public static <T> Tag.Named<T> forgeTag(Function<ResourceLocation, Tag.Named<T>> wrapperFactory, String path) {
+    public static <T> TagKey<T> forgeTag(Function<ResourceLocation, TagKey<T>> wrapperFactory, String path) {
         return tag(wrapperFactory, "forge", path);
     }
 
-    public static Tag.Named<Block> forgeBlockTag(String path) {
-        return forgeTag(BlockTags::createOptional, path);
+    public static TagKey<Block> forgeBlockTag(String path) {
+        return forgeTag(BlockTags::create, path);
     }
 
-    public static Tag.Named<Item> forgeItemTag(String path) {
-        return forgeTag(ItemTags::createOptional, path);
+    public static TagKey<Item> forgeItemTag(String path) {
+        return forgeTag(ItemTags::create, path);
     }
 
-    public static Tag.Named<Fluid> forgeFluidTag(String path) {
-        return forgeTag(FluidTags::createOptional, path);
+    public static TagKey<Fluid> forgeFluidTag(String path) {
+        return forgeTag(FluidTags::create, path);
     }
 
-    public static <T> Tag.Named<T> modTag(Function<ResourceLocation, Tag.Named<T>> wrapperFactory, String path) {
+    public static <T> TagKey<T> modTag(Function<ResourceLocation, TagKey<T>> wrapperFactory, String path) {
         return wrapperFactory.apply(new ResourceLocation(path));
     }
 
-    public static Tag.Named<Block> modBlockTag(String path) {
-        return modTag(BlockTags::createOptional, path);
+    public static TagKey<Block> modBlockTag(String path) {
+        return modTag(BlockTags::create, path);
     }
 
-    public static Tag.Named<Item> modItemTag(String path) {
-        return modTag(ItemTags::createOptional, path);
+    public static TagKey<Item> modItemTag(String path) {
+        return modTag(ItemTags::create, path);
     }
 
-    public static Tag.Named<Fluid> modFluidTag(String path) {
-        return modTag(FluidTags::createOptional, path);
+    public static TagKey<Fluid> modFluidTag(String path) {
+        return modTag(FluidTags::create, path);
     }
 
 }

@@ -14,7 +14,6 @@ public enum SawMaterials implements SawMaterial {
     DIAMOND("diamond", 33, 10, 4.0F, () -> Ingredient.of(Items.DIAMOND)),
     NETHERITE("netherite", 37, 15, 5.0F, () -> Ingredient.of(Items.NETHERITE_INGOT));
 
-    private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
     private final String name;
     private final int durability;
     private final int enchantmentValue;

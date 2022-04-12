@@ -1,6 +1,6 @@
 package shagejack.industrimania.content.world.gen;
 
-import shagejack.industrimania.api.chemistry.ChemicalFormula;
+import shagejack.industrimania.foundation.chemistry.ChemicalFormula;
 import shagejack.industrimania.content.world.gen.record.OreType;
 
 import java.util.HashMap;

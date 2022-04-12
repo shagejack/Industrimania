@@ -20,6 +20,7 @@ import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -121,7 +122,7 @@ public class ItemRequirement {
 		}
 
 		if (entity instanceof AbstractMinecart minecartEntity) {
-			return new ItemRequirement(ItemUseType.CONSUME, minecartEntity.getCartItem().getItem());
+			return new ItemRequirement(ItemUseType.CONSUME, Objects.requireNonNull(minecartEntity.getPickResult()).getItem());
 		}
 
 		if (entity instanceof Boat boatEntity) {

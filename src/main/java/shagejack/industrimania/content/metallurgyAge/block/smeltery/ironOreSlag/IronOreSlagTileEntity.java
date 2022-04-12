@@ -86,7 +86,8 @@ public class IronOreSlagTileEntity extends SmartTileEntity {
             IronCluster.setCarbon(ironStack, 0.02 + fortune * 0.01);
             IronCluster.setTemp(ironStack, 298.15);
             IronCluster.setImpurities(ironStack, 60  * (0.05 + mol_Impurities));
-            IronCluster.setShape(ironStack, shape);
+            //TODO: shape rework
+            //IronCluster.setShape(ironStack, shape);
             return ironStack;
         }
 

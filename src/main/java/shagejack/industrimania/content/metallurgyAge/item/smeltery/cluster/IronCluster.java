@@ -53,9 +53,11 @@ public class IronCluster extends Item {
         itemStack.getOrCreateTag().putDouble("impurities", impurities);
     }
 
+    /*
     public static void setShape(ItemStack itemStack, int[] shape) {
         itemStack.getOrCreateTag().putIntArray("shape", shape);
     }
+     */
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int p_41407_, boolean p_41408_) {
@@ -68,6 +70,7 @@ public class IronCluster extends Item {
         }
     }
 
+    /*
     public void appendTooltip(ItemStack itemStack, @Nullable Level level, List<String> tooltip, TooltipFlag flag) {
         tooltip.add("Mass: " + getMass(itemStack));
         tooltip.add("Carbon: " + getCarbon(itemStack));
@@ -83,6 +86,7 @@ public class IronCluster extends Item {
             }
         }
     }
+     */
 
     //TODO: hurt player and set player on fire when in inventory
 

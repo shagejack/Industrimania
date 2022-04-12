@@ -19,7 +19,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import shagejack.industrimania.foundation.tileEntity.behaviour.BehaviourType;
 import shagejack.industrimania.foundation.tileEntity.behaviour.ValueBoxTransform;
-import shagejack.industrimania.foundation.utility.VecHelper;
+import shagejack.industrimania.foundation.utility.VecUtils;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -163,7 +163,7 @@ public class FilteringBehaviour extends TileEntityBehaviour {
     @Override
     public void destroy() {
         if (filter.getItem() instanceof FilterItem) {
-            Vec3 pos = VecHelper.getCenterOf(getPos());
+            Vec3 pos = VecUtils.getCenterOf(getPos());
             Level world = getWorld();
             world.addFreshEntity(new ItemEntity(world, pos.x, pos.y, pos.z, filter.copy()));
         }

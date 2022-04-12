@@ -14,7 +14,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.phys.Vec3;
 
-public class VecHelper {
+public class VecUtils {
+
+    private VecUtils() {
+        throw new IllegalStateException(this.getClass().toString() + "should not be instantiated as it's a utility class.");
+    }
 
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
 
@@ -28,7 +32,7 @@ public class VecHelper {
 
     public static Vec3 rotateCentered(Vec3 vec, double deg, Axis axis) {
         Vec3 shift = getCenterOf(BlockPos.ZERO);
-        return VecHelper.rotate(vec.subtract(shift), deg, axis).add(shift);
+        return VecUtils.rotate(vec.subtract(shift), deg, axis).add(shift);
     }
 
     public static Vec3 rotate(Vec3 vec, double deg, Axis axis) {
@@ -53,9 +57,26 @@ public class VecHelper {
         return vec;
     }
 
+    public static Vec3 rotate90Degrees(Vec3 vec, Axis axis) {
+        if (vec == Vec3.ZERO)
+            return vec;
+
+        double x = vec.x;
+        double y = vec.y;
+        double z = vec.z;
+
+        if (axis == Axis.X)
+            return new Vec3(x, -z, +y);
+        if (axis == Axis.Y)
+            return new Vec3(z, y, -x);
+        if (axis == Axis.Z)
+            return new Vec3(-y, +x, z);
+        return vec;
+    }
+
     public static Vec3 mirrorCentered(Vec3 vec, Mirror mirror) {
         Vec3 shift = getCenterOf(BlockPos.ZERO);
-        return VecHelper.mirror(vec.subtract(shift), mirror).add(shift);
+        return VecUtils.mirror(vec.subtract(shift), mirror).add(shift);
     }
 
     public static Vec3 mirror(Vec3 vec, Mirror mirror) {

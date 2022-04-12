@@ -41,8 +41,8 @@ public class AllFluids {
 
         public FluidBuilder(String name) {
             this.name = Objects.requireNonNull(name);
-            STILL = RegistryObject.of(new ResourceLocation(Industrimania.MOD_ID, this.name), ForgeRegistries.FLUIDS);
-            FLOWING = RegistryObject.of(new ResourceLocation(Industrimania.MOD_ID, "flowing_" + this.name), ForgeRegistries.FLUIDS);
+            STILL = RegistryObject.create(new ResourceLocation(Industrimania.MOD_ID, this.name), ForgeRegistries.FLUIDS);
+            FLOWING = RegistryObject.create(new ResourceLocation(Industrimania.MOD_ID, "flowing_" + this.name), ForgeRegistries.FLUIDS);
             attributesBuilder = FluidAttributes.builder(new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + this.name + "/still"), new ResourceLocation(Industrimania.MOD_ID, "block/fluid/" + this.name + "/flowing"));
             properties = new ForgeFlowingFluid.Properties(STILL, FLOWING, attributesBuilder);
         }

@@ -9,8 +9,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.tuple.Pair;
 import shagejack.industrimania.api.util.TransformStack;
-import shagejack.industrimania.foundation.utility.AngleHelper;
-import shagejack.industrimania.foundation.utility.VecHelper;
+import shagejack.industrimania.foundation.utility.AngleUtils;
+import shagejack.industrimania.foundation.utility.VecUtils;
 
 import java.util.function.Function;
 
@@ -45,10 +45,10 @@ public abstract class ValueBoxTransform {
 	protected Vec3 rotateHorizontally(BlockState state, Vec3 vec) {
 		float yRot = 0;
 		if (state.hasProperty(BlockStateProperties.FACING))
-			yRot = AngleHelper.horizontalAngle(state.getValue(BlockStateProperties.FACING));
+			yRot = AngleUtils.horizontalAngle(state.getValue(BlockStateProperties.FACING));
 		if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING))
-			yRot = AngleHelper.horizontalAngle(state.getValue(BlockStateProperties.HORIZONTAL_FACING));
-		return VecHelper.rotateCentered(vec, yRot, Axis.Y);
+			yRot = AngleUtils.horizontalAngle(state.getValue(BlockStateProperties.HORIZONTAL_FACING));
+		return VecUtils.rotateCentered(vec, yRot, Axis.Y);
 	}
 
 	protected float getScale() {
@@ -96,8 +96,8 @@ public abstract class ValueBoxTransform {
 		@Override
 		protected Vec3 getLocalOffset(BlockState state) {
 			Vec3 location = getSouthLocation();
-			location = VecHelper.rotateCentered(location, AngleHelper.horizontalAngle(getSide()), Axis.Y);
-			location = VecHelper.rotateCentered(location, AngleHelper.verticalAngle(getSide()), Axis.X);
+			location = VecUtils.rotateCentered(location, AngleUtils.horizontalAngle(getSide()), Axis.Y);
+			location = VecUtils.rotateCentered(location, AngleUtils.verticalAngle(getSide()), Axis.X);
 			return location;
 		}
 
@@ -105,7 +105,7 @@ public abstract class ValueBoxTransform {
 
 		@Override
 		protected void rotate(BlockState state, PoseStack ms) {
-			float yRot = AngleHelper.horizontalAngle(getSide()) + 180;
+			float yRot = AngleUtils.horizontalAngle(getSide()) + 180;
 			float xRot = getSide() == Direction.UP ? 90 : getSide() == Direction.DOWN ? 270 : 0;
 			TransformStack.cast(ms)
 				.rotateY(yRot)

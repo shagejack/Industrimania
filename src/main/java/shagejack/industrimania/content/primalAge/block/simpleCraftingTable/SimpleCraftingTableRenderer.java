@@ -12,7 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
 import shagejack.industrimania.foundation.tileEntity.renderer.SafeTileEntityRenderer;
-import shagejack.industrimania.foundation.utility.AngleHelper;
+import shagejack.industrimania.foundation.utility.AngleUtils;
 
 import java.util.Optional;
 
@@ -66,7 +66,7 @@ public class SimpleCraftingTableRenderer extends SafeTileEntityRenderer<SimpleCr
 
                     if (direction.isPresent()) {
 
-                        ms.mulPose(Vector3f.YP.rotationDegrees(AngleHelper.horizontalAngle(direction.get().getOpposite()) + rotation));
+                        ms.mulPose(Vector3f.YP.rotationDegrees(AngleUtils.horizontalAngle(direction.get().getOpposite()) + rotation));
 
                         ms.mulPose(Vector3f.XP.rotationDegrees(90));
 
