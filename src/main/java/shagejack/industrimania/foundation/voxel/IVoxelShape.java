@@ -26,7 +26,7 @@ public interface IVoxelShape {
     /**
      * Check if the given position is not empty
      *
-     * @param  coordinate The coordinate to check.
+     * @param coordinate The coordinate to check.
      * @return If the given position is not empty.
      */
     default boolean exist(Vec3i coordinate) {
@@ -40,10 +40,17 @@ public interface IVoxelShape {
      * @param x The x offset, from to {@link #getSize()} excluding.
      * @param y The y offset, from to {@link #getSize()} excluding.
      * @param z The z offset, from to {@link #getSize()} excluding.
-     * @param filled the state to set.
+     * @param filled The state to set.
      */
     void set(int x, int y, int z, boolean filled);
 
+    /**
+     * Set the state of given position.
+     * true: filled, false: empty
+     *
+     * @param coordinate The coordinate to set
+     * @param filled The state to set.
+     */
     default void set(Vec3i coordinate, boolean filled) {
         set(coordinate.getX(), coordinate.getY(), coordinate.getZ(), filled);
     }
@@ -71,6 +78,24 @@ public interface IVoxelShape {
      * @param axis The axis to mirror over.
      */
     void mirror(Direction.Axis axis);
+
+    /**
+     * Check if the voxel at the given position should render.
+     * @param x The x offset, from to {@link #getSize()} excluding.
+     * @param y The y offset, from to {@link #getSize()} excluding.
+     * @param z The z offset, from to {@link #getSize()} excluding.
+     * @return should render or not
+     */
+    boolean shouldRender(int x, int y, int z);
+
+    /**
+     * Check if the voxel at the given position should render.
+     * @param coordinate The coordinate to check.
+     * @return should render or not
+     */
+    default boolean shouldRender(Vec3i coordinate) {
+        return shouldRender(coordinate.getX(), coordinate.getY(), coordinate.getZ());
+    }
 
     BitSet getData();
 

@@ -208,7 +208,7 @@ public class DataGenHandle {
             @Override
             protected void addTags() {
                 AllBlocks.BLOCK_TAGS.forEach((block, tags) -> tags.forEach(
-                                (t) -> tag(BlockTags.bind(t)).add(block.get())
+                                (t) -> tag(BlockTags.create(new ResourceLocation(t))).add(block.get())
                         )
                 );
             }
@@ -218,7 +218,7 @@ public class DataGenHandle {
             @Override
             protected void addTags() {
                 AllItems.ITEM_TAGS.forEach((item, tags) -> tags.forEach(
-                                (t) -> tag(ItemTags.bind(t)).add(item.get())
+                                (t) -> tag(ItemTags.create(new ResourceLocation(t))).add(item.get())
                         )
                 );
             }

@@ -10,12 +10,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import shagejack.industrimania.content.dynamicLights.DynamicLights;
+import shagejack.industrimania.content.dynamicLights.DynamicLightsItem;
 
+import javax.annotation.Nullable;
 import java.util.stream.StreamSupport;
 
-import static shagejack.industrimania.content.dynamicLights.DynamicLights.*;
-
-public class HandOilLamp extends Item {
+public class HandOilLamp extends Item implements DynamicLightsItem {
 
     public HandOilLamp(Properties properties) {
         super(properties);
@@ -25,7 +25,7 @@ public class HandOilLamp extends Item {
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int p_41407_, boolean p_41408_) {
 
         if (isLightUp(stack)) {
-            if (entity.isAlive() && StreamSupport.stream(entity.getHandSlots().spliterator(), false).anyMatch(itemStack -> itemStack == stack)) {
+            if (entity.isAlive() && StreamSupport.stream(entity.getHandSlots().spliterator(), false).anyMatch(itemStack -> itemStack.equals(stack))) {
                 BlockPos pos = entity.getOnPos().above();
 
                 if (!level.isEmptyBlock(pos))
@@ -36,13 +36,13 @@ public class HandOilLamp extends Item {
                     DynamicLights.removeLight(level, getPrevPos(stack));
                     setPrevPos(stack, pos);
                 }
+            } else {
+                DynamicLights.removeLight(level, getPrevPos(stack));
             }
 
-            if (level.getRandom().nextDouble() < 0.01) {
+            if (shouldDamage(level, entity instanceof Player ? (Player) entity : null, stack)) {
                 ItemStack stackBackup = stack.copy();
-                stack.hurtAndBreak(1, (LivingEntity) entity, (e) -> {
-                    DynamicLights.removeLight(level, getPrevPos(stackBackup));
-                });
+                stack.hurtAndBreak(1, (LivingEntity) entity, (e) -> DynamicLights.removeLight(level, getPrevPos(stackBackup)));
             }
 
         } else {
@@ -62,16 +62,19 @@ public class HandOilLamp extends Item {
         return super.use(level, player, hand);
     }
 
-    /*
-    public static boolean isLightUp(ItemStack stack) {
+
+    @Override
+    public boolean isLightUp(ItemStack stack) {
         return stack.getOrCreateTag().getBoolean("IsLightUp");
     }
 
-    public static void setLightUp(ItemStack stack, boolean light) {
+    @Override
+    public void setLightUp(ItemStack stack, boolean light) {
         stack.getOrCreateTag().putBoolean("IsLightUp", light);
     }
 
-    public static BlockPos getPrevPos(ItemStack stack) {
+    @Override
+    public BlockPos getPrevPos(ItemStack stack) {
         return new BlockPos(
                 stack.getOrCreateTag().getInt("PrevPosX"),
                 stack.getOrCreateTag().getInt("PrevPosY"),
@@ -79,12 +82,24 @@ public class HandOilLamp extends Item {
         );
     }
 
-    public static void setPrevPos(ItemStack stack, BlockPos pos) {
+    @Override
+    public void setPrevPos(ItemStack stack, BlockPos pos) {
         stack.getOrCreateTag().putInt("PrevPosX", pos.getX());
         stack.getOrCreateTag().putInt("PrevPosY", pos.getY());
         stack.getOrCreateTag().putInt("PrevPosZ", pos.getZ());
     }
-     */
+
+    @Override
+    public boolean shouldDamage(Level level, @Nullable Player player, ItemStack stack) {
+        if (player == null)
+            return level.getRandom().nextDouble() < 0.01;
+
+        if (player.isCreative())
+            return false;
+
+        return level.getRandom().nextDouble() < 0.01;
+    }
+
 
 
 

@@ -1,19 +1,16 @@
 package shagejack.industrimania.content.dynamicLights;
 
-import kotlin.Pair;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
+import shagejack.industrimania.foundation.utility.Pair;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.item.AllItems;
 
@@ -89,8 +86,9 @@ public class DynamicLights {
             while (iter.hasNext()) {
                 LightReference light = iter.next();
                 BlockPos pos = light.pos();
-                if (!light.entity().getOnPos().above().equals(pos) && !light.entity().getOnPos().above().above().equals(pos)) {
+                if (light.entity().isRemoved() && !light.entity().getOnPos().above().equals(pos) && !light.entity().getOnPos().above().above().equals(pos)) {
                     iter.remove();
+
                     if (event.world.getBlockState(pos).is(AllBlocks.mechanic_fake_air_light.block().get()))
                         event.world.removeBlock(pos, false);
 
@@ -109,7 +107,7 @@ public class DynamicLights {
 
     public static boolean registerItem(Item item, Boolean needCheck, int lightLevel) {
         if (!dynamicLightsItems.containsKey(item)) {
-            dynamicLightsItems.put(item, new Pair<>(needCheck, lightLevel));
+            dynamicLightsItems.put(item, Pair.of(needCheck, lightLevel));
             return true;
         } else {
             return false;
@@ -117,7 +115,6 @@ public class DynamicLights {
     }
 
     static {
-        registerItem(Items.GLOWSTONE_DUST, false, 2);
         registerItem(AllItems.handOilLamp.get(), true, 7);
     }
 
@@ -143,28 +140,6 @@ public class DynamicLights {
 
     public static boolean needCheckLight(ItemStack stack) {
         return needCheckLight(stack.getItem());
-    }
-
-    public static boolean isLightUp(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("IsLightUp");
-    }
-
-    public static void setLightUp(ItemStack stack, boolean light) {
-        stack.getOrCreateTag().putBoolean("IsLightUp", light);
-    }
-
-    public static BlockPos getPrevPos(ItemStack stack) {
-        return new BlockPos(
-                stack.getOrCreateTag().getInt("PrevPosX"),
-                stack.getOrCreateTag().getInt("PrevPosY"),
-                stack.getOrCreateTag().getInt("PrevPosZ")
-        );
-    }
-
-    public static void setPrevPos(ItemStack stack, BlockPos pos) {
-        stack.getOrCreateTag().putInt("PrevPosX", pos.getX());
-        stack.getOrCreateTag().putInt("PrevPosY", pos.getY());
-        stack.getOrCreateTag().putInt("PrevPosZ", pos.getZ());
     }
 
 }

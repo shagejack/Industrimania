@@ -1,6 +1,7 @@
 package shagejack.industrimania.content.contraptions.itemBase;
 
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -54,9 +55,9 @@ public enum IMTiers implements Tier {
         return this.repairIngredient.get();
     }
 
-    @javax.annotation.Nullable public net.minecraft.tags.Tag<net.minecraft.world.level.block.Block> getTag() { return getTagFromTier(this); }
+    @javax.annotation.Nullable public TagKey<Block> getTag() { return getTagFromTier(this); }
 
-    public static Tag<Block> getTagFromTier(IMTiers tier)
+    public static TagKey<Block> getTagFromTier(IMTiers tier)
     {
         return switch(tier)
                 {

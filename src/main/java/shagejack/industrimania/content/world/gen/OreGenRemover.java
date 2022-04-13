@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -59,21 +60,20 @@ public class OreGenRemover {
     }
 
     // Filters the features before sending em to the featureRemover()
-    public static List<Supplier<PlacedFeature>> filterFeatures(List<Supplier<PlacedFeature>> features) {
-        List<Supplier<PlacedFeature>> removed = new LinkedList<>();
-        for (Supplier<PlacedFeature> feature : features) {
-            feature.get().getFeatures().forEach((confFeat) -> {
+    public static List<Holder<PlacedFeature>> filterFeatures(List<Holder<PlacedFeature>> features) {
+        List<Holder<PlacedFeature>> removed = new LinkedList<>();
+        for (Holder<PlacedFeature> feature : features) {
+            feature.value().getFeatures().forEach((confFeat) -> {
                 List<OreConfiguration.TargetBlockState> targets = null;
-                if (confFeat.config instanceof OreConfiguration) {
-                    targets = ((OreConfiguration) confFeat.config).targetStates;
-                } else if (confFeat.config instanceof ReplaceBlockConfiguration) {
-                    targets = ((ReplaceBlockConfiguration) confFeat.config).targetStates;
+                if (confFeat.config() instanceof OreConfiguration) {
+                    targets = ((OreConfiguration) confFeat.config()).targetStates;
+                } else if (confFeat.config() instanceof ReplaceBlockConfiguration) {
+                    targets = ((ReplaceBlockConfiguration) confFeat.config()).targetStates;
                 }
 
                 if (targets != null) {
                     List<Boolean> mapped = targets.parallelStream()
-                            .map(t -> featureRemover(t.state.getBlock(), confFeat).size() > 0)
-                            .collect(Collectors.toList());
+                            .map(t -> featureRemover(t.state.getBlock(), confFeat).size() > 0).toList();
 
                     if (mapped.contains(Boolean.TRUE)) {
                         removed.add(feature);

@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
@@ -35,6 +36,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     protected float hardness;
     protected float explosionResistance;
     protected Material material;
+    protected SoundType soundType;
     protected boolean isRandomlyTicking;
     protected boolean dynamicShape;
     protected boolean noCollission;
@@ -62,7 +64,12 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
             if (material == null) {
                 this.material = Material.STONE;
             }
-            property = BlockBehaviour.Properties.of(material).strength(1.5f, 6.0f);
+
+            if (soundType == null) {
+                this.soundType = SoundType.STONE;
+            }
+
+            property = BlockBehaviour.Properties.of(material).sound(soundType).strength(1.5f, 6.0f);
         }
         if (hardness != 0 && explosionResistance != 0) {
             property.strength(hardness, explosionResistance);
@@ -210,9 +217,19 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         return this;
     }
 
+    public BlockBuilder sound(SoundType soundType) {
+        this.soundType = soundType;
+        return this;
+    }
+
     public BlockBuilder strength(float hardness, float explosionResistance) {
         this.hardness = hardness;
         this.explosionResistance = explosionResistance;
+        return this;
+    }
+
+    public BlockBuilder strength(float strength) {
+        this.strength(strength, strength);
         return this;
     }
 

@@ -9,7 +9,7 @@ import shagejack.industrimania.content.pollution.PollutionEventHandler;
 import shagejack.industrimania.content.world.gen.GenerationRegistry;
 import shagejack.industrimania.content.dynamicLights.DynamicLights;
 import shagejack.industrimania.foundation.handler.MultiBlockBreakEventHandler;
-import shagejack.industrimania.foundation.handler.EntityJoinWorldEventHandler;
+import shagejack.industrimania.foundation.handler.DynamicLightsItemJoinWorldHandler;
 import shagejack.industrimania.registers.AllCommands;
 
 @Mod.EventBusSubscriber(modid = Industrimania.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -29,7 +29,7 @@ public class ModSetup {
         bus.addListener(Electricity::serverWorldTick);
         bus.addListener(MultiBlockBreakEventHandler::serverWorldTick);
         bus.addListener(MultiBlockBreakEventHandler::blockBreak);
-        bus.addListener(EntityJoinWorldEventHandler::onEntityJoinWorld);
+        bus.addListener(DynamicLightsItemJoinWorldHandler::onEntityJoinWorld);
     }
 
 }

@@ -2,6 +2,7 @@ package shagejack.industrimania.content.dynamicLights;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -36,29 +37,41 @@ public class DynamicLightsItemEntity extends ItemEntity {
 
         ItemStack stack = this.getItem();
 
-        if (!needCheckLight(stack) || isLightUp(stack)) {
-            BlockPos pos = this.getOnPos().above();
+        if (stack.getItem() instanceof DynamicLightsItem lightsItem) {
 
-            if (!level.isEmptyBlock(pos))
-                pos = pos.above();
+            if (!isRemoved() && (!needCheckLight(stack) || lightsItem.isLightUp(stack))) {
+                BlockPos pos = this.getOnPos().above();
 
-            if (!level.isEmptyBlock(pos))
-                pos = pos.above();
+                if (!level.isEmptyBlock(pos))
+                    pos = pos.above();
 
-            if (level.isEmptyBlock(pos) && (!getPrevPos(stack).equals(pos) || !isLit(level, pos))) {
-                addLight(level, pos, getItemLightLevel(stack), this);
-                removeLight(level, getPrevPos(stack));
-                setPrevPos(stack, pos);
+                if (level.isEmptyBlock(pos) && (!lightsItem.getPrevPos(stack).equals(pos) || !isLit(level, pos))) {
+                    addLight(level, pos, getItemLightLevel(stack), this);
+                    removeLight(level, lightsItem.getPrevPos(stack));
+                    lightsItem.setPrevPos(stack, pos);
+                }
+            } else {
+                removeLight(level, lightsItem.getPrevPos(stack));
             }
-        } else {
-            removeLight(level, getPrevPos(stack));
-        }
 
-        if (!this.isRemoved()) {
-            this.setItem(stack);
+            if (lightsItem.isLightUp(stack)) {
+                if (lightsItem.shouldDamage(getLevel(), null, stack)) {
+                    if (stack.getDamageValue() > 0) {
+                        stack.setDamageValue(stack.getDamageValue() - 1);
+                    } else {
+                        this.setRemoved(RemovalReason.DISCARDED);
+                    }
+                }
+            }
+
+            if (!this.isRemoved()) {
+                this.setItem(stack);
+            }
         }
 
     }
+
+
 
 
 }

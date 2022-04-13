@@ -1,6 +1,7 @@
 package shagejack.industrimania.registers;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -35,52 +36,56 @@ public class AllFeatures {
     private static final OreGenFeature ORE_GEN_FEATURE = new FeatureBuilder<>(
             new OreGenFeature(NoneFeatureConfiguration.CODEC)
     ).name("ore_gen").build();
-    private static final SandStoneReplaceFeature SAND_STONE_REPLACE_FEATURE = new FeatureBuilder<>(
+    private static final SandStoneReplaceFeature SAND_STONE_REPLACEMENT_FEATURE = new FeatureBuilder<>(
             new SandStoneReplaceFeature(NoneFeatureConfiguration.CODEC)
-    ).name("sandstone_replace").build();
+    ).name("sand_stone_replacement").build();
 
-    public static final ConfiguredFeature<?, ?> ROCK_LAYERS_ALL = ROCK_LAYERS_FEATURE
-            .configured(NoneFeatureConfiguration.NONE);
-    public static final ConfiguredFeature<?, ?> ORE_REMOVAL_ALL = ORE_REMOVAL_FEATURE
-            .configured(NoneFeatureConfiguration.NONE);
-    public static final ConfiguredFeature<?, ?> ORE_GEN_ALL = ORE_GEN_FEATURE
-            .configured(NoneFeatureConfiguration.NONE);
-    public static final ConfiguredFeature<?, ?> SAND_STONE_REPLACE_ALL = SAND_STONE_REPLACE_FEATURE
-            .configured(NoneFeatureConfiguration.NONE);
+    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> ROCK_LAYERS_CONFIGURED = FeatureUtils.register("rock_layers", ROCK_LAYERS_FEATURE);
+    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> ORE_REMOVAL_CONFIGURED = FeatureUtils.register("ore_removal", ORE_REMOVAL_FEATURE);
+    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> ORE_GEN_CONFIGURED = FeatureUtils.register("ore_gen", ORE_GEN_FEATURE);
+    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> SAND_STONE_REPLACEMENT_CONFIGURED = FeatureUtils.register("sand_stone_replacement", SAND_STONE_REPLACEMENT_FEATURE);
 
-    public static final PlacedFeature ROCK_LAYERS_ALL_PLACED = ROCK_LAYERS_ALL.placed(
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
-                    VerticalAnchor.absolute(320)));
-    public static final PlacedFeature ORE_REMOVAL_ALL_PLACED = ORE_REMOVAL_ALL.placed(
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
-                    VerticalAnchor.absolute(320)));
-    public static final PlacedFeature ORE_GEN_ALL_PLACED = ORE_GEN_ALL.placed(
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
-                    VerticalAnchor.absolute(320)));
-    public static final PlacedFeature SAND_STONE_REPLACE_PLACED = SAND_STONE_REPLACE_ALL.placed(
-            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64),
-                    VerticalAnchor.absolute(320)));
+    public static final Holder<PlacedFeature> ROCK_LAYERS_PLACED = PlacementUtils.register(
+            "rock_layers",
+            ROCK_LAYERS_CONFIGURED,
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(320))
+    );
+    public static final Holder<PlacedFeature> ORE_REMOVAL_PLACED = PlacementUtils.register(
+            "ore_removal",
+            ORE_REMOVAL_CONFIGURED,
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(320))
+    );
+    public static final Holder<PlacedFeature> ORE_GEN_PLACED = PlacementUtils.register(
+            "ore_gen",
+            ORE_GEN_CONFIGURED,
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(320))
+    );
+    public static final Holder<PlacedFeature> SAND_STONE_REPLACEMENT_PLACED = PlacementUtils.register(
+            "sand_stone_replacement",
+            SAND_STONE_REPLACEMENT_CONFIGURED,
+            HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(320))
+    );
 
     //Built-in Features
-    public static final ConfiguredFeature<TreeConfiguration, ?> RUBBER_TREE = FeatureUtils.register("rubber_tree", Feature.TREE.configured(
+    public static final Holder<ConfiguredFeature<TreeConfiguration, ?>> RUBBER_TREE = FeatureUtils.register("rubber_tree", Feature.TREE,
             new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(AllBlocks.nature_rubber_tree_log.block().get()),
                     new StraightTrunkPlacer(5, 2, 0),
                     BlockStateProvider.simple(AllBlocks.nature_rubber_tree_leaves.block().get()),
                     new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
                     new TwoLayersFeatureSize(1, 0, 1)
-            ).ignoreVines().build()));
+            ).ignoreVines().build());
 
-    public static final ConfiguredFeature<TreeConfiguration, ?> MULBERRY_TREE = FeatureUtils.register("mulberry_tree", Feature.TREE.configured(
+    public static final Holder<ConfiguredFeature<TreeConfiguration, ?>> MULBERRY_TREE = FeatureUtils.register("mulberry_tree", Feature.TREE,
             new TreeConfiguration.TreeConfigurationBuilder(
                     BlockStateProvider.simple(AllBlocks.nature_mulberry_tree_log.block().get()),
                     new StraightTrunkPlacer(4, 2, 0),
                     BlockStateProvider.simple(AllBlocks.nature_mulberry_tree_leaves.block().get()),
                     new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
                     new TwoLayersFeatureSize(1, 0, 1)
-            ).ignoreVines().build()));
+            ).ignoreVines().build());
 
-    public static final PlacedFeature RUBBER_TREE_PLACED = RUBBER_TREE.placed(
+    public static final Holder<PlacedFeature> RUBBER_TREE_PLACED = PlacementUtils.register("rubber_tree", RUBBER_TREE,
             PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
             InSquarePlacement.spread(),
             PlacementUtils.countExtra(1, 0.05F, 2),
@@ -89,7 +94,7 @@ public class AllFeatures {
             BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(AllBlocks.nature_rubber_tree_sapling.block().get().defaultBlockState(), BlockPos.ZERO))
     );
 
-    public static final PlacedFeature MULBERRY_TREE_PLACED = MULBERRY_TREE.placed(
+    public static final Holder<PlacedFeature> MULBERRY_TREE_PLACED = PlacementUtils.register("mulberry_tree", MULBERRY_TREE,
             PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
             InSquarePlacement.spread(),
             PlacementUtils.countExtra(1, 0.05F, 2),

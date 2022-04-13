@@ -1,5 +1,6 @@
 package shagejack.industrimania.content.world.gen;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -25,18 +26,18 @@ public class GenerationRegistry {
         BiomeGenerationSettingsBuilder gen = event.getGeneration();
 
         for (GenerationStep.Decoration stage : decorations) {
-            List<Supplier<PlacedFeature>> feats = gen.getFeatures(stage);
-            List<Supplier<PlacedFeature>> filtered = OreGenRemover.filterFeatures(feats);
-            for (Supplier<PlacedFeature> feature : filtered) {
+            List<Holder<PlacedFeature>> feats = gen.getFeatures(stage);
+            List<Holder<PlacedFeature>> filtered = OreGenRemover.filterFeatures(feats);
+            for (Holder<PlacedFeature> feature : filtered) {
                 feats.remove(feature);
             }
         }
 
         if (event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
-            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ORE_REMOVAL_ALL_PLACED);
-            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ROCK_LAYERS_ALL_PLACED);
-            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.SAND_STONE_REPLACE_PLACED);
-            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ORE_GEN_ALL_PLACED);
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ORE_REMOVAL_PLACED);
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ROCK_LAYERS_PLACED);
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.SAND_STONE_REPLACEMENT_PLACED);
+            gen.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, AllFeatures.ORE_GEN_PLACED);
         }
 
         if (event.getCategory() == Biome.BiomeCategory.SAVANNA || event.getCategory() == Biome.BiomeCategory.JUNGLE) {

@@ -154,6 +154,11 @@ public class IMVoxelShape implements IVoxelShape, INBTSerializable<CompoundTag> 
     }
 
     @Override
+    public boolean shouldRender(int x, int y, int z) {
+        return exist(x + 1, y, z) && exist(x - 1, y, z) && exist(x, y + 1, z) && exist(x, y - 1, z) && exist(x, y, z + 1) && exist(x, y, z - 1);
+    }
+
+    @Override
     public CompoundTag serializeNBT() {
         final CompoundTag result = new CompoundTag();
 
