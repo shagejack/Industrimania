@@ -24,6 +24,10 @@ import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.Simpl
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableTileEntity;
 import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardRenderer;
 import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardTileEntity;
+import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrelRenderer;
+import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrelTileEntity;
+import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetRenderer;
+import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableRenderer;
 import shagejack.industrimania.registers.block.AllBlocks;
@@ -70,6 +74,22 @@ public class AllTileEntities {
             .tileEntity(DryingRackTileEntity::new)
             .validBlocks(AllBlocks.mechanic_drying_rack)
             .renderer(() -> DryingRackRenderer::new)
+            .build();
+
+    public static final RegistryObject<BlockEntityType<?>> wooden_faucet
+            = new TileEntityBuilder<WoodenFaucetTileEntity>()
+            .name("wooden_faucet")
+            .tileEntity(WoodenFaucetTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_wooden_faucet)
+            .renderer(() -> WoodenFaucetRenderer::new)
+            .build();
+
+    public static final RegistryObject<BlockEntityType<?>> wooden_barrel
+            = new TileEntityBuilder<WoodenBarrelTileEntity>()
+            .name("wooden_barrel")
+            .tileEntity(WoodenBarrelTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_wooden_barrel)
+            .renderer(() -> WoodenBarrelRenderer::new)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> item_placeable

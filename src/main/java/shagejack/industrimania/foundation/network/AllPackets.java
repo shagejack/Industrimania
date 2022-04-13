@@ -12,6 +12,7 @@ import net.minecraftforge.network.PacketDistributor.TargetPoint;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetFluidPacket;
 import shagejack.industrimania.content.steamAge.steam.SteamUpdatePacket;
 import shagejack.industrimania.foundation.network.packet.FilteringCountUpdatePacket;
 import shagejack.industrimania.foundation.network.packet.SimplePacketBase;
@@ -33,7 +34,8 @@ public enum AllPackets {
 
 
     //Server to Client
-    STEAM_UPDATE(SteamUpdatePacket.class, SteamUpdatePacket::new, PLAY_TO_CLIENT)
+    STEAM_UPDATE(SteamUpdatePacket.class, SteamUpdatePacket::new, PLAY_TO_CLIENT),
+    WOODEN_FAUCET_FLUID(WoodenFaucetFluidPacket.class, WoodenFaucetFluidPacket::new, PLAY_TO_CLIENT)
 
     ;
 
@@ -57,6 +59,11 @@ public enum AllPackets {
                 .simpleChannel();
         for (AllPackets packet : values())
             packet.packet.register();
+    }
+
+    public static void sendToNear(Level world, BlockPos pos, Object message) {
+        CHANNEL.send(PacketDistributor.NEAR
+                .with(TargetPoint.p(pos.getX(), pos.getY(), pos.getZ(), 256, world.dimension())), message);
     }
 
     public static void sendToNear(Level world, BlockPos pos, int range, Object message) {

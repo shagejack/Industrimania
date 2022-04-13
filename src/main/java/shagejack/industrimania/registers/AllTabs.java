@@ -32,6 +32,8 @@ public class AllTabs {
 
     public static final CreativeModeTab tabOre = tab(Industrimania.MOD_ID + "_ore", () -> () -> AllOres.ORES.get("rock_rhyolite_hematite_1").item());
 
+    public static final CreativeModeTab tabMisc = tab(Industrimania.MOD_ID + "_misc", () -> () -> AllItems.woodenBarrelCover);
+
     static private CreativeModeTab tab(String name, Supplier<Supplier<RegistryObject<Item>>> itemStack) {
         var tab = new CreativeModeTab(name) {
             @Override

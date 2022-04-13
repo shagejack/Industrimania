@@ -1,11 +1,16 @@
 package shagejack.industrimania.content.primalAge.block.nature.rubberTree;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.registers.AllFluids;
@@ -17,9 +22,11 @@ import java.util.List;
 public class RubberTreeLogTileEntity extends SmartTileEntity {
 
     RubberTreeTank tank = new RubberTreeTank(1000);
+    LazyOptional<IFluidHandler> tankHandlerLazyOptional;
 
     public RubberTreeLogTileEntity(BlockPos pos, BlockState state) {
         super(AllTileEntities.rubber_tree_log.get(), pos, state);
+        this.tankHandlerLazyOptional = LazyOptional.of(() -> tank);
         setLazyTickRate(20);
     }
 
@@ -61,5 +68,20 @@ public class RubberTreeLogTileEntity extends SmartTileEntity {
     protected void read(CompoundTag tag, boolean clientPacket) {
         super.read(tag, clientPacket);
         tank.readFromNBT(tag);
+    }
+
+    @NotNull
+    @Override
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+            return tankHandlerLazyOptional.cast();
+
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        tankHandlerLazyOptional.invalidate();
     }
 }

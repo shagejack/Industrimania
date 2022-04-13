@@ -31,6 +31,7 @@ public class DryingRackBlock extends Block implements ITE<DryingRackTileEntity> 
         return RenderShape.MODEL;
     }
 
+    @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext collisionContext) {
         return SHAPE;
     }

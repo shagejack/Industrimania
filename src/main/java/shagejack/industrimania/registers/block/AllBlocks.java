@@ -31,6 +31,8 @@ import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardBlock;
+import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrelBlock;
+import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetBlock;
 import shagejack.industrimania.content.primalAge.item.handOilLamp.FakeAirLightBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
 import shagejack.industrimania.registers.AllTabs;
@@ -211,6 +213,25 @@ public class AllBlocks {
             .simpleBlockState()
             .renderLayer(() -> RenderType::cutout)
             .buildBlock(DryingRackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_wooden_faucet
+            = new BlockBuilder()
+            .name("mechanic_wooden_faucet")
+            .simplePresetModel()
+            .simpleBlockState()
+            .renderLayer(() -> RenderType::cutout)
+            .buildBlock(WoodenFaucetBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_wooden_barrel
+            = new BlockBuilder()
+            .name("mechanic_wooden_barrel")
+            .simplePresetModel()
+            .simpleBlockState()
+            .noDrops()
+            .renderLayer(() -> RenderType::cutout)
+            .buildBlock(WoodenBarrelBlock::new)
             .buildItem();
 
     public static final ItemBlock mechanic_item_placeable

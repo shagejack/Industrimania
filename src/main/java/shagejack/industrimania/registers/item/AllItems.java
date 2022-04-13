@@ -3,7 +3,6 @@ package shagejack.industrimania.registers.item;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.contraptions.goggles.GogglesItem;
 import shagejack.industrimania.content.contraptions.itemBase.*;
@@ -16,7 +15,6 @@ import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireB
 import shagejack.industrimania.content.primalAge.item.handOilLamp.HandOilLamp;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
 import shagejack.industrimania.registers.AllTabs;
-import shagejack.industrimania.registers.AllTags;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +72,8 @@ public class AllItems {
     public static final RegistryObject<Item> flintAxe = new ItemBuilder().name("flint_axe").simpleModel("flint_axe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 6.0f).addExtraParam("AttackSpeed", -3.2f).durability(64).tags().build(IMAxeItemBase::new);
     public static final RegistryObject<Item> flintPickaxe = new ItemBuilder().name("flint_pickaxe").simpleModel("flint_pickaxe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 1.0f).addExtraParam("AttackSpeed", -2.8f).durability(64).build(IMAxeItemBase::new);
 
+    //Misc
+    public static final RegistryObject<Item> woodenBarrelCover = new ItemBuilder().name("wooden_barrel_cover").simpleModel("wooden_barrel_cover").tab(AllTabs.tabMisc).maxStackSize(1).build();
 
 
     /*

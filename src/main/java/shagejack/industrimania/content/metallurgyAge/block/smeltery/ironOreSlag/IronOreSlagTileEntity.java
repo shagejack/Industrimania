@@ -117,10 +117,12 @@ public class IronOreSlagTileEntity extends SmartTileEntity {
             ItemStack slagStack = getRealSlagDrop();
             if (!ironStack.isEmpty()) {
                 ItemEntity itemIron = new ItemEntity(level, getBlockPos().getX() + 0.5, getBlockPos().getY() + 0.5, getBlockPos().getZ() + 0.5, ironStack);
+                itemIron.setDefaultPickUpDelay();
                 level.addFreshEntity(itemIron);
             }
             if (!slagStack.isEmpty()) {
                 ItemEntity itemSlag = new ItemEntity(level, getBlockPos().getX() + 0.5, getBlockPos().getY() + 0.5, getBlockPos().getZ() + 0.5, slagStack);
+                itemSlag.setDefaultPickUpDelay();
                 level.addFreshEntity(itemSlag);
             }
         } else {

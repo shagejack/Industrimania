@@ -4,6 +4,7 @@ import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -185,11 +186,15 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         return buildItem(name, factory);
     }
 
-
     public ItemBlock buildItem() {
         return buildItem(name, (itemBuilder) -> itemBuilder);
     }
 
+    /**
+     * build item with specific name and model
+     * @param itemName
+     * @return
+     */
     public ItemBlock buildItem(String itemName) {
         return buildItemWithModel(itemName, (itemBuilder) -> itemBuilder);
     }
