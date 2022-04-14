@@ -42,6 +42,23 @@ interface ModelBuilder extends AsBase{
         return (BlockBuilder) this;
     }
 
+    default BlockBuilder presetBinaryModel() {
+        DataGenHandle.addBlockModelTask(provider -> {
+            var base = asBase();
+            var block = base.block;
+            var category = Objects.requireNonNull(base.name).split("_")[0];
+            var bName = Objects.requireNonNull(base.name).substring(category.length() + 1);
+            final var pathTrue = "block/" + Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName);
+            final var pathFalse = "block/" + Objects.requireNonNull(category) + "/" + Objects.requireNonNull(bName) + "_0";
+            Industrimania.LOGGER.debug("set preset model for Block:{}", base.name);
+            provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
+                    .parent(DataGenHandle.modExistingModel(provider, pathTrue));
+            provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath() + "_0")
+                    .parent(DataGenHandle.modExistingModel(provider, pathFalse));
+        });
+        return (BlockBuilder) this;
+    }
+
     default BlockBuilder simplePresetModel() {
         DataGenHandle.addBlockModelTask(provider -> {
             var base = asBase();
@@ -353,7 +370,7 @@ interface ModelBuilder extends AsBase{
                         .texture("east", right);
 
             } catch (IllegalStateException e) {
-                Industrimania.LOGGER.error("failed to set autoFullCubeModel for Block: {},reason: {}", name, e.getMessage());
+                Industrimania.LOGGER.error("failed to set autoFullCubeModel for Block: {}, reason: {}", name, e.getMessage());
             }
         });
         return (BlockBuilder) this;

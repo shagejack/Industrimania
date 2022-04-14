@@ -21,7 +21,7 @@ import java.util.List;
 
 public class RubberTreeLogTileEntity extends SmartTileEntity {
 
-    RubberTreeTank tank = new RubberTreeTank(1000);
+    RubberTreeTank tank = new RubberTreeTank(this, 1000);
     LazyOptional<IFluidHandler> tankHandlerLazyOptional;
 
     public RubberTreeLogTileEntity(BlockPos pos, BlockState state) {
@@ -38,6 +38,10 @@ public class RubberTreeLogTileEntity extends SmartTileEntity {
     @Override
     public void tick() {
         super.tick();
+
+        if (level == null)
+            return;
+
         if (level.getBlockState(getBlockPos().below()).is(AllBlocks.nature_rubber_tree_log.block().get())) {
             RubberTreeLogTileEntity te = (RubberTreeLogTileEntity) level.getBlockEntity(getBlockPos().below());
             if (te != null) {
@@ -54,8 +58,10 @@ public class RubberTreeLogTileEntity extends SmartTileEntity {
     @Override
     public void lazyTick() {
         super.lazyTick();
-        if (!getBlockState().isAir() && hasLevel() && level.getRandom().nextDouble() < 0.1)
-            tank.fill(new FluidStack(AllFluids.rawRubber.still().get(), 1), IFluidHandler.FluidAction.EXECUTE);
+        if (level != null && !getBlockState().isAir()) {
+            if (level.getRandom().nextDouble() < 0.1)
+                tank.fill(new FluidStack(AllFluids.rawRubber.still().get(), 1), IFluidHandler.FluidAction.EXECUTE);
+        }
     }
 
     @Override

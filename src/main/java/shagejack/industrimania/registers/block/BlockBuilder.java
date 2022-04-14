@@ -3,7 +3,11 @@ package shagejack.industrimania.registers.block;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -172,18 +176,50 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         return itemBlock;
     }
 
-    public ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
+    public <T extends BlockItem> ItemBlock buildItem(String itemName, Function<ItemBuilder, ItemBuilder> factory, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
         final var block = checkAlreadyBuild();
-        final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).simpleModel(itemName);
+        final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).blockModel("block/" + this.name);
         factory.apply(itemBuilder);
         Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
+        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block, itemBlockFactory), block);
+        checkTags(itemBlock, tags);
+        return itemBlock;
+    }
+
+    public ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
+        return buildItemWithModel(itemName, factory, false);
+    }
+
+    public ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory, boolean useItemNameForModelOnly) {
+        final var block = checkAlreadyBuild();
+        final ItemBuilder itemBuilder = new ItemBuilder().name(useItemNameForModelOnly ? name : itemName).specificModel("item/model/" + itemName);
+        factory.apply(itemBuilder);
+        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, useItemNameForModelOnly ? name : itemName);
         ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
         checkTags(itemBlock, tags);
         return itemBlock;
     }
 
+    public <T extends BlockItem> ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory, boolean useItemNameForModelOnly, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
+        final var block = checkAlreadyBuild();
+        final ItemBuilder itemBuilder = new ItemBuilder().name(useItemNameForModelOnly ? name : itemName).simpleModel(itemName);
+        factory.apply(itemBuilder);
+        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, useItemNameForModelOnly ? name : itemName);
+        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block, itemBlockFactory), block);
+        checkTags(itemBlock, tags);
+        return itemBlock;
+    }
+
+    public <T extends BlockItem> ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
+        return buildItemWithModel(itemName, factory, false, itemBlockFactory);
+    }
+
     public ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory) {
         return buildItem(name, factory);
+    }
+
+    public <T extends BlockItem> ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
+        return buildItem(name, factory, itemBlockFactory);
     }
 
     public ItemBlock buildItem() {
@@ -199,7 +235,6 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         return buildItemWithModel(itemName, (itemBuilder) -> itemBuilder);
     }
 
-
     public BlockBuilder renderLayer(Supplier<Supplier<RenderType>> renderType) {
         setupRenderLayerTasks.add(() -> () -> ItemBlockRenderTypes.setRenderLayer(block.get(), renderType.get().get()));
         return this;
@@ -209,6 +244,18 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         if (tags.contains(AllTags.IndustrimaniaTags.igneousStones)) AllRocks.igneousStones.add(itemBlock);
         if (tags.contains(AllTags.IndustrimaniaTags.metamorphicStones)) AllRocks.metamorphicStones.add(itemBlock);
         if (tags.contains(AllTags.IndustrimaniaTags.sedimentaryStones)) AllRocks.sedimentaryStones.add(itemBlock);
+    }
+
+    public BlockBuilder tags(TagKey<?>... tags) {
+        this.tags.clear();
+        this.tags.addAll(Arrays.stream(tags).map(tag -> tag.location().toString()).toList());
+        return this;
+    }
+
+    public BlockBuilder tags(ResourceLocation... tags) {
+        this.tags.clear();
+        this.tags.addAll(Arrays.stream(tags).map(ResourceLocation::toString).toList());
+        return this;
     }
 
     public BlockBuilder tags(String... tags) {

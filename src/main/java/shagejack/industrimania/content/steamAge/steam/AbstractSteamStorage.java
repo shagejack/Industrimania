@@ -2,15 +2,19 @@ package shagejack.industrimania.content.steamAge.steam;
 
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import shagejack.industrimania.foundation.network.AllPackets;
+import shagejack.industrimania.foundation.tileEntity.SyncedTileEntity;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStorage {
+public abstract class AbstractSteamStorage<T extends SyncedTileEntity> implements ISteamHandler, ISteamStorage {
 
     @Nonnull
+    T parent;
     protected SteamStack steam = SteamStack.EMPTY;
     protected double maxVolume;
     protected double maxPressure;
@@ -18,8 +22,9 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
     protected double durability;
     protected int number;
 
-    public AbstractSteamStorage(double maxVolume, double maxPressure, double maxStress, double durability)
+    public AbstractSteamStorage(@NotNull T parent, double maxVolume, double maxPressure, double maxStress, double durability)
     {
+        this.parent = parent;
         this.maxVolume = maxVolume;
         this.maxPressure = maxPressure;
         this.maxStress = maxStress;
@@ -27,8 +32,9 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
         this.number = 0;
     }
 
-    public AbstractSteamStorage(double maxVolume, double maxPressure, double maxStress, double durability, int number)
+    public AbstractSteamStorage(@NotNull T parent, double maxVolume, double maxPressure, double maxStress, double durability, int number)
     {
+        this.parent = parent;
         this.maxVolume = maxVolume;
         this.maxPressure = maxPressure;
         this.maxStress = maxStress;
@@ -75,6 +81,7 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
 
     public void mergeSteamWithStored(SteamStack stack) {
         this.steam = SteamStack.mergeSteamStack(getSteam(), stack);
+        onContentsChanged();
     }
 
     public int getNumber() {
@@ -171,6 +178,7 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
 
     public AbstractSteamStorage setSteam(@NotNull SteamStack stack) {
         this.steam = stack;
+        onContentsChanged();
         return this;
     }
 
@@ -182,6 +190,7 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
         }
 
         this.steam.setMass(mass);
+        onContentsChanged();
         return this;
     }
 
@@ -193,6 +202,7 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
         }
 
         this.steam.setTemperature(temperature);
+        onContentsChanged();
         return this;
     }
 
@@ -204,6 +214,7 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
         }
 
         this.steam.setState(state);
+        onContentsChanged();
         return this;
     }
 
@@ -215,6 +226,7 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
         }
 
         this.steam.setState(state);
+        onContentsChanged();
         return this;
     }
 
@@ -301,6 +313,19 @@ public abstract class AbstractSteamStorage implements ISteamHandler, ISteamStora
 
     public boolean isBroken() {
         return getDurability() <= 0;
+    }
+
+    protected void onContentsChanged()
+    {
+        if (parent instanceof ISteamStorageUpdater) {
+            ((ISteamStorageUpdater) parent).onTankContentsChanged();
+        }
+
+        parent.setChanged();
+        Level level = parent.getLevel();
+        if(level != null && !level.isClientSide()) {
+            AllPackets.sendToNear(level, parent.getBlockPos(), new SteamUpdatePacket(parent.getBlockPos(), this.getSteam()));
+        }
     }
 
 }

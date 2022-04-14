@@ -32,6 +32,7 @@ import shagejack.industrimania.content.primalAge.block.stack.moldyGrass.MoldyGra
 import shagejack.industrimania.content.primalAge.block.stack.rottenGrass.RottenGrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardBlock;
 import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrelBlock;
+import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrelBlockItemRenderer;
 import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetBlock;
 import shagejack.industrimania.content.primalAge.item.handOilLamp.FakeAirLightBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
@@ -44,8 +45,11 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class AllBlocks {
+
+    private static final Function<ItemBuilder, ItemBuilder> DO_NOTHING = builder -> builder;
 
     public static Map<RegistryObject<Block>, List<String>> BLOCK_TAGS = new HashMap<>();
 
@@ -218,6 +222,7 @@ public class AllBlocks {
     public static final ItemBlock mechanic_wooden_faucet
             = new BlockBuilder()
             .name("mechanic_wooden_faucet")
+            .material(Material.WOOD)
             .simplePresetModel()
             .simpleBlockState()
             .renderLayer(() -> RenderType::cutout)
@@ -227,12 +232,14 @@ public class AllBlocks {
     public static final ItemBlock mechanic_wooden_barrel
             = new BlockBuilder()
             .name("mechanic_wooden_barrel")
-            .simplePresetModel()
-            .simpleBlockState()
+            .material(Material.WOOD)
+            .presetBinaryModel()
+            .binaryBlockState(WoodenBarrelBlock.OPEN)
             .noDrops()
             .renderLayer(() -> RenderType::cutout)
             .buildBlock(WoodenBarrelBlock::new)
-            .buildItem();
+            .buildItemWithModel("mechanic_wooden_barrel_item", builder -> builder.maxStackSize(1), true);
+            //.buildItem(itemBuilder -> itemBuilder.setBlockEntityWithoutLevelRender(() -> WoodenBarrelBlockItemRenderer::new));
 
     public static final ItemBlock mechanic_item_placeable
             = new BlockBuilder()
@@ -298,7 +305,7 @@ public class AllBlocks {
             .name("nature_rubber_tree_log")
             .material(Material.WOOD)
             .strength(1.0F, 0.5F)
-            .tags(BlockTags.LOGS.toString())
+            .tags(BlockTags.LOGS)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(RubberTreeLog::new)
@@ -309,7 +316,7 @@ public class AllBlocks {
             .name("nature_rubber_tree_plank")
             .material(Material.WOOD)
             .strength(1.0F, 0.5F)
-            .tags(BlockTags.PLANKS.toString())
+            .tags(BlockTags.PLANKS)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
@@ -325,7 +332,7 @@ public class AllBlocks {
             .isValidSpawn(AllBlocks::ocelotOrParrot)
             .renderLayer(() -> RenderType::cutout)
             .randomTicks()
-            .tags(BlockTags.LEAVES.toString())
+            .tags(BlockTags.LEAVES)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(RubberTreeLeaves::new)
@@ -341,7 +348,7 @@ public class AllBlocks {
             .isValidSpawn(AllBlocks::ocelotOrParrot)
             .renderLayer(() -> RenderType::cutout)
             .randomTicks()
-            .tags(BlockTags.SAPLINGS.toString())
+            .tags(BlockTags.SAPLINGS)
             .crossTextureModel()
             .simpleBlockState()
             .buildBlock(RubberTreeSapling::new)
@@ -352,7 +359,7 @@ public class AllBlocks {
             .name("nature_mulberry_tree_log")
             .material(Material.WOOD)
             .strength(1.0F, 0.5F)
-            .tags(BlockTags.LOGS.toString())
+            .tags(BlockTags.LOGS)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(MulberryTreeLog::new)
@@ -363,7 +370,7 @@ public class AllBlocks {
             .name("nature_mulberry_tree_plank")
             .material(Material.WOOD)
             .strength(1.0F, 0.5F)
-            .tags(BlockTags.PLANKS.toString())
+            .tags(BlockTags.PLANKS)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
@@ -379,7 +386,7 @@ public class AllBlocks {
             .isValidSpawn(AllBlocks::ocelotOrParrot)
             .renderLayer(() -> RenderType::cutout)
             .randomTicks()
-            .tags(BlockTags.LEAVES.toString())
+            .tags(BlockTags.LEAVES)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(MulberryTreeLeaves::new)
@@ -395,7 +402,7 @@ public class AllBlocks {
             .isValidSpawn(AllBlocks::ocelotOrParrot)
             .renderLayer(() -> RenderType::cutout)
             .randomTicks()
-            .tags(BlockTags.SAPLINGS.toString())
+            .tags(BlockTags.SAPLINGS)
             .crossTextureModel()
             .simpleBlockState()
             .buildBlock(MulberryTreeSapling::new)
@@ -462,7 +469,7 @@ public class AllBlocks {
             .name("rock_silicon_cap")
             .material(Material.STONE)
             .strength(0.5F, 0.5F)
-            .tags("mineable/pickaxe")
+            .tags(BlockTags.MINEABLE_WITH_PICKAXE)
             //.specialModel()
             .simpleBlockState()
             .buildBlock()
@@ -577,7 +584,7 @@ public class AllBlocks {
     public static final ItemBlock rock_sandstone
             = new BlockBuilder()
             .name("rock_sandstone")
-            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones + "nogen")
+            .asRock(1.5F, 6.0F, AllTags.IndustrimaniaTags.sedimentaryStones + "_nogen")
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()

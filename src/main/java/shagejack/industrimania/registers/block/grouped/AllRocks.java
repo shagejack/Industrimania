@@ -1,6 +1,7 @@
 package shagejack.industrimania.registers.block.grouped;
 
 import com.google.common.collect.Lists;
+import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.record.ItemBlock;
 
 import java.util.*;
@@ -15,20 +16,23 @@ public interface AllRocks extends AsBase{
     Map<String, Float> ROCKS_EXPLOSION_RESISTANCE = new HashMap<>();
 
     // stone block replacements that are Sedimentary
-    List<ItemBlock> sedimentaryStones = Lists.newArrayList(
-    );
+    List<ItemBlock> sedimentaryStones = Lists.newArrayList();
     // stone block replacements that are Metamorphic
-    List<ItemBlock> metamorphicStones = Lists.newArrayList(
-    );
+    List<ItemBlock> metamorphicStones = Lists.newArrayList();
     // stone block replacements that are Igneous
-    List<ItemBlock> igneousStones = Lists.newArrayList(
-    );
+    List<ItemBlock> igneousStones = Lists.newArrayList();
 
     List<ItemBlock> ROCKS = new ArrayList<>();
+
+    List<ItemBlock> rareStones = Lists.newArrayList();
 
     static void initRocks(){
         ROCKS.addAll(sedimentaryStones);
         ROCKS.addAll(metamorphicStones);
         ROCKS.addAll(igneousStones);
+
+        // set stone rare
+        rareStones.add(AllBlocks.rock_coal);
+        rareStones.add(AllBlocks.rock_oilshale);
     }
 }

@@ -2,41 +2,37 @@ package shagejack.industrimania.content.steamAge.steam;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.network.NetworkEvent;
-import shagejack.industrimania.foundation.network.packet.SimplePacketBase;
+import shagejack.industrimania.foundation.network.packet.TileEntityDataPacket;
 import shagejack.industrimania.foundation.tileEntity.SyncedTileEntity;
 
-import java.util.function.Supplier;
+public class SteamUpdatePacket extends TileEntityDataPacket<SyncedTileEntity> {
 
-public class SteamUpdatePacket extends SimplePacketBase {
-
-    protected SteamStack stack;
+    protected SteamStack steam;
 
     public SteamUpdatePacket(FriendlyByteBuf buffer) {
-        this.stack = SteamStack.readFromPacket(buffer);
+        super(buffer);
+        this.steam = SteamStack.readFromPacket(buffer);
     }
 
-    public SteamUpdatePacket(SteamStack stack) {
-        this.stack = stack;
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buffer) {
-        stack.writeToPacket(buffer);
+    public SteamUpdatePacket(BlockPos pos, SteamStack steam) {
+        super(pos);
+        this.steam = steam;
     }
 
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        context.get()
-                .enqueueWork(() -> {
-                    //TODO: Handle Packet
+    protected void writeData(FriendlyByteBuf buffer) {
+        steam.writeToPacket(buffer);
+    }
 
-                });
-        context.get()
-                .setPacketHandled(true);
+    @Override
+    protected void handlePacket(SyncedTileEntity tile) {
+        if (tile instanceof ISteamPacketReceiver) {
+            ((ISteamPacketReceiver) tile).updateSteamTo(this.steam);
+        }
+    }
+
+    public interface ISteamPacketReceiver {
+        void updateSteamTo(SteamStack stack);
     }
 
 }

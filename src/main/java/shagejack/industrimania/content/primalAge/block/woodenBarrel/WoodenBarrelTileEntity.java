@@ -5,50 +5,42 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetFluidPacket;
-import shagejack.industrimania.foundation.network.AllPackets;
+import shagejack.industrimania.foundation.fluid.FluidTankBase;
+import shagejack.industrimania.foundation.fluid.ITankTileEntity;
+import shagejack.industrimania.foundation.network.packet.FluidUpdatePacket;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.DropUtils;
-import shagejack.industrimania.foundation.utility.WeakConsumerWrapper;
 import shagejack.industrimania.registers.AllTileEntities;
 import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.List;
 import java.util.Objects;
 
-import static shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetBlock.FACING;
-
-public class WoodenBarrelTileEntity extends SmartTileEntity {
+public class WoodenBarrelTileEntity extends SmartTileEntity implements ITankTileEntity, FluidUpdatePacket.IFluidPacketReceiver {
 
     private static final int CAPACITY = 4000;
+    private static final int BURN_TEMPERATURE = 600;
 
-    public FluidTank tank;
+    public FluidTankBase<WoodenBarrelTileEntity> tank;
     LazyOptional<IFluidHandler> tankHandlerLazyOptional;
+
+    private boolean overheat;
 
 
     public WoodenBarrelTileEntity(BlockPos pos, BlockState state) {
-        super(AllTileEntities.wooden_faucet.get(), pos, state);
+        super(AllTileEntities.wooden_barrel.get(), pos, state);
+        this.tank = new FluidTankBase<>(this, CAPACITY);
         this.tankHandlerLazyOptional = LazyOptional.of(() -> tank);
-    }
-
-    public WoodenBarrelTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-        this.tank = new FluidTank(CAPACITY);
+        this.overheat = false;
     }
 
     @Override
@@ -73,7 +65,7 @@ public class WoodenBarrelTileEntity extends SmartTileEntity {
         super.tick();
 
         if (!tank.isEmpty()) {
-            if (tank.getFluid().getFluid().getAttributes().getTemperature(tank.getFluid()) >= 300) {
+            if (tank.getFluid().getFluid().getAttributes().getTemperature(tank.getFluid()) >= BURN_TEMPERATURE) {
                 burn();
             }
         }
@@ -81,17 +73,19 @@ public class WoodenBarrelTileEntity extends SmartTileEntity {
     }
 
     public void empty() {
-        this.tank = new FluidTank(CAPACITY);
+        this.tank = new FluidTankBase<>(this, CAPACITY);
     }
 
     private void burn() {
         Objects.requireNonNull(getLevel()).setBlock(getBlockPos(), Blocks.FIRE.defaultBlockState(), 3);
+        overheat = true;
     }
 
-    public ItemStack getDrop(boolean sealed) {
+    public ItemStack getDrop(boolean open) {
         ItemStack stack = new ItemStack(AllBlocks.mechanic_wooden_barrel.item().get());
+        stack.getOrCreateTag().putBoolean("Open", open);
 
-        if (!sealed)
+        if (open)
             return stack;
 
         tank.writeToNBT(stack.getOrCreateTag());
@@ -103,17 +97,15 @@ public class WoodenBarrelTileEntity extends SmartTileEntity {
         this.tank.readFromNBT(stack.getOrCreateTag());
     }
 
-    public void destroy(boolean sealed) {
-        DropUtils.dropItemStack(getLevel(), getBlockPos(), getDrop(sealed));
+    public void destroy(boolean open) {
+        DropUtils.dropItemStack(getLevel(), getBlockPos(), getDrop(open));
     }
 
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            if (side == Direction.UP || side == Direction.DOWN) {
-                return tankHandlerLazyOptional.cast();
-            }
+        if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && getBlockState().getValue(WoodenBarrelBlock.OPEN)) {
+            return tankHandlerLazyOptional.cast();
         }
 
         return super.getCapability(cap, side);
@@ -125,4 +117,17 @@ public class WoodenBarrelTileEntity extends SmartTileEntity {
         tankHandlerLazyOptional.invalidate();
     }
 
+    public boolean isOverheat() {
+        return this.overheat;
+    }
+
+    @Override
+    public int getCapacity() {
+        return this.tank.getCapacity();
+    }
+
+    @Override
+    public void updateFluidTo(FluidStack fluid) {
+        this.tank.setFluid(fluid);
+    }
 }

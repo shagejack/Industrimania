@@ -82,7 +82,7 @@ public final class ItemBuilder implements ModelBuilder{
         return this;
     }
 
-    public ItemBuilder food(FoodProperties properties) {
+    public ItemBuilder food(FoodProperties foodProperties) {
         this.foodProperties = foodProperties;
         return this;
     }
@@ -126,9 +126,6 @@ public final class ItemBuilder implements ModelBuilder{
         registryObject = RegisterHandle.ITEM_REGISTER.register(name, itemSupplier);
         Industrimania.LOGGER.debug("register Item {}", name);
 
-        if (itemColor != null)
-            ItemColorHandler.register(registryObject, itemColor);
-
         if (!tags.isEmpty()) {
             AllItems.ITEM_TAGS.put(registryObject, tags);
             Industrimania.LOGGER.debug("for item:{} add tags:{}", name, tags.toString());
@@ -155,6 +152,22 @@ public final class ItemBuilder implements ModelBuilder{
                 }
             }
         });
+
+        if (!tags.isEmpty()) {
+            AllItems.ITEM_TAGS.put(registryObject, tags);
+            Industrimania.LOGGER.debug("for item:{} add tags:{}", name, tags.toString());
+        }
+
+        if (itemColor != null)
+            ItemColorHandler.register(registryObject, itemColor);
+
+        return registryObject;
+    }
+
+    //TODO: apply renderer
+    public <T extends BlockItem> RegistryObject<Item> build(RegistryObject<Block> block, BiFunction<Block, Item.Properties, T> blockItemFactory) {
+        checkProperty();
+        registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> blockItemFactory.apply(block.get(), property) );
 
         if (!tags.isEmpty()) {
             AllItems.ITEM_TAGS.put(registryObject, tags);

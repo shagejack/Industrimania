@@ -291,9 +291,7 @@ public class SteamStack {
 
         } else {
 
-            SteamStack nStack = new SteamStack(stack0.getMass() + stack1.getMass(), nTemp, stack0.getState());
-
-            return nStack;
+            return new SteamStack(stack0.getMass() + stack1.getMass(), nTemp, stack0.getState());
 
         }
 
@@ -319,7 +317,7 @@ public class SteamStack {
     }
 
     public SteamStack manageSteamFromConsume(double consume) {
-        this.temperature -= consume / 2;
+        this.setTemperature(this.getTemperature() - consume / 2);
         return this;
     }
 

@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.common.Tags;
 import shagejack.industrimania.api.worldGen.PerlinNoise2D;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
@@ -20,17 +21,7 @@ import java.util.stream.Collectors;
  */
 public class Geology {
 
-	private final ArrayList<Block> VANILLA_STONE = Lists.newArrayList(
-			Blocks.STONE,
-			Blocks.DEEPSLATE,
-			Blocks.DIORITE,
-			Blocks.ANDESITE,
-			Blocks.GRANITE,
-			Blocks.INFESTED_STONE,
-			Blocks.INFESTED_DEEPSLATE
-	);
-
-	private final int LAYER_THICKNESS = 8;
+	private static final int LAYER_THICKNESS = 8;
 
 	private final PerlinNoise2D geomeNoiseLayer;
 	private final PerlinNoise2D rockNoiseLayer;
@@ -46,6 +37,7 @@ public class Geology {
 	// private static final int mask = (1 << 31) - 1;
 	/** used to reduce game-time computation by pregenerating random numbers */
 	private final short[] whiteNoiseArray;
+	private final short[] rareStoneWhiteNoiseArray;
 
 	/**
 	 * 
@@ -67,9 +59,14 @@ public class Geology {
 		// this.geomeSize = geomeSize;
 
 		Random r = new Random(seed);
-		whiteNoiseArray = new short[256];
+		whiteNoiseArray = new short[320];
 		for (int i = 0; i < whiteNoiseArray.length; i++) {
 			whiteNoiseArray[i] = (short) r.nextInt(0x7FFF);
+		}
+
+		rareStoneWhiteNoiseArray = new short[320];
+		for (int i = 0; i < rareStoneWhiteNoiseArray.length; i++) {
+			rareStoneWhiteNoiseArray[i] = (short) r.nextInt(0x7FFF);
 		}
 	}
 
@@ -123,13 +120,13 @@ public class Geology {
 				for (; y > -64; y--) {
 					BlockPos coord = new BlockPos(x, y, z);
 					// int i = indexBase + y;
-					if (VANILLA_STONE.contains(chunk.getBlockState(coord).getBlock())) {
+					if (chunk.getBlockState(coord).is(Tags.Blocks.STONE)) {
 						int geome = gbase + y;
-						if (geome < -32) {
+						if (geome < -48) {
 							// RockType.IGNEOUS;
 							chunk.setBlockState(coord,
 									pickBlockFromList(baseRockVal + y, AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList())).defaultBlockState(), true);
-						} else if (geome < 32) {
+						} else if (geome < 16) {
 							// RockType.METAMORPHIC;
 							chunk.setBlockState(coord,
 									pickBlockFromList(baseRockVal + y, AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).collect(Collectors.toList())).defaultBlockState(), true);
@@ -146,7 +143,7 @@ public class Geology {
 	}
 
 	/*
-	TODO: This function is not used, but needs to be fixed
+	TODO: This function is not used, but it needs to be fixed
 
 	public Block[] getStoneColumn(int x, int z, int height) {
 		Block[] col = new Block[height];
@@ -180,6 +177,13 @@ public class Geology {
 	 * @return
 	 */
 	private Block pickBlockFromList(int value, List<Block> list) {
-		return list.get(whiteNoiseArray[(value / LAYER_THICKNESS) & 0xFF] % list.size());
+		Block stone = list.get(whiteNoiseArray[(value / LAYER_THICKNESS) & 0xFF] % list.size());
+
+		// try to get stone again if it's rare
+		if (AllRocks.rareStones.stream().anyMatch(rare -> rare.block().get().equals(stone))) {
+			return list.get(rareStoneWhiteNoiseArray[(value / LAYER_THICKNESS) & 0xFF] % list.size());
+		}
+
+		return stone;
 	}
 }

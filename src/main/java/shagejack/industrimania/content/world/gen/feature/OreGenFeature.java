@@ -30,6 +30,9 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
+import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInCylinder;
+import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInEllipsoid;
+
 public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
     private static final ArrayList<Block> EXTRA_REPLACEABLE_BLOCK = Lists.newArrayList(
@@ -127,14 +130,6 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
         return EXTRA_REPLACEABLE_BLOCK.contains(block);
     }
 
-    public static boolean isInEllipsoid(int dx, int dy, int dz, BlockPos center, int rx2, int ry2, int rz2) {
-        return Math.pow(dx - center.getX(), 2) / rx2 + Math.pow(dy - center.getY(), 2) / ry2 + Math.pow(dz - center.getZ(), 2) / rz2 <= 1;
-    }
-
-    public static boolean isInCylinder(int dx, int dy, int dz, BlockPos center, int rx2, int height, int rz2) {
-        return Math.pow(dx - center.getX(), 2) / rx2 + Math.pow(dz - center.getZ(), 2) / rz2 <= 1 && dy > center.getY() - height / 2 && dy < center.getY() + height / 2;
-    }
-
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> rockGenFun = (level, pos) -> isReplaceable(level.getBlockState(pos).getBlock());
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreGenFun = (level, pos) -> !allOres.contains(level.getBlockState(pos).getBlock());
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantDecayFun = (level, pos) -> Math.random() < PLANT_DECAY_PROBABILITY && !PLANT_TO_DECAY.contains(level.getBlockState(pos).getBlock());
@@ -201,6 +196,8 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
             0:Ellipsoid
             1:Cylinder
              */
+
+            //TODO: optimize shape iteration by using GeometryIterateUtils#getPosInOtherQuadrant
 
             int shape = level.getRandom().nextInt(2);
             List<BlockPos> deposit = new ArrayList<>();

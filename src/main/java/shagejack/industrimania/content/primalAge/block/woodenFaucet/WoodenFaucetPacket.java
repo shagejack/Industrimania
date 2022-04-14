@@ -5,32 +5,27 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fluids.FluidStack;
 import shagejack.industrimania.foundation.network.packet.TileEntityDataPacket;
 
-public class WoodenFaucetFluidPacket extends TileEntityDataPacket<WoodenFaucetTileEntity> {
-
-    private final FluidStack renderFluid;
+public class WoodenFaucetPacket extends TileEntityDataPacket<WoodenFaucetTileEntity> {
     private final boolean isPouring;
 
-    public WoodenFaucetFluidPacket(FriendlyByteBuf buffer) {
+    public WoodenFaucetPacket(FriendlyByteBuf buffer) {
         super(buffer);
-        this.renderFluid = buffer.readFluidStack();
         this.isPouring = buffer.readBoolean();
     }
 
-    public WoodenFaucetFluidPacket(BlockPos pos, FluidStack renderFluid, boolean isPouring) {
+    public WoodenFaucetPacket(BlockPos pos, boolean isPouring) {
         super(pos);
-        this.renderFluid = renderFluid;
         this.isPouring = isPouring;
     }
 
     @Override
     protected void writeData(FriendlyByteBuf buffer) {
-        buffer.writeFluidStack(renderFluid);
         buffer.writeBoolean(isPouring);
     }
 
     @Override
     protected void handlePacket(WoodenFaucetTileEntity tile) {
-        tile.handlePacket(this.renderFluid, this.isPouring);
+        tile.handlePacket(this.isPouring);
     }
 
 }

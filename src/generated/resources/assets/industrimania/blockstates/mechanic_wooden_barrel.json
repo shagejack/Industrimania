@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "industrimania:block/mechanic_wooden_barrel_0"
+    },
+    "open=true": {
+      "model": "industrimania:block/mechanic_wooden_barrel"
+    }
+  }
+}

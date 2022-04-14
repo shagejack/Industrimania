@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullConsumer;
@@ -15,6 +14,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+import shagejack.industrimania.foundation.fluid.FluidTankBase;
 import shagejack.industrimania.foundation.network.AllPackets;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
@@ -28,8 +28,7 @@ import static shagejack.industrimania.content.primalAge.block.woodenFaucet.Woode
 
 public class WoodenFaucetTileEntity extends SmartTileEntity {
 
-    public FluidStack fluid;
-    public FluidStack renderFluid;
+    public FluidTankBase<WoodenFaucetTileEntity> tank;
 
     private LazyOptional<IFluidHandler> inputHandler;
     private LazyOptional<IFluidHandler> outputHandler;
@@ -42,11 +41,7 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
 
     public WoodenFaucetTileEntity(BlockPos pos, BlockState state) {
         super(AllTileEntities.wooden_faucet.get(), pos, state);
-    }
-
-    public WoodenFaucetTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-        this.fluid = FluidStack.EMPTY;
+        this.tank = new FluidTankBase<>(this, 200);
         this.isPouring = false;
     }
 
@@ -58,10 +53,8 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
     @Override
     protected void write(CompoundTag tag, boolean clientPacket) {
         super.write(tag, clientPacket);
-        if (!fluid.isEmpty())
-            tag.put("fluid", this.fluid.writeToNBT(new CompoundTag()));
-        if (!renderFluid.isEmpty())
-            tag.put("renderFluid", this.renderFluid.writeToNBT(new CompoundTag()));
+        if (!tank.isEmpty())
+            tag.put("fluid", this.tank.writeToNBT(new CompoundTag()));
         tag.putBoolean("isPouring", isPouring);
         tag.putBoolean("isPouringClient", isPouringClient);
     }
@@ -71,15 +64,9 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
         super.read(tag, clientPacket);
 
         if (tag.contains("fluid", Tag.TAG_COMPOUND)) {
-            this.fluid = FluidStack.loadFluidStackFromNBT(tag.getCompound("fluid"));
+            this.tank.readFromNBT(tag.getCompound("fluid"));
         } else {
-            this.fluid = FluidStack.EMPTY;
-        }
-
-        if (tag.contains("renderFluid", Tag.TAG_COMPOUND)) {
-            this.renderFluid = FluidStack.loadFluidStackFromNBT(tag.getCompound("renderFluid"));
-        } else {
-            this.renderFluid = FluidStack.EMPTY;
+            this.tank = new FluidTankBase<>(this, 200);
         }
 
         isPouring = tag.getBoolean("isPouring");
@@ -90,11 +77,11 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
     public void tick() {
         super.tick();
 
-        if (fluid.isEmpty()) {
+        if (tank.isEmpty()) {
             transfer();
         } else {
 
-            if (fluid.getFluid().getAttributes().getTemperature(fluid) >= 300) {
+            if (tank.getFluid().getFluid().getAttributes().getTemperature(tank.getFluid()) >= 600) {
                 burn();
                 return;
             }
@@ -166,22 +153,20 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
             return;
 
         LazyOptional<IFluidHandler> inputOptional = getInputHandler();
-        LazyOptional<IFluidHandler> outputOptional = getOutputHandler();
 
         if (inputOptional.isPresent()) {
             IFluidHandler input = inputOptional.orElse(EmptyFluidHandler.INSTANCE);
             FluidStack drain = input.drain(100, FluidAction.SIMULATE);
 
             if (!drain.isEmpty()) {
-                IFluidHandler output = outputOptional.orElse(EmptyFluidHandler.INSTANCE);
-                int filled = output.fill(drain, FluidAction.SIMULATE);
+                int filled = this.tank.fill(drain, FluidAction.SIMULATE);
 
                 if (filled > 0) {
-                    this.fluid = input.drain(filled, FluidAction.EXECUTE);
+                    this.tank.fill(input.drain(filled, FluidAction.EXECUTE), FluidAction.EXECUTE);
                     this.isPouring = true;
 
-                    if (!isPouringClient || !renderFluid.isFluidEqual(fluid)) {
-                        syncToClient(this.fluid, true);
+                    if (!isPouringClient) {
+                        syncToClient(true);
                     }
 
                     pour();
@@ -191,25 +176,20 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
     }
 
     private void pour() {
-        if (fluid.isEmpty())
+        if (tank.isEmpty())
             return;
 
         LazyOptional<IFluidHandler> outputOptional = getOutputHandler();
         if (outputOptional.isPresent()) {
-            FluidStack fillStack = fluid.copy();
-            fillStack.setAmount(Math.min(fluid.getAmount(), 10));
+            FluidStack fillStack = tank.getFluid().copy();
+            fillStack.setAmount(Math.min(tank.getFluidAmount(), 10));
 
             // can we fill?
             IFluidHandler output = outputOptional.orElse(EmptyFluidHandler.INSTANCE);
             int filled = output.fill(fillStack, IFluidHandler.FluidAction.SIMULATE);
             if (filled > 0) {
-                // update client if they do not think we have fluid
-                if (!renderFluid.isFluidEqual(fluid)) {
-                    syncToClient(fluid, true);
-                }
-
                 // transfer it
-                this.fluid.shrink(filled);
+                this.tank.drain(filled, FluidAction.EXECUTE);
                 fillStack.setAmount(filled);
                 output.fill(fillStack, IFluidHandler.FluidAction.EXECUTE);
             }
@@ -222,10 +202,10 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
     }
 
     private void reset() {
-        fluid = FluidStack.EMPTY;
+        tank.empty();
         isPouring = false;
-        if (isPouringClient || !renderFluid.isFluidEqual(fluid)) {
-            syncToClient(FluidStack.EMPTY, false);
+        if (isPouringClient) {
+            syncToClient(false);
         }
     }
 
@@ -233,12 +213,11 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
         Objects.requireNonNull(getLevel()).setBlock(getBlockPos(), Blocks.FIRE.defaultBlockState(), 3);
     }
 
-    public void handlePacket(FluidStack renderFluid, boolean isPouring) {
-        this.renderFluid = renderFluid;
+    public void handlePacket(boolean isPouring) {
         this.isPouringClient = isPouring;
     }
 
-    public void syncToClient(FluidStack renderFluid, boolean isPouring) {
-        AllPackets.sendToNear(Objects.requireNonNull(getLevel()), getBlockPos(), new WoodenFaucetFluidPacket(getBlockPos(), renderFluid, isPouring));
+    public void syncToClient(boolean isPouring) {
+        AllPackets.sendToNear(Objects.requireNonNull(getLevel()), getBlockPos(), new WoodenFaucetPacket(getBlockPos(), isPouring));
     }
 }

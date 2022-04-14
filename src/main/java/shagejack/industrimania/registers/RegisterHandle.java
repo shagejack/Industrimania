@@ -20,6 +20,7 @@ import shagejack.industrimania.registers.block.AllGroupedBlocks;
 import shagejack.industrimania.registers.block.BlockBuilder;
 import shagejack.industrimania.registers.item.AllGroupedItems;
 import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registers.item.ItemPropertyOverridesRegistry;
 
 import static net.minecraftforge.registries.ForgeRegistries.*;
 import static shagejack.industrimania.Industrimania.MOD_ID;
@@ -40,15 +41,15 @@ public class RegisterHandle {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         new AllItems();
         new AllBlocks();
-        bus.addListener((FMLClientSetupEvent event) -> BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
         AllGroupedBlocks.initAll();
         AllGroupedItems.initAll();
         new AllFluids();
         new AllTileEntities();
         new AllBiomes();
         new AllDimensions();
+        bus.addListener((FMLClientSetupEvent event) -> BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
         bus.addListener((FMLClientSetupEvent event) -> AllTileEntities.TileEntityBuilder.bind(event));
-        bus.addGenericListener(Block.class,(RegistryEvent<Block> event) -> new AllFeatures());
+        bus.addGenericListener(Block.class, (RegistryEvent<Block> event) -> new AllFeatures());
         AllPackets.registerPackets();
     }
 

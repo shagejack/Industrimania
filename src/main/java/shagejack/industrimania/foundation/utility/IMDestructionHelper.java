@@ -14,16 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInEllipse;
+import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInEllipsoid;
+
 public class IMDestructionHelper {
-
-    public static boolean isInEllipsoid(int dx, int dy, int dz, BlockPos center, int rx2, int ry2, int rz2) {
-        return Math.pow(dx - center.getX(), 2) / rx2 + Math.pow(dy - center.getY(), 2) / ry2 + Math.pow(dz - center.getZ(), 2) / rz2 <= 1;
-    }
-
-    public static boolean isInEllipse(int dx, int dz, BlockPos center, int rx2, int rz2) {
-        return Math.pow(dx - center.getX(), 2) / rx2 + Math.pow(dz - center.getZ(), 2) / rz2 <= 1;
-    }
-
 
     public static void eraseEllipsoid(Level level, BlockPos center, int rx, int ry, int rz) {
         int rx2 = (int) Math.pow(rx, 2);

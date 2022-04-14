@@ -12,7 +12,6 @@ import shagejack.industrimania.foundation.handler.MultiBlockBreakEventHandler;
 import shagejack.industrimania.foundation.handler.DynamicLightsItemJoinWorldHandler;
 import shagejack.industrimania.registers.AllCommands;
 
-@Mod.EventBusSubscriber(modid = Industrimania.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModSetup {
 
     public static void setup() {
