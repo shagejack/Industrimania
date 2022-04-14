@@ -200,6 +200,22 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         return itemBlock;
     }
 
+    /**
+     * ItemName should be same as BlockName.
+     * For those wierd circumstances where DataGen can't handle.
+     * @param factory
+     * @return
+     */
+    public ItemBlock buildItemWithPresetModel(Function<ItemBuilder, ItemBuilder> factory) {
+        final var block = checkAlreadyBuild();
+        final ItemBuilder itemBuilder = new ItemBuilder().name(name);
+        factory.apply(itemBuilder);
+        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
+        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
+        checkTags(itemBlock, tags);
+        return itemBlock;
+    }
+
     public <T extends BlockItem> ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory, boolean useItemNameForModelOnly, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
         final var block = checkAlreadyBuild();
         final ItemBuilder itemBuilder = new ItemBuilder().name(useItemNameForModelOnly ? name : itemName).simpleModel(itemName);

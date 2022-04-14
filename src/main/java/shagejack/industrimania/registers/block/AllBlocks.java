@@ -238,7 +238,7 @@ public class AllBlocks {
             .noDrops()
             .renderLayer(() -> RenderType::cutout)
             .buildBlock(WoodenBarrelBlock::new)
-            .buildItemWithModel("mechanic_wooden_barrel_item", builder -> builder.maxStackSize(1), true);
+            .buildItemWithPresetModel(builder -> builder.maxStackSize(1));
             //.buildItem(itemBuilder -> itemBuilder.setBlockEntityWithoutLevelRender(() -> WoodenBarrelBlockItemRenderer::new));
 
     public static final ItemBlock mechanic_item_placeable
