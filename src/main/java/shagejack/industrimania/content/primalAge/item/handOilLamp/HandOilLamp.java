@@ -56,8 +56,10 @@ public class HandOilLamp extends Item implements DynamicLightsItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (player.isShiftKeyDown())
+        if (player.isShiftKeyDown()) {
             setLightUp(stack, !isLightUp(stack));
+            return InteractionResultHolder.success(stack);
+        }
 
         return super.use(level, player, hand);
     }

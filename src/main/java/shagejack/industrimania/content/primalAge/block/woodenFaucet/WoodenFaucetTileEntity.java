@@ -86,7 +86,7 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
                 return;
             }
 
-            if (isPouring) {
+            if (!isPouring) {
                 reset();
             } else {
                 pour();
@@ -193,8 +193,7 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
                 fillStack.setAmount(filled);
                 output.fill(fillStack, IFluidHandler.FluidAction.EXECUTE);
             }
-        }
-        else {
+        } else {
             // if output got lost, all liquid will be lost.
             reset();
         }

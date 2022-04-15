@@ -25,6 +25,7 @@ public abstract class ProcessingRecipeGen extends IndustrimaniaRecipeProvider {
 	protected static final int BOTTLE = 250;
 
 	public static void registerAll(DataGenerator gen) {
+		GENERATORS.add(new SandpaperRecipeGen(gen));
 		GENERATORS.add(new DryingRackRecipeGen(gen));
 		GENERATORS.add(new DryingRackRottenRecipeGen(gen));
 		GENERATORS.add(new ItemPlaceableBurnRecipeGen(gen));
@@ -33,7 +34,7 @@ public abstract class ProcessingRecipeGen extends IndustrimaniaRecipeProvider {
 
 			@Override
 			public String getName() {
-				return "Create's Processing Recipes";
+				return "Industrimania Processing Recipes";
 			}
 
 			@Override

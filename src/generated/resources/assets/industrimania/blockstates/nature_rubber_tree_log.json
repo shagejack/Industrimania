@@ -1,6 +1,12 @@
 {
   "variants": {
-    "": {
+    "axis=x": {
+      "model": "industrimania:block/nature_rubber_tree_log"
+    },
+    "axis=y": {
+      "model": "industrimania:block/nature_rubber_tree_log"
+    },
+    "axis=z": {
       "model": "industrimania:block/nature_rubber_tree_log"
     }
   }

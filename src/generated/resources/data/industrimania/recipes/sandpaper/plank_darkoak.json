@@ -1,0 +1,14 @@
+{
+  "type": "industrimania:sandpaper",
+  "ingredients": [
+    {
+      "item": "industrimania:plank_darkoak"
+    }
+  ],
+  "results": [
+    {
+      "item": "industrimania:plank_darkoak_smooth"
+    }
+  ],
+  "processingTime": 32
+}

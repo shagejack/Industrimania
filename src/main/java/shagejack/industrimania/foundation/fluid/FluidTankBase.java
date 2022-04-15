@@ -32,4 +32,8 @@ public class FluidTankBase<T extends SyncedTileEntity> extends FluidTank {
     public void empty() {
         this.setFluid(FluidStack.EMPTY);
     }
+
+    public boolean isFull() {
+        return this.getFluidAmount() >= this.getCapacity();
+    }
 }

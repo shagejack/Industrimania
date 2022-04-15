@@ -1,6 +1,8 @@
 {
   "block.industrimania.mechanic_drying_rack": "晾晒架",
   "block.industrimania.mechanic_simple_crafting_table": "简易工作台",
+  "block.industrimania.mechanic_wooden_barrel": "木桶",
+  "block.industrimania.mechanic_wooden_faucet": "木制导流槽",
   "block.industrimania.rock_andesite": "安山岩",
   "block.industrimania.rock_granite": "花岗岩",
   "block.industrimania.rock_diorite": "闪长岩",
@@ -28,6 +30,10 @@
   "block.industrimania.rock_sandstone": "砂岩",
   "block.industrimania.nature_rush_top": "灯心草",
   "block.industrimania.nature_rush_bottom": "灯心草",
+  "block.industrimania.nature_rubber_tree_sapling": "橡胶树树苗",
+  "block.industrimania.nature_rubber_tree_log": "橡胶树原木",
+  "block.industrimania.nature_rubber_tree_leaves": "橡胶树树叶",
+  "block.industrimania.nature_rubber_tree_plank": "橡胶树木板",
   "block.industrimania.pollution_ashes_block": "灰烬块",
   "block.industrimania.pollution_ashes_layers": "灰烬",
   "item.industrimania.mud": "泥巴",
@@ -72,6 +78,7 @@
   "item.industrimania.gloves": "石棉手套",
   "item.industrimania.wind_flag": "小旗",
   "item.industrimania.hand_oil_lamp": "手持油灯",
+  "item.industrimania.wooden_barrel_cover": "木桶盖",
   "industrimania.oretype.hematite": "赤铁矿",
   "industrimania.oretype.galena": "方铅矿",
   "industrimania.oretype.sahalerite": "闪锌矿",
@@ -86,5 +93,6 @@
   "itemGroup.industrimania_equipment": "工业狂热：装备",
   "itemGroup.industrimania_nature": "工业狂热：自然",
   "itemGroup.industrimania_rock": "工业狂热：岩石",
-  "itemGroup.industrimania_ore": "工业狂热：矿物"
+  "itemGroup.industrimania_ore": "工业狂热：矿物",
+  "itemGroup.industrimania_misc": "工业狂热：杂项"
 }

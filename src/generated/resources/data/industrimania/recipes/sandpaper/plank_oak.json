@@ -1,0 +1,14 @@
+{
+  "type": "industrimania:sandpaper",
+  "ingredients": [
+    {
+      "item": "industrimania:plank_oak"
+    }
+  ],
+  "results": [
+    {
+      "item": "industrimania:plank_oak_smooth"
+    }
+  ],
+  "processingTime": 32
+}
