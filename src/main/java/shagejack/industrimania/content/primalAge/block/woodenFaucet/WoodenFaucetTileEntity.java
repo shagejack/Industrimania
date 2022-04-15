@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -18,7 +17,6 @@ import shagejack.industrimania.foundation.fluid.FluidTankBase;
 import shagejack.industrimania.foundation.network.AllPackets;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
-import shagejack.industrimania.foundation.utility.WeakConsumerWrapper;
 import shagejack.industrimania.registers.AllTileEntities;
 
 import java.util.List;
@@ -29,11 +27,6 @@ import static shagejack.industrimania.content.primalAge.block.woodenFaucet.Woode
 public class WoodenFaucetTileEntity extends SmartTileEntity {
 
     public FluidTankBase<WoodenFaucetTileEntity> tank;
-
-    private LazyOptional<IFluidHandler> inputHandler;
-    private LazyOptional<IFluidHandler> outputHandler;
-    private final NonNullConsumer<LazyOptional<IFluidHandler>> inputListener = new WeakConsumerWrapper<>(this, (self, handler) -> self.inputHandler = null);
-    private final NonNullConsumer<LazyOptional<IFluidHandler>> outputListener = new WeakConsumerWrapper<>(this, (self, handler) -> self.outputHandler = null);
 
     public boolean isPouring;
     public boolean isPouringClient;
@@ -54,7 +47,7 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
     protected void write(CompoundTag tag, boolean clientPacket) {
         super.write(tag, clientPacket);
         if (!tank.isEmpty())
-            tag.put("fluid", this.tank.writeToNBT(new CompoundTag()));
+            tag.put("tank", this.tank.writeToNBT(new CompoundTag()));
         tag.putBoolean("isPouring", isPouring);
         tag.putBoolean("isPouringClient", isPouringClient);
     }
@@ -63,8 +56,8 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
     protected void read(CompoundTag tag, boolean clientPacket) {
         super.read(tag, clientPacket);
 
-        if (tag.contains("fluid", Tag.TAG_COMPOUND)) {
-            this.tank.readFromNBT(tag.getCompound("fluid"));
+        if (tag.contains("tank", Tag.TAG_COMPOUND)) {
+            this.tank.readFromNBT(tag.getCompound("tank"));
         } else {
             this.tank = new FluidTankBase<>(this, 200);
         }
@@ -119,33 +112,15 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
     }
 
     private LazyOptional<IFluidHandler> getInputHandler() {
-        if (inputHandler == null) {
-            inputHandler = findFluidHandler(getFacing().getOpposite());
-            if (inputHandler.isPresent()) {
-                inputHandler.addListener(inputListener);
-            }
-        }
-        return inputHandler;
+        return findFluidHandler(getFacing().getOpposite());
     }
 
     private LazyOptional<IFluidHandler> getOutputHandler() {
-        if (outputHandler == null) {
-            outputHandler = findFluidHandler(Direction.DOWN);
-            if (outputHandler.isPresent()) {
-                outputHandler.addListener(outputListener);
-            }
-        }
-        return outputHandler;
+        return findFluidHandler(Direction.DOWN);
     }
 
     public void neighborChanged(BlockPos neighbor) {
-        // if the neighbor was below us, remove output
-        if (worldPosition.equals(neighbor.above())) {
-            outputHandler = null;
-            // neighbor behind us
-        } else if (worldPosition.equals(neighbor.relative(getBlockState().getValue(FACING)))) {
-            inputHandler = null;
-        }
+
     }
 
     private void transfer() {
@@ -169,7 +144,8 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
                         syncToClient(true);
                     }
 
-                    pour();
+                    // if we pour fluid instantaneously, fluid will not even try to render when there's too little liquid (<= 10mB)
+                    //pour();
                 }
             }
         }
@@ -192,6 +168,9 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
                 this.tank.drain(filled, FluidAction.EXECUTE);
                 fillStack.setAmount(filled);
                 output.fill(fillStack, IFluidHandler.FluidAction.EXECUTE);
+            } else {
+                // reset if the faucet is empty or output is full
+                reset();
             }
         } else {
             // if output got lost, all liquid will be lost.
@@ -218,5 +197,9 @@ public class WoodenFaucetTileEntity extends SmartTileEntity {
 
     public void syncToClient(boolean isPouring) {
         AllPackets.sendToNear(Objects.requireNonNull(getLevel()), getBlockPos(), new WoodenFaucetPacket(getBlockPos(), isPouring));
+    }
+
+    public boolean shouldRender() {
+        return (this.isPouringClient || this.isPouring) && !this.tank.isEmpty();
     }
 }

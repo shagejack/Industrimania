@@ -21,6 +21,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.utility.TileEntityUtils;
+import shagejack.industrimania.foundation.utility.VoxelShapeUtils;
 import shagejack.industrimania.registers.AllTileEntities;
 
 import javax.annotation.Nullable;
@@ -28,12 +29,23 @@ import java.util.EnumMap;
 
 public class WoodenFaucetBlock extends Block implements ITE<WoodenFaucetTileEntity> {
     public static final DirectionProperty FACING = BlockStateProperties.FACING_HOPPER;
+
+    public static final VoxelShape SHAPE_DOWN = VoxelShapeUtils.joinAllShape(BooleanOp.OR,
+            Shapes.box(0.25, 0.9375, 0.25, 0.75, 1, 0.75),
+            Shapes.box(0.375, 0.8125, 0.25, 0.75, 0.9375, 0.375),
+            Shapes.box(0.25, 0.8125, 0.25, 0.375, 0.9375, 0.625),
+            Shapes.box(0.625, 0.8125, 0.375, 0.75, 0.9375, 0.75),
+            Shapes.box(0.25, 0.8125, 0.625, 0.625, 0.9375, 0.75)
+            );
+
+
     private static final EnumMap<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(
-            Direction.DOWN,  Shapes.join(box( 4, 10,  4, 12, 16, 12), box( 6, 10,  6, 10, 16, 10), BooleanOp.ONLY_FIRST),
+            Direction.DOWN, SHAPE_DOWN,
             Direction.NORTH, Shapes.join(box( 4,  4, 10, 12, 10, 16), box( 6,  6, 10, 10, 10, 16), BooleanOp.ONLY_FIRST),
             Direction.SOUTH, Shapes.join(box( 4,  4,  0, 12, 10,  6), box( 6,  6,  0, 10, 10,  6), BooleanOp.ONLY_FIRST),
             Direction.WEST,  Shapes.join(box(10,  4,  4, 16, 10, 12), box(10,  6,  6, 16, 10, 10), BooleanOp.ONLY_FIRST),
-            Direction.EAST,  Shapes.join(box( 0,  4,  4,  6, 10, 12), box( 0,  6,  6,  6, 10, 10), BooleanOp.ONLY_FIRST)));
+            Direction.EAST,  Shapes.join(box( 0,  4,  4,  6, 10, 12), box( 0,  6,  6,  6, 10, 10), BooleanOp.ONLY_FIRST))
+    );
 
     public WoodenFaucetBlock(Properties properties) {
         super(properties);
@@ -59,7 +71,7 @@ public class WoodenFaucetBlock extends Block implements ITE<WoodenFaucetTileEnti
     @Deprecated
     @Override
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-        return SHAPES.get(state.getValue(FACING));
+        return SHAPES.getOrDefault(state.getValue(FACING), Shapes.block());
     }
 
     @Override

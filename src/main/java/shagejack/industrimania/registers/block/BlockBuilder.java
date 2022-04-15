@@ -4,7 +4,6 @@ import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -48,12 +47,18 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     protected boolean noDrops;
     protected boolean isAir;
     protected boolean requiresCorrectToolForDrops = false;
+    protected boolean presetItemModel = false;
+    protected boolean simpleItemModel = false;
+    protected String simpleItemModelPath = "";
+    protected String specificModel = "";
+    protected String customItemName = "";
     protected ToIntFunction<BlockState> lightLevelFun;
     protected BlockColor blockColor;
     protected BlockBehaviour.StatePredicate isRedstoneConductor;
     protected BlockBehaviour.StateArgumentPredicate<EntityType<?>> isValidSpawn;
     protected BlockBehaviour.StatePredicate isSuffocating;
     protected BlockBehaviour.StatePredicate isViewBlocking;
+    protected BiFunction<Block, Item.Properties, ? extends BlockItem> blockItemFactory;
     protected final Map<String, Object> extraParam = new HashMap();
 
     public static final List<Supplier<Runnable>> setupRenderLayerTasks = new ArrayList<>();
@@ -160,95 +165,75 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
         return this;
     }
 
-
-
     RegistryObject<Block> checkAlreadyBuild() {
         return Objects.requireNonNull(block, "can't build ItemBlock before block is built");
     }
 
-    public ItemBlock buildItem(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
-        final var block = checkAlreadyBuild();
-        final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).blockModel("block/" + this.name);
-        factory.apply(itemBuilder);
-        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
-        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
-        checkTags(itemBlock, tags);
-        return itemBlock;
-    }
-
-    public <T extends BlockItem> ItemBlock buildItem(String itemName, Function<ItemBuilder, ItemBuilder> factory, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
-        final var block = checkAlreadyBuild();
-        final ItemBuilder itemBuilder = new ItemBuilder().name(itemName).blockModel("block/" + this.name);
-        factory.apply(itemBuilder);
-        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
-        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block, itemBlockFactory), block);
-        checkTags(itemBlock, tags);
-        return itemBlock;
-    }
-
-    public ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory) {
-        return buildItemWithModel(itemName, factory, false);
-    }
-
-    public ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory, boolean useItemNameForModelOnly) {
-        final var block = checkAlreadyBuild();
-        final ItemBuilder itemBuilder = new ItemBuilder().name(useItemNameForModelOnly ? name : itemName).specificModel("item/model/" + itemName);
-        factory.apply(itemBuilder);
-        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, useItemNameForModelOnly ? name : itemName);
-        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
-        checkTags(itemBlock, tags);
-        return itemBlock;
-    }
-
-    /**
-     * ItemName should be same as BlockName.
-     * For those wierd circumstances where DataGen can't handle.
-     * @param factory
-     * @return
-     */
-    public ItemBlock buildItemWithPresetModel(Function<ItemBuilder, ItemBuilder> factory) {
-        final var block = checkAlreadyBuild();
-        final ItemBuilder itemBuilder = new ItemBuilder().name(name);
-        factory.apply(itemBuilder);
-        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, name);
-        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block), block);
-        checkTags(itemBlock, tags);
-        return itemBlock;
-    }
-
-    public <T extends BlockItem> ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory, boolean useItemNameForModelOnly, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
-        final var block = checkAlreadyBuild();
-        final ItemBuilder itemBuilder = new ItemBuilder().name(useItemNameForModelOnly ? name : itemName).simpleModel(itemName);
-        factory.apply(itemBuilder);
-        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, useItemNameForModelOnly ? name : itemName);
-        ItemBlock itemBlock = new ItemBlock(itemBuilder.build(block, itemBlockFactory), block);
-        checkTags(itemBlock, tags);
-        return itemBlock;
-    }
-
-    public <T extends BlockItem> ItemBlock buildItemWithModel(String itemName, Function<ItemBuilder, ItemBuilder> factory, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
-        return buildItemWithModel(itemName, factory, false, itemBlockFactory);
-    }
+    // =============================
+    //  Build Item Method Overloads
+    // =============================
 
     public ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory) {
-        return buildItem(name, factory);
-    }
-
-    public <T extends BlockItem> ItemBlock buildItem(Function<ItemBuilder, ItemBuilder> factory, BiFunction<Block, Item.Properties, T> itemBlockFactory) {
-        return buildItem(name, factory, itemBlockFactory);
+        final var itemName = this.customItemName.isEmpty() ? this.name : this.customItemName;
+        final var block = checkAlreadyBuild();
+        final ItemBuilder itemBuilder;
+        if (this.presetItemModel) {
+            itemBuilder = new ItemBuilder().name(itemName);
+        } else if (this.simpleItemModel || !this.customItemName.isEmpty()) {
+            itemBuilder = new ItemBuilder().name(itemName).simpleModel(this.simpleItemModelPath.isEmpty() ? itemName : this.simpleItemModelPath);
+        } else if (!this.specificModel.isEmpty()) {
+            itemBuilder = new ItemBuilder().name(itemName).specificModel(this.specificModel);
+        } else {
+            itemBuilder = new ItemBuilder().name(itemName).blockModel("block/" + this.name);
+        }
+        factory.apply(itemBuilder);
+        Industrimania.LOGGER.debug("register Block:{} with Item:{}", name, itemName);
+        ItemBlock itemBlock = this.blockItemFactory == null ? new ItemBlock(itemBuilder.build(block), block) : new ItemBlock(itemBuilder.build(block, this.blockItemFactory), block);
+        checkTags(itemBlock, this.tags);
+        return itemBlock;
     }
 
     public ItemBlock buildItem() {
-        return buildItem(name, (itemBuilder) -> itemBuilder);
+        return buildItem(itemBuilder -> itemBuilder);
+    }
+
+    // =============================
+    //  BlockBuilder Parameters
+    // =============================
+
+    public BlockBuilder customItemName(String itemName) {
+        this.customItemName = itemName;
+        return this;
+    }
+
+    public BlockBuilder simpleItemModel() {
+        this.simpleItemModel = true;
+        return this;
+    }
+
+    public BlockBuilder simpleItemModel(String simpleItemModelPath) {
+        this.simpleItemModel = true;
+        this.simpleItemModelPath = simpleItemModelPath;
+        return this;
+    }
+
+    public BlockBuilder specificItemModel(String modelPath) {
+        this.specificModel = modelPath;
+        return this;
     }
 
     /**
-     * build item with specific name and model
-     * @param itemName
+     * For those wierd circumstances where DataGen can't handle.
      * @return
      */
-    public ItemBlock buildItem(String itemName) {
-        return buildItemWithModel(itemName, (itemBuilder) -> itemBuilder);
+    public BlockBuilder presetItemModel() {
+        this.presetItemModel = true;
+        return this;
+    }
+
+    public BlockBuilder blockItemFactory(BiFunction<Block, Item.Properties, ? extends BlockItem> blockItemFactory) {
+        this.blockItemFactory = blockItemFactory;
+        return this;
     }
 
     public BlockBuilder renderLayer(Supplier<Supplier<RenderType>> renderType) {

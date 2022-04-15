@@ -20,7 +20,7 @@ public class WoodenFaucetPacket extends TileEntityDataPacket<WoodenFaucetTileEnt
 
     @Override
     protected void writeData(FriendlyByteBuf buffer) {
-        buffer.writeBoolean(isPouring);
+        buffer.writeBoolean(this.isPouring);
     }
 
     @Override

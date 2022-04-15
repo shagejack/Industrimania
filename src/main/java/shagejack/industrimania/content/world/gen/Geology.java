@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class Geology {
 
-	private static final int LAYER_THICKNESS = 8;
+	private static final int LAYER_THICKNESS = 16;
 
 	private final PerlinNoise2D geomeNoiseLayer;
 	private final PerlinNoise2D rockNoiseLayer;

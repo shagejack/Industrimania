@@ -1,0 +1,26 @@
+{
+  "credit": "MalayP made with Blockbench",
+  "variants": {
+    "facing=down": {
+      "model": "industrimania:block/mechanic/drain_down"
+    },
+    "facing=up": {
+      "model": "industrimania:block/mechanic/drain_down"
+    },
+    "facing=north": {
+      "model": "industrimania:block/mechanic/drain_side"
+    },
+    "facing=south": {
+      "model": "industrimania:block/mechanic/drain_side",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "industrimania:block/mechanic/drain_side",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "industrimania:block/mechanic/drain_side",
+      "y": 270
+    }
+  }
+}

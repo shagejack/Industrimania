@@ -30,7 +30,7 @@ public class WoodenBarrelRenderer extends SafeTileEntityRenderer<WoodenBarrelTil
         xMax = 0.75F;
         zMin = 0.25F;
         zMax = 0.75F;
-        yMin = 0.2F;
+        yMin = 0.1F;
         yMax = 0.8F;
 
         ms.pushPose();
@@ -39,7 +39,7 @@ public class WoodenBarrelRenderer extends SafeTileEntityRenderer<WoodenBarrelTil
         ms.translate(0.0d, 0.0d, 0.0d);
 
         // render top only
-        FluidRenderer.renderFluidStack(te.tank.getFluid(), te, ms, buffer, xMin, xMax, yMin, yMax, zMin, zMax, false);
+        FluidRenderer.renderFluidStack(te.tank.getFluid(), te, ms, buffer, xMin, xMax, yMin, yMax, zMin, zMax);
 
         ms.popPose();
     }

@@ -8,6 +8,7 @@ import shagejack.industrimania.content.contraptions.goggles.GogglesItem;
 import shagejack.industrimania.content.contraptions.itemBase.*;
 import shagejack.industrimania.content.contraptions.materialBase.KnifeMaterials;
 import shagejack.industrimania.content.contraptions.materialBase.SawMaterials;
+import shagejack.industrimania.content.contraptions.multimeter.Multimeter;
 import shagejack.industrimania.content.logistics.item.filter.FilterItem;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
@@ -118,7 +119,7 @@ public class AllItems {
     public static final RegistryObject<Item> ironPipe = new ItemBuilder().name("iron_pipe").simpleModel("iron_pipe").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> ironRubbish = new ItemBuilder().name("iron_rubbish").simpleModel("iron_rubbish").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> ironSmallPlate = new ItemBuilder().name("iron_small_plate").simpleModel("iron_small_plate").tab(AllTabs.tabMaterial).build();
-    public static final RegistryObject<Item> omniMultimeter = new ItemBuilder().name("omni_multimeter").simpleModel("omni_multimeter").tab(AllTabs.tabTool).build();
+    public static final RegistryObject<Item> omniMultimeter = new ItemBuilder().name("omni_multimeter").simpleModel("omni_multimeter").tab(AllTabs.tabTool).build(Multimeter::new);
     public static final RegistryObject<Item> rawGlassMaterial = new ItemBuilder().name("raw_glass_material").simpleModel("raw_glass_material").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> slag = new ItemBuilder().name("slag").simpleModel("slag").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> windFlag = new ItemBuilder().name("wind_flag").simpleModel("wind_flag").tab(AllTabs.tabTool).build();

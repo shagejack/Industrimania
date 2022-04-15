@@ -27,8 +27,8 @@ import java.util.Objects;
 
 public class WoodenBarrelTileEntity extends SmartTileEntity implements ITankTileEntity, FluidUpdatePacket.IFluidPacketReceiver {
 
-    private static final int CAPACITY = 4000;
-    private static final int BURN_TEMPERATURE = 600;
+    public static final int CAPACITY = 4000;
+    public static final int BURN_TEMPERATURE = 600;
 
     public FluidTankBase<WoodenBarrelTileEntity> tank;
     LazyOptional<IFluidHandler> tankHandlerLazyOptional;

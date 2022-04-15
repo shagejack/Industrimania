@@ -98,7 +98,7 @@ public class FluidRenderer {
         if (stack.isEmpty())
             return;
 
-        if (te instanceof ITankTileEntity) {
+        if (te instanceof ITankTileEntity || ignoreAmount) {
             ms.pushPose();
             var builder = buffer.getBuffer(RenderType.translucent());
             var resource = getFluidTexture(stack);

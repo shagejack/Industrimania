@@ -1,5 +1,8 @@
 package shagejack.industrimania.registers.dataGen;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -29,11 +32,16 @@ import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
+import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.item.AllItems;
 import shagejack.industrimania.registers.recipe.ProcessingRecipeGen;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -144,7 +152,7 @@ public class DataGenHandle {
         return checkTextureFileExist(provider, String.format("block/%s", texturePath));
     }
 
-    static ExistingModelFile existingModel(ModelProvider<?> provider, String path) {
+    public static ExistingModelFile existingModel(ModelProvider<?> provider, String path) {
         return provider.getExistingFile(provider.mcLoc(path));
     }
 
@@ -224,7 +232,7 @@ public class DataGenHandle {
             }
         };
 
-        //only use for generate template lang file,keys are lang and values are registryName's path or display name
+        // only use for generate template lang file, keys are lang and values are registryName's path or display name
         LanguageProvider languageProvider = new LanguageProvider(generator, MOD_ID, "template") {
             @Override
             protected void addTranslations() {

@@ -1,3 +1,6 @@
 {
-  "parent": "industrimania:item/model/rush_seed"
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrimania:item/rush_seed/rush_seed"
+  }
 }

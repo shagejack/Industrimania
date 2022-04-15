@@ -1,8 +1,11 @@
 package shagejack.industrimania.foundation.utility;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.List;
 
 public class VoxelShapeUtils {
 
@@ -21,6 +24,27 @@ public class VoxelShapeUtils {
         }
 
         return buffer[0];
+    }
+
+    public static VoxelShape joinAllShape(BooleanOp booleanOperator, VoxelShape ... shapes) {
+        VoxelShape result = Shapes.empty();
+        for (VoxelShape shape : shapes) {
+            result = Shapes.join(result, shape, booleanOperator);
+        }
+        return result;
+    }
+
+    public static VoxelShape joinAllShape(List<BooleanOp> booleanOperators, VoxelShape ... shapes) {
+        VoxelShape result = Shapes.empty();
+
+        if (shapes.length > booleanOperators.size())
+            throw new IllegalArgumentException("The number of boolean operators is lesser than shapes passed in.");
+
+        for (int i = 0; i < shapes.length; i++) {
+            result = Shapes.join(result, shapes[i], booleanOperators.get(i));
+        }
+
+        return result;
     }
 
 }

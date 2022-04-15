@@ -3,6 +3,7 @@ package shagejack.industrimania.registers.block.grouped;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.material.Material;
 import shagejack.industrimania.content.contraptions.ore.BlockOre;
+import shagejack.industrimania.content.contraptions.ore.BlockOreItem;
 import shagejack.industrimania.content.world.gen.OreTypeRegistry;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
@@ -31,6 +32,7 @@ public interface AllOres extends AsBase{
                                     .simpleBlockState()
                                     .renderLayer(() -> RenderType::cutoutMipped)
                                     .buildBlock(BlockOre::new)
+                                    .blockItemFactory(BlockOreItem::new)
                                     .buildItem((ItemBuilder) -> ItemBuilder.tab(AllTabs.tabOre));
 
                             ORES.put(key, oreBlock);
@@ -44,5 +46,18 @@ public interface AllOres extends AsBase{
         asBase().checkProperty();
         asBase().tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.ore, AllTags.IndustrimaniaTags.oreTypeEntry + oreType);
         return (BlockBuilder) this;
+    }
+
+    static String getRockName(String string) {
+        String[] rockName = string.split("_");
+        return rockName[0] + "_" + rockName[1];
+    }
+
+    static String getOreType(String string) {
+        return string.split("_")[2];
+    }
+
+    static int getOreGrade(String string) {
+        return Integer.parseInt(string.split("_")[3]);
     }
 }

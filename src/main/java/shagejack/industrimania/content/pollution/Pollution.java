@@ -376,7 +376,7 @@ public class Pollution {
 
     public boolean observerFromAboveEvent(Level level, int x, int z) {
         if (!this.HEAVEN_TICKER) {
-            Objects.requireNonNull(level.getServer()).getPlayerList().getPlayers().forEach((player -> player.displayClientMessage(new TextComponent(I18n.get("industrimania.observer_from_above_event_message", (Object) null)), true)));
+            Objects.requireNonNull(level.getServer()).getPlayerList().getPlayers().forEach((player -> player.displayClientMessage(new TextComponent(I18n.get("industrimania.observer_from_above_event_message")), true)));
 
             int y = level.getMaxBuildHeight();
 

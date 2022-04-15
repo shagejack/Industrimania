@@ -222,10 +222,9 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("mechanic_wooden_faucet")
             .material(Material.WOOD)
-            .simplePresetModel()
-            .simpleBlockState()
             .renderLayer(() -> RenderType::cutout)
             .buildBlock(WoodenFaucetBlock::new)
+            .presetItemModel()
             .buildItem();
 
     public static final ItemBlock mechanic_wooden_barrel
@@ -237,8 +236,8 @@ public class AllBlocks {
             .noDrops()
             .renderLayer(() -> RenderType::cutout)
             .buildBlock(WoodenBarrelBlock::new)
-            .buildItemWithPresetModel(builder -> builder.maxStackSize(1));
-            //.buildItem(itemBuilder -> itemBuilder.setBlockEntityWithoutLevelRender(() -> WoodenBarrelBlockItemRenderer::new));
+            .presetItemModel()
+            .buildItem(builder -> builder.maxStackSize(1));
 
     public static final ItemBlock mechanic_item_placeable
             = new BlockBuilder()
@@ -296,7 +295,8 @@ public class AllBlocks {
             .simplePresetModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItemWithModel("cobble", itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+            .customItemName("cobble")
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     //Tree
     public static final ItemBlock nature_rubber_tree_log
@@ -433,7 +433,7 @@ public class AllBlocks {
             .simplePresetModel()
             .simpleBlockState()
             .buildBlock(RushBlockTop::new)
-            .buildItem(itemBuilder -> itemBuilder.noTab());
+            .buildItem(ItemBuilder::noTab);
 
     public static final ItemBlock nature_rush_bottom
             = new BlockBuilder()
@@ -448,7 +448,8 @@ public class AllBlocks {
             .presetCropModel(3)
             .cropBlockState(3)
             .buildBlock(RushBlockBottom::new)
-            .buildItemWithModel("rush_seed", itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
+            .customItemName("rush_seed")
+            .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
     //Plant Sign
     public static final ItemBlock nature_lactuca_raddeana
@@ -735,7 +736,7 @@ public class AllBlocks {
             .buildBlock()
             .buildItem(itemBuilder -> itemBuilder.noTab().setRGBOverlay(Color.RED));
 
-    private static boolean always(BlockState p_50775_, BlockGetter p_50776_, BlockPos p_50777_) {
+    private static boolean always(BlockState state, BlockGetter getter, BlockPos pos) {
         return true;
     }
 

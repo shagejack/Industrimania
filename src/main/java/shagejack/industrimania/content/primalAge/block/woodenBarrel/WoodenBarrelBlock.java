@@ -1,12 +1,23 @@
 package shagejack.industrimania.content.primalAge.block.woodenBarrel;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,17 +33,21 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import shagejack.industrimania.content.contraptions.multimeter.IMultimeterInfo;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.utility.TileEntityUtils;
 import shagejack.industrimania.registers.AllTileEntities;
 import shagejack.industrimania.registers.item.AllItems;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-public class WoodenBarrelBlock extends Block implements ITE<WoodenBarrelTileEntity> {
+public class WoodenBarrelBlock extends Block implements ITE<WoodenBarrelTileEntity>, IMultimeterInfo {
 
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
@@ -41,6 +56,48 @@ public class WoodenBarrelBlock extends Block implements ITE<WoodenBarrelTileEnti
     public WoodenBarrelBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.getStateDefinition().any().setValue(OPEN, true));
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable BlockGetter getter, List<Component> components, TooltipFlag tooltipFlag) {
+        CompoundTag tag = stack.getOrCreateTag();
+
+        if (tag.contains("Open", Tag.TAG_BYTE) && !tag.getBoolean("Open")) {
+
+            FluidTank tank = new FluidTank(WoodenBarrelTileEntity.CAPACITY);
+            tank.readFromNBT(tag);
+
+            MutableComponent infoFluidText = new TextComponent(I18n.get("industrimania.mechanic_wooden_barrel_info_fluid")).append(": ").withStyle(ChatFormatting.AQUA);
+            MutableComponent infoAmountText = new TextComponent(I18n.get("industrimania.mechanic_wooden_barrel_info_amount")).append(": ").withStyle(ChatFormatting.RED);
+
+            components.add(infoFluidText.append(new TextComponent(tank.getFluid().getDisplayName().getString()).withStyle(ChatFormatting.WHITE)));
+            components.add(infoAmountText.append(new TextComponent(String.valueOf(tank.getFluid().getAmount())).append("mB / ").append(String.valueOf(tank.getCapacity())).append("mB").withStyle(ChatFormatting.GREEN)));
+
+        }
+    }
+
+    @Override
+    public List<Component> getInfo(Level level, BlockPos pos) {
+        List<Component> components = new ArrayList<>();
+
+        BlockState state = level.getBlockState(pos);
+
+        if (level.getBlockEntity(pos) instanceof WoodenBarrelTileEntity te) {
+
+            MutableComponent infoOpenText = new TextComponent(I18n.get("industrimania.mechanic_wooden_barrel_info_state")).append(": ").withStyle(ChatFormatting.GOLD);
+            MutableComponent infoFluidText = new TextComponent(I18n.get("industrimania.mechanic_wooden_barrel_info_fluid")).append(": ").withStyle(ChatFormatting.AQUA);
+            MutableComponent infoAmountText = new TextComponent(I18n.get("industrimania.mechanic_wooden_barrel_info_amount")).append(": ").withStyle(ChatFormatting.RED);
+            MutableComponent openState = state.getValue(OPEN) ?
+                    new TextComponent(I18n.get("industrimania.mechanic_wooden_barrel_info_state_open")).withStyle(ChatFormatting.DARK_GREEN) :
+                    new TextComponent(I18n.get("industrimania.mechanic_wooden_barrel_info_state_sealed")).withStyle(ChatFormatting.DARK_RED);
+
+            components.add(infoOpenText.append(openState));
+            components.add(infoFluidText.append(new TextComponent(te.tank.getFluid().getDisplayName().getString()).withStyle(ChatFormatting.WHITE)));
+            components.add(infoAmountText.append(new TextComponent(String.valueOf(te.tank.getFluid().getAmount())).append("mB / ").append(String.valueOf(te.tank.getCapacity())).append("mB").withStyle(ChatFormatting.GREEN)));
+
+        }
+
+        return components;
     }
 
     @Override
@@ -134,4 +191,5 @@ public class WoodenBarrelBlock extends Block implements ITE<WoodenBarrelTileEnti
 
         withTileEntityDo(level, pos, barrel -> barrel.initByItem(stack));
     }
+
 }

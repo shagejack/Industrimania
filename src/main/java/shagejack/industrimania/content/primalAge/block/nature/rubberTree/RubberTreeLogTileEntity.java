@@ -63,7 +63,7 @@ public class RubberTreeLogTileEntity extends SmartTileEntity {
     public void lazyTick() {
         super.lazyTick();
         if (level != null && !getBlockState().isAir()) {
-            if (level.getRandom().nextDouble() < 0.1 && tank.isFull() && shouldProduceRubber(level, getBlockPos()))
+            if (level.getRandom().nextDouble() < 0.1 && !tank.isFull() && shouldProduceRubber(level, getBlockPos()))
                 tank.fill(new FluidStack(AllFluids.rawRubber.still().get(), 1), IFluidHandler.FluidAction.EXECUTE);
         }
     }

@@ -47,6 +47,7 @@ public class RegisterHandle {
         new AllTileEntities();
         new AllBiomes();
         new AllDimensions();
+        new AllTranslationLangs();
         bus.addListener((FMLClientSetupEvent event) -> BlockBuilder.setupRenderLayerTasks.forEach((task) -> task.get().run()));
         bus.addListener((FMLClientSetupEvent event) -> AllTileEntities.TileEntityBuilder.bind(event));
         bus.addGenericListener(Block.class, (RegistryEvent<Block> event) -> new AllFeatures());
