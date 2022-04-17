@@ -1,0 +1,58 @@
+{
+	"credit": "MalayP made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "industrimania:block/mechanic/wooden_faucet/drain_side",
+		"particle": "industrimania:block/mechanic/wooden_faucet/drain_side"
+	},
+	"elements": [
+		{
+			"from": [4, 1, 11],
+			"to": [5, 8, 16],
+			"faces": {
+				"north": {"uv": [9, 9.5, 9.5, 13], "texture": "#0"},
+				"east": {"uv": [6.5, 9.5, 9, 13], "texture": "#0"},
+				"south": {"uv": [12, 9.5, 12.5, 13], "texture": "#0"},
+				"west": {"uv": [9.5, 9.5, 12, 13], "texture": "#0"},
+				"up": {"uv": [9.5, 9.5, 9, 7], "texture": "#0"},
+				"down": {"uv": [10, 7, 9.5, 9.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [11, 2, 11],
+			"to": [12, 9, 16],
+			"faces": {
+				"north": {"uv": [2.5, 9.5, 3, 13], "texture": "#0"},
+				"east": {"uv": [0, 9.5, 2.5, 13], "texture": "#0"},
+				"south": {"uv": [5.5, 9.5, 6, 13], "texture": "#0"},
+				"west": {"uv": [3, 9.5, 5.5, 13], "texture": "#0"},
+				"up": {"uv": [3, 9.5, 2.5, 7], "texture": "#0"},
+				"down": {"uv": [3.5, 7, 3, 9.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [4, 8, 11],
+			"to": [11, 9, 16],
+			"faces": {
+				"north": {"uv": [2.5, 6, 6, 6.5], "texture": "#0"},
+				"east": {"uv": [0, 6, 2.5, 6.5], "texture": "#0"},
+				"south": {"uv": [8.5, 6, 12, 6.5], "texture": "#0"},
+				"west": {"uv": [6, 6, 8.5, 6.5], "texture": "#0"},
+				"up": {"uv": [6, 6, 2.5, 3.5], "texture": "#0"},
+				"down": {"uv": [9.5, 3.5, 6, 6], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5, 1, 11],
+			"to": [12, 2, 16],
+			"faces": {
+				"north": {"uv": [2.5, 2.5, 6, 3], "texture": "#0"},
+				"east": {"uv": [0, 2.5, 2.5, 3], "texture": "#0"},
+				"south": {"uv": [8.5, 2.5, 12, 3], "texture": "#0"},
+				"west": {"uv": [6, 2.5, 8.5, 3], "texture": "#0"},
+				"up": {"uv": [6, 2.5, 2.5, 0], "texture": "#0"},
+				"down": {"uv": [9.5, 0, 6, 2.5], "texture": "#0"}
+			}
+		}
+	]
+}

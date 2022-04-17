@@ -48,6 +48,10 @@ public class GenerationRegistry {
             event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, AllFeatures.MULBERRY_TREE_PLACED);
         }
 
+        if (event.getCategory() == Biome.BiomeCategory.RIVER) {
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, AllFeatures.COBBLE_GEN_FEATURE_PLACED);
+        }
+
     }
 
 }

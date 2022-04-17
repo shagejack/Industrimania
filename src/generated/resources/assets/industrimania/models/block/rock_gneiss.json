@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/gneiss/default",
+    "up": "industrimania:block/rock/gneiss/default",
+    "down": "industrimania:block/rock/gneiss/default",
+    "north": "industrimania:block/rock/gneiss/default",
+    "south": "industrimania:block/rock/gneiss/default",
+    "west": "industrimania:block/rock/gneiss/default",
+    "east": "industrimania:block/rock/gneiss/default"
+  }
+}

@@ -114,7 +114,7 @@ public class ItemPlaceableBaseBlock extends Block implements ITE<ItemPlaceableBa
                 if (te instanceof ItemPlaceableBaseTileEntity) {
                     ItemStack removeStack = ((ItemPlaceableBaseTileEntity) te).removeItem();
                     if (!removeStack.isEmpty()) {
-                        player.addItem(removeStack);
+                        player.getInventory().placeItemBackInInventory(removeStack);
                     }
                 }
             } else if (stack.getItem() instanceof ItemPlaceableBase) {
@@ -141,7 +141,7 @@ public class ItemPlaceableBaseBlock extends Block implements ITE<ItemPlaceableBa
             if (te instanceof ItemPlaceableBaseTileEntity) {
                 ItemStack removeStack = ((ItemPlaceableBaseTileEntity) te).removeItem();
                 if (!removeStack.isEmpty()) {
-                    player.addItem(removeStack);
+                    player.getInventory().placeItemBackInInventory(removeStack);
                 }
             }
         }

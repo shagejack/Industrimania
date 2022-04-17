@@ -1,14 +1,11 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "item/iron_ingot"
-  },
+  "parent": "industrimania:block/mechanic/wooden_barrel_0",
   "overrides": [
     {
       "predicate": {
         "industrimania:open": 1.0
       },
-      "model": "item/gold_ingot"
+      "model": "industrimania:block/mechanic/wooden_barrel"
     }
   ]
 }

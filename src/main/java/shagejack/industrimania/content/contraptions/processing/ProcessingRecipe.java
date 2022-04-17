@@ -176,7 +176,7 @@ public abstract class ProcessingRecipe<T extends Container> implements Recipe<T>
 	public ItemStack getResultItem() {
 		return getRollableResults().isEmpty() ? ItemStack.EMPTY
 			: getRollableResults().get(0)
-				.getStack();
+				.getStack().copy();
 	}
 
 	@Override

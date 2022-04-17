@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import shagejack.industrimania.content.primalAge.block.nature.IMDoublePlantBottomGrowableBlock;
 import shagejack.industrimania.registers.block.AllBlocks;
@@ -35,6 +37,12 @@ public class RushBlockBottom extends IMDoublePlantBottomGrowableBlock {
     public BlockState updateShape(BlockState state, Direction direction, BlockState p_52896_, LevelAccessor p_52897_, BlockPos p_52898_, BlockPos p_52899_) {
         DoubleBlockHalf doubleblockhalf = state.getValue(HALF);
         return doubleblockhalf == DoubleBlockHalf.LOWER && !state.canSurvive(p_52897_, p_52898_) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, p_52896_, p_52897_, p_52898_, p_52899_);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        Vec3 offset = state.getOffset(getter, pos);
+        return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())].move(offset.x(), offset.y(), offset.z());
     }
 
     @Override

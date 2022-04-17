@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/trachyte/default",
+    "up": "industrimania:block/rock/trachyte/default",
+    "down": "industrimania:block/rock/trachyte/default",
+    "north": "industrimania:block/rock/trachyte/default",
+    "south": "industrimania:block/rock/trachyte/default",
+    "west": "industrimania:block/rock/trachyte/default",
+    "east": "industrimania:block/rock/trachyte/default"
+  }
+}

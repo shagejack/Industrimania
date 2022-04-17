@@ -1,0 +1,7 @@
+{
+  "parent": "industrimania:block/ore",
+  "textures": {
+    "rock": "industrimania:block/rock/oilshale/default",
+    "ore": "industrimania:block/ore/layer/galena/2"
+  }
+}

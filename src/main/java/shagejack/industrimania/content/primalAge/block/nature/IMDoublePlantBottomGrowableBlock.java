@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -54,8 +55,9 @@ public abstract class IMDoublePlantBottomGrowableBlock extends Block implements 
         return AGE;
     }
 
-    public VoxelShape getShape(BlockState p_52297_, BlockGetter p_52298_, BlockPos p_52299_, CollisionContext p_52300_) {
-        return SHAPE_BY_AGE[p_52297_.getValue(this.getAgeProperty())];
+    public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        Vec3 offset = state.getOffset(getter, pos);
+        return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())].move(offset.x(), offset.y(), offset.z());
     }
 
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {

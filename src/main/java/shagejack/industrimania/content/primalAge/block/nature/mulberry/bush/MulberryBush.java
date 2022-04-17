@@ -36,7 +36,7 @@ public class MulberryBush extends Block implements BonemealableBlock {
 
     public MulberryBush(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, Integer.valueOf(0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class MulberryBush extends Block implements BonemealableBlock {
     }
 
     public void grow(Level level, BlockPos pos) {
-        level.setBlock(pos, this.defaultBlockState().setValue(STAGE, Integer.valueOf(1)), 3);
+        level.setBlock(pos, this.defaultBlockState().setValue(STAGE, 1), 3);
     }
 
     @Override
@@ -117,8 +117,10 @@ public class MulberryBush extends Block implements BonemealableBlock {
         if (level.isClientSide)
             return InteractionResult.SUCCESS;
 
-        level.setBlock(pos, this.defaultBlockState().setValue(STAGE, Integer.valueOf(0)), 3);
-        dropItem(level, pos, new ItemStack(AllItems.mulberryFruit.get()));
+        if (state.getValue(STAGE).equals(1)) {
+            level.setBlock(pos, this.defaultBlockState().setValue(STAGE, 0), 3);
+            dropItem(level, pos, new ItemStack(AllItems.mulberryFruit.get()));
+        }
 
         return InteractionResult.PASS;
     }

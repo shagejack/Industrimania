@@ -1,6 +1,5 @@
 package shagejack.industrimania.registers.item;
 
-import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.food.FoodProperties;
@@ -14,12 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.client.handler.ItemColorHandler;
 import shagejack.industrimania.registers.AllTabs;
-import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.RegisterHandle;
-import shagejack.industrimania.registers.block.AllBlocks;
-import shagejack.industrimania.registers.block.BlockBuilder;
-import shagejack.industrimania.registers.block.grouped.AllRocks;
-import shagejack.industrimania.registers.record.ItemBlock;
 
 import java.awt.*;
 import java.util.*;
@@ -30,7 +24,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class ItemBuilder implements ModelBuilder{
-     String name;
+
+    String name;
     private CreativeModeTab tab;
     private boolean hasTab = true;
     private Item.Properties property;
@@ -55,7 +50,12 @@ public final class ItemBuilder implements ModelBuilder{
             this.property = new Item.Properties();
         }
         property = function.apply(this.property);
+
         return this;
+    }
+
+    public ItemBuilder simpleModel() {
+        return this.simpleModel(this.name);
     }
 
     /**
@@ -88,37 +88,41 @@ public final class ItemBuilder implements ModelBuilder{
     }
 
     public RegistryObject<Item> build() {
-        return build(() -> new Item(property) {
-            @Override
-            public void initializeClient(@NotNull Consumer<IItemRenderProperties> consumer) {
-                if (render != null) {
-                    consumer.accept(new IItemRenderProperties() {
-                        @Override
-                        public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
-                            return render.get().get();
-                        }
-                    });
+        if (render != null) {
+            return build(() -> new Item(property) {
+                @Override
+                public void initializeClient(@NotNull Consumer<IItemRenderProperties> consumer) {
+                    if (render != null) {
+                        consumer.accept(new IItemRenderProperties() {
+                            @Override
+                            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                                return render.get().get();
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            return build(() -> new Item(property));
+        }
     }
 
     /**
-     * don't support set BEWLR
+     * Don't support set BEWLR. You are supposed to use a custom class overriding Item#initalizeClient.
      */
     public <T extends Item> RegistryObject<Item> build(Function<Item.Properties, T> factory) {
         return build(() -> factory.apply(property));
     }
 
     /**
-     * don't support set BEWLR
+     * Don't support set BEWLR. You are supposed to use a custom class overriding Item#initalizeClient.
      */
     public <T extends Item> RegistryObject<Item> build(BiFunction<Item.Properties, Map<String, Object>, T> factory) {
         return build(() -> factory.apply(property, extraParam));
     }
 
     /**
-     * don't support set BEWLR
+     * Don't support set BEWLR. You are supposed to use a custom class overriding Item#initalizeClient.
      */
     public RegistryObject<Item> build(Supplier<Item> itemSupplier) {
         checkProperty();
@@ -139,19 +143,23 @@ public final class ItemBuilder implements ModelBuilder{
 
     public RegistryObject<Item> build(RegistryObject<Block> block) {
         checkProperty();
-        registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), property) {
-            @Override
-            public void initializeClient(@NotNull Consumer<IItemRenderProperties> consumer) {
-                if (render != null) {
-                    consumer.accept(new IItemRenderProperties() {
-                        @Override
-                        public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
-                            return render.get().get();
-                        }
-                    });
+        if (render != null) {
+            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), property) {
+                @Override
+                public void initializeClient(@NotNull Consumer<IItemRenderProperties> consumer) {
+                    if (render != null) {
+                        consumer.accept(new IItemRenderProperties() {
+                            @Override
+                            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                                return render.get().get();
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), property));
+        }
 
         if (!tags.isEmpty()) {
             AllItems.ITEM_TAGS.put(registryObject, tags);
@@ -164,7 +172,6 @@ public final class ItemBuilder implements ModelBuilder{
         return registryObject;
     }
 
-    //TODO: apply renderer
     public <T extends BlockItem> RegistryObject<Item> build(RegistryObject<Block> block, BiFunction<Block, Item.Properties, T> blockItemFactory) {
         checkProperty();
         registryObject = RegisterHandle.ITEM_REGISTER.register(name, () -> blockItemFactory.apply(block.get(), property) );
@@ -194,8 +201,8 @@ public final class ItemBuilder implements ModelBuilder{
             this.property.stacksTo(maxStackSize);
         }
 
-        if(hasTab) {
-            this.property.tab(Objects.requireNonNullElse(tab, AllTabs.tab));
+        if (hasTab) {
+            this.property.tab(Objects.requireNonNullElse(tab, AllTabs.tabMain));
         }
 
         if (foodProperties != null) {

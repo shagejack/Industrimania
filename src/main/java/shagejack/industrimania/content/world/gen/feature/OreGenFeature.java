@@ -17,6 +17,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.world.gen.OreRegistry;
+import shagejack.industrimania.content.world.gen.featureConfiguration.OreGenConfiguration;
 import shagejack.industrimania.content.world.gen.record.Ore;
 import shagejack.industrimania.foundation.utility.CrossChunkGenerationHelper;
 import shagejack.industrimania.registers.block.AllBlocks;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInCylinder;
 import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInEllipsoid;
 
-public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
+public class OreGenFeature extends Feature<OreGenConfiguration> {
 
     private static final ArrayList<Block> EXTRA_REPLACEABLE_BLOCK = Lists.newArrayList(
             Blocks.GRAVEL,
@@ -89,7 +90,7 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
     private static final List<Block> allOres = AllOres.ORES.values().stream().map(ore -> ore.block().get()).toList();
 
-    private static final double DEPOSIT_GEN_PROBABILITY = 0.06;
+    //private static final double DEPOSIT_GEN_PROBABILITY = 0.06;
     private static final double PLANT_DECAY_PROBABILITY = 0.75;
     private static final double PLANT_SIGN_GEN_PROBABILITY = 0.15;
     private static final double ORE_CAP_GEN_PROBABILITY = 0.01;
@@ -140,13 +141,15 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
     @Override
     @ParametersAreNonnullByDefault
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> f) {
-        if (f.chunkGenerator() instanceof FlatLevelSource) {
+    public boolean place(FeaturePlaceContext<OreGenConfiguration> context) {
+        if (context.chunkGenerator() instanceof FlatLevelSource) {
             return false;
         }
 
-        WorldGenLevel level = f.level();
-        ChunkPos cp = new ChunkPos(f.origin());
+        double DEPOSIT_GEN_PROBABILITY = context.config().genChance;
+
+        WorldGenLevel level = context.level();
+        ChunkPos cp = new ChunkPos(context.origin());
 
         helper.gen(level, cp);
 
@@ -405,6 +408,4 @@ public class OreGenFeature extends Feature<NoneFeatureConfiguration> {
 
         return false;
     }
-
-
 }

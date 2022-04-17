@@ -12,6 +12,8 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -27,6 +29,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.foundation.utility.Wrapper;
 import shagejack.industrimania.registers.block.AllBlocks;
@@ -34,6 +37,7 @@ import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registers.item.grouped.AllOreChunks;
 import shagejack.industrimania.registers.recipe.ProcessingRecipeGen;
 
 import java.io.IOException;
@@ -237,12 +241,18 @@ public class DataGenHandle {
             @Override
             protected void addTranslations() {
 
+                List<Block> ores = AllOres.ORES.values().stream().map(it -> it.block().get()).toList();
+                List<Item> oreChunks = AllOreChunks.ORE_CHUNKS.values().stream().map(RegistryObject::get).toList();
+
                 RegisterHandle.ITEM_REGISTER.getEntries()
                         .stream().sequential()
-                        .filter(item -> !(item.get() instanceof BlockItem))
+                        .filter(item -> !(item.get() instanceof BlockItem) && !(oreChunks.contains(item.get())))
                         .forEach((item ->
                                 this.addItem(item, Objects.requireNonNull(item.get().getRegistryName()).getPath())));
-                RegisterHandle.BLOCK_REGISTER.getEntries().forEach((block ->
+                RegisterHandle.BLOCK_REGISTER.getEntries()
+                        .stream().sequential()
+                        .filter(block -> !ores.contains(block.get()))
+                        .forEach((block ->
                         this.addBlock(block, Objects.requireNonNull(Objects.requireNonNull(block.get().getRegistryName()).getPath()))));
                 RegisterHandle.MOB_EFFECT_REGISTER.getEntries().forEach((effect) ->
                         this.addEffect(effect, effect.get().getDisplayName().getString()));

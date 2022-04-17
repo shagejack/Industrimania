@@ -23,11 +23,13 @@ import java.util.Random;
 
 public class MulberryTreeLeaves extends LeavesBlock {
 
+    public static final int FRUIT_DENSITY_RECIPROCAL = 8;
+
     public static final IntegerProperty STAGE = BlockStateProperties.STAGE;
 
     public MulberryTreeLeaves(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, Integer.valueOf(0)).setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0).setValue(DISTANCE, 7).setValue(PERSISTENT, Boolean.FALSE));
     }
 
     @Override
@@ -37,18 +39,13 @@ public class MulberryTreeLeaves extends LeavesBlock {
     }
 
     @Override
-    public void tick(BlockState p_48896_, ServerLevel p_48897_, BlockPos p_48898_, Random p_48899_) {
-        super.tick(p_48896_, p_48897_, p_48898_, p_48899_);
-    }
-
-    @Override
     public boolean isRandomlyTicking(BlockState state) {
         return state.getValue(STAGE) == 0;
     }
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        if (state.getValue(STAGE) == 0 && level.random.nextDouble() < 0.05) {
+        if (!state.getValue(PERSISTENT) && state.getValue(STAGE) == 0 && (pos.hashCode() + state.getValue(DISTANCE)) % FRUIT_DENSITY_RECIPROCAL == 0 && level.random.nextDouble() < 0.2) {
             if (level.getRawBrightness(pos.above(), 0) >= 9) {
                 this.grow(level, pos);
                 net.minecraftforge.common.ForgeHooks.onCropsGrowPost(level, pos, state);
@@ -58,17 +55,20 @@ public class MulberryTreeLeaves extends LeavesBlock {
     }
 
     public void grow(Level level, BlockPos pos) {
-        level.setBlock(pos, this.defaultBlockState().setValue(STAGE, Integer.valueOf(1)), 3);
+        level.setBlock(pos, this.defaultBlockState().setValue(STAGE, 1), 3);
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 
-        if (level.isClientSide)
-            return InteractionResult.SUCCESS;
+        if (level.isClientSide())
+            return InteractionResult.PASS;
 
-        level.setBlock(pos, this.defaultBlockState().setValue(STAGE, Integer.valueOf(0)), 3);
-        dropItem(level, pos, new ItemStack(AllItems.mulberryFruit.get()));
+        if (state.getValue(STAGE).equals(1)) {
+            level.setBlock(pos, this.defaultBlockState().setValue(STAGE, 0), 3);
+            dropItem(level, pos, new ItemStack(AllItems.mulberryFruit.get()));
+            return InteractionResult.SUCCESS;
+        }
 
         return InteractionResult.PASS;
     }

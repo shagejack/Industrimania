@@ -19,7 +19,7 @@ public class BlockAshesLayers extends SnowLayerBlock {
         BlockState blockstate = p_56603_.getBlockState(p_56604_.below());
         if (!blockstate.is(Blocks.BARRIER)) {
             if (!blockstate.is(Blocks.HONEY_BLOCK) && !blockstate.is(Blocks.SOUL_SAND)) {
-                return Block.isFaceFull(blockstate.getCollisionShape(p_56603_, p_56604_.below()), Direction.UP) || blockstate.is(this) && blockstate.getValue(LAYERS) == 8;
+                return Block.isFaceFull(blockstate.getCollisionShape(p_56603_, p_56604_.below()), Direction.UP) || (blockstate.is(this) && blockstate.getValue(LAYERS) == 8);
             } else {
                 return true;
             }

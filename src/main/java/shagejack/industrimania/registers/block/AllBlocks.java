@@ -15,6 +15,7 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.
 import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
+import shagejack.industrimania.content.primalAge.block.nature.cobble.Cobble;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.bush.MulberryBush;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxBlock;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeLeaves;
@@ -57,6 +58,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("pollution_ashes_block")
             .material(Material.SNOW)
+            .sound(SoundType.SNOW)
             .strength(0.2F, 0.0F)
             .autoFullCubeModel()
             .simpleBlockState()
@@ -67,6 +69,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("pollution_ashes_layers")
             .material(Material.SNOW)
+            .sound(SoundType.SNOW)
             .strength(0.2F, 0.0F)
             .snowLikeModel()
             .snowLikeBlockState()
@@ -88,7 +91,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock building_scorched_clay
             = new BlockBuilder()
@@ -96,7 +99,7 @@ public class AllBlocks {
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock()
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock building_grass_stack
             = new BlockBuilder()
@@ -105,7 +108,7 @@ public class AllBlocks {
             .rotatableBlockState()
             .randomTicks()
             .buildBlock(GrassStackBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock building_hay_stack
             = new BlockBuilder()
@@ -114,7 +117,7 @@ public class AllBlocks {
             .rotatableBlockState()
             .randomTicks()
             .buildBlock(HayStackBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock building_moldy_grass_stack
             = new BlockBuilder()
@@ -123,7 +126,7 @@ public class AllBlocks {
             .rotatableBlockState()
             .randomTicks()
             .buildBlock(MoldyGrassStackBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock building_rotten_grass_stack
             = new BlockBuilder()
@@ -131,40 +134,48 @@ public class AllBlocks {
             .autoFullCubeModel()
             .rotatableBlockState()
             .buildBlock(RottenGrassStackBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     //gravity
     public static final ItemBlock gravity_calcite
             = new BlockBuilder()
             .name("gravity_calcite")
+            .material(Material.SAND)
+            .sound(SoundType.GRAVEL)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(GravelBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock gravity_charcoal
             = new BlockBuilder()
             .name("gravity_charcoal")
+            .material(Material.SAND)
+            .sound(SoundType.GRAVEL)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(GravelBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock gravity_dust
             = new BlockBuilder()
             .name("gravity_dust")
+            .material(Material.SAND)
+            .sound(SoundType.SAND)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(GravelBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     public static final ItemBlock gravity_iron_oxide
             = new BlockBuilder()
             .name("gravity_iron_oxide")
+            .material(Material.SAND)
+            .sound(SoundType.GRAVEL)
             .autoFullCubeModel()
             .simpleBlockState()
             .buildBlock(GravelBlock::new)
-            .buildItem();
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
     //mechanic
     public static final ItemBlock mechanic_fake_air_light
@@ -188,6 +199,8 @@ public class AllBlocks {
     public static final ItemBlock mechanic_silkworm_rearing_box
             = new BlockBuilder()
             .name("mechanic_silkworm_rearing_box")
+            .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .simplePresetModel()
             .simpleBlockState()
             .buildBlock(SilkwormRearingBoxBlock::new)
@@ -196,6 +209,8 @@ public class AllBlocks {
     public static final ItemBlock mechanic_simple_crafting_table
             = new BlockBuilder()
             .name("mechanic_simple_crafting_table")
+            .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .simplePresetModel()
             .rotatableBlockState()
             .buildBlock(SimpleCraftingTableBlock::new)
@@ -212,6 +227,8 @@ public class AllBlocks {
     public static final ItemBlock mechanic_drying_rack
             = new BlockBuilder()
             .name("mechanic_drying_rack")
+            .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .simplePresetModel()
             .simpleBlockState()
             .renderLayer(() -> RenderType::cutout)
@@ -222,6 +239,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("mechanic_wooden_faucet")
             .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .renderLayer(() -> RenderType::cutout)
             .buildBlock(WoodenFaucetBlock::new)
             .presetItemModel()
@@ -231,6 +249,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("mechanic_wooden_barrel")
             .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .presetBinaryModel()
             .binaryBlockState(WoodenBarrelBlock.OPEN)
             .noDrops()
@@ -287,14 +306,40 @@ public class AllBlocks {
     * ============================================
      */
 
+    public static final ItemBlock nature_clay_terracotta
+            = new BlockBuilder()
+            .name("nature_clay_terracotta")
+            .material(Material.CLAY)
+            .sound(SoundType.GRAVEL)
+            .strength(0.6F)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabNature));
+
+    public static final ItemBlock nature_clay_terramelas
+            = new BlockBuilder()
+            .name("nature_clay_terramelas")
+            .material(Material.CLAY)
+            .sound(SoundType.GRAVEL)
+            .strength(0.6F)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock()
+            .buildItem(builder -> builder.tab(AllTabs.tabNature));
+
     public static final ItemBlock nature_cobble
             = new BlockBuilder()
             .name("nature_cobble")
             .material(Material.STONE)
-            .strength(1.0F, 0.5F)
+            .strength(0.3F)
+            .isValidSpawn(AllBlocks::ocelotOrParrot)
+            .isSuffocating(AllBlocks::never)
+            .isViewBlocking(AllBlocks::never)
+            .noOcclusion()
+            .renderLayer(() -> RenderType::cutout)
             .simplePresetModel()
-            .simpleBlockState()
-            .buildBlock()
+            .buildBlock(Cobble::new)
             .customItemName("cobble")
             .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
@@ -303,10 +348,11 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("nature_rubber_tree_log")
             .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .strength(1.0F, 0.5F)
             .tags(BlockTags.LOGS)
             .autoFullCubeModel()
-            .simpleBlockState()
+            .rotatablePillarBlockState()
             .buildBlock(RubberTreeLog::new)
             .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
@@ -314,6 +360,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("nature_rubber_tree_plank")
             .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .strength(1.0F, 0.5F)
             .tags(BlockTags.PLANKS)
             .autoFullCubeModel()
@@ -325,7 +372,9 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("nature_rubber_tree_leaves")
             .material(Material.LEAVES)
-            .strength(0.2F, 0.1F)
+            .sound(SoundType.GRASS)
+            .strength(0.2F, 0.2F)
+            .noOcclusion()
             .isViewBlocking(AllBlocks::never)
             .isSuffocating(AllBlocks::never)
             .isValidSpawn(AllBlocks::ocelotOrParrot)
@@ -340,7 +389,8 @@ public class AllBlocks {
     public static final ItemBlock nature_rubber_tree_sapling
             = new BlockBuilder()
             .name("nature_rubber_tree_sapling")
-            .material(Material.GRASS)
+            .material(Material.PLANT)
+            .sound(SoundType.GRASS)
             .strength(0.1F, 0.1F)
             .isViewBlocking(AllBlocks::never)
             .isSuffocating(AllBlocks::never)
@@ -357,10 +407,11 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("nature_mulberry_tree_log")
             .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .strength(1.0F, 0.5F)
             .tags(BlockTags.LOGS)
             .autoFullCubeModel()
-            .simpleBlockState()
+            .rotatablePillarBlockState()
             .buildBlock(MulberryTreeLog::new)
             .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
@@ -368,6 +419,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("nature_mulberry_tree_plank")
             .material(Material.WOOD)
+            .sound(SoundType.WOOD)
             .strength(1.0F, 0.5F)
             .tags(BlockTags.PLANKS)
             .autoFullCubeModel()
@@ -379,7 +431,9 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("nature_mulberry_tree_leaves")
             .material(Material.LEAVES)
-            .strength(0.2F, 0.1F)
+            .sound(SoundType.GRASS)
+            .strength(0.2F, 0.2F)
+            .noOcclusion()
             .isViewBlocking(AllBlocks::never)
             .isSuffocating(AllBlocks::never)
             .isValidSpawn(AllBlocks::ocelotOrParrot)
@@ -394,7 +448,8 @@ public class AllBlocks {
     public static final ItemBlock nature_mulberry_tree_sapling
             = new BlockBuilder()
             .name("nature_mulberry_tree_sapling")
-            .material(Material.GRASS)
+            .material(Material.PLANT)
+            .sound(SoundType.GRASS)
             .strength(0.1F, 0.1F)
             .isViewBlocking(AllBlocks::never)
             .isSuffocating(AllBlocks::never)
@@ -474,29 +529,6 @@ public class AllBlocks {
             .simpleBlockState()
             .buildBlock()
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabOre)));
-
-    //Clay
-    public static final ItemBlock clay_terracotta
-            = new BlockBuilder()
-            .name("clay_terracotta")
-            .material(Material.CLAY)
-            .sound(SoundType.GRAVEL)
-            .strength(0.6F)
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock()
-            .buildItem(builder -> builder.tab(AllTabs.tabNature));
-
-    public static final ItemBlock clay_terramelas
-            = new BlockBuilder()
-            .name("clay_terramelas")
-            .material(Material.CLAY)
-            .sound(SoundType.GRAVEL)
-            .strength(0.6F)
-            .autoFullCubeModel()
-            .simpleBlockState()
-            .buildBlock()
-            .buildItem(builder -> builder.tab(AllTabs.tabNature));
 
     //Igneous Rocks
     public static final ItemBlock rock_andesite

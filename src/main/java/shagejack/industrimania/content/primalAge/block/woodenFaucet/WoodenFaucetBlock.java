@@ -38,13 +38,21 @@ public class WoodenFaucetBlock extends Block implements ITE<WoodenFaucetTileEnti
             Shapes.box(0.25, 0.8125, 0.625, 0.625, 0.9375, 0.75)
             );
 
+    public static final VoxelShape SHAPE_SIDE = VoxelShapeUtils.joinAllShape(BooleanOp.OR,
+            Shapes.box(0.25, 0.0625, 0.6875, 0.3125, 0.5, 1),
+            Shapes.box(0.6875, 0.125, 0.6875, 0.75, 0.5625, 1),
+            Shapes.box(0.25, 0.5, 0.6875, 0.6875, 0.5625, 1),
+            Shapes.box(0.3125, 0.0625, 0.6875, 0.75, 0.125, 1)
+    );
+
 
     private static final EnumMap<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(
             Direction.DOWN, SHAPE_DOWN,
-            Direction.NORTH, Shapes.join(box( 4,  4, 10, 12, 10, 16), box( 6,  6, 10, 10, 10, 16), BooleanOp.ONLY_FIRST),
-            Direction.SOUTH, Shapes.join(box( 4,  4,  0, 12, 10,  6), box( 6,  6,  0, 10, 10,  6), BooleanOp.ONLY_FIRST),
-            Direction.WEST,  Shapes.join(box(10,  4,  4, 16, 10, 12), box(10,  6,  6, 16, 10, 10), BooleanOp.ONLY_FIRST),
-            Direction.EAST,  Shapes.join(box( 0,  4,  4,  6, 10, 12), box( 0,  6,  6,  6, 10, 10), BooleanOp.ONLY_FIRST))
+            Direction.NORTH, SHAPE_SIDE,
+            Direction.SOUTH, VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.SOUTH, SHAPE_SIDE),
+            Direction.WEST,  VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.WEST, SHAPE_SIDE),
+            Direction.EAST, VoxelShapeUtils.rotateShape(Direction.NORTH, Direction.EAST, SHAPE_SIDE)
+            )
     );
 
     public WoodenFaucetBlock(Properties properties) {

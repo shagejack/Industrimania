@@ -1,3 +1,48 @@
 {
-	"credit": "MalayP made with Blockbench"
+	"credit": "MalayP made with Blockbench",
+	"textures": {
+		"0": "industrimania:block/rock/chalk/default",
+		"particle": "industrimania:block/rock/chalk/default"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 6],
+			"to": [7, 2, 9],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [0, 0, 2]},
+			"faces": {
+				"north": {"uv": [4, 10, 8, 12], "texture": "#0"},
+				"east": {"uv": [0, 0, 3, 2], "texture": "#0"},
+				"south": {"uv": [4, 1, 8, 3], "texture": "#0"},
+				"west": {"uv": [6, 5, 9, 7], "texture": "#0"},
+				"up": {"uv": [1, 4, 5, 7], "texture": "#0"},
+				"down": {"uv": [10, 5, 14, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [-5, 0, 11],
+			"to": [-3, 1, 14],
+			"rotation": {"angle": 45, "axis": "y", "origin": [0, 0, 2]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#0"},
+				"east": {"uv": [10, 2, 13, 3], "texture": "#0"},
+				"south": {"uv": [4, 11, 6, 12], "texture": "#0"},
+				"west": {"uv": [6, 3, 9, 4], "texture": "#0"},
+				"up": {"uv": [7, 7, 9, 10], "texture": "#0"},
+				"down": {"uv": [1, 5, 3, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [10, 0, 8],
+			"to": [13, 1, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 2]},
+			"faces": {
+				"north": {"uv": [1, 3, 4, 4], "texture": "#0"},
+				"east": {"uv": [4, 12, 7, 13], "texture": "#0"},
+				"south": {"uv": [10, 9, 13, 10], "texture": "#0"},
+				"west": {"uv": [1, 8, 4, 9], "texture": "#0"},
+				"up": {"uv": [6, 5, 9, 8], "texture": "#0"},
+				"down": {"uv": [6, 0, 9, 3], "texture": "#0"}
+			}
+		}
+	]
 }

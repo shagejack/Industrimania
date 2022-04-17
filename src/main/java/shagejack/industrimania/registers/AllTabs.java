@@ -18,7 +18,9 @@ public class AllTabs {
 
     public static final List<CreativeModeTab> tabs = new ArrayList<>();
 
-    public static final CreativeModeTab tab = tab(Industrimania.MOD_ID, () -> () -> AllItems.omniMultimeter);
+    public static final CreativeModeTab tabMain = tab(Industrimania.MOD_ID, () -> () -> AllItems.omniMultimeter);
+
+    public static final CreativeModeTab tabBuilding = tab(Industrimania.MOD_ID + "_building", () -> AllBlocks.building_fine_clay::item);
 
     public static final CreativeModeTab tabMaterial = tab(Industrimania.MOD_ID + "_material", () -> () -> AllItems.clinker);
 

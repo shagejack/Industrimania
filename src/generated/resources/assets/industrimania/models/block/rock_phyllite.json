@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/rock/phyllite/default",
+    "up": "industrimania:block/rock/phyllite/default",
+    "down": "industrimania:block/rock/phyllite/default",
+    "north": "industrimania:block/rock/phyllite/default",
+    "south": "industrimania:block/rock/phyllite/default",
+    "west": "industrimania:block/rock/phyllite/default",
+    "east": "industrimania:block/rock/phyllite/default"
+  }
+}

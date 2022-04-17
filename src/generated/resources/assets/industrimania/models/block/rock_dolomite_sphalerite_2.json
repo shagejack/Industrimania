@@ -1,0 +1,7 @@
+{
+  "parent": "industrimania:block/ore",
+  "textures": {
+    "rock": "industrimania:block/rock/dolomite/default",
+    "ore": "industrimania:block/ore/layer/sphalerite/2"
+  }
+}

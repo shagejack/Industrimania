@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -52,23 +53,31 @@ public class WoodenBarrelTileEntity extends SmartTileEntity implements ITankTile
     protected void write(CompoundTag tag, boolean clientPacket) {
         super.write(tag, clientPacket);
         this.tank.writeToNBT(tag);
+        tag.putBoolean("overheat", overheat);
     }
 
     @Override
     protected void read(CompoundTag tag, boolean clientPacket) {
         super.read(tag, clientPacket);
         this.tank.readFromNBT(tag);
+        overheat = tag.getBoolean("overheat");
     }
 
     @Override
     public void tick() {
         super.tick();
 
+        if (level == null)
+            return;
+
         if (!tank.isEmpty()) {
             if (tank.getFluid().getFluid().getAttributes().getTemperature(tank.getFluid()) >= BURN_TEMPERATURE) {
                 burn();
             }
         }
+
+        if (level.isRainingAt(getBlockPos().above()) && !tank.isFull() && tank.getFluid().getFluid().isSame(Fluids.WATER))
+            tank.fill(new FluidStack(Fluids.WATER, 10), IFluidHandler.FluidAction.EXECUTE);
 
     }
 
@@ -82,6 +91,9 @@ public class WoodenBarrelTileEntity extends SmartTileEntity implements ITankTile
     }
 
     public ItemStack getDrop(boolean open) {
+        if (overheat)
+            return ItemStack.EMPTY;
+
         ItemStack stack = new ItemStack(AllBlocks.mechanic_wooden_barrel.item().get());
         stack.getOrCreateTag().putBoolean("Open", open);
 

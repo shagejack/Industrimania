@@ -1,6 +1,7 @@
 package shagejack.industrimania.foundation.utility;
 
 import net.minecraftforge.common.util.NonNullConsumer;
+import shagejack.industrimania.foundation.utility.nonnull.NonNullBiConsumer;
 
 import java.lang.ref.WeakReference;
 

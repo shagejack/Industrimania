@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
-import shagejack.industrimania.foundation.handler.MultiBlockBreakEventHandler
+import shagejack.industrimania.foundation.handler.MultiBlockEventHandler
 import java.util.*
 
 /**
@@ -18,11 +18,15 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
     private val complete : EnumMap<Direction, Boolean> = EnumMap(Direction::class.java)
 
     init {
-        MultiBlockBreakEventHandler.register(this)
+        MultiBlockEventHandler.register(this)
         complete[Direction.EAST] = false
         complete[Direction.SOUTH] = false
         complete[Direction.WEST] = false
         complete[Direction.NORTH] = false
+    }
+
+    fun tryForm() {
+        checkAll();
     }
 
     fun isComplete(direction: Direction) = this.complete[direction]
@@ -105,7 +109,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
      * This method should be fired when core block break.
      */
     fun unregister() {
-        MultiBlockBreakEventHandler.remove(this)
+        MultiBlockEventHandler.remove(this)
     }
 
     /**
@@ -122,7 +126,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
     }
 
     fun register() {
-        MultiBlockBreakEventHandler.register(this)
+        MultiBlockEventHandler.register(this)
     }
 
 }

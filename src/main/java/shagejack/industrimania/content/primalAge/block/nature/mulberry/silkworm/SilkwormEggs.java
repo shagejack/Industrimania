@@ -22,7 +22,7 @@ public class SilkwormEggs extends Item {
             ItemStack egg = new ItemStack(AllItems.silkworm.get());
             Silkworm.init(egg, level.getRandom());
             Silkworm.setAge(egg, 0);
-            player.addItem(egg);
+            player.getInventory().placeItemBackInInventory(egg);
         }
 
         return super.use(level, player, hand);

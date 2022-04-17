@@ -1,0 +1,7 @@
+{
+  "parent": "industrimania:block/ore",
+  "textures": {
+    "rock": "industrimania:block/rock/greisen/default",
+    "ore": "industrimania:block/ore/layer/hematite/2"
+  }
+}

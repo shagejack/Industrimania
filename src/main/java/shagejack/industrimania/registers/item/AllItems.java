@@ -4,6 +4,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegistryObject;
+import shagejack.industrimania.content.AllSections;
 import shagejack.industrimania.content.contraptions.goggles.GogglesItem;
 import shagejack.industrimania.content.contraptions.itemBase.*;
 import shagejack.industrimania.content.contraptions.materialBase.KnifeMaterials;
@@ -12,6 +13,7 @@ import shagejack.industrimania.content.contraptions.multimeter.Multimeter;
 import shagejack.industrimania.content.logistics.item.filter.FilterItem;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
+import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrelCoverItem;
 import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireBow;
 import shagejack.industrimania.content.primalAge.item.handOilLamp.HandOilLamp;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
@@ -31,6 +33,7 @@ public class AllItems {
     *  Primal Age
     * =============
     */
+
     //Material
     public static final RegistryObject<Item> sharpenedStick = new ItemBuilder().name("sharpened_stick").simpleModel("sharpened_stick").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> weedFiber = new ItemBuilder().name("weed_fiber").simpleModel("weed_fiber").tab(AllTabs.tabMaterial).build();
@@ -42,6 +45,19 @@ public class AllItems {
     public static final RegistryObject<Item> boneFragment = new ItemBuilder().name("bone_fragment").simpleModel("bone_fragment").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> rushRoot = new ItemBuilder().name("rush_root").simpleModel("rush_root").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> rushStalk = new ItemBuilder().name("rush_stalk").simpleModel("rush_stalk").tab(AllTabs.tabMaterial).build();
+
+    public static final RegistryObject<Item> plankAcacia = new ItemBuilder().name("plank_acacia").simpleModel("plank_acacia").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankBirch = new ItemBuilder().name("plank_birch").simpleModel("plank_birch").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankJungle = new ItemBuilder().name("plank_jungle").simpleModel("plank_jungle").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankOak = new ItemBuilder().name("plank_oak").simpleModel("plank_oak").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankSpruce = new ItemBuilder().name("plank_spruce").simpleModel("plank_spruce").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankDarkOak = new ItemBuilder().name("plank_darkoak").simpleModel("plank_darkoak").tab(AllTabs.tabMaterial).build(ItemPlaceableBase::new);
+    public static final RegistryObject<Item> plankAcaciaSmooth = new ItemBuilder().name("plank_acacia_smooth").simpleModel("plank_acacia_smooth").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> plankBirchSmooth = new ItemBuilder().name("plank_birch_smooth").simpleModel("plank_birch_smooth").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> plankJungleSmooth = new ItemBuilder().name("plank_jungle_smooth").simpleModel("plank_jungle_smooth").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> plankOakSmooth = new ItemBuilder().name("plank_oak_smooth").simpleModel("plank_oak_smooth").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> plankSpruceSmooth = new ItemBuilder().name("plank_spruce_smooth").simpleModel("plank_spruce_smooth").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> plankDarkOakSmooth = new ItemBuilder().name("plank_darkoak_smooth").simpleModel("plank_darkoak_smooth").tab(AllTabs.tabMaterial).build();
 
     //Natural Resource
     public static final RegistryObject<Item> silkworm = new ItemBuilder().name("silkworm").simpleModel("silkworm").tab(AllTabs.tabNature).maxStackSize(1).build();
@@ -55,20 +71,13 @@ public class AllItems {
     public static final RegistryObject<Item> logOak = new ItemBuilder().name("log_oak").simpleModel("log_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logSpruce = new ItemBuilder().name("log_spruce").simpleModel("log_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
     public static final RegistryObject<Item> logDarkOak = new ItemBuilder().name("log_darkoak").simpleModel("log_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> plankAcacia = new ItemBuilder().name("plank_acacia").simpleModel("plank_acacia").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> plankBirch = new ItemBuilder().name("plank_birch").simpleModel("plank_birch").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> plankJungle = new ItemBuilder().name("plank_jungle").simpleModel("plank_jungle").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> plankOak = new ItemBuilder().name("plank_oak").simpleModel("plank_oak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> plankSpruce = new ItemBuilder().name("plank_spruce").simpleModel("plank_spruce").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> plankDarkOak = new ItemBuilder().name("plank_darkoak").simpleModel("plank_darkoak").tab(AllTabs.tabNature).build(ItemPlaceableBase::new);
-    public static final RegistryObject<Item> plankAcaciaSmooth = new ItemBuilder().name("plank_acacia_smooth").simpleModel("plank_acacia_smooth").tab(AllTabs.tabNature).build();
-    public static final RegistryObject<Item> plankBirchSmooth = new ItemBuilder().name("plank_birch_smooth").simpleModel("plank_birch_smooth").tab(AllTabs.tabNature).build();
-    public static final RegistryObject<Item> plankJungleSmooth = new ItemBuilder().name("plank_jungle_smooth").simpleModel("plank_jungle_smooth").tab(AllTabs.tabNature).build();
-    public static final RegistryObject<Item> plankOakSmooth = new ItemBuilder().name("plank_oak_smooth").simpleModel("plank_oak_smooth").tab(AllTabs.tabNature).build();
-    public static final RegistryObject<Item> plankSpruceSmooth = new ItemBuilder().name("plank_spruce_smooth").simpleModel("plank_spruce_smooth").tab(AllTabs.tabNature).build();
-    public static final RegistryObject<Item> plankDarkOakSmooth = new ItemBuilder().name("plank_darkoak_smooth").simpleModel("plank_darkoak_smooth").tab(AllTabs.tabNature).build();
     public static final RegistryObject<Item> mulberryFruit = new ItemBuilder().name("mulberry_fruit").simpleModel("mulberry_fruit").tab(AllTabs.tabNature).food((new FoodProperties.Builder()).nutrition(2).saturationMod(0.5F).build()).build();
     public static final RegistryObject<Item> mulberryLeaf = new ItemBuilder().name("mulberry_leaf").simpleModel("mulberry_leaf").tab(AllTabs.tabNature).durability(16).build();
+
+    public static final RegistryObject<Item> animalSkin = new ItemBuilder().name("animal_skin").simpleModel().tab(AllTabs.tabNature).build();
+    public static final RegistryObject<Item> fur = new ItemBuilder().name("fur").simpleModel().tab(AllTabs.tabNature).build();
+    public static final RegistryObject<Item> burntFur = new ItemBuilder().name("burnt_fur").simpleModel().tab(AllTabs.tabNature).build();
+    public static final RegistryObject<Item> charredFur = new ItemBuilder().name("charred_fur").simpleModel().tab(AllTabs.tabNature).build();
 
     //Tool
     public static final RegistryObject<Item> longStick = new ItemBuilder().name("long_stick").simpleModel("long_stick").tab(AllTabs.tabTool).build();
@@ -79,10 +88,10 @@ public class AllItems {
     public static final RegistryObject<Item> flintSaw = new ItemBuilder().name("flint_saw").simpleModel("flint_saw").tab(AllTabs.tabTool).addExtraParam("SawMaterial", SawMaterials.FLINT).durability(64).build(IMSawItemBase::new);
     public static final RegistryObject<Item> flintAxe = new ItemBuilder().name("flint_axe").simpleModel("flint_axe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 6.0f).addExtraParam("AttackSpeed", -3.2f).durability(64).tags().build(IMAxeItemBase::new);
     public static final RegistryObject<Item> flintPickaxe = new ItemBuilder().name("flint_pickaxe").simpleModel("flint_pickaxe").tab(AllTabs.tabTool).addExtraParam("Tier", IMTiers.FLINT).addExtraParam("AttackDamageBaseline", 1.0f).addExtraParam("AttackSpeed", -2.8f).durability(64).build(IMAxeItemBase::new);
-    public static final RegistryObject<Item> sandpaper = new ItemBuilder().name("sandpaper").simpleModel("sandpaper").tab(AllTabs.tabTool).durability(64).build(Sandpaper::new);
+    public static final RegistryObject<Item> sandpaper = new ItemBuilder().name("sandpaper").simpleModel("sandpaper").tab(AllTabs.tabTool).durability(32).build(Sandpaper::new);
 
     //Misc
-    public static final RegistryObject<Item> woodenBarrelCover = new ItemBuilder().name("wooden_barrel_cover").simpleModel("wooden_barrel_cover").tab(AllTabs.tabMisc).maxStackSize(1).build();
+    public static final RegistryObject<Item> woodenBarrelCover = new ItemBuilder().name("wooden_barrel_cover").simpleModel("wooden_barrel_cover").tab(AllTabs.tabMisc).durability(128).build(WoodenBarrelCoverItem::new);
 
 
     /*
@@ -101,6 +110,7 @@ public class AllItems {
      * ===============
      */
     public static final RegistryObject<Item> bronzeHopper = new ItemBuilder().name("bronze_hopper").simpleModel("bronze_hopper").tab(AllTabs.tabMaterial).build();
+    public static final RegistryObject<Item> bronzeFunnel = new ItemBuilder().name("bronze_funnel").simpleModel("bronze_funnel").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> bronzeSaw = new ItemBuilder().name("bronze_saw").simpleModel("bronze_saw").tab(AllTabs.tabTool).build();
     public static final RegistryObject<Item> burntStoneSlab = new ItemBuilder().name("burnt_stone_slab").simpleModel("burnt_stone_slab").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> clinker = new ItemBuilder().name("clinker").simpleModel("clinker").tab(AllTabs.tabMaterial).build();
@@ -170,4 +180,5 @@ public class AllItems {
      */
     public static final RegistryObject<Item> modelLog = new ItemBuilder().name("model_log").specificModel("item/model/log").noTab().build();
     public static final RegistryObject<Item> modelWood = new ItemBuilder().name("model_wood").specificModel("item/model/wood").noTab().build();
+
 }

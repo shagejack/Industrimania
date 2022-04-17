@@ -16,11 +16,11 @@
     },
     "facing=west": {
       "model": "industrimania:block/mechanic/drain_side",
-      "y": 90
+      "y": 270
     },
     "facing=east": {
       "model": "industrimania:block/mechanic/drain_side",
-      "y": 270
+      "y": 90
     }
   }
 }

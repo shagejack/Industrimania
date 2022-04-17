@@ -56,8 +56,8 @@ public class DynamicLightsItemEntity extends ItemEntity {
 
             if (lightsItem.isLightUp(stack)) {
                 if (lightsItem.shouldDamage(getLevel(), null, stack)) {
-                    if (stack.getDamageValue() > 0) {
-                        stack.setDamageValue(stack.getDamageValue() - 1);
+                    if (stack.isDamageableItem() && stack.getDamageValue() < stack.getMaxDamage()) {
+                        stack.setDamageValue(stack.getDamageValue() + 1);
                     } else {
                         this.setRemoved(RemovalReason.DISCARDED);
                     }

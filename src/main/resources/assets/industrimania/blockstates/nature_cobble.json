@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "industrimania:block/nature_cobble"
+      },
+      {
+        "model": "industrimania:block/nature_cobble",
+        "y": 90
+      },
+      {
+        "model": "industrimania:block/nature_cobble",
+        "y": 180
+      },
+      {
+        "model": "industrimania:block/nature_cobble",
+        "y": 270
+      }
+    ]
+  }
+}

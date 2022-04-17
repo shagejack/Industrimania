@@ -44,6 +44,7 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     protected boolean isRandomlyTicking;
     protected boolean dynamicShape;
     protected boolean noCollission;
+    protected boolean noOcclusion;
     protected boolean noDrops;
     protected boolean isAir;
     protected boolean requiresCorrectToolForDrops = false;
@@ -99,6 +100,10 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
 
         if (noCollission) {
             property.noCollission();
+        }
+
+        if (noOcclusion) {
+            property.noOcclusion();
         }
 
         if (isValidSpawn != null)
@@ -298,6 +303,11 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
 
     public BlockBuilder noCollission() {
         this.noCollission = true;
+        return this;
+    }
+
+    public BlockBuilder noOcclusion() {
+        this.noOcclusion = true;
         return this;
     }
 

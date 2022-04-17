@@ -2,13 +2,11 @@ package shagejack.industrimania.registers.setup;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.electricity.Electricity;
 import shagejack.industrimania.content.pollution.PollutionEventHandler;
 import shagejack.industrimania.content.world.gen.GenerationRegistry;
 import shagejack.industrimania.content.dynamicLights.DynamicLights;
-import shagejack.industrimania.foundation.handler.MultiBlockBreakEventHandler;
+import shagejack.industrimania.foundation.handler.MultiBlockEventHandler;
 import shagejack.industrimania.foundation.handler.DynamicLightsItemJoinWorldHandler;
 import shagejack.industrimania.registers.AllCommands;
 
@@ -26,8 +24,8 @@ public class ModSetup {
         bus.addListener(PollutionEventHandler::onFogDensityRender);
         bus.addListener(DynamicLights::serverWorldTick);
         bus.addListener(Electricity::serverWorldTick);
-        bus.addListener(MultiBlockBreakEventHandler::serverWorldTick);
-        bus.addListener(MultiBlockBreakEventHandler::blockBreak);
+        bus.addListener(MultiBlockEventHandler::serverWorldTick);
+        bus.addListener(MultiBlockEventHandler::blockBreak);
         bus.addListener(DynamicLightsItemJoinWorldHandler::onEntityJoinWorld);
     }
 

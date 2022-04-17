@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import shagejack.industrimania.client.handler.BlockColorHandler;
 import shagejack.industrimania.client.handler.ItemColorHandler;
+import shagejack.industrimania.foundation.utility.ModelSwapper;
 import shagejack.industrimania.registers.AllRecipeTypes;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.item.ItemPropertyOverridesRegistry;
@@ -25,6 +26,7 @@ public class Industrimania {
     public static final String MOD_NAME = "Industrimania";
     public static final Logger LOGGER = LogManager.getLogger(Industrimania.MOD_NAME);
     public static final boolean isDataGen = FMLLoader.getLaunchHandler().isData();
+    public static final ModelSwapper MODEL_SWAPPER = new ModelSwapper();
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
@@ -45,6 +47,8 @@ public class Industrimania {
             bus.addListener(ItemColorHandler::registerItemColors);
             bus.addListener(ItemPropertyOverridesRegistry::propertyOverrideRegistry);
             bus.addGenericListener(RecipeSerializer.class, AllRecipeTypes::register);
+
+            MODEL_SWAPPER.registerListeners(bus);
 
         } catch (Exception e) {
             LOGGER.error(e);

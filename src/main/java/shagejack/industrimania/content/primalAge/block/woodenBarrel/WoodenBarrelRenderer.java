@@ -26,12 +26,12 @@ public class WoodenBarrelRenderer extends SafeTileEntityRenderer<WoodenBarrelTil
 
         float xMin, xMax, yMin, yMax, zMin, zMax;
 
-        xMin = 0.25F;
-        xMax = 0.75F;
-        zMin = 0.25F;
-        zMax = 0.75F;
-        yMin = 0.1F;
-        yMax = 0.8F;
+        xMin = 0.125F;
+        xMax = 0.875F;
+        zMin = 0.125F;
+        zMax = 0.875F;
+        yMin = 0.0625F;
+        yMax = 0.875F;
 
         ms.pushPose();
 

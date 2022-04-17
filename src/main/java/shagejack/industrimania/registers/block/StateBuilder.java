@@ -2,6 +2,7 @@ package shagejack.industrimania.registers.block;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -181,6 +182,55 @@ public interface StateBuilder extends AsBase {
                     .modelFile(modelFile)
                     .rotationX(90)
                     .addModel();
+        });
+    }
+
+    default BlockBuilder rotatablePillarBlockState() {
+        return blockState((provider) -> {
+            var base = asBase();
+            var block = base.block;
+            var modelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, "block/" + base.name));
+
+            Industrimania.LOGGER.debug("set rotatable pillar block state for Block:{}", base.name);
+
+            provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                    .partialState()
+                    .with(RotatedPillarBlock.AXIS, Direction.Axis.X)
+                    .modelForState()
+                    .modelFile(modelFile)
+                    .rotationX(90)
+                    .rotationY(90)
+                    .addModel();
+
+            provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                    .partialState()
+                    .with(RotatedPillarBlock.AXIS, Direction.Axis.Y)
+                    .modelForState()
+                    .modelFile(modelFile)
+                    .addModel();
+
+            provider.getVariantBuilder(Objects.requireNonNull(block.get()))
+                    .partialState()
+                    .with(RotatedPillarBlock.AXIS, Direction.Axis.Z)
+                    .modelForState()
+                    .modelFile(modelFile)
+                    .rotationX(90)
+                    .addModel();
+        });
+    }
+
+    default BlockBuilder randomRotationBlockState() {
+        return blockState((provider) -> {
+            var base = asBase();
+            var block = base.block;
+            var modelFile = new ModelFile.UncheckedModelFile(new ResourceLocation(Industrimania.MOD_ID, "block/" + base.name));
+
+            Industrimania.LOGGER.debug("set rotatable pillar block state for Block:{}", base.name);
+
+            //TODO: random rotation for normal state
+            
+
+
         });
     }
 

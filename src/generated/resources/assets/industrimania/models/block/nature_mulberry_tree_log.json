@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrimania:block/nature/mulberry_tree_log/default",
+    "up": "industrimania:block/nature/mulberry_tree_log/z",
+    "down": "industrimania:block/nature/mulberry_tree_log/z",
+    "north": "industrimania:block/nature/mulberry_tree_log/default",
+    "south": "industrimania:block/nature/mulberry_tree_log/default",
+    "west": "industrimania:block/nature/mulberry_tree_log/default",
+    "east": "industrimania:block/nature/mulberry_tree_log/default"
+  }
+}

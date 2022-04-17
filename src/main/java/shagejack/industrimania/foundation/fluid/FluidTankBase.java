@@ -34,6 +34,6 @@ public class FluidTankBase<T extends SyncedTileEntity> extends FluidTank {
     }
 
     public boolean isFull() {
-        return this.getFluidAmount() >= this.getCapacity();
+        return !this.isEmpty() && this.getFluidAmount() >= this.getCapacity();
     }
 }

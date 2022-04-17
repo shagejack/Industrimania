@@ -166,7 +166,7 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
 
             if (optional.isPresent()) {
                 CraftingRecipe craftingrecipe = optional.get();
-                return craftingrecipe.getResultItem();
+                return craftingrecipe.getResultItem().copy();
             }
         }
 

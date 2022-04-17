@@ -1,33 +1,47 @@
 package shagejack.industrimania.content;
 
+import net.minecraft.world.item.CreativeModeTab;
 import shagejack.industrimania.foundation.item.ItemDescription.Palette;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import shagejack.industrimania.registers.AllTabs;
+import shagejack.industrimania.registers.item.AllItems;
 
 public enum AllSections {
 
     /** Industrimania Mechanics */
-    MECHANICS(Palette.Red),
+    MECHANIC(AllTabs.tabMain, Palette.Red),
 
-    /** Item transport and other Utility */
-    LOGISTICS(Palette.Yellow),
+    NATURE(AllTabs.tabNature, Palette.Green),
 
-    /** Base materials, ingredients and tools */
-    MATERIALS(Palette.Green),
+    TOOL(AllTabs.tabTool, Palette.Blue),
+
+    EQUIPMENT(AllTabs.tabEquipment, Palette.Yellow),
+
+    MATERIAL(AllTabs.tabMaterial, Palette.Purple),
+
+    MISC(AllTabs.tabMisc, Palette.Gray)
+
+
 
     ;
 
+    private CreativeModeTab tab;
     private Palette tooltipPalette;
 
-    AllSections(Palette tooltipPalette) {
+    AllSections(CreativeModeTab tab, Palette tooltipPalette) {
         this.tooltipPalette = tooltipPalette;
     }
 
     public Palette getTooltipPalette() {
-        return tooltipPalette;
+        return this.tooltipPalette;
+    }
+
+    public CreativeModeTab getTab() {
+        return this.tab;
     }
 
     public static AllSections of(ItemStack stack) {
@@ -37,14 +51,13 @@ public enum AllSections {
         return ofItem(item);
     }
 
-
     //TODO: return section
     static AllSections ofItem(Item item) {
-        return AllSections.MATERIALS;
+        return null;
     }
 
     static AllSections ofBlock(Block block) {
-        return AllSections.MECHANICS;
+        return null;
     }
 
 }

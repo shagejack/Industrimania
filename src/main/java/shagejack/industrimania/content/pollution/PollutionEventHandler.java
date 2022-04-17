@@ -130,7 +130,7 @@ public class PollutionEventHandler {
 
                                 for (Entity entity : event.world.getEntities((Entity) null, range, Entity::isAlive)) {
                                     if (entity instanceof Player && ((Player) entity).isCreative()) {
-                                        ((Player) entity).displayClientMessage(new TextComponent(I18n.get("industrimania.observer_from_above_event_message_creative", (Object) null)), true);
+                                        ((Player) entity).displayClientMessage(new TextComponent(I18n.get("industrimania.observer_from_above_event_message_creative")), true);
                                     } else {
                                         entity.kill();
                                     }
