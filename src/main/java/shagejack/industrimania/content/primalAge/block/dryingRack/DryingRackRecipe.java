@@ -22,7 +22,7 @@ public class DryingRackRecipe extends ProcessingRecipe<RecipeWrapper> {
 
     @Override
     protected int getMaxOutputCount() {
-        return 4;
+        return 1;
     }
 
     @Override

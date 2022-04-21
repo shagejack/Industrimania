@@ -2,13 +2,14 @@ package shagejack.industrimania.content.primalAge.block.stack.moldyGrass;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
 import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.Random;
 
-public class MoldyGrassStackBlock extends BlockDirectionalBase {
+public class MoldyGrassStackBlock extends RotatedPillarBlock {
 
     public MoldyGrassStackBlock(Properties properties) {
         super(properties);

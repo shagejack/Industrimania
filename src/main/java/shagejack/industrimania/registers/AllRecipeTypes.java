@@ -12,8 +12,10 @@ import net.minecraftforge.event.RegistryEvent;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeSerializer;
+import shagejack.industrimania.content.primalAge.block.clayKiln.ClayKilnRecipe;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRecipe;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRottenRecipe;
+import shagejack.industrimania.content.primalAge.block.mixingBasin.MixingBasinRecipe;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBurnRecipe;
 import shagejack.industrimania.content.primalAge.item.sandpaper.SandpaperRecipe;
 import shagejack.industrimania.foundation.utility.Lang;
@@ -25,9 +27,12 @@ import java.util.function.Supplier;
 public enum AllRecipeTypes implements IRecipeTypeInfo {
 
     SANDPAPER(SandpaperRecipe::new),
+
+    CLAY_KILN(ClayKilnRecipe::new),
     DRYING_RACK(DryingRackRecipe::new),
     DRYING_RACK_ROTTEN(DryingRackRottenRecipe::new),
-    ITEM_PLACEABLE_BURN(ItemPlaceableBurnRecipe::new)
+    ITEM_PLACEABLE_BURN(ItemPlaceableBurnRecipe::new),
+    MIXING_BASIN(MixingBasinRecipe::new)
 
     ;
 

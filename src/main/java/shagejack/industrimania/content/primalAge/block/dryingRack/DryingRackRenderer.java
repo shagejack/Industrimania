@@ -17,8 +17,7 @@ public class DryingRackRenderer extends SafeTileEntityRenderer<DryingRackTileEnt
 	public DryingRackRenderer(BlockEntityRendererProvider.Context context) {}
 
 	@Override
-	protected void renderSafe(DryingRackTileEntity te, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light,
-		int overlay) {
+	protected void renderSafe(DryingRackTileEntity te, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
 		if (!te.getBlockState().isAir())
 			renderItems(te, partialTicks, ms, buffer, light, overlay);
 	}

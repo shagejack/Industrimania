@@ -16,8 +16,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.bronzeTube.BronzeTubeTileEntity;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomTileEntity;
+import shagejack.industrimania.content.primalAge.block.clayKiln.ClayKilnRenderer;
+import shagejack.industrimania.content.primalAge.block.clayKiln.ClayKilnTileEntity;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRenderer;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
+import shagejack.industrimania.content.primalAge.block.mixingBasin.MixingBasinRenderer;
+import shagejack.industrimania.content.primalAge.block.mixingBasin.MixingBasinTileEntity;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxTileEntity;
 import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLogTileEntity;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableRenderer;
@@ -74,6 +78,22 @@ public class AllTileEntities {
             .tileEntity(DryingRackTileEntity::new)
             .validBlocks(AllBlocks.mechanic_drying_rack)
             .renderer(() -> DryingRackRenderer::new)
+            .build();
+
+    public static final RegistryObject<BlockEntityType<?>> clay_kiln
+            = new TileEntityBuilder<ClayKilnTileEntity>()
+            .name("clay_kiln")
+            .tileEntity(ClayKilnTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_clay_kiln)
+            .renderer(() -> ClayKilnRenderer::new)
+            .build();
+
+    public static final RegistryObject<BlockEntityType<?>> mixing_basin
+            = new TileEntityBuilder<MixingBasinTileEntity>()
+            .name("mixing_basin")
+            .tileEntity(MixingBasinTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_mixing_basin)
+            .renderer(() -> MixingBasinRenderer::new)
             .build();
 
     public static final RegistryObject<BlockEntityType<?>> wooden_faucet

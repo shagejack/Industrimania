@@ -1,6 +1,8 @@
 package shagejack.industrimania.content.primalAge.block.nature.rush;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -28,7 +30,7 @@ public class RushBlockTop extends IMDoublePlantTopBlock {
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity) {
-            ((LivingEntity) entity).setSpeed(((LivingEntity) entity).getSpeed() * 0.1f);
+            ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1, 1, false, true, false));
         }
 
         super.entityInside(state, level, pos, entity);

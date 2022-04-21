@@ -14,7 +14,9 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.industrimania.content.pollution.block.BlockAshes;
 import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
+import shagejack.industrimania.content.primalAge.block.clayKiln.ClayKilnBlock;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
+import shagejack.industrimania.content.primalAge.block.mixingBasin.MixingBasinBlock;
 import shagejack.industrimania.content.primalAge.block.nature.cobble.Cobble;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.bush.MulberryBush;
 import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxBlock;
@@ -105,7 +107,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("building_grass_stack")
             .autoFullCubeModel()
-            .rotatableBlockState()
+            .rotatablePillarBlockState()
             .randomTicks()
             .buildBlock(GrassStackBlock::new)
             .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
@@ -114,7 +116,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("building_hay_stack")
             .autoFullCubeModel()
-            .rotatableBlockState()
+            .rotatablePillarBlockState()
             .randomTicks()
             .buildBlock(HayStackBlock::new)
             .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
@@ -123,7 +125,7 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("building_moldy_grass_stack")
             .autoFullCubeModel()
-            .rotatableBlockState()
+            .rotatablePillarBlockState()
             .randomTicks()
             .buildBlock(MoldyGrassStackBlock::new)
             .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
@@ -132,11 +134,57 @@ public class AllBlocks {
             = new BlockBuilder()
             .name("building_rotten_grass_stack")
             .autoFullCubeModel()
-            .rotatableBlockState()
+            .rotatablePillarBlockState()
             .buildBlock(RottenGrassStackBlock::new)
             .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
 
+
+    public static final ItemBlock building_white_obsolete_concrete = asDecoration("building_white_obsolete_concrete");
+    public static final ItemBlock building_orange_obsolete_concrete = asDecoration("building_orange_obsolete_concrete");
+    public static final ItemBlock building_magenta_obsolete_concrete = asDecoration("building_magenta_obsolete_concrete");
+    public static final ItemBlock building_light_blue_obsolete_concrete = asDecoration("building_light_blue_obsolete_concrete");
+    public static final ItemBlock building_yellow_obsolete_concrete = asDecoration("building_yellow_obsolete_concrete");
+    public static final ItemBlock building_lime_obsolete_concrete = asDecoration("building_lime_obsolete_concrete");
+    public static final ItemBlock building_pink_obsolete_concrete = asDecoration("building_pink_obsolete_concrete");
+    public static final ItemBlock building_gray_obsolete_concrete = asDecoration("building_gray_obsolete_concrete");
+    public static final ItemBlock building_light_gray_obsolete_concrete = asDecoration("building_light_gray_obsolete_concrete");
+    public static final ItemBlock building_cyan_obsolete_concrete = asDecoration("building_cyan_obsolete_concrete");
+    public static final ItemBlock building_purple_obsolete_concrete = asDecoration("building_purple_obsolete_concrete");
+    public static final ItemBlock building_blue_obsolete_concrete = asDecoration("building_blue_obsolete_concrete");
+    public static final ItemBlock building_brown_obsolete_concrete = asDecoration("building_brown_obsolete_concrete");
+    public static final ItemBlock building_green_obsolete_concrete = asDecoration("building_green_obsolete_concrete");
+    public static final ItemBlock building_red_obsolete_concrete = asDecoration("building_red_obsolete_concrete");
+    public static final ItemBlock building_black_obsolete_concrete = asDecoration("building_black_obsolete_concrete");
+
+    public static final ItemBlock building_white_peeling_concrete = asDecoration("building_white_peeling_concrete");
+    public static final ItemBlock building_orange_peeling_concrete = asDecoration("building_orange_peeling_concrete");
+    public static final ItemBlock building_magenta_peeling_concrete = asDecoration("building_magenta_peeling_concrete");
+    public static final ItemBlock building_light_blue_peeling_concrete = asDecoration("building_light_blue_peeling_concrete");
+    public static final ItemBlock building_yellow_peeling_concrete = asDecoration("building_yellow_peeling_concrete");
+    public static final ItemBlock building_lime_peeling_concrete = asDecoration("building_lime_peeling_concrete");
+    public static final ItemBlock building_pink_peeling_concrete = asDecoration("building_pink_peeling_concrete");
+    public static final ItemBlock building_gray_peeling_concrete = asDecoration("building_gray_peeling_concrete");
+    public static final ItemBlock building_light_gray_peeling_concrete = asDecoration("building_light_gray_peeling_concrete");
+    public static final ItemBlock building_cyan_peeling_concrete = asDecoration("building_cyan_peeling_concrete");
+    public static final ItemBlock building_purple_peeling_concrete = asDecoration("building_purple_peeling_concrete");
+    public static final ItemBlock building_blue_peeling_concrete = asDecoration("building_blue_peeling_concrete");
+    public static final ItemBlock building_brown_peeling_concrete = asDecoration("building_brown_peeling_concrete");
+    public static final ItemBlock building_green_peeling_concrete = asDecoration("building_green_peeling_concrete");
+    public static final ItemBlock building_red_peeling_concrete = asDecoration("building_red_peeling_concrete");
+    public static final ItemBlock building_black_peeling_concrete = asDecoration("building_black_peeling_concrete");
+
+
     //gravity
+    public static final ItemBlock gravity_hot_gravel
+            = new BlockBuilder()
+            .name("gravity_hot_gravel")
+            .material(Material.SAND)
+            .sound(SoundType.GRAVEL)
+            .autoFullCubeModel()
+            .simpleBlockState()
+            .buildBlock(GravelBlock::new)
+            .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
+
     public static final ItemBlock gravity_calcite
             = new BlockBuilder()
             .name("gravity_calcite")
@@ -233,6 +281,27 @@ public class AllBlocks {
             .simpleBlockState()
             .renderLayer(() -> RenderType::cutout)
             .buildBlock(DryingRackBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_clay_kiln
+            = new BlockBuilder()
+            .name("mechanic_clay_kiln")
+            .material(Material.CLAY)
+            .sound(SoundType.GRAVEL)
+            .simplePresetModel()
+            .simpleBlockState()
+            .renderLayer(() -> RenderType::cutout)
+            .buildBlock(ClayKilnBlock::new)
+            .buildItem();
+
+    public static final ItemBlock mechanic_mixing_basin
+            = new BlockBuilder()
+            .name("mechanic_mixing_basin")
+            .material(Material.STONE)
+            .simplePresetModel()
+            .simpleBlockState()
+            .renderLayer(() -> RenderType::cutout)
+            .buildBlock(MixingBasinBlock::new)
             .buildItem();
 
     public static final ItemBlock mechanic_wooden_faucet
@@ -778,6 +847,15 @@ public class AllBlocks {
 
     private static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_, EntityType<?> p_50825_) {
         return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;
+    }
+
+    private static ItemBlock asDecoration(String name) {
+        return new BlockBuilder()
+                .name(name)
+                .autoFullCubeModel()
+                .simpleBlockState()
+                .buildBlock()
+                .buildItem(builder -> builder.tab(AllTabs.tabBuilding));
     }
 
 }

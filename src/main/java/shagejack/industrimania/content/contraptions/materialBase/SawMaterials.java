@@ -28,22 +28,27 @@ public enum SawMaterials implements SawMaterial {
         this.repairIngredient = new LazyLoadedValue<>(repairIngredient);
     }
 
+    @Override
     public int getDurability() {
         return this.durability;
     }
 
+    @Override
     public int getEnchantmentValue() {
         return this.enchantmentValue;
     }
 
+    @Override
     public Ingredient getRepairIngredient() {
         return this.repairIngredient.get();
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
+    @Override
     public float getSharpness() {
         return this.sharpness;
     }

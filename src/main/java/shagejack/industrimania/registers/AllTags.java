@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import shagejack.industrimania.Industrimania;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class AllTags {
@@ -25,7 +26,9 @@ public class AllTags {
     }
 
     public static class IndustrimaniaToolTier {
-        public static final String flint = "industrimania:blocks/needs_flint_tool";
+        public static String miningLevelTag(int level) {
+            return "industrimania:blocks/need_mining_level_" + level;
+        }
     }
 
     public static class IndustrimaniaTags {

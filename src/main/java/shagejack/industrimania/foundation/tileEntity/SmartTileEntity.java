@@ -160,12 +160,6 @@ public abstract class SmartTileEntity extends SyncedTileEntity implements IParti
 		}
 	}
 
-	@Override
-	public void setRemoved() {
-		forEachBehaviour(TileEntityBehaviour::remove);
-		super.setRemoved();
-	}
-
 	public void setLazyTickRate(int slowTickRate) {
 		this.lazyTickRate = slowTickRate;
 		this.lazyTickCounter = slowTickRate;
@@ -204,4 +198,31 @@ public abstract class SmartTileEntity extends SyncedTileEntity implements IParti
 	protected boolean isFluidHandlerCap(Capability<?> cap) {
 		return cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY;
 	}
+
+	/* TODO: Remove this hack once this issue is resolved: https://github.com/MinecraftForge/MinecraftForge/issues/8302
+		Once the PR linked in the issue is accepted, we should use the new method for determining whether setRemoved was
+		called due to a chunk unload or not, and remove this volatile workaround
+	 */
+	private boolean unloaded;
+
+	@Override
+	public void onChunkUnloaded() {
+		super.onChunkUnloaded();
+		unloaded = true;
+	}
+
+	protected void setRemovedNotDueToChunkUnload() {
+
+	}
+
+	@Override
+	public void setRemoved() {
+		forEachBehaviour(TileEntityBehaviour::remove);
+		super.setRemoved();
+
+		if (!unloaded) {
+			setRemovedNotDueToChunkUnload();
+		}
+	}
+
 }

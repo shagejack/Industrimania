@@ -1,10 +1,12 @@
 package shagejack.industrimania.registers.block.grouped;
 
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.material.Material;
 import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.contraptions.ore.BlockOreItem;
 import shagejack.industrimania.content.world.gen.OreTypeRegistry;
+import shagejack.industrimania.content.world.gen.record.OreType;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.record.ItemBlock;
@@ -27,7 +29,7 @@ public interface AllOres extends AsBase{
                                     .name(key)
                                     .material(Material.STONE)
                                     .strength(AllRocks.ROCKS_HARDNESS.get(rockName), AllRocks.ROCKS_EXPLOSION_RESISTANCE.get(rockName))
-                                    .asOre(oreType.name())
+                                    .asOre(oreType)
                                     .oreTextureModel()
                                     .simpleBlockState()
                                     .renderLayer(() -> RenderType::cutoutMipped)
@@ -42,9 +44,10 @@ public interface AllOres extends AsBase{
         );
     }
 
-    default BlockBuilder asOre(String oreType) {
+    default BlockBuilder asOre(OreType oreType) {
         asBase().checkProperty();
-        asBase().tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.ore, AllTags.IndustrimaniaTags.oreTypeEntry + oreType);
+        asBase().tags(AllTags.ToolType.pickaxe, AllTags.IndustrimaniaTags.ore, AllTags.IndustrimaniaTags.oreTypeEntry + oreType.name(), AllTags.IndustrimaniaToolTier.miningLevelTag(oreType.harvestLevel()));
+        asBase().requiresCorrectToolForDrops();
         return (BlockBuilder) this;
     }
 

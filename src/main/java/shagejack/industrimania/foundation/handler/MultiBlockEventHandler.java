@@ -27,6 +27,7 @@ public class MultiBlockEventHandler {
             return;
         }
 
+        checkMap();
         cleanMap();
         IDLE = 6000;
     }
@@ -43,8 +44,12 @@ public class MultiBlockEventHandler {
         registeredMultiBlocks.clear();
     }
 
+    public static void checkMap() {
+        registeredMultiBlocks.forEach(MultiBlock::checkAll);
+    }
+
     public static void cleanMap() {
-        registeredMultiBlocks.removeIf(multiBlock -> multiBlock.getCoreLevel().getBlockState(multiBlock.getCorePos()) != multiBlock.getCoreBlock());
+        registeredMultiBlocks.removeIf(MultiBlock::coreCease);
     }
 
 }

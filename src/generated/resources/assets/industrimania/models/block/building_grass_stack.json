@@ -2,10 +2,10 @@
   "parent": "minecraft:block/cube",
   "textures": {
     "particle": "industrimania:block/building/grass_stack/default",
-    "up": "industrimania:block/building/grass_stack/z",
-    "down": "industrimania:block/building/grass_stack/z",
-    "north": "industrimania:block/building/grass_stack/x",
-    "south": "industrimania:block/building/grass_stack/x",
+    "up": "industrimania:block/building/grass_stack/default",
+    "down": "industrimania:block/building/grass_stack/default",
+    "north": "industrimania:block/building/grass_stack/default",
+    "south": "industrimania:block/building/grass_stack/default",
     "west": "industrimania:block/building/grass_stack/default",
     "east": "industrimania:block/building/grass_stack/default"
   }

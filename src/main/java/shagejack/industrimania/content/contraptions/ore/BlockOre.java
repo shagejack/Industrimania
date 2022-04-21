@@ -75,6 +75,7 @@ public class BlockOre extends Block {
         }
     }
 
+    // ore drop is hard-coded
     @Override
     public void playerDestroy(Level level, Player player, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack itemStack) {
         player.awardStat(Stats.BLOCK_MINED.get(this));

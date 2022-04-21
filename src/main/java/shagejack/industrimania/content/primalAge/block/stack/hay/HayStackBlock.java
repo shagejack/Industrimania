@@ -2,13 +2,14 @@ package shagejack.industrimania.content.primalAge.block.stack.hay;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
 import shagejack.industrimania.registers.block.AllBlocks;
 
 import java.util.Random;
 
-public class HayStackBlock extends BlockDirectionalBase {
+public class HayStackBlock extends RotatedPillarBlock {
 
     public HayStackBlock(Properties properties) {
         super(properties);

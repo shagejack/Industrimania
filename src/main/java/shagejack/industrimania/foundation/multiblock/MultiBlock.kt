@@ -25,11 +25,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
         complete[Direction.NORTH] = false
     }
 
-    fun tryForm() {
-        checkAll();
-    }
-
-    fun isComplete(direction: Direction) = this.complete[direction]
+    fun isComplete(direction: Direction): Boolean = this.complete.getOrDefault(direction, false)
 
     fun isComplete() = this.complete.values.any {it}
 
@@ -41,6 +37,7 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
         this.complete[direction] = false
     }
 
+    @JvmOverloads
     fun checkAll(pos : BlockPos = corePos) {
         for(direction in complete.keys) {
             if (direction == Direction.DOWN || direction == Direction.UP)
@@ -112,12 +109,15 @@ class MultiBlock(val coreLevel: Level, val corePos: BlockPos, val coreBlock : Bl
         MultiBlockEventHandler.remove(this)
     }
 
+    fun coreCease() = (coreLevel.getBlockState(corePos) != coreBlock).also { if(it) unregister() }
+
+
     /**
      * Rotating BlockPos
      * around (0, 0, 0)
      * Only four directions(East(X+), South(Z+), West(X-), North(Z-)) available
      */
-    fun BlockPos.getRotated(direction: Direction) = when (direction) {
+    private fun BlockPos.getRotated(direction: Direction) = when (direction) {
             Direction.EAST -> this
             Direction.SOUTH -> BlockPos(-this.z,this.y, this.x)
             Direction.WEST -> BlockPos(-this.x, this.y, -this.z)

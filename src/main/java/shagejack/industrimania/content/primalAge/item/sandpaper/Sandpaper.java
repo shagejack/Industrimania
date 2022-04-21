@@ -45,7 +45,7 @@ public class Sandpaper extends Item {
             if (player.isShiftKeyDown()) {
                 ItemStack offStack = player.getItemInHand(InteractionHand.OFF_HAND);
                 // check if there's item in offhand
-                if (!offStack.isEmpty()) {
+                if (!offStack.isEmpty() && !offStack.is(this)) {
                     // if there is, then copy the offhand stack
                     ItemStack copy = offStack.copy();
                     // check if sandpaper contains item
@@ -101,7 +101,7 @@ public class Sandpaper extends Item {
                 } else {
                     ItemStack offStack = player.getItemInHand(InteractionHand.OFF_HAND);
                     // check if there's item in offhand
-                    if (!offStack.isEmpty()) {
+                    if (!offStack.isEmpty() && !offStack.is(this)) {
                         ItemStack copy = offStack.copy();
                         // if sandpaper contains no item, move one item in offhand stack to sandpaper.
                         offStack.shrink(1);

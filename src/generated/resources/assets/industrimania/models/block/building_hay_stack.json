@@ -4,8 +4,8 @@
     "particle": "industrimania:block/building/hay_stack/default",
     "up": "industrimania:block/building/hay_stack/z",
     "down": "industrimania:block/building/hay_stack/z",
-    "north": "industrimania:block/building/hay_stack/x",
-    "south": "industrimania:block/building/hay_stack/x",
+    "north": "industrimania:block/building/hay_stack/default",
+    "south": "industrimania:block/building/hay_stack/default",
     "west": "industrimania:block/building/hay_stack/default",
     "east": "industrimania:block/building/hay_stack/default"
   }
