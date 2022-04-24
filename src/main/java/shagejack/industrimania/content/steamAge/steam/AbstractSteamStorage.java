@@ -3,6 +3,7 @@ package shagejack.industrimania.content.steamAge.steam;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.foundation.network.AllPackets;
 import shagejack.industrimania.foundation.tileEntity.SyncedTileEntity;
@@ -11,10 +12,10 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractSteamStorage<T extends SyncedTileEntity> implements ISteamHandler, ISteamStorage {
+public abstract class AbstractSteamStorage<T extends SyncedTileEntity> implements INBTSerializable<CompoundTag>, ISteamHandler, ISteamStorage {
 
     @Nonnull
-    T parent;
+    protected T parent;
     protected SteamStack steam = SteamStack.EMPTY;
     protected double maxVolume;
     protected double maxPressure;
@@ -63,13 +64,9 @@ public abstract class AbstractSteamStorage<T extends SyncedTileEntity> implement
         return false;
     }
 
-    public void manageTransfer() {
+    public abstract void manageTransfer();
 
-    }
-
-    public void explode() {
-
-    }
+    public abstract void explode();
 
     public List<SteamStack> divideSteam(int count) {
         List<SteamStack> stackList = new ArrayList<>();
@@ -88,10 +85,13 @@ public abstract class AbstractSteamStorage<T extends SyncedTileEntity> implement
         return this.number;
     }
 
+    /**
+     * @return a copy of contained steam stack
+     */
     @Nonnull
     public SteamStack getSteam()
     {
-        return this.steam;
+        return this.steam.copy();
     }
 
     public double getSteamMass()
@@ -165,15 +165,14 @@ public abstract class AbstractSteamStorage<T extends SyncedTileEntity> implement
         return steam.isEmpty();
     }
 
-    public AbstractSteamStorage readFromNBT(CompoundTag tag) {
-        SteamStack stack = SteamStack.loadSteamStackFromNBT(tag);
-        setSteam(stack);
-        return this;
+    @Override
+    public CompoundTag serializeNBT() {
+        return steam.writeToNBT(new CompoundTag());
     }
 
-    public CompoundTag writeToNBT(CompoundTag tag) {
-        steam.writeToNBT(tag);
-        return tag;
+    @Override
+    public void deserializeNBT(CompoundTag nbt) {
+        this.setSteam(SteamStack.loadSteamStackFromNBT(nbt));
     }
 
     public AbstractSteamStorage setSteam(@NotNull SteamStack stack) {

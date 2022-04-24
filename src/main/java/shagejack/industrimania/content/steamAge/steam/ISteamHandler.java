@@ -1,12 +1,16 @@
 package shagejack.industrimania.content.steamAge.steam;
 
-import net.minecraftforge.fluids.FluidStack;
-
-import javax.annotation.Nonnull;
-
 public interface ISteamHandler {
+    enum SteamAction {
+        EXECUTE, SIMULATE;
 
-    @Nonnull
-    SteamStack getSteamInStorage(int number);
+        public boolean execute() {
+            return this == EXECUTE;
+        }
+
+        public boolean simulate() {
+            return this == SIMULATE;
+        }
+    }
 
 }

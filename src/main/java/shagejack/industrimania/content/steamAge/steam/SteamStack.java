@@ -297,6 +297,17 @@ public class SteamStack {
 
     }
 
+    public static SteamStack heatUp(SteamStack steam, double heat, double efficiency) {
+        double delta_temp = efficiency * heat / steam.getMass();
+
+        if (steam.isSaturated() && delta_temp > steam.getLatentHeat() * steam.getMoistureContent()) {
+            return new SteamStack(steam.getMass(), steam.getTemperature(), SteamState.SUPERHEATED);
+        }
+
+        return new SteamStack(steam.getMass(), steam.getTemperature(), steam.getState());
+
+    }
+
     public void doWork() {
         this.manageSteamFromConsume(getEnthalpyConsume());
     }

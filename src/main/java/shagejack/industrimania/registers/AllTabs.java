@@ -20,6 +20,12 @@ public class AllTabs {
 
     public static final CreativeModeTab tabMain = tab(Industrimania.MOD_ID, () -> () -> AllItems.omniMultimeter);
 
+    public static final CreativeModeTab tabPrimal = tab(Industrimania.MOD_ID, () -> () -> AllItems.mud);
+
+    public static final CreativeModeTab tabStone = tab(Industrimania.MOD_ID, () -> () -> AllItems.flintSaw);
+
+    public static final CreativeModeTab tabSteam = tab(Industrimania.MOD_ID, () -> AllBlocks.mechanic_boiler::item);
+
     public static final CreativeModeTab tabBuilding = tab(Industrimania.MOD_ID + "_building", () -> AllBlocks.building_fine_clay::item);
 
     public static final CreativeModeTab tabMaterial = tab(Industrimania.MOD_ID + "_material", () -> () -> AllItems.clinker);

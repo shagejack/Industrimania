@@ -41,6 +41,7 @@ public class RegisterHandle {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         new AllItems();
         new AllBlocks();
+        new AllMenus();
         AllGroupedBlocks.initAll();
         AllGroupedItems.initAll();
         new AllFluids();

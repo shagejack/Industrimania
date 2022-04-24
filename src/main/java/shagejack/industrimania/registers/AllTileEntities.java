@@ -34,6 +34,7 @@ import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucet
 import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableRenderer;
+import shagejack.industrimania.content.steamAge.block.boiler.BoilerTileEntity;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.record.ItemBlock;
 
@@ -134,12 +135,18 @@ public class AllTileEntities {
             .validBlocks(AllBlocks.mechanic_iron_ore_slag)
             .build();
 
+    public static final RegistryObject<BlockEntityType<?>> boiler
+            = new TileEntityBuilder<BoilerTileEntity>()
+            .name("boiler")
+            .tileEntity(BoilerTileEntity::new)
+            .validBlocks(AllBlocks.mechanic_boiler)
+            .build();
+
     public static final RegistryObject<BlockEntityType<?>> bronze_tube
             = new TileEntityBuilder<BronzeTubeTileEntity>()
             .name("bronze_tube")
             .tileEntity(BronzeTubeTileEntity::new)
             .validBlocks(AllBlocks.mechanic_bronze_tube_block)
-//            .renderer(() -> (context) -> new TestTer()) //workable test ,remove this after test
             .build();
 
 

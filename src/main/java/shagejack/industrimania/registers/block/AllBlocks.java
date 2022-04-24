@@ -575,6 +575,34 @@ public class AllBlocks {
             .customItemName("rush_seed")
             .buildItem(itemBuilder -> itemBuilder.tab(AllTabs.tabNature));
 
+    /*
+     * =============
+     *  Stone Age
+     * =============
+     */
+
+
+    /*
+     * =============
+     *  Steam Age
+     * =============
+     */
+
+    public static final ItemBlock mechanic_boiler
+            = new BlockBuilder()
+            .name("mechanic_boiler")
+            .simpleBlockState()
+            .autoFullCubeModel()
+            .buildBlock(RushBlockBottom::new)
+            .buildItem();
+
+
+    /*
+     * =============
+     *  Misc
+     * =============
+     */
+
     //Plant Sign
     public static final ItemBlock nature_lactuca_raddeana
             = new BlockBuilder()
