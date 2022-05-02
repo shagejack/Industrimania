@@ -19,7 +19,7 @@ public enum AllSpecialTextures {
     public static final String ASSET_PATH = "textures/special/";
     private ResourceLocation location;
 
-    private AllSpecialTextures(String filename) {
+    AllSpecialTextures(String filename) {
         location = Industrimania.asResource(ASSET_PATH + filename);
     }
 

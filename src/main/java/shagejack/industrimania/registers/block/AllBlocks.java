@@ -38,6 +38,7 @@ import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrel
 import shagejack.industrimania.content.primalAge.block.woodenFaucet.WoodenFaucetBlock;
 import shagejack.industrimania.content.primalAge.item.handOilLamp.FakeAirLightBlock;
 import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
+import shagejack.industrimania.content.steamAge.block.boiler.BoilerBlock;
 import shagejack.industrimania.registers.AllTabs;
 import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.record.ItemBlock;
@@ -593,8 +594,8 @@ public class AllBlocks {
             .name("mechanic_boiler")
             .simpleBlockState()
             .autoFullCubeModel()
-            .buildBlock(RushBlockBottom::new)
-            .buildItem();
+            .buildBlock(BoilerBlock::new)
+            .buildItem(builder -> builder.tab(AllTabs.tabSteam));
 
 
     /*

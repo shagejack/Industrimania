@@ -11,6 +11,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,16 +49,22 @@ public class BoilerTileEntity extends SteamProducerTileEntityBase implements Con
     protected LazyOptional<IFluidHandler> fluidCapability;
     protected LazyOptional<ISteamStorage> steamCapability;
 
+    protected final ContainerData boilerData;
+
     public BoilerTileEntity(BlockPos pos, BlockState state) {
         super(AllTileEntities.boiler.get(), pos, state);
 
-        inventory = new SmartInventory(5, this).withMaxStackSize(64);
-        tank = new FluidTankBase<>(this, 4000);
-        steamStorage = new BoilerSteamStorage(this, 2000, 20, 20000, 100);
+        this.inventory = new SmartInventory(5, this).withMaxStackSize(64);
+        this.tank = new FluidTankBase<>(this, 4000);
+        this.steamStorage = new BoilerSteamStorage(this, 2000, 20, 20000, 100);
 
-        itemCapability = LazyOptional.of(() -> inventory);
-        fluidCapability = LazyOptional.of(() -> tank);
-        steamCapability = LazyOptional.of(() -> steamStorage);
+        this.itemCapability = LazyOptional.of(() -> inventory);
+        this.fluidCapability = LazyOptional.of(() -> tank);
+        this.steamCapability = LazyOptional.of(() -> steamStorage);
+
+        this.boilerData = createDataAccess();
+
+
     }
 
     @Override
@@ -132,7 +139,7 @@ public class BoilerTileEntity extends SteamProducerTileEntityBase implements Con
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory inv, Player player) {
-        return new BoilerMenu(containerId, inv, this);
+        return new BoilerMenu(containerId, inv, this, this.boilerData);
     }
 
     @Override
@@ -194,5 +201,24 @@ public class BoilerTileEntity extends SteamProducerTileEntityBase implements Con
     public void invalidateCaps() {
         this.itemCapability.invalidate();
         super.invalidateCaps();
+    }
+
+    private ContainerData createDataAccess() {
+        return new ContainerData()
+        {
+            @Override
+            public int get(int index) {
+                return 0;
+            }
+
+            @Override
+            public void set(int index, int value) {
+            }
+
+            @Override
+            public int getCount() {
+                return BoilerMenu.DATA_COUNT;
+            }
+        };
     }
 }

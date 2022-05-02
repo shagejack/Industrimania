@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import shagejack.industrimania.client.handler.BlockColorHandler;
 import shagejack.industrimania.client.handler.ItemColorHandler;
-import shagejack.industrimania.foundation.utility.ModelSwapper;
 import shagejack.industrimania.registers.AllRecipeTypes;
 import shagejack.industrimania.registers.RegisterHandle;
 import shagejack.industrimania.registers.item.ItemPropertyOverridesRegistry;

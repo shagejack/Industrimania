@@ -1,22 +1,16 @@
 package shagejack.industrimania.content.primalAge.item.itemPlaceable.base;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.client.model.obj.OBJModel;
-import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
 import shagejack.industrimania.foundation.tileEntity.renderer.SafeTileEntityRenderer;
+import shagejack.industrimania.registers.AllTags;
 import shagejack.industrimania.registers.item.AllItems;
 
 import java.util.HashMap;
@@ -35,13 +29,17 @@ public class ItemPlaceableRenderer extends SafeTileEntityRenderer<ItemPlaceableB
 		renderItems.put(AllItems.logJungle.get(), new ItemStack(AllItems.modelLog.get()));
 		renderItems.put(AllItems.logOak.get(), new ItemStack(AllItems.modelLog.get()));
 		renderItems.put(AllItems.logSpruce.get(), new ItemStack(AllItems.modelLog.get()));
+		renderItems.put(AllItems.logRubber.get(), new ItemStack(AllItems.modelLog.get()));
+		renderItems.put(AllItems.logMulberry.get(), new ItemStack(AllItems.modelLog.get()));
 
-		renderItems.put(AllItems.plankAcacia.get(), new ItemStack(AllItems.modelWood.get()));
-		renderItems.put(AllItems.plankBirch.get(), new ItemStack(AllItems.modelWood.get()));
-		renderItems.put(AllItems.plankDarkOak.get(), new ItemStack(AllItems.modelWood.get()));
-		renderItems.put(AllItems.plankJungle.get(), new ItemStack(AllItems.modelWood.get()));
-		renderItems.put(AllItems.plankOak.get(), new ItemStack(AllItems.modelWood.get()));
-		renderItems.put(AllItems.plankSpruce.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodAcacia.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodBirch.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodDarkOak.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodJungle.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodOak.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodSpruce.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodMulberry.get(), new ItemStack(AllItems.modelWood.get()));
+		renderItems.put(AllItems.woodRubber.get(), new ItemStack(AllItems.modelWood.get()));
 	}
 
 	@Override
@@ -64,13 +62,25 @@ public class ItemPlaceableRenderer extends SafeTileEntityRenderer<ItemPlaceableB
 
 					ms.translate(renderPos.x, renderPos.y, 0.5f);
 
+					ItemStack renderStack;
+
 					if (renderItems.containsKey(stack.getItem())) {
-						itemRenderer.renderStatic(renderItems.get(stack.getItem()), ItemTransforms.TransformType.FIXED, 240, overlay, ms, buffer, 0);
+						renderStack = renderItems.get(stack.getItem());
+					} else if (stack.is(AllTags.modItemTag(AllTags.IndustrimaniaTags.rockPiece))) {
+						renderStack = new ItemStack(AllItems.modelRockPiece.get());
+					} else {
+						renderStack = new ItemStack(AllItems.modelDust.get());
 					}
+
+					itemRenderer.renderStatic(renderStack, ItemTransforms.TransformType.FIXED, 240, overlay, ms, buffer, 0);
 
 					ms.popPose();
 
 				}
+			}
+
+			if (te.isBurning()) {
+
 			}
 		}
 	}

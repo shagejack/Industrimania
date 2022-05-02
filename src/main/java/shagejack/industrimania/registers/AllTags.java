@@ -27,17 +27,20 @@ public class AllTags {
 
     public static class IndustrimaniaToolTier {
         public static String miningLevelTag(int level) {
-            return "industrimania:blocks/need_mining_level_" + level;
+            return "industrimania:need_mining_level_" + level;
         }
     }
 
     public static class IndustrimaniaTags {
-        public static final String rock = "industrimania:blocks/rock";
-        public static final String ore = "industrimania:blocks/ore";
-        public static final String oreTypeEntry = "industrimania:/blocks/ore_type/";
-        public static final String sedimentaryStones = "industrimania:blocks/sedimentary_stones";
-        public static final String metamorphicStones = "industrimania:blocks/metamorphic_stones";
-        public static final String igneousStones = "industrimania:blocks/igneous_stones";
+        public static final String rock = "industrimania:rock";
+        public static final String ore = "industrimania:ore";
+        public static final String oreTypeEntry = "industrimania:ore_type/";
+        public static final String sedimentaryStones = "industrimania:sedimentary_stones";
+        public static final String metamorphicStones = "industrimania:metamorphic_stones";
+        public static final String igneousStones = "industrimania:igneous_stones";
+
+        public static final String rockPiece = "industrimania:rock_piece";
+        public static final String charcoalIngredient = "industrimania:charcoal_ingredient";
     }
 
     public static <T> TagKey<T> tag(Function<ResourceLocation, TagKey<T>> wrapperFactory, String namespace,

@@ -42,20 +42,6 @@ public class Pollution {
     static {
         //COMMON DECAY
 
-        /*
-        for (Block block : BlockTags.LEAVES.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, false, 500000, 1));
-        }
-
-        for (Block block : BlockTags.REPLACEABLE_PLANTS.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.DEAD_BUSH, false, 500000, 1));
-        }
-
-        for (Block block : BlockTags.CORAL_PLANTS.getValues()) {
-            DAMAGE_BLOCK_MAP.put(block, new DecayReference(Blocks.AIR, true, 800000, 0.9));
-        }
-         */
-
         DAMAGE_BLOCK_TAG_MAP.put(BlockTags.LEAVES, new DecayReference(Blocks.AIR, false, 500000, 1));
         DAMAGE_BLOCK_TAG_MAP.put(BlockTags.REPLACEABLE_PLANTS, new DecayReference(Blocks.DEAD_BUSH, false, 500000, 1));
         DAMAGE_BLOCK_TAG_MAP.put(BlockTags.CORAL_PLANTS, new DecayReference(Blocks.AIR, true, 800000, 0.9));
@@ -84,48 +70,6 @@ public class Pollution {
         ACID_RAIN_TAG_MAP.put(BlockTags.WOODEN_PRESSURE_PLATES, new DecayReference(Blocks.AIR, false, 2000000, 1));
         ACID_RAIN_TAG_MAP.put(BlockTags.LOGS, new DecayReference(Blocks.AIR, false, 5000000, 0.5));
         ACID_RAIN_TAG_MAP.put(BlockTags.BEDS, new DecayReference(Blocks.AIR, false, 2000000, 1));
-
-        /*
-        for (Block block : BlockTags.PLANKS) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 0.8));
-        }
-
-        for (Block block : BlockTags.WOODEN_BUTTONS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-
-        for (Block block : BlockTags.WOODEN_DOORS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-
-        for (Block block : BlockTags.WOODEN_FENCES.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-
-        for (Block block : BlockTags.WOODEN_SLABS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-
-        for (Block block : BlockTags.WOODEN_STAIRS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-
-        for (Block block : BlockTags.WOODEN_TRAPDOORS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-
-        for (Block block : BlockTags.WOODEN_PRESSURE_PLATES.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-
-        for (Block block: BlockTags.LOGS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 5000000, 0.5));
-        }
-
-        for (Block block: BlockTags.BEDS.getValues()) {
-            ACID_RAIN_MAP.put(block, new DecayReference(Blocks.AIR, false, 2000000, 1));
-        }
-        */
 
         for (ItemBlock block: AllRocks.igneousStones) {
             ACID_RAIN_MAP.put(block.block().get(), new DecayReference(Blocks.GRAVEL, false, 5000000, 0.1));

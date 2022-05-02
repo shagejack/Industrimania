@@ -10,17 +10,15 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemStackHandler;
 import shagejack.industrimania.content.contraptions.processing.ProcessingInventory;
+import shagejack.industrimania.foundation.item.SmartInventory;
 
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
-public class ItemPlaceableInventory extends ItemStackHandler {
+public class ItemPlaceableInventory extends SmartInventory {
 
-    public float remainingTime;
-    public float recipeDuration;
-    public boolean appliedRecipe;
-
-    public ItemPlaceableInventory(int size) {
-        super(size);
+    public ItemPlaceableInventory(int size, ItemPlaceableBaseTileEntity te) {
+        super(size, te);
     }
 
     @Override
@@ -46,33 +44,22 @@ public class ItemPlaceableInventory extends ItemStackHandler {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = super.serializeNBT();
-        nbt.putFloat("ProcessingTime", remainingTime);
-        nbt.putFloat("RecipeTime", recipeDuration);
-        nbt.putBoolean("AppliedRecipe", appliedRecipe);
         return nbt;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        remainingTime = nbt.getFloat("ProcessingTime");
-        recipeDuration = nbt.getFloat("RecipeTime");
-        appliedRecipe = nbt.getBoolean("AppliedRecipe");
         super.deserializeNBT(nbt);
-        if(isEmpty())
-            appliedRecipe = false;
     }
 
     public void dropInventory(Level level, BlockPos pos) {
-        stacks.forEach(stack -> dropItem(level, pos, stack));
+        IntStream.range(0, getSlots()).forEach(index -> dropItem(level, pos, getStackInSlot(index)));
         clear();
     }
 
     public void clear() {
         for (int i = 0; i < getSlots(); i++)
             setStackInSlot(i, ItemStack.EMPTY);
-        remainingTime = 0;
-        recipeDuration = 0;
-        appliedRecipe = false;
     }
 
     public void dropItem(Level level, BlockPos pos, ItemStack stack) {

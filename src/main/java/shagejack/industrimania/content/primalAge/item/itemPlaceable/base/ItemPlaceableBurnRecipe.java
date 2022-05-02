@@ -1,12 +1,15 @@
 package shagejack.industrimania.content.primalAge.item.itemPlaceable.base;
 
 import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipe;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder;
 import shagejack.industrimania.registers.AllRecipeTypes;
+
+import java.util.stream.IntStream;
 
 public class ItemPlaceableBurnRecipe extends ProcessingRecipe<RecipeWrapper> {
 
@@ -18,8 +21,8 @@ public class ItemPlaceableBurnRecipe extends ProcessingRecipe<RecipeWrapper> {
     public boolean matches(RecipeWrapper inv, Level worldIn) {
         if (inv.isEmpty())
             return false;
-        return ingredients.get(0)
-                .test(inv.getItem(0));
+
+        return IntStream.range(0, 16).allMatch(index -> ingredients.get(index).test(inv.getItem(index)));
     }
 
     @Override

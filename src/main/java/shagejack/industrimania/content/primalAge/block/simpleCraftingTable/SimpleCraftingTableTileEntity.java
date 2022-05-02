@@ -31,8 +31,8 @@ public class SimpleCraftingTableTileEntity extends SmartTileEntity {
     public final int REQUIRED_CRAFTING_TICK = 80;
 
     public float[] itemRotation = {0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F};
-    public int itemJump[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-    public int itemJumpPrev[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public int[] itemJump = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public int[] itemJumpPrev = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     public boolean hit;
     public int craftingTick;
 

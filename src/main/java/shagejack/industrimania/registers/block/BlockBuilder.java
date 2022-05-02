@@ -36,7 +36,6 @@ public class BlockBuilder implements ModelBuilder, StateBuilder, AllGroupedBlock
     protected RegistryObject<Block> block;
     protected BlockBehaviour.Properties property;
     protected final List<String> tags = new ArrayList<>();
-    protected final List<String> modTags = new ArrayList<>();
     protected float hardness;
     protected float explosionResistance;
     protected Material material;

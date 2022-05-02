@@ -1,16 +1,17 @@
 package shagejack.industrimania.registers;
 
-import net.minecraft.core.Registry;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import shagejack.industrimania.Industrimania;
+import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.network.IContainerFactory;
+import net.minecraftforge.registries.RegistryObject;
 import shagejack.industrimania.content.steamAge.block.boiler.BoilerMenu;
 
 public class AllMenus {
 
-    public static final MenuType<BoilerMenu> BOILER = register("boiler", BoilerMenu::new);
+    public static final RegistryObject<MenuType<BoilerMenu>> BOILER = register("boiler", BoilerMenu::new);
 
-    private static <T extends AbstractContainerMenu> MenuType<T> register(String name, MenuType.MenuSupplier<T> menuSupplier) {
-        return Registry.register(Registry.MENU, Industrimania.asResource(name), new MenuType<>(menuSupplier));
+    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String name, IContainerFactory<T> factory) {
+        return RegisterHandle.MENU_TYPE_REGISTER.register(name, () -> IForgeMenuType.create(factory));
     }
 }

@@ -25,6 +25,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBase;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseBlock;
+import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPlaceableBaseTileEntity;
 import shagejack.industrimania.foundation.utility.RayTraceUtils;
 import shagejack.industrimania.registers.item.AllItems;
 
@@ -45,7 +48,7 @@ public class PrimitiveFireBow extends Item {
         ItemStack itemstack = context.getItemInHand();
 
         if (player != null) {
-            if (!CampfireBlock.canLight(blockstate) && !CandleBlock.canLight(blockstate) && !CandleCakeBlock.canLight(blockstate)) {
+            if (!CampfireBlock.canLight(blockstate) && !CandleBlock.canLight(blockstate) && !CandleCakeBlock.canLight(blockstate) && !(blockstate.getBlock() instanceof ItemPlaceableBaseBlock)) {
                 //get pos on
                 BlockPos blockPos1 = blockPos.relative(context.getClickedFace());
                 if (BaseFireBlock.canBePlacedAt(level, blockPos1, context.getHorizontalDirection())) {
@@ -57,6 +60,11 @@ public class PrimitiveFireBow extends Item {
                    }
                 }
             } else {
+                // do not start fire if it's already burning
+                if (level.getBlockEntity(blockPos) instanceof ItemPlaceableBaseTileEntity te) {
+                    if (te.isBurning())
+                        return InteractionResult.FAIL;
+                }
                 if (hasFlammableItemAbove(level, blockPos)) {
                     itemstack.getOrCreateTag().putBoolean("isUsing", true);
                     player.startUsingItem(context.getHand());
@@ -70,12 +78,25 @@ public class PrimitiveFireBow extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-
-        if (!selected)
+        if (!selected) {
+            stack.getOrCreateTag().putBoolean("isUsing", false);
             return;
+        }
+    }
 
-        if (stack.getOrCreateTag().contains("isUsing", Tag.TAG_BYTE) && stack.getOrCreateTag().getBoolean("isUsing")) {
-            level.playSound(null, entity.getOnPos(), SoundEvents.GRASS_STEP, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
+    @Override
+    public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int slot) {
+        if (entity instanceof Player player) {
+            BlockHitResult result = RayTraceUtils.getPlayerPOVHitResult(player, level, ClipContext.Fluid.NONE);
+            BlockPos firePos = result.getBlockPos().relative(result.getDirection());
+            if (hasFlammableItemAbove(level, firePos.below())) {
+                if (stack.getOrCreateTag().contains("isUsing", Tag.TAG_BYTE) && stack.getOrCreateTag().getBoolean("isUsing")) {
+                    level.playSound(null, entity.getOnPos(), SoundEvents.GRASS_STEP, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);
+                }
+            } else {
+                stack.getOrCreateTag().putBoolean("isUsing", false);
+                player.stopUsingItem();
+            }
         }
     }
 
@@ -90,6 +111,11 @@ public class PrimitiveFireBow extends Item {
     }
 
     @Override
+    public void releaseUsing(ItemStack stack, Level p_41413_, LivingEntity p_41414_, int p_41415_) {
+        stack.getOrCreateTag().putBoolean("isUsing", false);
+    }
+
+    @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         InteractionHand hand = entity.getUsedItemHand();
         if (entity instanceof Player player) {
@@ -100,7 +126,7 @@ public class PrimitiveFireBow extends Item {
             BlockPos pos1 = pos.relative(result.getDirection());
 
             // check if the selected block can be set on fire
-            if (!CampfireBlock.canLight(state) && !CandleBlock.canLight(state) && !CandleCakeBlock.canLight(state)) {
+            if (!CampfireBlock.canLight(state) && !CandleBlock.canLight(state) && !CandleCakeBlock.canLight(state) && !(state.getBlock() instanceof ItemPlaceableBaseBlock)) {
                 //if it can't, try start fire on block pos relative to selected side
                 if (BaseFireBlock.canBePlacedAt(level, pos1, player.getDirection()) && isFireStarted(stack, level, pos1.below())) {
                     removeFlammableItemAbove(level, pos1.below());
@@ -116,7 +142,7 @@ public class PrimitiveFireBow extends Item {
                     }
                 }
             } else {
-                // if it can, try set it on fire
+                // if it can be set on fire, try set it on fire
                 if (isFireStarted(stack, level, pos)) {
                     removeFlammableItemAbove(level, pos);
                     level.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.4F + 0.8F);

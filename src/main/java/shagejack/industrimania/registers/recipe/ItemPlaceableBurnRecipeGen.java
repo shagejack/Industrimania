@@ -2,6 +2,8 @@ package shagejack.industrimania.registers.recipe;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.AllRecipeTypes;
 import shagejack.industrimania.registers.item.AllItems;
@@ -10,13 +12,13 @@ import java.util.List;
 
 public class ItemPlaceableBurnRecipeGen extends ProcessingRecipeGen {
 
-    GeneratedRecipe
+    GeneratedRecipe xxx
 
-    xxx
+
 
                     ;
 
-    GeneratedRecipe burn(List<Item> input, List<Item> output, int time) {
+    GeneratedRecipe burn(List<Ingredient> input, Block output, int time) {
         return create(Industrimania.MOD_ID, b -> b.duration(time)
                 .require(input.get(0))
                 .require(input.get(1))
@@ -34,22 +36,7 @@ public class ItemPlaceableBurnRecipeGen extends ProcessingRecipeGen {
                 .require(input.get(13))
                 .require(input.get(14))
                 .require(input.get(15))
-                .output(output.get(0))
-                .output(output.get(1))
-                .output(output.get(2))
-                .output(output.get(3))
-                .output(output.get(4))
-                .output(output.get(5))
-                .output(output.get(6))
-                .output(output.get(7))
-                .output(output.get(8))
-                .output(output.get(9))
-                .output(output.get(10))
-                .output(output.get(11))
-                .output(output.get(12))
-                .output(output.get(13))
-                .output(output.get(14))
-                .output(output.get(15)));
+                .output(output));
     }
 
     public ItemPlaceableBurnRecipeGen(DataGenerator p_i48262_1_) {
@@ -58,7 +45,7 @@ public class ItemPlaceableBurnRecipeGen extends ProcessingRecipeGen {
 
     @Override
     protected AllRecipeTypes getRecipeType() {
-        return AllRecipeTypes.DRYING_RACK;
+        return AllRecipeTypes.ITEM_PLACEABLE_BURN;
     }
 
 }

@@ -7,7 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.event.RegistryEvent;
@@ -20,7 +19,6 @@ import shagejack.industrimania.registers.block.AllGroupedBlocks;
 import shagejack.industrimania.registers.block.BlockBuilder;
 import shagejack.industrimania.registers.item.AllGroupedItems;
 import shagejack.industrimania.registers.item.AllItems;
-import shagejack.industrimania.registers.item.ItemPropertyOverridesRegistry;
 
 import static net.minecraftforge.registries.ForgeRegistries.*;
 import static shagejack.industrimania.Industrimania.MOD_ID;
