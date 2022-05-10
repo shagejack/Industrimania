@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.content.world.gen.OreGrade;
 import shagejack.industrimania.content.world.gen.OreTypeRegistry;
 import shagejack.industrimania.content.world.gen.record.OreType;
 import shagejack.industrimania.registers.item.grouped.AllOreChunks;
@@ -23,7 +24,7 @@ public class BlockOreItem extends BlockItem {
         super(block, properties);
     }
 
-    public ItemStack getOreChunk(ItemStack stack, int count) {
+    public static ItemStack getOreChunk(ItemStack stack, int count) {
         if (stack.getItem() instanceof BlockOreItem oreItem) {
             String key = Objects.requireNonNull(oreItem.getRegistryName()).toString().split(":")[1];
             return new ItemStack(AllOreChunks.ORE_CHUNKS.get(key).get(), count);
@@ -32,7 +33,7 @@ public class BlockOreItem extends BlockItem {
         }
     }
 
-    public OreType getOreType(ItemStack stack) {
+    public static OreType getOreType(ItemStack stack) {
         if (stack.getItem() instanceof BlockOreItem oreItem) {
             String key = Objects.requireNonNull(oreItem.getRegistryName()).toString().split(":")[1].split("_")[2];
             return OreTypeRegistry.oreTypeMap.get(key);
@@ -41,15 +42,15 @@ public class BlockOreItem extends BlockItem {
         }
     }
 
-    public int getOreGrade(ItemStack stack) {
+    public static OreGrade getOreGrade(ItemStack stack) {
         if (stack.getItem() instanceof BlockOreItem oreItem) {
-            return Integer.parseInt(Objects.requireNonNull(oreItem.getRegistryName()).toString().split(":")[1].split("_")[3]);
+            return OreGrade.getGradeFromIndex(Integer.parseInt(Objects.requireNonNull(oreItem.getRegistryName()).toString().split(":")[1].split("_")[3]));
         } else {
-            return 0;
+            return OreGrade.POOR;
         }
     }
 
-    public Block getRock(ItemStack stack) {
+    public static Block getRock(ItemStack stack) {
         if (stack.getItem() instanceof BlockOreItem oreItem) {
             String name = "rock_" + Objects.requireNonNull(oreItem.getRegistryName()).toString().split(":")[1].split("_")[1];
             ResourceLocation registryName = new ResourceLocation(Industrimania.MOD_ID, name);
@@ -59,7 +60,7 @@ public class BlockOreItem extends BlockItem {
         }
     }
 
-    public String getRockName(ItemStack stack) {
+    public static String getRockName(ItemStack stack) {
         if (stack.getItem() instanceof BlockOreItem oreItem) {
             return "rock_" + Objects.requireNonNull(oreItem.getRegistryName()).toString().split(":")[1].split("_")[1];
         } else {
@@ -67,15 +68,15 @@ public class BlockOreItem extends BlockItem {
         }
     }
 
+    public static String getRockLocalizedName(ItemStack stack) {
+        return I18n.get("block.industrimania." + getRockName(stack));
+    }
+
     @Override
     public @NotNull MutableComponent getName(@NotNull ItemStack stack) {
-        var rockName = getRockName(stack);
-        var oreType = getOreType(stack).name();
-        var oreGrade = getOreGrade(stack);
-
-        String rockNameLocal = I18n.get("block.industrimania." + rockName),
-                oreTypeLocal = I18n.get("industrimania.oretype." + oreType),
-                oreGradeLocal = I18n.get( "industrimania.oregrade." + oreGrade);
+        String rockNameLocal = I18n.get(getRockLocalizedName(stack)),
+                oreTypeLocal = I18n.get(Objects.requireNonNull(getOreType(stack)).getLocalizedName()),
+                oreGradeLocal = I18n.get(getOreGrade(stack).getLocalizedName());
 
 
         String nameLocal = rockNameLocal + oreGradeLocal + oreTypeLocal;

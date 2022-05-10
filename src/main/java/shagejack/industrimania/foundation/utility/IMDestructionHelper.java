@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrassBlock;
-import shagejack.industrimania.content.world.gen.Geology;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
@@ -15,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInEllipse;
-import static shagejack.industrimania.foundation.utility.GeometryIterateUtils.isInEllipsoid;
+import static shagejack.industrimania.foundation.utility.GeometryIterationUtils.isInEllipse;
+import static shagejack.industrimania.foundation.utility.GeometryIterationUtils.isInEllipsoid;
 
 public class IMDestructionHelper {
 

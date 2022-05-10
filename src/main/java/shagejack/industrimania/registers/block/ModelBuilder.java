@@ -73,22 +73,22 @@ interface ModelBuilder extends AsBase{
         return (BlockBuilder) this;
     }
 
-    default BlockBuilder allSpecificModel(String up, String down, String north, String south, String west, String east) {
+    default BlockBuilder allSpecificModel(String top, String bottom, String north, String south, String west, String east) {
         DataGenHandle.addBlockModelTask(provider -> {
             var base = asBase();
             var block = base.block;
             Industrimania.LOGGER.debug("""
                      set all specific model for Block:{} with
-                      up:{}
-                     down:{}
+                      top:{}
+                     bottom:{}
                      north:{}
                      south:{}
                      west:{}
-                    east:{}""", base.name, up, down, north, south, west, east);
+                    east:{}""", base.name, top, bottom, north, south, west, east);
             provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
                     .parent(DataGenHandle.blockCube.get())
-                    .texture("up", up)
-                    .texture("down", down)
+                    .texture("top", top)
+                    .texture("bottom", bottom)
                     .texture("north", north)
                     .texture("south", south)
                     .texture("west", west)
@@ -194,8 +194,8 @@ interface ModelBuilder extends AsBase{
      * while file names (ended with .png) are <p>
      * default texture if others do not exist <p>
      * particle <p> THIS IS FOR BLOCK PARTICLE
-     * up <p>
-     * down <p>
+     * top <p>
+     * bottom <p>
      * left <p>
      * right <p>
      * front <p>
@@ -234,8 +234,8 @@ interface ModelBuilder extends AsBase{
                 var back = defaultTexture;
                 var left = defaultTexture;
                 var right = defaultTexture;
-                var up = defaultTexture;
-                var down = defaultTexture;
+                var top = defaultTexture;
+                var bottom = defaultTexture;
                 var particle = defaultTexture;
 
                 var xyTexture = String.format("%s/xy", path);
@@ -257,14 +257,14 @@ interface ModelBuilder extends AsBase{
                 if (xzExist) {
                     front = xzTexture;
                     back = xzTexture;
-                    up = xzTexture;
-                    down = xzTexture;
+                    top = xzTexture;
+                    bottom = xzTexture;
                 }
                 if (yzExist) {
                     left = yzTexture;
                     right = yzTexture;
-                    up = yzTexture;
-                    down = yzTexture;
+                    top = yzTexture;
+                    bottom = yzTexture;
                 }
 
                 var xTexture = String.format("%s/x", path);
@@ -288,31 +288,31 @@ interface ModelBuilder extends AsBase{
                     right = yTexture;
                 }
                 if (zExist) {
-                    up = zTexture;
-                    down = zTexture;
+                    top = zTexture;
+                    bottom = zTexture;
                 }
 
                 var frontTexture = String.format("%s/front", path);
                 var backTexture = String.format("%s/back", path);
                 var leftTexture = String.format("%s/left", path);
                 var rightTexture = String.format("%s/right", path);
-                var upTexture = String.format("%s/up", path);
-                var downTexture = String.format("%s/down", path);
+                var topTexture = String.format("%s/top", path);
+                var bottomTexture = String.format("%s/bottom", path);
                 var frontExist = checkTextureFileExist(provider, frontTexture);
                 var backExist = checkTextureFileExist(provider, backTexture);
                 var leftExist = checkTextureFileExist(provider, leftTexture);
                 var rightExist = checkTextureFileExist(provider, rightTexture);
-                var upExist = checkTextureFileExist(provider, upTexture);
-                var downExist = checkTextureFileExist(provider, downTexture);
+                var topExist = checkTextureFileExist(provider, topTexture);
+                var bottomExist = checkTextureFileExist(provider, bottomTexture);
                 checkThrow(xExist && frontExist && backExist, "x,front,back");
                 checkThrow(xExist && frontExist, "x,front");
                 checkThrow(xExist && backExist, "x,back");
                 checkThrow(yExist && leftExist && rightExist, "y,left,right");
                 checkThrow(yExist && leftExist, "y,left");
                 checkThrow(yExist && rightExist, "y,right");
-                checkThrow(zExist && upExist && downExist, "z,up,down");
-                checkThrow(zExist && upExist, "z,up");
-                checkThrow(zExist && downExist, "z,down");
+                checkThrow(zExist && topExist && bottomExist, "z,top,bottom");
+                checkThrow(zExist && topExist, "z,top");
+                checkThrow(zExist && bottomExist, "z,bottom");
 
                 if (frontExist) {
                     front = frontTexture;
@@ -326,11 +326,11 @@ interface ModelBuilder extends AsBase{
                 if (rightExist) {
                     right = rightTexture;
                 }
-                if (upExist) {
-                    up = upTexture;
+                if (topExist) {
+                    top = topTexture;
                 }
-                if (downExist) {
-                    down = downTexture;
+                if (bottomExist) {
+                    bottom = bottomTexture;
                 }
 
                 var particleTexture = String.format("%s/particle", path);
@@ -352,18 +352,18 @@ interface ModelBuilder extends AsBase{
                 Industrimania.LOGGER.debug("""
                         automatically set full cube block model for Block:{} with
                         particle:{}
-                        up:{}
-                        down:{}
+                        top:{}
+                        bottom:{}
                         front/north:{}
                         back/south:{}
                         left/west:{}
                         right/east:{}
-                        hasRGBOverlay:{}""", name, particle, up, down, front, back, left, right, hasRGBOverlay);
+                        hasRGBOverlay:{}""", name, particle, top, bottom, front, back, left, right, hasRGBOverlay);
                 provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
                         .parent(model)
                         .texture("particle", particle)
-                        .texture("up", up)
-                        .texture("down", down)
+                        .texture("top", top)
+                        .texture("bottom", bottom)
                         .texture("north", front)
                         .texture("south", back)
                         .texture("west", left)

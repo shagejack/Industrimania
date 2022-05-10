@@ -1,10 +1,12 @@
 package shagejack.industrimania.registers.block.grouped;
 
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.material.Material;
 import shagejack.industrimania.content.contraptions.ore.BlockOre;
 import shagejack.industrimania.content.contraptions.ore.BlockOreItem;
+import shagejack.industrimania.content.world.gen.OreGrade;
 import shagejack.industrimania.content.world.gen.OreTypeRegistry;
 import shagejack.industrimania.content.world.gen.record.OreType;
 import shagejack.industrimania.registers.AllTabs;
@@ -60,7 +62,7 @@ public interface AllOres extends AsBase{
         return string.split("_")[2];
     }
 
-    static int getOreGrade(String string) {
-        return Integer.parseInt(string.split("_")[3]);
+    static OreGrade getOreGrade(String string) {
+        return OreGrade.getGradeFromIndex(Integer.parseInt(string.split("_")[3]));
     }
 }
