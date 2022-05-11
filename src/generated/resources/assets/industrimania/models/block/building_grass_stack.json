@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube",
   "textures": {
     "particle": "industrimania:block/building/grass_stack/default",
-    "up": "industrimania:block/building/grass_stack/default",
+    "up": "industrimania:block/building/grass_stack/top",
     "down": "industrimania:block/building/grass_stack/default",
     "north": "industrimania:block/building/grass_stack/default",
     "south": "industrimania:block/building/grass_stack/default",

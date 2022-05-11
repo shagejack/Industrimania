@@ -1,4 +1,5 @@
-package shagejack.industrimania.api.worldGen;/*
+package shagejack.industrimania.api.worldGen;
+/*
  * 2014 OpenSimplex Noise in Java.
  * by Kurt Spencer
  * 

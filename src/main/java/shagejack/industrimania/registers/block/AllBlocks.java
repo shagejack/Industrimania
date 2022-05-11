@@ -17,17 +17,18 @@ import shagejack.industrimania.content.pollution.block.BlockAshesLayers;
 import shagejack.industrimania.content.primalAge.block.clayKiln.ClayKilnBlock;
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackBlock;
 import shagejack.industrimania.content.primalAge.block.mixingBasin.MixingBasinBlock;
-import shagejack.industrimania.content.primalAge.block.nature.cobble.Cobble;
-import shagejack.industrimania.content.primalAge.block.nature.mulberry.bush.MulberryBush;
-import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxBlock;
-import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeLeaves;
-import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeLog;
-import shagejack.industrimania.content.primalAge.block.nature.mulberry.tree.MulberryTreeSapling;
-import shagejack.industrimania.content.primalAge.block.nature.rush.RushBlockBottom;
-import shagejack.industrimania.content.primalAge.block.nature.rush.RushBlockTop;
-import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLeaves;
-import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLog;
-import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeSapling;
+import shagejack.industrimania.content.world.nature.OreCapBlock;
+import shagejack.industrimania.content.world.nature.cobble.Cobble;
+import shagejack.industrimania.content.world.nature.mulberry.bush.MulberryBush;
+import shagejack.industrimania.content.world.nature.mulberry.silkworm.SilkwormRearingBoxBlock;
+import shagejack.industrimania.content.world.nature.mulberry.tree.MulberryTreeLeaves;
+import shagejack.industrimania.content.world.nature.mulberry.tree.MulberryTreeLog;
+import shagejack.industrimania.content.world.nature.mulberry.tree.MulberryTreeSapling;
+import shagejack.industrimania.content.world.nature.rush.RushBlockBottom;
+import shagejack.industrimania.content.world.nature.rush.RushBlockTop;
+import shagejack.industrimania.content.world.nature.rubberTree.RubberTreeLeaves;
+import shagejack.industrimania.content.world.nature.rubberTree.RubberTreeLog;
+import shagejack.industrimania.content.world.nature.rubberTree.RubberTreeSapling;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableBlock;
 import shagejack.industrimania.content.primalAge.block.stack.GrassStackBlock;
 import shagejack.industrimania.content.primalAge.block.stack.hay.HayStackBlock;
@@ -625,7 +626,7 @@ public class AllBlocks {
             .tags(BlockTags.MINEABLE_WITH_PICKAXE)
             //.specialModel()
             .simpleBlockState()
-            .buildBlock()
+            .buildBlock(OreCapBlock::new)
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabOre)));
 
     //Igneous Rocks

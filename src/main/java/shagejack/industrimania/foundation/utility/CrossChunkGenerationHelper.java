@@ -4,11 +4,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
+import shagejack.industrimania.content.world.gen.Geology;
 import shagejack.industrimania.content.world.gen.record.WorldGenBlockReference;
 import shagejack.industrimania.content.world.gen.record.WorldGenChunkReference;
 
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiFunction;
 
 /**
@@ -99,11 +104,26 @@ public class CrossChunkGenerationHelper {
         while(queue != null && !queue.isEmpty()) {
             WorldGenBlockReference ref = queue.poll();
             if (ref.genFun().apply(level, ref.pos()))
-                level.setBlock(ref.pos(), ref.state(), 0);
+                level.setBlock(ref.pos(), ref.state(), 3);
         }
 
         genMap.remove(chunkRef);
 
+    }
+
+    public void tryForceGen() {
+        for (Map.Entry<WorldGenChunkReference, LinkedList<WorldGenBlockReference>> mapEntry : genMap.entrySet()) {
+            WorldGenChunkReference chunkRef = mapEntry.getKey();
+            LinkedList<WorldGenBlockReference> blockRefs = mapEntry.getValue();
+
+            if (chunkRef.level().hasChunk(chunkRef.pos().x, chunkRef.pos().z)) {
+                for (WorldGenBlockReference blockRef : blockRefs) {
+                    if (blockRef.genFun().apply(chunkRef.level(), blockRef.pos()))
+                        chunkRef.level().setBlock(blockRef.pos(), blockRef.state(), 3);
+                }
+                genMap.remove(chunkRef);
+            }
+        }
     }
 
     public boolean isInChunk(ChunkPos chunkPos, BlockPos pos) {

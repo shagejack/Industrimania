@@ -79,16 +79,16 @@ interface ModelBuilder extends AsBase{
             var block = base.block;
             Industrimania.LOGGER.debug("""
                      set all specific model for Block:{} with
-                      top:{}
-                     bottom:{}
+                      up:{}
+                     down:{}
                      north:{}
                      south:{}
                      west:{}
                     east:{}""", base.name, top, bottom, north, south, west, east);
             provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
                     .parent(DataGenHandle.blockCube.get())
-                    .texture("top", top)
-                    .texture("bottom", bottom)
+                    .texture("up", top)
+                    .texture("down", bottom)
                     .texture("north", north)
                     .texture("south", south)
                     .texture("west", west)
@@ -352,8 +352,8 @@ interface ModelBuilder extends AsBase{
                 Industrimania.LOGGER.debug("""
                         automatically set full cube block model for Block:{} with
                         particle:{}
-                        top:{}
-                        bottom:{}
+                        up:{}
+                        down:{}
                         front/north:{}
                         back/south:{}
                         left/west:{}
@@ -362,8 +362,8 @@ interface ModelBuilder extends AsBase{
                 provider.getBuilder(Objects.requireNonNull(block.get().getRegistryName()).getPath())
                         .parent(model)
                         .texture("particle", particle)
-                        .texture("top", top)
-                        .texture("bottom", bottom)
+                        .texture("up", top)
+                        .texture("down", bottom)
                         .texture("north", front)
                         .texture("south", back)
                         .texture("west", left)

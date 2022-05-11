@@ -3,6 +3,7 @@ package shagejack.industrimania.content.world.gen.feature;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -20,15 +21,14 @@ import shagejack.industrimania.content.world.gen.OreGrade;
 import shagejack.industrimania.content.world.gen.OreRegistry;
 import shagejack.industrimania.content.world.gen.featureConfiguration.OreGenConfiguration;
 import shagejack.industrimania.content.world.gen.record.Ore;
+import shagejack.industrimania.content.world.nature.OreCapBlock;
 import shagejack.industrimania.foundation.utility.CrossChunkGenerationHelper;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.block.grouped.AllOres;
 import shagejack.industrimania.registers.block.grouped.AllRocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -53,14 +53,6 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
             Blocks.STONE,
             Blocks.DEEPSLATE
     );
-
-    // optimize later, for test only
-    private static final Set<Block> PLANT_TO_DECAY = Stream.of(
-            ForgeRegistries.BLOCKS.tags().getTag(BlockTags.REPLACEABLE_PLANTS).stream(),
-            ForgeRegistries.BLOCKS.tags().getTag(BlockTags.TALL_FLOWERS).stream(),
-            ForgeRegistries.BLOCKS.tags().getTag(BlockTags.SMALL_FLOWERS).stream()
-    ).flatMap(s -> s).collect(Collectors.toSet());
-
 
     // minY and maxY values are used in selecting ore type based on deposit center position
     public static final Set<Ore> ORES = Sets.newHashSet(
@@ -100,12 +92,12 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
     }
 
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> rockGenFun = (level, pos) -> isReplaceable(level.getBlockState(pos).getBlock());
-    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreGenFun = (level, pos) -> !allOres.contains(level.getBlockState(pos).getBlock());
-    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantDecayFun = (level, pos) -> Math.random() < PLANT_DECAY_PROBABILITY && PLANT_TO_DECAY.contains(level.getBlockState(pos).getBlock());
-    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantSignGenFun = (level, pos) -> Math.random() < PLANT_SIGN_GEN_PROBABILITY && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS));
-    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreCapGenFun = (level, pos) -> Math.random() < ORE_CAP_GEN_PROBABILITY && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS));
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreGenFun = (level, pos) -> !allOres.contains(level.getBlockState(pos).getBlock()) && isReplaceable(level.getBlockState(pos).getBlock());
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantDecayFun = (level, pos) -> Math.random() < PLANT_DECAY_PROBABILITY && level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS) && level.getBlockState(pos).is(BlockTags.TALL_FLOWERS) && level.getBlockState(pos).is(BlockTags.SMALL_FLOWERS);
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantSignGenFun = (level, pos) -> Math.random() < PLANT_SIGN_GEN_PROBABILITY && Blocks.GRASS.defaultBlockState().canSurvive(level, pos) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS));
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreCapGenFun = (level, pos) -> Math.random() < ORE_CAP_GEN_PROBABILITY && OreCapBlock.canSurvive(level, pos) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS));
 
-    public final CrossChunkGenerationHelper helper = new CrossChunkGenerationHelper();
+    private final CrossChunkGenerationHelper helper = new CrossChunkGenerationHelper();
 
     @Override
     @ParametersAreNonnullByDefault
@@ -121,6 +113,7 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
 
         // do cross chunk generation
         helper.gen(level, cp);
+        helper.tryForceGen();
 
         if (level.getRandom().nextDouble() >= DEPOSIT_GEN_PROBABILITY)
             return false;
@@ -171,9 +164,9 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
          */
 
         int shape = level.getRandom().nextInt(2);
-        Stream<BlockPos> deposit;
+        List<BlockPos> deposit = new ArrayList<>();
 
-        int rx, ry, rz;
+        int rx, ry, rz, rx2, ry2, rz2;
 
         switch (shape) {
             case 0 -> {
@@ -181,31 +174,57 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
                 rx = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
                 ry = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
                 rz = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
+                rx2 = (int) Math.pow(rx, 2);
+                ry2 = (int) Math.pow(ry, 2);
+                rz2 = (int) Math.pow(rz, 2);
+                for (int dx = depositCenter.getX() - rx; dx < depositCenter.getX() + rx; dx++) {
+                    for (int dy = depositCenter.getY() - ry; dy < depositCenter.getY() + ry; dy++) {
+                        for (int dz = depositCenter.getZ() - rz; dz < depositCenter.getZ() + rz; dz++) {
+                            if (isInEllipsoid(dx, dy, dz, depositCenter, rx2, ry2, rz2)) {
+                                BlockPos blockPos = new BlockPos(dx, dy, dz);
+                                if (level.hasChunk(SectionPos.blockToSectionCoord(dx), SectionPos.blockToSectionCoord(dz))) {
+                                    Block block = level.getBlockState(blockPos).getBlock();
+                                    if (isReplaceable(block)) {
+                                        setBlock(level, blockPos, depositRock.defaultBlockState());
+                                        deposit.add(blockPos);
+                                    }
+                                }
 
-                deposit = getEllipsoidStream(depositCenter, rx, ry, rz)
-                        .filter(pos -> isReplaceable(level.getBlockState(pos).getBlock()));
-
-                deposit.forEach(pos -> {
-                    setBlock(level, pos, depositRock.defaultBlockState());
-                    if (!helper.isInChunk(cp, pos))
-                        helper.offer(level, rockGenFun, pos, depositRock.defaultBlockState());
-                });
+                                if (!helper.isInChunk(cp, blockPos)) {
+                                    helper.offer(level, rockGenFun, blockPos, depositRock.defaultBlockState());
+                                }
+                            }
+                        }
+                    }
+                }
             }
             case 1 -> {
                 //Cylinder
                 int height = 2 * (level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1);
                 rx = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
                 rz = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
+                rx2 = (int) Math.pow(rx, 2);
+                rz2 = (int) Math.pow(rz, 2);
+                for (int dx = depositCenter.getX() - rx; dx < depositCenter.getX() + rx; dx++) {
+                    for (int dy = depositCenter.getY() - height / 2; dy < depositCenter.getY() + height / 2; dy++) {
+                        for (int dz = depositCenter.getZ() - rz; dz < depositCenter.getZ() + rz; dz++) {
+                            if (isInCylinder(dx, dy, dz, depositCenter, rx2, height, rz2)) {
+                                BlockPos blockPos = new BlockPos(dx, dy, dz);
+                                if (level.hasChunk(SectionPos.blockToSectionCoord(dx), SectionPos.blockToSectionCoord(dz))) {
+                                    Block block = level.getBlockState(blockPos).getBlock();
+                                    if (isReplaceable(block)) {
+                                        setBlock(level, blockPos, depositRock.defaultBlockState());
+                                        deposit.add(blockPos);
+                                    }
+                                }
 
-                deposit = getCylinderStream(depositCenter, rx, height, rz)
-                        .filter(pos -> isReplaceable(level.getBlockState(pos).getBlock()));
-
-                deposit.forEach(pos -> {
-                    setBlock(level, pos, depositRock.defaultBlockState());
-                    if (!helper.isInChunk(cp, pos)) {
-                        helper.offer(level, rockGenFun, pos, depositRock.defaultBlockState());
+                                if (!helper.isInChunk(cp, blockPos)) {
+                                    helper.offer(level, rockGenFun, blockPos, depositRock.defaultBlockState());
+                                }
+                            }
+                        }
                     }
-                });
+                }
             }
             default -> {
                 Industrimania.LOGGER.warn("Deposit generated wrongly. THIS SHOULDN'T HAPPEN!");
@@ -219,7 +238,7 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
         =========================
          */
 
-        if (deposit.findAny().isEmpty())
+        if (deposit.isEmpty())
             return false;
 
         List<Block> depositOreBlocks = new ArrayList<>();
@@ -246,11 +265,11 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
                     depositOreBlocks.add(oreBlock);
             });
 
-            BlockPos oreBodyCenter = deposit.findAny().get();
+            BlockPos oreBodyCenter = deposit.get(level.getRandom().nextInt(deposit.size()));
 
-            int rxb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE) + MIN_ORE_BODY_SIZE + 1;
-            int ryb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE) + MIN_ORE_BODY_SIZE + 1;
-            int rzb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE) + MIN_ORE_BODY_SIZE + 1;
+            int rxb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE + 1) + MIN_ORE_BODY_SIZE;
+            int ryb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE + 1) + MIN_ORE_BODY_SIZE;
+            int rzb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE + 1) + MIN_ORE_BODY_SIZE;
             double rxb2 = Math.pow(rxb, 2);
             double ryb2 = Math.pow(ryb, 2);
             double rzb2 = Math.pow(rzb, 2);
@@ -261,54 +280,60 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
             double mNormalRightValue = Math.pow(mNormal, 2);
             double mRichRightValue = Math.pow(mRich, 2);
 
-            List<BlockPos>
-                    richPos = new ArrayList<>(),
-                    normalPos = new ArrayList<>(),
-                    poorPos = new ArrayList<>();
-
             // Ore Generation
-            BlockPos.betweenClosedStream(oreBodyCenter, oreBodyCenter.offset(rxb, ryb, rzb)).parallel().forEach(pos -> {
-                double leftValue = Math.pow(pos.getX() - oreBodyCenter.getX(), 2) / rxb2 + Math.pow(pos.getY() - oreBodyCenter.getY(), 2) / ryb2 + Math.pow(pos.getZ() - oreBodyCenter.getZ(), 2) / rzb2;
-                // add one quadrant of rich ore generation pos to list
-                if (leftValue <= mRichRightValue) {
-                    richPos.add(pos);
-                    return;
-                }
-                // add one quadrant of normal ore generation pos to list
-                if (leftValue <= mNormalRightValue) {
-                    normalPos.add(pos);
-                    return;
-                }
-                // add one quadrant of poor ore generation pos to list
-                if (leftValue <= 1.0d) {
-                    poorPos.add(pos);
-                }
-            });
+            for (int dx = oreBodyCenter.getX() - rxb; dx < oreBodyCenter.getX() + rxb; dx++) {
+                for (int dy = oreBodyCenter.getY() - ryb; dy < oreBodyCenter.getY() + ryb; dy++) {
+                    for (int dz = oreBodyCenter.getZ() - rzb; dz < oreBodyCenter.getZ() + rzb; dz++) {
+                        BlockPos pos;
 
+                        double leftValue = Math.pow(dx - oreBodyCenter.getX(), 2) / rxb2 + Math.pow(dy - oreBodyCenter.getY(), 2) / ryb2 + Math.pow(dz - oreBodyCenter.getZ(), 2) / rzb2;
+                        // Rich Ore Generation
+                        if (leftValue <= mRichRightValue) {
+                            pos = new BlockPos(dx, dy, dz);
 
-            final Ore finalBodyOre = bodyOre;
+                            if (!helper.isInChunk(cp, pos)) {
+                                helper.offer(level, oreGenFun, pos, getOreBlock(bodyOre, depositRock, OreGrade.RICH).defaultBlockState());
+                            }
 
-            // generate rich ores
-            richPos.stream().parallel().flatMap(pos -> getSymmetricPosStream(pos, oreBodyCenter)).forEach(pos -> {
-                if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock()))
-                    setBlock(level, pos, getOreBlock(finalBodyOre, depositRock, OreGrade.RICH).defaultBlockState());
-                if (!helper.isInChunk(cp, pos))
-                    helper.offer(level, oreGenFun, pos, getOreBlock(finalBodyOre, depositRock, OreGrade.RICH).defaultBlockState());
-            });
-            // generate normal ores
-            normalPos.stream().parallel().flatMap(pos -> getSymmetricPosStream(pos, oreBodyCenter)).forEach(pos -> {
-                if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock()))
-                    setBlock(level, pos, getOreBlock(finalBodyOre, depositRock, OreGrade.NORMAL).defaultBlockState());
-                if (!helper.isInChunk(cp, pos))
-                    helper.offer(level, oreGenFun, pos, getOreBlock(finalBodyOre, depositRock, OreGrade.NORMAL).defaultBlockState());
-            });
-            // generate poor ores
-            poorPos.stream().parallel().flatMap(pos -> getSymmetricPosStream(pos, oreBodyCenter)).forEach(pos -> {
-                if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock()))
-                    setBlock(level, pos, getOreBlock(finalBodyOre, depositRock, OreGrade.POOR).defaultBlockState());
-                if (!helper.isInChunk(cp, pos))
-                    helper.offer(level, oreGenFun, pos, getOreBlock(finalBodyOre, depositRock, OreGrade.POOR).defaultBlockState());
-            });
+                            if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
+                                if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
+                                    setBlock(level, pos, getOreBlock(bodyOre, depositRock, OreGrade.RICH).defaultBlockState());
+                                }
+                            }
+                            continue;
+                        }
+                        // Normal Ore Generation
+                        if (leftValue <= mNormalRightValue) {
+                            pos = new BlockPos(dx, dy, dz);
+
+                            if (!helper.isInChunk(cp, pos)) {
+                                helper.offer(level, oreGenFun, pos, getOreBlock(bodyOre, depositRock, OreGrade.NORMAL).defaultBlockState());
+                            }
+
+                            if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
+                                if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
+                                    setBlock(level, pos, getOreBlock(bodyOre, depositRock, OreGrade.NORMAL).defaultBlockState());
+                                }
+                            }
+                            continue;
+                        }
+                        // Poor Ore Generation
+                        if (leftValue <= 1.0d) {
+                            pos = new BlockPos(dx, dy, dz);
+
+                            if (!helper.isInChunk(cp, pos)) {
+                                helper.offer(level, oreGenFun, pos, getOreBlock(bodyOre, depositRock, OreGrade.POOR).defaultBlockState());
+                            }
+
+                            if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
+                                if (!depositOreBlocks.contains(level.getBlockState(pos).getBlock())) {
+                                    setBlock(level, pos, getOreBlock(bodyOre, depositRock, OreGrade.POOR).defaultBlockState());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /*
@@ -317,7 +342,7 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
         ======================
          */
 
-        //TODO: fix surface generation
+        //TODO: fix surface generation (it works sometimes now)
 
         Stream<BlockPos> surface = getEllipseStream(depositCenter, rx, rz)
                 .map(pos -> {
@@ -331,28 +356,39 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
         // Surface Plant Modification
         surface.forEach(pos -> {
             //Plant Decay
-            if (plantDecayFun.apply(level, pos))
-                level.removeBlock(pos, true);
-
-            if (!helper.isInChunk(cp, pos))
+            if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
+                if (plantDecayFun.apply(level, pos))
+                    level.removeBlock(pos, true);
+                if (!helper.isInChunk(cp, pos))
+                    helper.offer(level, plantDecayFun, pos, Blocks.AIR.defaultBlockState());
+            } else {
                 helper.offer(level, plantDecayFun, pos, Blocks.AIR.defaultBlockState());
+            }
 
             // Plant Sign Generation
             if (depositOre.plantSign() != null) {
-                if (plantSignGenFun.apply(level, pos))
-                    level.setBlock(pos, depositOre.plantSign().defaultBlockState(), 0);
+                if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
+                    if (plantSignGenFun.apply(level, pos))
+                        level.setBlock(pos, depositOre.plantSign().defaultBlockState(), 0);
 
-                if (!helper.isInChunk(cp, pos))
-                    helper.offer(level, plantSignGenFun, pos, depositOre.plantSign().defaultBlockState());
+                    if (!helper.isInChunk(cp, pos))
+                        helper.offer(level, plantSignGenFun, pos, depositOre.plantSign().defaultBlockState());
+                } else {
+                    helper.offer(level, plantDecayFun, pos, Blocks.AIR.defaultBlockState());
+                }
             }
 
             // Ore Cap Generation
             if (depositOre.oreCap() != null) {
-                if (oreCapGenFun.apply(level, pos))
-                    level.setBlock(pos, depositOre.oreCap().defaultBlockState(), 0);
+                if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
+                    if (oreCapGenFun.apply(level, pos))
+                        level.setBlock(pos, depositOre.oreCap().defaultBlockState(), 0);
 
-                if (!helper.isInChunk(cp, pos))
-                    helper.offer(level, oreCapGenFun, pos, depositOre.oreCap().defaultBlockState());
+                    if (!helper.isInChunk(cp, pos))
+                        helper.offer(level, oreCapGenFun, pos, depositOre.oreCap().defaultBlockState());
+                } else {
+                    helper.offer(level, plantDecayFun, pos, Blocks.AIR.defaultBlockState());
+                }
             }
         });
 

@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "industrimania:log_rubber",
+    "industrimania:log_spruce",
+    "industrimania:log_darkoak",
+    "industrimania:wood_oak",
+    "industrimania:wood_acacia",
+    "industrimania:wood_jungle",
+    "industrimania:log_oak",
+    "industrimania:log_jungle",
+    "industrimania:wood_darkoak",
+    "industrimania:log_birch",
+    "industrimania:wood_spruce",
+    "industrimania:wood_rubber",
+    "industrimania:wood_mulberry",
+    "industrimania:log_acacia",
+    "industrimania:wood_birch",
+    "industrimania:log_mulberry"
+  ]
+}

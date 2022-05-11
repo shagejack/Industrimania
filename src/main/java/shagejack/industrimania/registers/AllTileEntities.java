@@ -22,8 +22,8 @@ import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackRend
 import shagejack.industrimania.content.primalAge.block.dryingRack.DryingRackTileEntity;
 import shagejack.industrimania.content.primalAge.block.mixingBasin.MixingBasinRenderer;
 import shagejack.industrimania.content.primalAge.block.mixingBasin.MixingBasinTileEntity;
-import shagejack.industrimania.content.primalAge.block.nature.mulberry.silkworm.SilkwormRearingBoxTileEntity;
-import shagejack.industrimania.content.primalAge.block.nature.rubberTree.RubberTreeLogTileEntity;
+import shagejack.industrimania.content.world.nature.mulberry.silkworm.SilkwormRearingBoxTileEntity;
+import shagejack.industrimania.content.world.nature.rubberTree.RubberTreeLogTileEntity;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableRenderer;
 import shagejack.industrimania.content.primalAge.block.simpleCraftingTable.SimpleCraftingTableTileEntity;
 import shagejack.industrimania.content.primalAge.block.stoneChoppingBoard.StoneChoppingBoardRenderer;

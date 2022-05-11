@@ -1,6 +1,10 @@
 package shagejack.industrimania.registers.block.grouped;
 
 import com.google.common.collect.Lists;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
+import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.registers.block.AllBlocks;
 import shagejack.industrimania.registers.record.ItemBlock;
 
@@ -34,5 +38,10 @@ public interface AllRocks extends AsBase{
         // set stone rare
         rareStones.add(AllBlocks.rock_coal);
         rareStones.add(AllBlocks.rock_oilshale);
+    }
+
+    static Block getRockFromName(String name) {
+        ResourceLocation registryName = new ResourceLocation(Industrimania.MOD_ID, "rock_" + name);
+        return ForgeRegistries.BLOCKS.getValue(registryName);
     }
 }

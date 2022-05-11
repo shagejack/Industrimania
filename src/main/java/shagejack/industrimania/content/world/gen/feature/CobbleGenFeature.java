@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import shagejack.industrimania.content.primalAge.block.nature.cobble.Cobble;
+import shagejack.industrimania.content.world.nature.cobble.Cobble;
 import shagejack.industrimania.registers.block.AllBlocks;
 
 public class CobbleGenFeature extends Feature<NoneFeatureConfiguration> {

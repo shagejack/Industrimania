@@ -37,24 +37,28 @@ public class GeometryIterationUtils {
         return Math.pow(pos.getX() - center.getX(), 2) / rx2 + Math.pow(pos.getZ() - center.getZ(), 2) / rz2 <= 1 && pos.getY() > center.getY() - height / 2 && pos.getY() < center.getY() + height / 2;
     }
 
+    // seldom works properly for some reason, need to be fixed
+    @Deprecated
     public static Stream<BlockPos> getEllipsoidStream(BlockPos center, int rx, int ry, int rz) {
         double rx2 = Math.pow(rx, 2);
         double ry2 = Math.pow(ry, 2);
         double rz2 = Math.pow(rz, 2);
-        return BlockPos.betweenClosedStream(center, center.offset(rx, ry, rz)).parallel()
+        return BlockPos.betweenClosedStream(center, center.offset(rx, ry, rz))
                 .filter(pos -> isInEllipsoid(pos, center, rx2, ry2, rz2))
                 .flatMap(pos -> getSymmetricPosStream(center, pos));
     }
 
+    @Deprecated
     public static Stream<BlockPos> getEllipseStream(BlockPos center, int rx, int rz) {
         double rx2 = Math.pow(rx, 2);
         double rz2 = Math.pow(rz, 2);
-        return BlockPos.betweenClosedStream(center.offset(-rx, 0, -rz), center.offset(rx, 0, rz)).parallel()
+        return BlockPos.betweenClosedStream(center.offset(-rx, 0, -rz), center.offset(rx, 0, rz))
                 .filter(pos -> isInEllipse(pos, center, rx2, rz2));
     }
 
+    @Deprecated
     public static Stream<BlockPos> getCylinderStream(BlockPos center, int rx, int height, int rz) {
-        return getEllipseStream(center, rx, rz).parallel().flatMap(pos -> getHeightStream(center, pos, height));
+        return getEllipseStream(center, rx, rz).flatMap(pos -> getHeightStream(center, pos, height));
     }
 
     public static Stream<BlockPos> getSymmetricPosStream(BlockPos center, BlockPos pos) {

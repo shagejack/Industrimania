@@ -521,9 +521,9 @@ public class ClayFurnaceBottomTileEntity extends SmartTileEntity {
                 level.setBlock(getBlockPos().offset(rPos), AllBlocks.building_scorched_clay.block().get().defaultBlockState(), 1);
             }
         }
-        level.setBlock(getBlockPos().offset(0, 1, 0), AllBlocks.mechanic_iron_ore_slag.block().get().defaultBlockState(), 1);
-        level.setBlock(getBlockPos().offset(0, 2, 0), AllBlocks.gravity_dust.block().get().defaultBlockState(), 1);
-        level.setBlock(getBlockPos().offset(0, 3, 0), AllBlocks.gravity_dust.block().get().defaultBlockState(), 1);
+        level.setBlock(getBlockPos().offset(0, 1, 0), AllBlocks.mechanic_iron_ore_slag.block().get().defaultBlockState(), 3);
+        level.setBlock(getBlockPos().offset(0, 2, 0), AllBlocks.gravity_dust.block().get().defaultBlockState(), 3);
+        level.setBlock(getBlockPos().offset(0, 3, 0), AllBlocks.gravity_dust.block().get().defaultBlockState(), 3);
 
         //Settlement
         BlockEntity tileEntity = level.getBlockEntity(getBlockPos().offset(0, 1, 0));
