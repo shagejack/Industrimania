@@ -4,13 +4,14 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegistryObject;
-import shagejack.industrimania.content.contraptions.goggles.GogglesItem;
-import shagejack.industrimania.content.contraptions.itemBase.*;
-import shagejack.industrimania.content.contraptions.materialBase.KnifeMaterials;
-import shagejack.industrimania.content.contraptions.materialBase.SawMaterials;
-import shagejack.industrimania.content.contraptions.multimeter.Multimeter;
+import shagejack.industrimania.content.misc.goggles.GogglesItem;
+import shagejack.industrimania.content.misc.itemBase.*;
+import shagejack.industrimania.content.misc.materialBase.KnifeMaterials;
+import shagejack.industrimania.content.misc.materialBase.SawMaterials;
+import shagejack.industrimania.content.misc.multimeter.Multimeter;
 import shagejack.industrimania.content.logistics.item.filter.FilterItem;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
+import shagejack.industrimania.content.misc.water.DirtyWaterBottleItem;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
 import shagejack.industrimania.content.primalAge.block.woodenBarrel.WoodenBarrelCoverItem;
 import shagejack.industrimania.content.primalAge.item.fireStarter.PrimitiveFireBow;
@@ -19,10 +20,6 @@ import shagejack.industrimania.content.primalAge.item.itemPlaceable.base.ItemPla
 import shagejack.industrimania.content.primalAge.item.sandpaper.Sandpaper;
 import shagejack.industrimania.registries.AllTabs;
 import shagejack.industrimania.registries.tags.AllTags;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class AllItems {
 
@@ -111,6 +108,7 @@ public class AllItems {
 
     //Misc
     public static final RegistryObject<Item> woodenBarrelCover = new ItemBuilder().name("wooden_barrel_cover").simpleModel().tab(AllTabs.tabMisc).durability(128).build(WoodenBarrelCoverItem::new);
+    public static final RegistryObject<Item> dirtyWaterBottle = new ItemBuilder().name("dirty_water_bottle").simpleModel().properties(properties -> properties.craftRemainder(Items.GLASS_BOTTLE)).maxStackSize(1).tab(AllTabs.tabMisc).build(DirtyWaterBottleItem::new);
 
 
     /*

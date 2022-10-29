@@ -8,9 +8,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.FluidAttributes;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.content.contraptions.processing.ProcessingRecipe;
-import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder;
-import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeSerializer;
+import shagejack.industrimania.content.misc.processing.ProcessingRecipe;
+import shagejack.industrimania.content.misc.processing.ProcessingRecipeBuilder;
+import shagejack.industrimania.content.misc.processing.ProcessingRecipeSerializer;
 import shagejack.industrimania.foundation.utility.recipe.IRecipeTypeInfo;
 
 import java.util.ArrayList;

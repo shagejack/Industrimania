@@ -13,7 +13,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import shagejack.industrimania.content.contraptions.processing.ProcessingInventory;
+import shagejack.industrimania.content.misc.processing.ProcessingInventory;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.recipe.RecipeConditions;

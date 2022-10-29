@@ -2,8 +2,8 @@ package shagejack.industrimania.content.primalAge.item.sandpaper;
 
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
-import shagejack.industrimania.content.contraptions.processing.ProcessingRecipe;
-import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder;
+import shagejack.industrimania.content.misc.processing.ProcessingRecipe;
+import shagejack.industrimania.content.misc.processing.ProcessingRecipeBuilder;
 import shagejack.industrimania.registries.AllRecipeTypes;
 
 public class SandpaperRecipe extends ProcessingRecipe<RecipeWrapper> {

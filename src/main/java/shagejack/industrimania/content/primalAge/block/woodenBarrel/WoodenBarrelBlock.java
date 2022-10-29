@@ -35,7 +35,7 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import shagejack.industrimania.content.contraptions.multimeter.IMultimeterInfo;
+import shagejack.industrimania.content.misc.multimeter.IMultimeterInfo;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.utility.TileEntityUtils;
 import shagejack.industrimania.foundation.utility.VoxelShapeUtils;

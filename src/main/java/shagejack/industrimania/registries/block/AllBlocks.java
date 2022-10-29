@@ -9,8 +9,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.registries.RegistryObject;
-import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
+import shagejack.industrimania.content.misc.blockBase.BlockDirectionalBase;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.clayFurnace.ClayFurnaceBottomBlock;
 import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.IronOreSlagBlock;
 import shagejack.industrimania.content.pollution.block.BlockAshes;
@@ -47,9 +46,6 @@ import shagejack.industrimania.registries.record.ItemBlock;
 import shagejack.industrimania.registries.item.ItemBuilder;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 public class AllBlocks {

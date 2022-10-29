@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.ForgeHooks;
-import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalHorizontalBase;
+import shagejack.industrimania.content.misc.blockBase.BlockDirectionalHorizontalBase;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.item.ItemHelper;
 import shagejack.industrimania.registries.AllTileEntities;

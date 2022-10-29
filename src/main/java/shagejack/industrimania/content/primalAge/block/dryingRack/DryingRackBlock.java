@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import shagejack.industrimania.content.contraptions.processing.ProcessingInventory;
+import shagejack.industrimania.content.misc.processing.ProcessingInventory;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.item.ItemHelper;
 import shagejack.industrimania.registries.AllTileEntities;

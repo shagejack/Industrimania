@@ -10,7 +10,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.content.contraptions.blockBase.BlockDirectionalBase;
+import shagejack.industrimania.content.misc.blockBase.BlockDirectionalBase;
 import shagejack.industrimania.registries.block.grouped.AsBase;
 import shagejack.industrimania.registries.dataGen.DataGenHandle;
 

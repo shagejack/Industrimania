@@ -8,11 +8,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.ItemStackHandler;
-import shagejack.industrimania.content.contraptions.processing.ProcessingInventory;
 import shagejack.industrimania.foundation.item.SmartInventory;
 
-import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 public class ItemPlaceableInventory extends SmartInventory {

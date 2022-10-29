@@ -11,7 +11,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import shagejack.industrimania.content.contraptions.processing.ProcessingInventory;
+import shagejack.industrimania.content.misc.processing.ProcessingInventory;
 import shagejack.industrimania.foundation.item.ItemHelper;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;

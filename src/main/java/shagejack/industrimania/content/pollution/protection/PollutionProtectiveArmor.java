@@ -1,6 +1,6 @@
 package shagejack.industrimania.content.pollution.protection;
 
-import shagejack.industrimania.content.contraptions.itemBase.IMArmorItemBase;
+import shagejack.industrimania.content.misc.itemBase.IMArmorItemBase;
 
 import java.util.Map;
 

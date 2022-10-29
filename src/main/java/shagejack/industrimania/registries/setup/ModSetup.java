@@ -5,6 +5,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import shagejack.industrimania.client.handler.BlockColorHandler;
 import shagejack.industrimania.client.handler.ItemColorHandler;
 import shagejack.industrimania.content.electricity.Electricity;
+import shagejack.industrimania.content.modification.events.BottleEventHandler;
 import shagejack.industrimania.content.pollution.PollutionEventHandler;
 import shagejack.industrimania.content.steamAge.steam.CapabilitySteamHandler;
 import shagejack.industrimania.content.world.gen.GenerationRegistry;
@@ -31,6 +32,7 @@ public class ModSetup {
         forgeEventBus.addListener(MultiBlockEventHandler::serverWorldTick);
         forgeEventBus.addListener(MultiBlockEventHandler::blockBreak);
         forgeEventBus.addListener(DynamicLightsItemJoinWorldHandler::onEntityJoinWorld);
+        forgeEventBus.addListener(BottleEventHandler::onClick);
 
         modEventBus.addListener(BlockColorHandler::registerBlockColors);
         modEventBus.addListener(ItemColorHandler::registerItemColors);
