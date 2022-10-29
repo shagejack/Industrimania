@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import shagejack.industrimania.content.steamAge.block.base.SteamBlockBase;
 import shagejack.industrimania.foundation.block.ITE;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 public class BoilerBlock extends SteamBlockBase implements ITE<BoilerTileEntity> {
     public BoilerBlock(Properties properties) {

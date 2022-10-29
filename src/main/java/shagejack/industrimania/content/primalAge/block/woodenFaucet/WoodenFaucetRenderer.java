@@ -3,14 +3,11 @@ package shagejack.industrimania.content.primalAge.block.woodenFaucet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
-import shagejack.industrimania.client.renderer.FluidRenderer;
+import shagejack.industrimania.foundation.render.FluidRenderer;
 import shagejack.industrimania.foundation.tileEntity.renderer.SafeTileEntityRenderer;
 import shagejack.industrimania.foundation.utility.AngleUtils;
-
-import java.util.Optional;
 
 public class WoodenFaucetRenderer extends SafeTileEntityRenderer<WoodenFaucetTileEntity> {
 

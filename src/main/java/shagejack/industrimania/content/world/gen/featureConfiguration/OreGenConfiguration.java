@@ -19,7 +19,7 @@ public class OreGenConfiguration implements FeatureConfiguration {
     }
 
     public static class OreGenConfigurationBuilder {
-        public double genChance = 0.06d; // default deposit gen chance
+        public double genChance = 0.1d; // default deposit gen chance
 
         public OreGenConfigurationBuilder() {
 

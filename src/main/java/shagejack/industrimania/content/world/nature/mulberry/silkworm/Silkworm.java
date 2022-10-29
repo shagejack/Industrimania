@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.item.AllItems;
 
 import javax.annotation.Nullable;
 import java.util.List;

@@ -32,8 +32,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import shagejack.industrimania.foundation.item.ItemDescription;
 import shagejack.industrimania.foundation.utility.Lang;
-import shagejack.industrimania.registers.AllKeys;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.AllKeys;
+import shagejack.industrimania.registries.item.AllItems;
 
 public class FilterItem extends Item implements MenuProvider {
 

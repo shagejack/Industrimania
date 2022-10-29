@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import shagejack.industrimania.content.world.nature.IMDoublePlantBottomGrowableBlock;
 import shagejack.industrimania.content.world.nature.IMDoublePlantTopBlock;
-import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registries.block.AllBlocks;
 
 public class RushBlockTop extends IMDoublePlantTopBlock {
 

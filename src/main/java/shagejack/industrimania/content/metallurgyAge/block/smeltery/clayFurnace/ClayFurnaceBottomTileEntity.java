@@ -16,8 +16,8 @@ import shagejack.industrimania.content.metallurgyAge.block.smeltery.ironOreSlag.
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.IMMultiBlockCheckHelper;
-import shagejack.industrimania.registers.block.AllBlocks;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.block.AllBlocks;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import java.util.List;
 

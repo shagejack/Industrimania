@@ -13,9 +13,8 @@ import shagejack.industrimania.Industrimania;
 import shagejack.industrimania.content.world.gen.OreGrade;
 import shagejack.industrimania.content.world.gen.OreTypeRegistry;
 import shagejack.industrimania.content.world.gen.record.OreType;
-import shagejack.industrimania.registers.item.grouped.AllOreChunks;
+import shagejack.industrimania.registries.item.grouped.AllOreChunks;
 
-import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class BlockOreItem extends BlockItem {

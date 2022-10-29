@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec2;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import java.util.List;
 import java.util.Optional;

@@ -15,7 +15,7 @@ import shagejack.industrimania.content.pollution.PollutionDataHooks;
 public class CommandGetChunkPollution {
 
     public CommandGetChunkPollution(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("chunkpollution").then(Commands.literal("get").executes(this::getChunkPollution)));
+        dispatcher.register(Commands.literal("chunkpollution").requires(cs -> cs.hasPermission(2)).then(Commands.literal("get").executes(this::getChunkPollution)));
     }
 
     private int getChunkPollution(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {

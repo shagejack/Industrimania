@@ -3,12 +3,11 @@ package shagejack.industrimania.content.pollution;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.dimension.DimensionType;
-import shagejack.industrimania.api.pollution.IPollutionData;
 import shagejack.industrimania.content.pollution.record.ChunkReference;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PollutionDataHooks implements IPollutionData {
+public class PollutionDataHooks {
 
     public static ConcurrentHashMap<ChunkReference, Pollution> pollutionMap = new ConcurrentHashMap<>();
 
@@ -56,7 +55,6 @@ public class PollutionDataHooks implements IPollutionData {
             data.getCompound("pollution").putLong("amount", 0);
         }
     }
-
     public static void readData(DimensionType dimension, int chunkX, int chunkZ, CompoundTag data) {
         ChunkReference key = new ChunkReference(dimension, new ChunkPos(chunkX, chunkZ));
         if (!pollutionMap.containsKey(key)) {

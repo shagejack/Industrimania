@@ -3,8 +3,7 @@ package shagejack.industrimania.content.primalAge.block.woodenBarrel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraftforge.fluids.FluidStack;
-import shagejack.industrimania.client.renderer.FluidRenderer;
+import shagejack.industrimania.foundation.render.FluidRenderer;
 import shagejack.industrimania.foundation.tileEntity.renderer.SafeTileEntityRenderer;
 
 public class WoodenBarrelRenderer extends SafeTileEntityRenderer<WoodenBarrelTileEntity> {

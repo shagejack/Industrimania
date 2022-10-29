@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
+    "industrimania:rock_chalk",
+    "industrimania:rock_limestone",
     "industrimania:rock_shale",
-    "industrimania:rock_oilshale",
     "industrimania:rock_conglomerate",
     "industrimania:rock_dolomite",
-    "industrimania:rock_limestone",
+    "industrimania:rock_mudstone",
     "industrimania:rock_coal",
-    "industrimania:rock_chalk",
-    "industrimania:rock_mudstone"
+    "industrimania:rock_oilshale"
   ]
 }

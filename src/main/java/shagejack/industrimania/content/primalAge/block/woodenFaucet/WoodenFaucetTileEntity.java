@@ -17,7 +17,7 @@ import shagejack.industrimania.foundation.fluid.FluidTankBase;
 import shagejack.industrimania.foundation.network.AllPackets;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import java.util.List;
 import java.util.Objects;

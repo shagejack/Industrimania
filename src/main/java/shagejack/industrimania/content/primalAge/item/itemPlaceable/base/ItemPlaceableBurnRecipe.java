@@ -1,13 +1,10 @@
 package shagejack.industrimania.content.primalAge.item.itemPlaceable.base;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipe;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder;
-import shagejack.industrimania.registers.AllRecipeTypes;
+import shagejack.industrimania.registries.AllRecipeTypes;
 
 import java.util.stream.IntStream;
 

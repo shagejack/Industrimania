@@ -20,7 +20,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.item.ItemHelper;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import java.util.stream.IntStream;
 

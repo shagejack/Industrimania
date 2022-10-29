@@ -8,5 +8,4 @@ import org.spongepowered.asm.mixin.Mixin;
 @OnlyIn(Dist.CLIENT)
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
-
 }

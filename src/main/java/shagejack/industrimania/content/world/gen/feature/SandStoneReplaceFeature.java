@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registries.block.AllBlocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

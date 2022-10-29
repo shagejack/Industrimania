@@ -16,4 +16,9 @@ import java.util.List;
  * @param paragenesis paragenesis of the ore.
  */
 public record Ore(OreType oreType, @Nullable List<Block> availableRock, int minY, int maxY, double chanceAsParagenesis, @Nullable Block plantSign, @Nullable Block oreCap, @Nullable Ore...paragenesis) {
+
+    public static Ore asParagenesis(OreType oreType, double chanceAsParagenesis) {
+        return new Ore(oreType, null, 0, 0, chanceAsParagenesis, null, null);
+    }
+
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "industrimania:nature_mulberry_tree_sapling",
-    "industrimania:nature_rubber_tree_sapling"
+    "industrimania:nature_rubber_tree_sapling",
+    "industrimania:nature_mulberry_tree_sapling"
   ]
 }

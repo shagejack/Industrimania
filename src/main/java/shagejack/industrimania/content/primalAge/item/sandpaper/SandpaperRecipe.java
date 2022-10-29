@@ -4,8 +4,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipe;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder;
-import shagejack.industrimania.foundation.utility.recipe.IRecipeTypeInfo;
-import shagejack.industrimania.registers.AllRecipeTypes;
+import shagejack.industrimania.registries.AllRecipeTypes;
 
 public class SandpaperRecipe extends ProcessingRecipe<RecipeWrapper> {
 

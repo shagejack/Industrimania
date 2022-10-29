@@ -7,7 +7,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.foundation.item.SmartInventory;
-import shagejack.industrimania.registers.AllMenus;
+import shagejack.industrimania.registries.AllMenus;
 
 import java.util.Objects;
 

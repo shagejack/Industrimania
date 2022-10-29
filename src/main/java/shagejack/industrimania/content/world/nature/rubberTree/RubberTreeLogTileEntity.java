@@ -16,9 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
-import shagejack.industrimania.registers.AllFluids;
-import shagejack.industrimania.registers.AllTileEntities;
-import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registries.fluid.AllFluids;
+import shagejack.industrimania.registries.AllTileEntities;
+import shagejack.industrimania.registries.block.AllBlocks;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class RubberTreeLogTileEntity extends SmartTileEntity {
             RubberTreeLogTileEntity te = (RubberTreeLogTileEntity) level.getBlockEntity(getBlockPos().below());
             if (te != null) {
                 FluidStack tankFluid = this.tank.getFluid().copy();
-                if (tankFluid.getFluid().isSame(AllFluids.rawRubber.still().get())) {
+                if (tankFluid.getFluid().isSame(AllFluids.rawRubber.asFluid())) {
                     if (this.tank.getCapacity() > 0 && te.tank.fill(tankFluid, IFluidHandler.FluidAction.SIMULATE) != 0) {
                         this.tank.drain(te.tank.fill(tankFluid, IFluidHandler.FluidAction.EXECUTE), IFluidHandler.FluidAction.EXECUTE);
                     }
@@ -63,7 +63,7 @@ public class RubberTreeLogTileEntity extends SmartTileEntity {
         super.lazyTick();
         if (level != null && !getBlockState().isAir()) {
             if (level.getRandom().nextDouble() < 0.1 && !tank.isFull() && shouldProduceRubber(level, getBlockPos()))
-                tank.fill(new FluidStack(AllFluids.rawRubber.still().get(), 1), IFluidHandler.FluidAction.EXECUTE);
+                tank.fill(new FluidStack(AllFluids.rawRubber.asFluid(), 1), IFluidHandler.FluidAction.EXECUTE);
         }
     }
 

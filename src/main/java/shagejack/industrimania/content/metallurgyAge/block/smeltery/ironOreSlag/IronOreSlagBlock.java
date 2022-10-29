@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.foundation.block.ITE;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 public class IronOreSlagBlock extends Block implements ITE<IronOreSlagTileEntity> {
 

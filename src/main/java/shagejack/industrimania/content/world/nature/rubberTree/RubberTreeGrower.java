@@ -3,7 +3,7 @@ package shagejack.industrimania.content.world.nature.rubberTree;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import shagejack.industrimania.registers.AllFeatures;
+import shagejack.industrimania.registries.AllFeatures;
 
 import java.util.Random;
 

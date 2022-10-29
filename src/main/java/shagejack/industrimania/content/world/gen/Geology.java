@@ -1,17 +1,14 @@
 package shagejack.industrimania.content.world.gen;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.Tags;
-import shagejack.industrimania.api.worldGen.PerlinNoise2D;
-import shagejack.industrimania.registers.block.grouped.AllRocks;
+import shagejack.industrimania.foundation.worldGen.PerlinNoise2D;
+import shagejack.industrimania.registries.block.grouped.AllRocks;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -143,7 +140,7 @@ public class Geology {
 	}
 
 	/*
-	TODO: This function is not used, but it needs to be fixed
+	TODO: This function is not used, but it should be fixed for further use
 
 	public Block[] getStoneColumn(int x, int z, int height) {
 		Block[] col = new Block[height];

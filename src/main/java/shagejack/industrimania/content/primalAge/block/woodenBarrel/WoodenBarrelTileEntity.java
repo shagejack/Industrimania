@@ -20,8 +20,8 @@ import shagejack.industrimania.foundation.network.packet.FluidUpdatePacket;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.DropUtils;
-import shagejack.industrimania.registers.AllTileEntities;
-import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registries.AllTileEntities;
+import shagejack.industrimania.registries.block.AllBlocks;
 
 import java.util.List;
 import java.util.Objects;

@@ -17,7 +17,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import shagejack.industrimania.content.contraptions.processing.ProcessingInventory;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.item.ItemHelper;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 public class DryingRackBlock extends Block implements ITE<DryingRackTileEntity> {
 

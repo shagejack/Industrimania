@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import shagejack.industrimania.content.contraptions.itemBase.Knife;
-import shagejack.industrimania.registers.item.AllItems;
 
 public abstract class AbstractCarcass extends Block {
 

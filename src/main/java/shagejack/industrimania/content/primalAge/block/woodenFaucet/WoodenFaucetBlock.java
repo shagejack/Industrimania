@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.utility.TileEntityUtils;
 import shagejack.industrimania.foundation.utility.VoxelShapeUtils;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;

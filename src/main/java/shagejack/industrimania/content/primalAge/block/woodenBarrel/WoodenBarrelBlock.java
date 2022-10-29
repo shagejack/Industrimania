@@ -1,6 +1,5 @@
 package shagejack.industrimania.content.primalAge.block.woodenBarrel;
 
-import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -11,8 +10,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -26,7 +23,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -37,21 +33,18 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import shagejack.industrimania.content.contraptions.multimeter.IMultimeterInfo;
 import shagejack.industrimania.foundation.block.ITE;
 import shagejack.industrimania.foundation.utility.TileEntityUtils;
 import shagejack.industrimania.foundation.utility.VoxelShapeUtils;
-import shagejack.industrimania.registers.AllFluids;
-import shagejack.industrimania.registers.AllTileEntities;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.AllTileEntities;
+import shagejack.industrimania.registries.item.AllItems;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class WoodenBarrelBlock extends Block implements ITE<WoodenBarrelTileEntity>, IMultimeterInfo {
@@ -130,8 +123,6 @@ public class WoodenBarrelBlock extends Block implements ITE<WoodenBarrelTileEnti
         builder.add(OPEN);
     }
 
-    @SuppressWarnings("deprecation")
-    @Deprecated
     @Override
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return state.getValue(OPEN) ? SHAPE_OPEN : Shapes.block();

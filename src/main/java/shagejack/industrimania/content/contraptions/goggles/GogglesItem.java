@@ -11,7 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.item.AllItems;
 
 public class GogglesItem extends Item {
 

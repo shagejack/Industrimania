@@ -1,14 +1,11 @@
 package shagejack.industrimania.content.contraptions.itemBase;
 
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.registers.AllTags;
+import shagejack.industrimania.registries.tags.AllTags;
 
 import java.util.function.Supplier;
 

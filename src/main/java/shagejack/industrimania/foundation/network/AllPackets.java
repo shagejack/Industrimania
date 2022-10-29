@@ -3,6 +3,8 @@ package shagejack.industrimania.foundation.network;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent.Context;
@@ -30,11 +32,11 @@ import static net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER;
  * @author Create Team
  */
 public enum AllPackets {
-    //Client to Server
+    // Client to Server
     CONFIGURE_FILTERING_AMOUNT(FilteringCountUpdatePacket.class, FilteringCountUpdatePacket::new, PLAY_TO_SERVER),
 
 
-    //Server to Client
+    // Server to Client
     FLUID_UPDATE(FluidUpdatePacket.class, FluidUpdatePacket::new, PLAY_TO_CLIENT),
     STEAM_UPDATE(SteamUpdatePacket.class, SteamUpdatePacket::new, PLAY_TO_CLIENT),
     WOODEN_FAUCET_FLUID(WoodenFaucetPacket.class, WoodenFaucetPacket::new, PLAY_TO_CLIENT)
@@ -61,6 +63,14 @@ public enum AllPackets {
                 .simpleChannel();
         for (AllPackets packet : values())
             packet.packet.register();
+    }
+
+    public static void sendToServer(Object message) {
+        CHANNEL.sendToServer(message);
+    }
+
+    public static void sendToPlayer(ServerPlayer player, Object message) {
+        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
 
     public static void sendToNear(Level world, BlockPos pos, Object message) {

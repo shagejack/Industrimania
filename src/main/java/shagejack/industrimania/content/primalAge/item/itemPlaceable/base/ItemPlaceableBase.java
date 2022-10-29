@@ -8,9 +8,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import shagejack.industrimania.registers.block.AllBlocks;
-
-import java.util.Objects;
+import shagejack.industrimania.registries.block.AllBlocks;
 
 public class ItemPlaceableBase extends Item {
 

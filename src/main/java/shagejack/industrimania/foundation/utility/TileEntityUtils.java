@@ -14,6 +14,7 @@ import java.util.Optional;
 
 /**
  * Utilities to help in handling of tile entities
+ * @author Create Team
  */
 @SuppressWarnings("WeakerAccess")
 public class TileEntityUtils {

@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import shagejack.industrimania.Industrimania;
-import shagejack.industrimania.registers.AllSpecialTextures;
+import shagejack.industrimania.registries.AllSpecialTextures;
 
 // from CREATE
 // TODO 1.17: use custom shaders instead of vanilla ones

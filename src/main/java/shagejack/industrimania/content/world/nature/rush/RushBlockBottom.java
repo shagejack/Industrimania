@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import shagejack.industrimania.content.world.nature.IMDoublePlantBottomGrowableBlock;
-import shagejack.industrimania.registers.block.AllBlocks;
+import shagejack.industrimania.registries.block.AllBlocks;
 
 public class RushBlockBottom extends IMDoublePlantBottomGrowableBlock {
 

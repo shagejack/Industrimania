@@ -3,7 +3,7 @@ package shagejack.industrimania.content.world.nature.mulberry.silkworm;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import shagejack.industrimania.foundation.block.ITE;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 public class SilkwormRearingBoxBlock extends Block implements ITE<SilkwormRearingBoxTileEntity> {
     public SilkwormRearingBoxBlock(Properties properties) {

@@ -7,11 +7,10 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import shagejack.industrimania.registers.AllFeatures;
+import shagejack.industrimania.registries.AllFeatures;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class GenerationRegistry {
 

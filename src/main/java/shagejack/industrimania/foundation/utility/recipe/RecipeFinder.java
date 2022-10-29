@@ -11,9 +11,9 @@ import javax.annotation.Nullable;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
-import shagejack.industrimania.foundation.utility.ISimpleReloadListener;
 
 /**
  * Utility for searching through a world's recipe collection. Non-dynamic
@@ -56,8 +56,6 @@ public class RecipeFinder {
 		return list;
 	}
 
-	public static final ISimpleReloadListener LISTENER = (resourceManager, profiler) -> {
-		cachedSearches.invalidateAll();
-	};
+	public static final ResourceManagerReloadListener LISTENER = (resourceManager) -> cachedSearches.invalidateAll();
 
 }

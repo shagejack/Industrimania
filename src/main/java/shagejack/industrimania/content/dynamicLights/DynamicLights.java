@@ -4,15 +4,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import shagejack.industrimania.foundation.utility.Pair;
-import shagejack.industrimania.registers.block.AllBlocks;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.block.AllBlocks;
+import shagejack.industrimania.registries.item.AllItems;
 
 import java.util.HashMap;
 import java.util.Iterator;

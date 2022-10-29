@@ -9,15 +9,13 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import shagejack.industrimania.content.contraptions.processing.HeatCondition;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipe;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder;
 import shagejack.industrimania.foundation.fluid.FluidIngredient;
 import shagejack.industrimania.foundation.fluid.SmartFluidTankBehaviour;
 import shagejack.industrimania.foundation.item.SmartInventory;
 import shagejack.industrimania.foundation.utility.Iterate;
-import shagejack.industrimania.foundation.utility.recipe.IRecipeTypeInfo;
-import shagejack.industrimania.registers.AllRecipeTypes;
+import shagejack.industrimania.registries.AllRecipeTypes;
 
 import java.util.*;
 

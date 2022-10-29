@@ -16,7 +16,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import shagejack.industrimania.content.primalAge.block.clayKiln.ClayKilnRecipe;
 import shagejack.industrimania.foundation.fluid.CombinedTankWrapper;
 import shagejack.industrimania.foundation.fluid.FluidTankBase;
 import shagejack.industrimania.foundation.item.SmartInventory;
@@ -25,8 +24,8 @@ import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.Couple;
 import shagejack.industrimania.foundation.utility.recipe.RecipeConditions;
 import shagejack.industrimania.foundation.utility.recipe.RecipeFinder;
-import shagejack.industrimania.registers.AllRecipeTypes;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllRecipeTypes;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import javax.annotation.Nonnull;
 import java.util.List;

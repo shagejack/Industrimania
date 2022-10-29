@@ -20,7 +20,7 @@ import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import shagejack.industrimania.content.pollution.protection.PollutionProtectiveArmor;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.item.AllItems;
 
 import java.awt.*;
 import java.util.HashSet;

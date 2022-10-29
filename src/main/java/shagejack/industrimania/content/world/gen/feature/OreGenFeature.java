@@ -9,28 +9,29 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import shagejack.industrimania.Industrimania;
+import shagejack.industrimania.content.world.gen.OreDepositShape;
 import shagejack.industrimania.content.world.gen.OreGrade;
 import shagejack.industrimania.content.world.gen.OreRegistry;
 import shagejack.industrimania.content.world.gen.featureConfiguration.OreGenConfiguration;
 import shagejack.industrimania.content.world.gen.record.Ore;
+import shagejack.industrimania.content.world.gen.record.OreType;
 import shagejack.industrimania.content.world.nature.OreCapBlock;
+import shagejack.industrimania.foundation.chemistry.ChemicalFormula;
+import shagejack.industrimania.foundation.utility.Color;
 import shagejack.industrimania.foundation.utility.CrossChunkGenerationHelper;
-import shagejack.industrimania.registers.block.AllBlocks;
-import shagejack.industrimania.registers.block.grouped.AllOres;
-import shagejack.industrimania.registers.block.grouped.AllRocks;
+import shagejack.industrimania.registries.block.AllBlocks;
+import shagejack.industrimania.registries.block.grouped.AllOres;
+import shagejack.industrimania.registries.block.grouped.AllRocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static shagejack.industrimania.foundation.utility.GeometryIterationUtils.*;
@@ -55,10 +56,15 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
     );
 
     // minY and maxY values are used in selecting ore type based on deposit center position
-    public static final Set<Ore> ORES = Sets.newHashSet(
-            OreRegistry.hematite,
-            OreRegistry.galena
-    );
+    public static final Set<Ore> ORES = new HashSet<>();
+
+    public static void addOreGen(Ore... ore) {
+        ORES.addAll(List.of(ore));
+    }
+
+    static {
+        addOreGen(OreRegistry.hematite, OreRegistry.galena);
+    }
 
     private static final List<Block> igneousStones = AllRocks.igneousStones.stream().map((rock) -> rock.block().get()).toList();
     private static final List<Block> metamorphicStones = AllRocks.metamorphicStones.stream().map((rock) -> rock.block().get()).toList();
@@ -68,16 +74,19 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
 
     // private static final double DEPOSIT_GEN_PROBABILITY = 0.06;
     private static final double PLANT_DECAY_PROBABILITY = 0.75;
-    private static final double PLANT_SIGN_GEN_PROBABILITY = 0.15;
-    private static final double ORE_CAP_GEN_PROBABILITY = 0.01;
-    private static final int MAX_DEPOSIT_SIZE = 16;
-    private static final int MIN_DEPOSIT_SIZE = 4;
+    private static final double PLANT_SIGN_GEN_PROBABILITY = 0.1;
+    private static final double ORE_CAP_GEN_PROBABILITY = 0.05;
+    private static final int MAX_DEPOSIT_SIZE = 12;
+    private static final int MIN_DEPOSIT_SIZE = 6;
+    private static final double MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE = 6.0;
     private static final int MAX_ORE_BODY_COUNT = 16;
     private static final int MIN_ORE_BODY_COUNT = 4;
     private static final int MAX_ORE_BODY_SIZE = 8;
     private static final int MIN_ORE_BODY_SIZE = 2;
     private static final double MAX_NORMAL_MULTIPLIER = 0.9;
     private static final double MAX_RICH_MULTIPLIER = 0.5;
+
+    private static final double MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE_SQR = MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE * MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE;
 
     public OreGenFeature(Codec codec) {
         super(codec);
@@ -157,23 +166,18 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
         /*
         =======================================
           Determining Deposit Shape & Blocks
-          Deposit Shape:
-          0:Ellipsoid
-          1:Cylinder
         =======================================
          */
 
-        int shape = level.getRandom().nextInt(2);
-        List<BlockPos> deposit = new ArrayList<>();
+        List<BlockPos> depositOreBodyCenterSelection = new ArrayList<>();
 
         int rx, ry, rz, rx2, ry2, rz2;
 
-        switch (shape) {
-            case 0 -> {
-                //Ellipsoid
-                rx = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
-                ry = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
-                rz = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
+        switch (OreDepositShape.getRandom(level.getRandom())) {
+            case ELLIPSOID -> {
+                rx = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE + 1) + MIN_DEPOSIT_SIZE;
+                ry = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE + 1) + MIN_DEPOSIT_SIZE;
+                rz = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE + 1) + MIN_DEPOSIT_SIZE;
                 rx2 = (int) Math.pow(rx, 2);
                 ry2 = (int) Math.pow(ry, 2);
                 rz2 = (int) Math.pow(rz, 2);
@@ -186,7 +190,9 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
                                     Block block = level.getBlockState(blockPos).getBlock();
                                     if (isReplaceable(block)) {
                                         setBlock(level, blockPos, depositRock.defaultBlockState());
-                                        deposit.add(blockPos);
+                                        if (blockPos.distSqr(depositCenter) < MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE_SQR) {
+                                            depositOreBodyCenterSelection.add(blockPos);
+                                        }
                                     }
                                 }
 
@@ -198,11 +204,10 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
                     }
                 }
             }
-            case 1 -> {
-                //Cylinder
-                int height = 2 * (level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1);
-                rx = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
-                rz = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE) + MIN_DEPOSIT_SIZE + 1;
+            case CYLINDER -> {
+                int height = 2 * (level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE + 1) + MIN_DEPOSIT_SIZE);
+                rx = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE + 1) + MIN_DEPOSIT_SIZE;
+                rz = level.getRandom().nextInt(MAX_DEPOSIT_SIZE - MIN_DEPOSIT_SIZE + 1) + MIN_DEPOSIT_SIZE;
                 rx2 = (int) Math.pow(rx, 2);
                 rz2 = (int) Math.pow(rz, 2);
                 for (int dx = depositCenter.getX() - rx; dx < depositCenter.getX() + rx; dx++) {
@@ -214,7 +219,9 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
                                     Block block = level.getBlockState(blockPos).getBlock();
                                     if (isReplaceable(block)) {
                                         setBlock(level, blockPos, depositRock.defaultBlockState());
-                                        deposit.add(blockPos);
+                                        if (blockPos.distSqr(depositCenter) < MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE_SQR) {
+                                            depositOreBodyCenterSelection.add(blockPos);
+                                        }
                                     }
                                 }
 
@@ -238,7 +245,7 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
         =========================
          */
 
-        if (deposit.isEmpty())
+        if (depositOreBodyCenterSelection.isEmpty())
             return false;
 
         List<Block> depositOreBlocks = new ArrayList<>();
@@ -250,12 +257,10 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
             Ore bodyOre = depositOre;
 
             // check if generate body as paragenesis
-            if (depositOre.paragenesis() != null) {
-                if (depositOre.chanceAsParagenesis() != 0) {
-                    int index = level.getRandom().nextInt(depositOre.paragenesis().length);
-                    if (Math.random() < depositOre.paragenesis()[index].chanceAsParagenesis()) {
-                        bodyOre = depositOre.paragenesis()[index];
-                    }
+            if (depositOre.paragenesis() != null && depositOre.paragenesis().length > 0) {
+                int index = level.getRandom().nextInt(depositOre.paragenesis().length);
+                if (Math.random() < depositOre.paragenesis()[index].chanceAsParagenesis()) {
+                    bodyOre = depositOre.paragenesis()[index];
                 }
             }
 
@@ -265,7 +270,7 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
                     depositOreBlocks.add(oreBlock);
             });
 
-            BlockPos oreBodyCenter = deposit.get(level.getRandom().nextInt(deposit.size()));
+            BlockPos oreBodyCenter = depositOreBodyCenterSelection.get(level.getRandom().nextInt(depositOreBodyCenterSelection.size()));
 
             int rxb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE + 1) + MIN_ORE_BODY_SIZE;
             int ryb = level.getRandom().nextInt(MAX_ORE_BODY_SIZE - MIN_ORE_BODY_SIZE + 1) + MIN_ORE_BODY_SIZE;
@@ -358,7 +363,7 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
             //Plant Decay
             if (level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
                 if (plantDecayFun.apply(level, pos))
-                    level.removeBlock(pos, true);
+                    level.removeBlock(pos, false);
                 if (!helper.isInChunk(cp, pos))
                     helper.offer(level, plantDecayFun, pos, Blocks.AIR.defaultBlockState());
             } else {

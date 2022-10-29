@@ -3,7 +3,6 @@ package shagejack.industrimania;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -11,15 +10,10 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import shagejack.industrimania.client.handler.BlockColorHandler;
-import shagejack.industrimania.client.handler.ItemColorHandler;
-import shagejack.industrimania.registers.AllRecipeTypes;
-import shagejack.industrimania.registers.RegisterHandle;
-import shagejack.industrimania.registers.item.ItemPropertyOverridesRegistry;
-import shagejack.industrimania.registers.setup.ModSetup;
+import shagejack.industrimania.registries.RegisterHandle;
+import shagejack.industrimania.registries.setup.ModSetup;
 
 @Mod(Industrimania.MOD_ID)
 public class Industrimania {
@@ -46,12 +40,7 @@ public class Industrimania {
             RegisterHandle.init();
 
             LOGGER.info("Setting up event listeners...");
-            ModSetup.setup();
-
-            modEventBus.addListener(BlockColorHandler::registerBlockColors);
-            modEventBus.addListener(ItemColorHandler::registerItemColors);
-            modEventBus.addListener(ItemPropertyOverridesRegistry::propertyOverrideRegistry);
-            modEventBus.addGenericListener(RecipeSerializer.class, AllRecipeTypes::register);
+            ModSetup.setup(modEventBus, forgeEventBus);
 
         } catch (Exception e) {
             LOGGER.error(e);

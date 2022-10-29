@@ -7,8 +7,8 @@ import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrassBlock;
-import shagejack.industrimania.registers.block.AllBlocks;
-import shagejack.industrimania.registers.block.grouped.AllRocks;
+import shagejack.industrimania.registries.block.AllBlocks;
+import shagejack.industrimania.registries.block.grouped.AllRocks;
 
 import java.util.ArrayList;
 import java.util.List;

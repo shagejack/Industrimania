@@ -7,8 +7,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import shagejack.industrimania.registers.AllTabs;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.AllTabs;
 
 public enum AllSections {
 

@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.item.AllItems;
 
 public class SilkwormEggs extends Item {
     public SilkwormEggs(Properties properties) {

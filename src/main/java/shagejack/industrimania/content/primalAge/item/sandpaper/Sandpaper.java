@@ -20,7 +20,7 @@ import shagejack.industrimania.foundation.item.renderer.SimpleCustomRenderer;
 import shagejack.industrimania.foundation.utility.VecUtils;
 import shagejack.industrimania.foundation.utility.recipe.RecipeConditions;
 import shagejack.industrimania.foundation.utility.recipe.RecipeFinder;
-import shagejack.industrimania.registers.AllRecipeTypes;
+import shagejack.industrimania.registries.AllRecipeTypes;
 
 import java.util.List;
 import java.util.function.Consumer;

@@ -10,8 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
 import shagejack.industrimania.foundation.tileEntity.renderer.SafeTileEntityRenderer;
-import shagejack.industrimania.registers.AllTags;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.tags.AllTags;
+import shagejack.industrimania.registries.item.AllItems;
 
 import java.util.HashMap;
 import java.util.Map;

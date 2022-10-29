@@ -20,11 +20,11 @@ import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.TileEntityUtils;
 import shagejack.industrimania.foundation.utility.recipe.RecipeConditions;
 import shagejack.industrimania.foundation.utility.recipe.RecipeFinder;
-import shagejack.industrimania.registers.AllRecipeTypes;
-import shagejack.industrimania.registers.AllTags;
-import shagejack.industrimania.registers.AllTileEntities;
-import shagejack.industrimania.registers.block.AllBlocks;
-import shagejack.industrimania.registers.item.AllItems;
+import shagejack.industrimania.registries.AllRecipeTypes;
+import shagejack.industrimania.registries.tags.AllTags;
+import shagejack.industrimania.registries.AllTileEntities;
+import shagejack.industrimania.registries.block.AllBlocks;
+import shagejack.industrimania.registries.item.AllItems;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,13 +60,13 @@ public class ItemPlaceableBaseTileEntity extends SmartTileEntity {
         if (getBlockState().getValue(ItemPlaceableBaseBlock.AMOUNT) == 0) {
             level.setBlock(getBlockPos(), getBlockState().setValue(ItemPlaceableBaseBlock.AMOUNT, inventory.getTotalItemAmount()), 3);
             if (getBlockState().getValue(ItemPlaceableBaseBlock.AMOUNT) == 0) {
-                level.removeBlock(getBlockPos(), true);
+                level.removeBlock(getBlockPos(), false);
                 this.onBreak(level);
             }
         }
 
         if (inventory.isEmpty()) {
-            level.removeBlock(getBlockPos(), true);
+            level.removeBlock(getBlockPos(), false);
             this.onBreak(level);
         }
 

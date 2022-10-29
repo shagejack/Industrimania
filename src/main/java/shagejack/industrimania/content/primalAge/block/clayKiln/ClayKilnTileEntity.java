@@ -18,8 +18,8 @@ import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
 import shagejack.industrimania.foundation.utility.recipe.RecipeConditions;
 import shagejack.industrimania.foundation.utility.recipe.RecipeFinder;
-import shagejack.industrimania.registers.AllRecipeTypes;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllRecipeTypes;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import java.util.List;
 import java.util.Optional;

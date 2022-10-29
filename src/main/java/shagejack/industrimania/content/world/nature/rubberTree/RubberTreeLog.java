@@ -3,7 +3,7 @@ package shagejack.industrimania.content.world.nature.rubberTree;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import shagejack.industrimania.foundation.block.ITE;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 public class RubberTreeLog extends RotatedPillarBlock implements ITE<RubberTreeLogTileEntity> {
 

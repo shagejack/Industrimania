@@ -28,7 +28,7 @@ import shagejack.industrimania.content.steamAge.steam.*;
 import shagejack.industrimania.foundation.fluid.FluidTankBase;
 import shagejack.industrimania.foundation.item.SmartInventory;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import javax.annotation.Nonnull;
 import java.util.List;

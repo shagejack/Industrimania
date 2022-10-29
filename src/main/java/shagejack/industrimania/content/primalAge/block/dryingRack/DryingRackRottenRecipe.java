@@ -4,7 +4,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipe;
 import shagejack.industrimania.content.contraptions.processing.ProcessingRecipeBuilder.ProcessingRecipeParams;
-import shagejack.industrimania.registers.AllRecipeTypes;
+import shagejack.industrimania.registries.AllRecipeTypes;
 
 public class DryingRackRottenRecipe extends ProcessingRecipe<RecipeWrapper> {
 

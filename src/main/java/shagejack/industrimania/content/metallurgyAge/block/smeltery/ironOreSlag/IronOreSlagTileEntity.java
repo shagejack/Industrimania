@@ -10,8 +10,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import shagejack.industrimania.content.metallurgyAge.item.smeltery.cluster.IronCluster;
 import shagejack.industrimania.foundation.tileEntity.SmartTileEntity;
 import shagejack.industrimania.foundation.tileEntity.TileEntityBehaviour;
-import shagejack.industrimania.registers.item.AllItems;
-import shagejack.industrimania.registers.AllTileEntities;
+import shagejack.industrimania.registries.item.AllItems;
+import shagejack.industrimania.registries.AllTileEntities;
 
 import java.util.List;
 
