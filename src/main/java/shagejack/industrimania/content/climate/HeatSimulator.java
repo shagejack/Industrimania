@@ -1,7 +1,7 @@
 /*
  * https://github.com/TeamMoegMC/FrostedHeart/blob/master/src/main/java/com/teammoeg/frostedheart/climate/TemperatureSimulator.java
  *
- * Mainly modified logic of TemperatureSimulator#getHeat
+ * Mainly modified the logic of TemperatureSimulator#getHeat.
  *
  * Copyright (c) 2022 TeamMoeg
  *
@@ -95,18 +95,24 @@ public class HeatSimulator {
         double closerTemp = 0.0D;
         double directTemp = 0.0D;
         double range = 1.0D;
+        double environmentTempFactor = 0.5D;
+        double minTemp = -273.15D;
+        double maxTemp = 10000.0D;
         boolean isSource = false;
-        boolean isAir = true;
+        boolean sameAsEnvironment = true;
 
-        public CachedBlockInfo(VoxelShape shape, double convectiveTemp, double closerTemp, double directTemp, double range, boolean isSource, boolean isAir) {
+        public CachedBlockInfo(VoxelShape shape, double convectiveTemp, double closerTemp, double directTemp, double range, double environmentTempFactor, double minTemp, double maxTemp, boolean isSource, boolean sameAsEnvironment) {
             super();
             this.shape = shape;
             this.convectiveTemp = convectiveTemp;
             this.closerTemp = closerTemp;
             this.directTemp = directTemp;
             this.range = range;
+            this.environmentTempFactor = environmentTempFactor;
+            this.minTemp = minTemp;
+            this.maxTemp = maxTemp;
             this.isSource = isSource;
-            this.isAir = isAir;
+            this.sameAsEnvironment = sameAsEnvironment;
         }
 
         public CachedBlockInfo(VoxelShape shape) {
@@ -212,25 +218,22 @@ public class HeatSimulator {
      * Position is only for getCollisionShape method, to avoid some TE based shape.
      */
     private CachedBlockInfo getInfo(BlockPos pos, BlockState blockState) {
-
         BlockTempData blockTempData = IMDataManager.getBlockData(blockState.getBlock());
+
         if (blockTempData == null)
             return new CachedBlockInfo(blockState.getCollisionShape(level, pos));
 
-        double blockConvectiveTempCache = 0.0D;
-        double blockCloserTempCache = 0.0D;
-        double blockDirectTempCache = 0.0D;
-
-        boolean isSource = false;
-        boolean isAir = true;
-
-        if (!blockTempData.mustLit() || (blockState.hasProperty(BlockStateProperties.LIT) && blockState.getValue(BlockStateProperties.LIT))) {
-            blockConvectiveTempCache += blockTempData.getConvectiveTemp();
-            blockCloserTempCache += blockTempData.getCloserTemp();
-            blockDirectTempCache += blockTempData.getDirectTemp();
-            isSource = blockTempData.isSource();
-            isAir = blockTempData.isAir();
+        if (blockTempData.sameAsEnvironment()) {
+            return new CachedBlockInfo(blockState.getCollisionShape(level, pos));
         }
+
+        if (blockTempData.mustLit() && (!blockState.hasProperty(BlockStateProperties.LIT) || !blockState.getValue(BlockStateProperties.LIT))) {
+            return new CachedBlockInfo(blockState.getCollisionShape(level, pos));
+        }
+
+        double blockConvectiveTempCache = blockTempData.getConvectiveTemp();
+        double blockCloserTempCache = blockTempData.getCloserTemp();
+        double blockDirectTempCache = blockTempData.getDirectTemp();
 
         if (blockTempData.hasLevel()) {
             double factor = 1.0D;
@@ -250,7 +253,7 @@ public class HeatSimulator {
             blockDirectTempCache *= factor;
         }
 
-        return new CachedBlockInfo(blockState.getCollisionShape(level, pos), blockConvectiveTempCache, blockCloserTempCache, blockDirectTempCache, blockTempData.getRange(), isSource, isAir);
+        return new CachedBlockInfo(blockState.getCollisionShape(level, pos), blockConvectiveTempCache, blockCloserTempCache, blockDirectTempCache, blockTempData.getRange(), blockTempData.getEnvironmentTempFactor(), blockTempData.getMinTemp(), blockTempData.getMaxTemp(), blockTempData.isSource(), false);
     }
 
     /**
@@ -272,7 +275,7 @@ public class HeatSimulator {
     private double getHeat(double currentTemp, double affectedX, double affectedY, double affectedZ, double x, double y, double z) {
         CachedBlockInfo cachedBlockInfo = getInfoCached(new BlockPos(x, y, z));
 
-        if (cachedBlockInfo.isAir)
+        if (cachedBlockInfo.sameAsEnvironment) // no convection
             return 0.0D;
 
         double closerRange = cachedBlockInfo.range;
@@ -285,7 +288,9 @@ public class HeatSimulator {
         double actualDirectTemp = cachedBlockInfo.directTemp;
 
         if (!cachedBlockInfo.isSource) {
-            actualDirectTemp += 0.5 * (environmentTemp - actualDirectTemp);
+            actualDirectTemp += cachedBlockInfo.environmentTempFactor * (environmentTemp - actualDirectTemp);
+            actualDirectTemp = Math.max(cachedBlockInfo.minTemp, actualDirectTemp);
+            actualDirectTemp = Math.min(cachedBlockInfo.maxTemp, actualDirectTemp);
         }
 
         if ((actualDirectTemp > environmentTemp && currentTemp < actualDirectTemp) || (actualDirectTemp < environmentTemp && currentTemp > actualDirectTemp)) {

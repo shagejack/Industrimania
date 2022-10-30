@@ -9,7 +9,7 @@ public class HeatSystem {
     public static double getBlockTemp(ServerLevel level, Vector3 pos) {
 		long time = System.nanoTime();
 		try {
-			// TODO: biome temperature & world climate
+			// TODO: biome temperature & world climate & make this work on an independent thread
 			return new HeatSimulator(level, pos.toBlockPos(), 25.0D).getBlockTemperature(pos);
 
 		} finally {

@@ -558,7 +558,7 @@ public class AllBlocks {
             .properties(p -> p.sound(SoundType.GRASS).strength(0.1F, 0.1F).noCollission())
             .crossTextureModel()
             .simpleBlockState()
-            .buildBlock(GrassBlock::new)
+            .buildBlock(BushBlock::new)
             .buildItem((itemBuilder -> itemBuilder.tab(AllTabs.tabNature)));
 
     //Ore Cap

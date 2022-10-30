@@ -36,7 +36,19 @@ public class BlockTempData extends JsonDataHolder {
         return this.getBooleanOrDefault("is_source", false);
     }
 
-    public boolean isAir() {
-        return this.getBooleanOrDefault("is_air", true);
+    public double getEnvironmentTempFactor() {
+        return this.getDoubleOrDefault("environment_temp_factor", 0.5D);
+    }
+
+    public double getMinTemp() {
+        return this.getDoubleOrDefault("min_temp", -273.15D);
+    }
+
+    public double getMaxTemp() {
+        return this.getDoubleOrDefault("max_temp", 10000.0D);
+    }
+
+    public boolean sameAsEnvironment() {
+        return this.getBooleanOrDefault("same_as_environment", true);
     }
 }

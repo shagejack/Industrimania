@@ -7,9 +7,9 @@
 
 ## About
 
-Industrimania（工业狂热）是为模组包Forsaken Odyssey（遗世流浪）制作的一个独立模组。它旨在给游戏加入更多现实风格的内容，并试图创造一套更符合人类科学技术发展史的进度系统。
+Industrimania（工业狂热）是为模组包Nachtigall（夜莺）制作的一个独立模组。它旨在给游戏加入更多现实风格的内容，并试图创造一套更符合人类科学技术发展史的进度系统。
 
-Industrimania is a Minecraft mod made for modpack Forsaken Odyssey. It aims to provide the game with more realistic-styled content and tries to create a progression system corresponding better with the human history of science and technology.
+Industrimania is a Minecraft mod made for modpack Nachtigall (Nightingale). It aims to provide the game with more realistic-styled content and tries to create a progression system corresponding better with the human history of science and technology.
 
 ## License
 

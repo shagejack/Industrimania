@@ -4,8 +4,11 @@
   "directTemperature": 200,
   "closerTemperature": 20,
   "range": 1,
+  "environment_temp_factor": 0.2,
+  "min_temp": 50,
+  "max_temp": 1000,
   "must_lit": false,
   "has_level": false,
-  "is_source": true,
-  "is_air": false
+  "is_source": false,
+  "same_as_environment": false
 }

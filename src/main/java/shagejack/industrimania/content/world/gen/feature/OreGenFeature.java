@@ -20,10 +20,7 @@ import shagejack.industrimania.content.world.gen.OreGrade;
 import shagejack.industrimania.content.world.gen.OreRegistry;
 import shagejack.industrimania.content.world.gen.featureConfiguration.OreGenConfiguration;
 import shagejack.industrimania.content.world.gen.record.Ore;
-import shagejack.industrimania.content.world.gen.record.OreType;
 import shagejack.industrimania.content.world.nature.OreCapBlock;
-import shagejack.industrimania.foundation.chemistry.ChemicalFormula;
-import shagejack.industrimania.foundation.utility.Color;
 import shagejack.industrimania.foundation.utility.CrossChunkGenerationHelper;
 import shagejack.industrimania.registries.block.AllBlocks;
 import shagejack.industrimania.registries.block.grouped.AllOres;
@@ -74,14 +71,14 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
 
     // private static final double DEPOSIT_GEN_PROBABILITY = 0.06;
     private static final double PLANT_DECAY_PROBABILITY = 0.75;
-    private static final double PLANT_SIGN_GEN_PROBABILITY = 0.1;
-    private static final double ORE_CAP_GEN_PROBABILITY = 0.05;
-    private static final int MAX_DEPOSIT_SIZE = 12;
+    private static final double PLANT_SIGN_GEN_PROBABILITY = 0.05;
+    private static final double ORE_CAP_GEN_PROBABILITY = 0.02;
+    private static final int MAX_DEPOSIT_SIZE = 14;
     private static final int MIN_DEPOSIT_SIZE = 6;
-    private static final double MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE = 6.0;
-    private static final int MAX_ORE_BODY_COUNT = 16;
-    private static final int MIN_ORE_BODY_COUNT = 4;
-    private static final int MAX_ORE_BODY_SIZE = 8;
+    private static final double MAX_ORE_BODY_CENTER_TO_DEPOSIT_CENTER_DISTANCE = 8.0;
+    private static final int MAX_ORE_BODY_COUNT = 8;
+    private static final int MIN_ORE_BODY_COUNT = 2;
+    private static final int MAX_ORE_BODY_SIZE = 6;
     private static final int MIN_ORE_BODY_SIZE = 2;
     private static final double MAX_NORMAL_MULTIPLIER = 0.9;
     private static final double MAX_RICH_MULTIPLIER = 0.5;
@@ -102,9 +99,9 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
 
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> rockGenFun = (level, pos) -> isReplaceable(level.getBlockState(pos).getBlock());
     public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreGenFun = (level, pos) -> !allOres.contains(level.getBlockState(pos).getBlock()) && isReplaceable(level.getBlockState(pos).getBlock());
-    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantDecayFun = (level, pos) -> Math.random() < PLANT_DECAY_PROBABILITY && level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS) && level.getBlockState(pos).is(BlockTags.TALL_FLOWERS) && level.getBlockState(pos).is(BlockTags.SMALL_FLOWERS);
-    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantSignGenFun = (level, pos) -> Math.random() < PLANT_SIGN_GEN_PROBABILITY && Blocks.GRASS.defaultBlockState().canSurvive(level, pos) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS));
-    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreCapGenFun = (level, pos) -> Math.random() < ORE_CAP_GEN_PROBABILITY && OreCapBlock.canSurvive(level, pos) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS));
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantDecayFun = (level, pos) -> level.getRandom().nextDouble() < PLANT_DECAY_PROBABILITY && level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS) && level.getBlockState(pos).is(BlockTags.TALL_FLOWERS) && level.getBlockState(pos).is(BlockTags.SMALL_FLOWERS);
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> plantSignGenFun = (level, pos) -> level.getRandom().nextDouble() < PLANT_SIGN_GEN_PROBABILITY && Blocks.GRASS.defaultBlockState().canSurvive(level, pos) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS) || level.getBlockState(pos).is(Blocks.SNOW));
+    public static final BiFunction<WorldGenLevel, BlockPos, Boolean> oreCapGenFun = (level, pos) -> level.getRandom().nextDouble() < ORE_CAP_GEN_PROBABILITY && OreCapBlock.canSurvive(level, pos) && (level.isEmptyBlock(pos) || level.getBlockState(pos).is(BlockTags.REPLACEABLE_PLANTS) || level.getBlockState(pos).is(Blocks.SNOW));
 
     private final CrossChunkGenerationHelper helper = new CrossChunkGenerationHelper();
 
@@ -259,7 +256,7 @@ public class OreGenFeature extends Feature<OreGenConfiguration> {
             // check if generate body as paragenesis
             if (depositOre.paragenesis() != null && depositOre.paragenesis().length > 0) {
                 int index = level.getRandom().nextInt(depositOre.paragenesis().length);
-                if (Math.random() < depositOre.paragenesis()[index].chanceAsParagenesis()) {
+                if (level.getRandom().nextDouble() < depositOre.paragenesis()[index].chanceAsParagenesis()) {
                     bodyOre = depositOre.paragenesis()[index];
                 }
             }
