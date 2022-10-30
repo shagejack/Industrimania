@@ -1,0 +1,11 @@
+{
+  "id": "minecraft:ice",
+  "convectiveTemperature": -4,
+  "directTemperature": -25,
+  "closerTemperature": -10,
+  "range": 3,
+  "must_lit": false,
+  "has_level": false,
+  "is_source": true,
+  "is_air": false
+}

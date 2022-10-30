@@ -46,7 +46,7 @@ public class GogglesItem extends Item {
     }
 
     public static boolean isIn(ItemStack stack) {
-        return stack.is(AllItems.GOGGLES.get());
+        return stack.is(AllItems.goggles.get());
     }
 
 }

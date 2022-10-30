@@ -10,6 +10,8 @@ import shagejack.industrimania.content.pollution.PollutionEventHandler;
 import shagejack.industrimania.content.steamAge.steam.CapabilitySteamHandler;
 import shagejack.industrimania.content.world.gen.GenerationRegistry;
 import shagejack.industrimania.content.dynamicLights.DynamicLights;
+import shagejack.industrimania.foundation.data.IMDataReloadListener;
+import shagejack.industrimania.foundation.data.ReloadListenerEventHandle;
 import shagejack.industrimania.foundation.handler.MultiBlockEventHandler;
 import shagejack.industrimania.foundation.handler.DynamicLightsItemJoinWorldHandler;
 import shagejack.industrimania.registries.AllCommands;
@@ -33,6 +35,7 @@ public class ModSetup {
         forgeEventBus.addListener(MultiBlockEventHandler::blockBreak);
         forgeEventBus.addListener(DynamicLightsItemJoinWorldHandler::onEntityJoinWorld);
         forgeEventBus.addListener(BottleEventHandler::onClick);
+        forgeEventBus.addListener(ReloadListenerEventHandle::onReload);
 
         modEventBus.addListener(BlockColorHandler::registerBlockColors);
         modEventBus.addListener(ItemColorHandler::registerItemColors);

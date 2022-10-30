@@ -1,0 +1,11 @@
+{
+  "id": "minecraft:lava",
+  "convectiveTemperature": 20,
+  "directTemperature": 500,
+  "closerTemperature": 40,
+  "range": 3,
+  "must_lit": false,
+  "has_level": false,
+  "is_source": true,
+  "is_air": false
+}

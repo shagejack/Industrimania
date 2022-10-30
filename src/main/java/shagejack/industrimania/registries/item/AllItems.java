@@ -4,6 +4,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraftforge.registries.RegistryObject;
+import shagejack.industrimania.content.misc.debugTool.ClimateDebugToolItem;
 import shagejack.industrimania.content.misc.goggles.GogglesItem;
 import shagejack.industrimania.content.misc.itemBase.*;
 import shagejack.industrimania.content.misc.materialBase.KnifeMaterials;
@@ -146,7 +147,6 @@ public class AllItems {
     public static final RegistryObject<Item> ironPipe = new ItemBuilder().name("iron_pipe").simpleModel("iron_pipe").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> ironRubbish = new ItemBuilder().name("iron_rubbish").simpleModel("iron_rubbish").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> ironSmallPlate = new ItemBuilder().name("iron_small_plate").simpleModel("iron_small_plate").tab(AllTabs.tabMaterial).build();
-    public static final RegistryObject<Item> omniMultimeter = new ItemBuilder().name("omni_multimeter").simpleModel("omni_multimeter").tab(AllTabs.tabTool).build(Multimeter::new);
     public static final RegistryObject<Item> rawGlassMaterial = new ItemBuilder().name("raw_glass_material").simpleModel("raw_glass_material").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> slag = new ItemBuilder().name("slag").simpleModel("slag").tab(AllTabs.tabMaterial).build();
     public static final RegistryObject<Item> windFlag = new ItemBuilder().name("wind_flag").simpleModel("wind_flag").tab(AllTabs.tabTool).build();
@@ -177,10 +177,13 @@ public class AllItems {
 
     /*
      * =========================
-     *  Contraptions
+     *  Misc
      * =========================
      */
-    public static final RegistryObject<Item> GOGGLES = new ItemBuilder().name("goggles").simpleModel("goggles").build(GogglesItem::new);
+    public static final RegistryObject<Item> netherCrystal = new ItemBuilder().name("nether_crystal").simpleModel().build();
+    public static final RegistryObject<Item> goggles = new ItemBuilder().name("goggles").simpleModel().build(GogglesItem::new);
+    public static final RegistryObject<Item> omniMultimeter = new ItemBuilder().name("omni_multimeter").simpleModel().tab(AllTabs.tabTool).build(Multimeter::new);
+    public static final RegistryObject<Item> climateDebugTool = new ItemBuilder().name("climate_debug_tool").simpleModel().tab(AllTabs.tabTool).build(ClimateDebugToolItem::new);
 
 
     /*

@@ -1,0 +1,11 @@
+{
+  "id": "minecraft:snow_block",
+  "convectiveTemperature": -2,
+  "directTemperature": -15,
+  "closerTemperature": -5,
+  "range": 1,
+  "must_lit": false,
+  "has_level": false,
+  "is_source": true,
+  "is_air": false
+}

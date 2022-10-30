@@ -1,0 +1,11 @@
+{
+  "id": "minecraft:water",
+  "convectiveTemperature": -0.05,
+  "directTemperature": 8,
+  "closerTemperature": -0.05,
+  "range": 2,
+  "must_lit": false,
+  "has_level": false,
+  "is_source": false,
+  "is_air": false
+}

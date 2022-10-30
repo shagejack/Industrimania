@@ -47,4 +47,8 @@ public class VoxelShapeUtils {
         return result;
     }
 
+    public static boolean contains(VoxelShape shape, double x, double y, double z) {
+        return shape.toAabbs().stream().anyMatch(aabb -> aabb.contains(x, y, z));
+    }
+
 }

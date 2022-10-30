@@ -1,0 +1,11 @@
+{
+  "id": "minecraft:fire",
+  "convectiveTemperature": 20,
+  "directTemperature": 400,
+  "closerTemperature": 20,
+  "range": 3,
+  "must_lit": false,
+  "has_level": false,
+  "is_source": true,
+  "is_air": false
+}

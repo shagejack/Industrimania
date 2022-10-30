@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import shagejack.industrimania.registries.block.grouped.AllRocks;
+import shagejack.industrimania.registries.item.AllItems;
 
 import java.util.List;
 import java.util.Random;
@@ -30,7 +31,7 @@ public class NetherPortalBlockMixin {
         if (!entity.isPassenger() && !entity.isVehicle() && entity.canChangeDimensions()) {
             if (entity.getType() == EntityType.PLAYER) {
                 //TODO: use something other to get in nether portal
-                if (((Player) entity).getInventory().contains(new ItemStack(Items.DIAMOND))) {
+                if (((Player) entity).getInventory().contains(new ItemStack(AllItems.netherCrystal.get()))) {
                     entity.handleInsidePortal(blockPos);
                 } else {
                     entity.kill();
